@@ -15,3 +15,6 @@
 
 欢迎有兴趣的朋友加入一起建设，前几名贡献代码者，可直接成为本项目开发者。
 
+预览图：
+
+![image](https://github.com/whaty/MARTIN-ERD/blob/master/pdman.gif)
