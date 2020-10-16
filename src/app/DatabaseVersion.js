@@ -455,30 +455,6 @@ export default class DatabaseVersion extends React.Component{
     return saveFilePromise(data, this.historyPath);
   };
   _getVersionMessage = () => {
-    getDirListPromise(this.basePathDir).then((res) => {
-      // 从每个版本的文件中获取版本信息
-      const versions = res.filter(r => r.endsWith('.pdman.json'));
-      // 循环读取每个版本文件的信息
-      Promise.all(versions.map((v) => {
-        return new Promise((resolve, reject) => {
-          readFilePromise(`${this.basePathDir}${v}`).then((data) => {
-            resolve({
-              ...data,
-              file: v,
-            });
-          }).catch(() => {
-            reject();
-          });
-        });
-      })).then((result) => {
-        this.setState({
-          versions: result.map(data => _object.pick(data, ['version', 'message', 'changes', 'date', 'modules', 'file']))
-            .sort((a, b) => compareStringVersion(b.version, a.version)),
-        });
-      }).catch(() => {
-        Modal.error({title: '错误', message: '获取版本信息失败', width: 100});
-      });
-    }).catch(() => {});
   };
   _checkBaseVersion = () => {
     const { props } = this;

@@ -5,10 +5,8 @@ import './style/index.less';
 export default class Code extends React.Component{
   componentDidMount(){
     this.dom = ReactDom.findDOMNode(this.instance);
-    hljs.highlightBlock(this.dom);
   };
   componentDidUpdate(){
-    hljs.highlightBlock(this.dom);
   }
   shouldComponentUpdate(nextProps){
     return (nextProps.data !== this.props.data) || this._checkStyle(nextProps);
