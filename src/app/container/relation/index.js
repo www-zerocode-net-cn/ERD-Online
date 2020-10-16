@@ -75,7 +75,6 @@ export default class Relation extends React.Component{
     }
   }
   componentWillUnmount(){
-    this.net.destroy();
   }
   onZoom = (zoom) => {
     let scale = this.net.getScale();

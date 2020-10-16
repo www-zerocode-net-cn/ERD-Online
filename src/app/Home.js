@@ -96,14 +96,6 @@ export default class Home extends React.Component{
         }
       }
     });
-    // 读取注册号
-    readFile(`${this.configPath + this.split}register`).then((data) => {
-      this.setState({
-        register: {
-          code: data.toString(),
-        },
-      });
-    });
   }
   /* eslint-disable */
   componentWillUnmount(){

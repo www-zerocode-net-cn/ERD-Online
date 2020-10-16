@@ -198,32 +198,5 @@ export const getCurrentVersionData = (dataSource, project, split, cb) => {
   const proName = getProject(project, 'name', split);
   const proPath = getProject(project, 'path', split);
   const basePathDir = `${proPath}${split}.${proName}.version${split}`;
-  getDirListPromise(basePathDir).then((res) => {
-    const versions = res.map((r) => {
-      const file = r.split('-')[1];
-      if (file) {
-        const v = file.split('.pdman.json')[0];
-        if (v && v !== 'base') {
-          return v;
-        }
-        return null;
-      }
-      return null;
-    }).filter(v => !!v);
-    let checkVersion = 'base';
-    if (versions.length > 0) {
-      checkVersion = versions.sort((a, b) => a < b)[0];
-    }
-    // 读取当前版本的内容
-    const currentDataSource = {...dataSource};
-    // 组装需要比较的版本内容
-    const name = getProject(project, 'name', split);
-    const checkPath = `${basePathDir}${name}-${checkVersion}.pdman.json`;
-    readFilePromise(checkPath).then((checkDataSource) => {
-      // 循环比较每个模块下的每张表以及每一个字段的差异
-      const changes = checkVersionData(currentDataSource, checkDataSource);
-      cb && cb(changes, checkDataSource);
-    });
-  });
 };
 
