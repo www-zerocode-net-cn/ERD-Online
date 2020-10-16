@@ -1,0 +1,361 @@
+body {
+  user-select: none;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      margin: 0;
+      padding: 0
+    }
+  }
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: 0 0;
+  cursor: pointer
+}
+::-webkit-scrollbar-thumb {
+  background-color: #C3C3C3;
+  border-radius: 10px;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 3px;
+  background-clip: padding-box
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #7F7F7F
+}
+
+::-webkit-scrollbar-thumb:active,::-webkit-scrollbar-thumb:hover {
+  border-width: 1px;
+  background-color: #7F7F7F;
+  cursor: pointer
+}
+.options-wrapper {
+  background: #E3E3E5;
+  height: 23px;
+  //border-bottom: solid 1px #9B9B9B;
+  //border-top: solid 1px #9B9B9B;
+  span {
+    font-size: 12px;
+  }
+  a {
+    color: #000000;
+  }
+  color: #000000;
+}
+.options-toggle-menu {
+  // width: 50px;
+  // margin-top: 4px;
+  margin-left: 5px;
+  padding: 0;
+  position: relative;
+  overflow: visible;
+  cursor: default;
+  ul {
+    line-height: 23px;
+    &:hover {
+      cursor: pointer;
+      //color: blue;
+    }
+    float: left;
+    user-select: none;
+    list-style: none;
+    margin: -2px 0 0 8px;
+    padding: 0;
+    span {
+      margin-left: 5px;
+    }
+    li {
+      padding-left: 5px;
+      text-align: left;
+    }
+  }
+  &-select-menu {
+    height: 98px;
+    background: #F2F2F2;
+    display: block;
+    width: 200px;
+    z-index: 9999;
+    position: absolute;
+    border: solid 1px #9B9B9B;
+    left: -18px;
+    li {
+      &:hover {
+        cursor: pointer;
+        color: #FFFFFF;
+        background: #1A7DC4;
+      }
+    }
+  }
+  &-main-menu {
+    margin-left: -10px;
+    padding-right: 5px;
+  }
+}
+.other-options-menu {
+  &-actived {
+
+  }
+  line-height: 23px;
+  &:hover {
+    cursor: pointer;
+    //color: blue;
+  }
+  float: left;
+  user-select: none;
+  list-style: none;
+  margin: -2px 0 0 0;
+  padding: 0;
+  span {
+    margin-left: 5px;
+  }
+  li {
+    // margin-top: 4px;
+    padding-top: 2px;
+    // color: #858289;
+    font-weight: bolder;
+    float: left;
+    padding-left: 5px;
+    text-align: left;
+    padding-right: 5px;
+    &:hover {
+      background: #BDBDBD;
+      color: #FFFFFF;
+    }
+  }
+  &-tools {
+    color: #858289;
+    &-special {
+      background: #58A1F3;
+      color: #FFFFFF;
+      transition: background-color 0.3s;
+      &:hover {
+        background: #A7D1FA !important;
+        color: #FFFFFF !important;
+      }
+    }
+  }
+}
+.options-menu {
+  position: relative;
+  outline: none;
+}
+
+.tools-content {
+  height: 80px;
+  background: #F4F4F4;
+  padding: 2.5px 0;
+  &-tab {
+    height: 100%;
+    display: flex;
+    i {
+      font-size: 20px;
+    }
+  }
+  &-un-click {
+    display: none;
+  }
+  &-enable-click {
+    //margin-left: 10px;
+    color: #858289;
+    //background: #EBEEF2;
+    i {
+      margin-right: 2px;
+    }
+  }
+  &-group {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    padding: 0 10px;
+    &-content {
+      display: flex;
+      flex-direction: row;
+    }
+    &-name {
+      color: #9B9B9B;
+      opacity: 0.5;
+    }
+    &::after {
+      top: 0;
+      right: 0;
+      position: absolute;
+      content: " ";
+      width: 1px;
+      background: #9B9B9B;
+      height: 70px;
+      opacity: 0.5;
+    }
+  }
+  &-clickeable {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 5px;
+    &:hover {
+      cursor: pointer;
+      color: #1A7DC4;
+    }
+    i {
+      height: 20px;
+      margin-right: 2px;
+    }
+  }
+
+  &-clicked {
+    color: #1A7DC4;
+    margin-left: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    &:hover {
+      cursor: pointer;
+    }
+    i {
+      height: 20px;
+      margin-right: 2px;
+    }
+  }
+}
+.menu-tools-edit-active {
+  color: #58A1F3;
+  background: #FFFFFF;
+}
+.menu-tab-tools-edit-active {
+  color: #58A1F3;
+  background: #EBEEF2;
+  padding-bottom: 2px;
+  border-bottom: solid 2px #58A1F3;
+}
+.tools-work-content {
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+}
+.tools-left-tab-body {
+  height: 100%;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      margin: 0;
+      padding: 0
+    }
+  }
+  &-table {
+    height: 100%;
+  }
+  &-domain {
+    height: 100%;
+  }
+}
+.tools-left-border {
+  width: 2px;
+  border-right: solid 1px #9B9B9B;
+  z-index: 2;
+  &:hover {
+    cursor: col-resize;
+  }
+}
+.tools-left-tab {
+  background: #F4F4F4;
+  //border-right: solid 1px #9B9B9B;
+  width: 20%;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  //height: 100%;
+  &-header {
+    &-icons {
+      //border-bottom: solid 1px #9B9B9B;
+      height: 20px;
+      width: 100%;
+      i {
+        font-size: 13px;
+        line-height: 20px;
+        float: right;
+        margin-right: 5px;
+        cursor: pointer;
+      }
+    }
+    &-tab-names {
+      display: flex;
+      //border-bottom: 1px solid #9B9B9B;
+      span {
+        &:hover {
+          cursor: pointer;
+          background: #BDBDBD;
+          color: #FFFFFF;
+        }
+        display: block;
+        width: 50%;
+        text-align: center;
+      }
+    }
+  }
+  &-body-domain-empty-span {
+    user-select: none;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding-top: 50%;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      color: #66D7FF;
+      transition: color 0.5s;
+    }
+    i {
+      margin-right: 5px;
+    }
+  }
+}
+.tools-right-paint {
+  //width: 80%;
+  text-align: center;
+}
+.pdman-home-header {
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid 1px #9B9B9B;
+  background: rgb(227, 227, 229);
+  &-save {
+    position: relative;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: #E3E3E5;
+    i {
+      font-size: 30px;
+      color: green;
+    }
+    &:hover {
+      cursor: pointer;
+      color: #1A7DC4;
+    }
+    &::after {
+      top: 0;
+      right: 0;
+      position: absolute;
+      content: " ";
+      width: 1px;
+      background: #9B9B9B;
+      height: 100%;
+      opacity: 0.5;
+    }
+  }
+  &-menu {
+    flex-grow: 1;
+  }
+}

@@ -1,0 +1,65 @@
+.pdman-register {
+  border: 1px solid #ADADAD;
+  padding: 5px;
+}
+.pdman-register-message {
+  font-size: 16px;
+  &-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    &-code {
+      width: calc(~'100% - 80px');
+      &-label {
+        text-align: right;
+        width: 80px;
+      }
+      user-select: text;
+    }
+    &-status {
+      width: calc(~'100% - 80px');
+      &-label {
+        text-align: right;
+        width: 80px;
+      }
+      &-activation {
+        color: green;
+      }
+      &-unactivation {
+        color: red;
+      }
+    }
+  }
+  &-opt {
+    text-align: center;
+    button {
+      margin-right: 5px;
+    }
+  }
+}
+.pdman-register-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &-item {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    &-label {
+      padding-right: 5px;
+      text-align: right;
+      width: 74%;
+      &-require {
+        &:after {
+          color: red;
+          content: '*';
+        }
+      }
+    }
+    &-button {
+      text-align: center;
+    }
+  }
+}

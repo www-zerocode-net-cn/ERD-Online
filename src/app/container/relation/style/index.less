@@ -1,0 +1,42 @@
+@prefix: pdman;
+.g6-plugins-navigation {
+  display: none;
+  position: fixed !important;
+  top: unset !important;
+  left: unset !important;
+  bottom: 30px;
+  right: 20px;
+}
+.@{prefix}-relation {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  &-paint {
+    outline-style: none;
+    height: 100%;
+  }
+  &-empty {
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    //background: #FFFFFF;
+  }
+  &-edit {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    span {
+      padding-right: 5px;
+    }
+  }
+  &-pointer {
+    position: absolute;
+    background: green;
+    width: 10px;
+    height: 10px;
+    border-radius: 4.5px;
+    display: none;
+    z-index: 1;
+    pointer-events: none;
+  }
+}

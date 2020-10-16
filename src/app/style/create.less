@@ -1,0 +1,64 @@
+.pdman-create {
+  color: #000000;
+  display: flex;
+  height: 100%;
+  &-left {
+    position: relative;
+    user-select: none;
+    flex-grow: 2;
+    background: #FFFFFF;
+    &-types {
+      &-type {
+        &-default-select {
+          background: #4280EC;
+          span {
+            color: #FFFFFF;
+          }
+        }
+        padding: 2px 5px;
+        cursor: default;
+      }
+    }
+    &-back {
+      position: absolute;
+      bottom: 2px;
+      left: 5px;
+    }
+  }
+  &-right {
+    z-index: 1;
+    flex-grow: 8;
+    background: #F2F2F2;
+    padding-left: 8px;
+    position: relative;
+    &-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: #000000;
+    }
+    &-com {
+      padding-top: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      &-label {
+        flex-grow: 1;
+      }
+      &-input {
+        flex-grow: 8;
+        input {
+          width: 95%;
+        }
+      }
+      &-button {
+        flex-grow: 1;
+      }
+    }
+    &-footer {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+}

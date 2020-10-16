@@ -1,0 +1,67 @@
+@prefix: pdman;
+
+.@{prefix}-database-summary {
+  display: flex;
+  flex-direction: column;
+  &-item {
+    display: flex;
+    margin-top: 10px;
+    &-help {
+      color: green;
+      text-decoration: underline;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    &-name {
+      margin-right: 10px;
+      display: inline-block;
+      width: 100px;
+      text-align: right;
+      &-container {
+        display: flex;
+        flex-direction: column;
+        span:nth-child(2) {
+          cursor: pointer;
+          color: #36AC55;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+.@{prefix}-database-template {
+  display: flex;
+  &-help {
+    &-content {
+      display: flex;
+      &-tab {
+        &-selected {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        &-unselected {
+          background: #CDCDCD;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        display: flex;
+        border-top: 1px solid #9B9B9B;
+        border-bottom: 1px solid #9B9B9B;
+        div {
+          padding: 2.5px 10px;
+          border-right: 1px solid #9B9B9B;
+        }
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.@{prefix}-normal-table {
+  th {
+    padding: 5px;
+  }
+}

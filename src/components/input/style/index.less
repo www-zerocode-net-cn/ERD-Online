@@ -1,0 +1,28 @@
+@prefix: pdman;
+
+.@{prefix}-input {
+  border: 1px solid #ADADAD;
+  outline:none;
+  &-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  &:hover, &:focus {
+    border: 1px solid #0784DE;
+  }
+  &-validate {
+    color: red;
+    display: block;
+    text-align: center;
+  }
+  &-suffix {
+    height: 23px;
+    width: 20px;
+    right: -1px;
+    position: absolute;
+    border: 1px solid #ADADAD;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

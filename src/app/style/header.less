@@ -1,0 +1,39 @@
+.pdman-header {
+  margin-bottom: 8px;
+  i {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  display: flex;
+  user-select: none;
+  -webkit-app-region: drag;
+  height: 20px;
+  width: 100%;
+  &-left {
+    flex-grow: 1;
+    display: flex;
+    &-icon {
+      height: 23px;
+      width: 50px;
+      background: url("./logo.png") no-repeat center 0;
+      background-size: contain;
+    }
+    &-app {
+
+    }
+    &-project {
+      //margin-left: 10px;
+    }
+  }
+  &-right {
+    margin-right: 10px;
+    i:hover {
+      color: green;
+    }
+  }
+}
+.pdman-top-border {
+  height: 8px;
+  width: 100%;
+}

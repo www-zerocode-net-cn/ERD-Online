@@ -1,0 +1,286 @@
+.pdman-db-version {
+  flex-grow: 1;
+  height: calc(~'100% - 36px');
+  &-check {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &-item {
+      width: 100%;
+      padding: 5px;
+      display: flex;
+    }
+  }
+  &-context {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &-item {
+      padding: 5px;
+      span {
+        width: 80px;
+        text-align: right;
+      }
+      width: 100%;
+      display: flex;
+    }
+  }
+  display: flex;
+  flex-direction: column;
+  &-opt {
+    margin-right: 8px;
+    display: flex;
+    &-container {
+      height: 60px;
+      //border-top: solid 1px #DFDFDF;
+      padding: 5px 0;
+      border-bottom: solid 1px #DFDFDF;
+      display: flex;
+      justify-content: space-between
+    };
+    &-wrapper {
+      cursor: pointer;
+      display: flex;
+      width: 100px;
+      height: 50px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      &:hover {
+        span {
+          color: green;
+        }
+      }
+    }
+    &-init {
+      &-icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        background: url("./init.jpg") no-repeat center;
+        background-size: 100%;
+      }
+      &-name {
+        color: #8F9190
+      }
+    }
+    &-synchronous {
+      &-icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        background: url("./synchronous.png") no-repeat center;
+        background-size: 100%;
+      }
+      &-name {
+        color: #8F9190
+      }
+    }
+    &-save {
+      &-icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        background: url("./save.png") no-repeat center;
+        background-size: 100%;
+      }
+      &-name {
+        color: #8F9190
+      }
+    }
+    &-rebuild {
+      &-icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        background: url("./rebuild.png") no-repeat center;
+        background-size: 100%;
+      }
+      &-name {
+        color: #8F9190
+      }
+    }
+    &-compare {
+      &-icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        background: url("./compare.png") no-repeat center;
+        background-size: 100%;
+      }
+      &-name {
+        color: #8F9190
+      }
+    }
+    &-setting {
+      cursor: pointer;
+      &:hover {
+        span {
+          color: green;
+        }
+      }
+      margin-left: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      &-icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        background: url("./setting.png") no-repeat center;
+        background-size: 100%;
+      }
+      &-name {
+        margin-left: 2px;
+        color: #8F9190
+      }
+    }
+  }
+  &-list {
+    height: ~'calc(100% - 60px)';
+    margin-top: 10px;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    overflow: auto;
+    &-item {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      &-time {
+        text-align: right;
+        width: calc(~"50% - 50px");
+        &-all {
+          display: flex;
+          flex-direction: column;
+        }
+        &-min {
+          color: #A7A7A7;
+          font-size: 12px;
+        }
+      }
+      &-line {
+        width: 100px;
+        height: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        div {
+          background: #E0E0E0;
+          height: 100%;
+          width: 1px;
+        }
+        i {
+          color: #FFFFFF;
+        }
+        span {
+          //top: 15px;
+          text-align: center;
+          left: 40px;
+          position: absolute;
+          border-radius: 30px;
+          width: 20px;
+          height: 20px;
+        }
+        &-current-unchange {
+          background: #FFEE4C;
+          border: solid 3px #87d068;
+        }
+        &-current-changes {
+          background: #f50;
+          border: solid 3px #87d068;
+        }
+        &-error {
+          background: #f50;
+          border: none;
+        }
+        &-success {
+          background: #87d068;
+          border: none;
+        }
+      }
+      &-tag {
+        position: relative;
+        width: calc(~"50% - 50px");
+        display: flex;
+        background: #FFFFFF;
+        border: solid 1px #E0E0E0;
+        padding: 10px;
+        border-radius: 3px;
+        &-arrow {
+          top: 50%;
+          margin-top: -5px;
+          left: -6px;
+          border-width: 5px 5px 5px 0;
+          border-color: transparent;
+          position: absolute;
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-right-color: #E0E0E0;
+        }
+        &-success {
+          margin-right: 10px;
+          padding: 2px;
+          border-radius: 5px;
+          background: #87d068;
+          color: #FFFFFF;
+        }
+        &-error {
+          //cursor: pointer;
+          margin-right: 10px;
+          padding: 2px;
+          border-radius: 5px;
+          background: #f50;
+          color: #FFFFFF;
+        }
+        &-message {
+          color: #2db7f5;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+        &-icon {
+          position: absolute;
+          top: 0;
+          right: 5px;
+          i {
+            margin-left: 5px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+.pdman-change-code {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #E0E0E0;
+  position: relative;
+  &-icon {
+    position: absolute;
+    top: 12px;
+    left: 47%;
+    cursor: pointer;
+  }
+  &-context {
+    width: 50%;
+    border: 1px solid #E0E0E0;
+    padding: 5px;
+    margin: 5px;
+    &-header {
+      display: block;
+      text-align: center;
+    }
+  }
+}
+.pdman-select-value {
+  color: red;
+}

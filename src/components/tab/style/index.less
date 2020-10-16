@@ -1,0 +1,30 @@
+@prefix: pdman;
+
+.@{prefix}-tab-drop-menu {
+  outline: none;
+  width: 150px;
+  right: 0;
+  top: 20px;
+  position: absolute;
+  background: #FFFFFF;
+  z-index: 2;
+  border: 1px solid #929292;
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    &:hover {
+      background: #1A7DC4;
+      color: #FFFFFF;
+      cursor: pointer;
+    }
+  }
+  span {
+    display: inline-block;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

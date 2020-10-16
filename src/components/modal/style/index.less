@@ -1,0 +1,26 @@
+@prefix: pdman;
+
+.@{prefix}-modal {
+  &-header {
+    i {
+      line-height: 21px;
+    }
+    i:hover {
+      background: red;
+      color: #FFFFFF;
+      transition: all 0.3s;
+    }
+  }
+}
+.@{prefix}-modal-header-context {
+  display: flex;
+  padding: 5px;
+}
+.@{prefix}-modal-header-left-icon {
+  display: inline-block;
+  height: 23px;
+  width: 23px;
+  background: url("../../../app/style/logo.png") no-repeat center 0;
+  background-size: contain;
+  margin-right: 5px;
+}

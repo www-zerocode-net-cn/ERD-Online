@@ -1,0 +1,74 @@
+.pdman-jdbc-config {
+  padding: 5px;
+  border: 1px solid #ADADAD;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  &-left {
+    &-db-opt {
+      width: 98%;
+      border: 1px solid #CDCDCD;
+      margin-bottom: 5px;
+      i {
+        line-height: 24px;
+        padding: 0 7px;
+      }
+    }
+    flex-grow: 3;
+    border-right: 1px solid #ADADAD;
+    &-db-list {
+      &-item {
+        display: flex;
+        margin-bottom: 5px;
+        &-index {
+          text-align: center;
+          width: 50px;
+          border: 1px solid #ADADAD;
+          border-right: none;
+          cursor: pointer;
+        }
+        input {
+          width: 98%;
+        }
+      }
+    }
+  }
+  &-right {
+    flex-grow: 7;
+    //border: 1px solid #CDCDCD;
+    //border-bottom: none;
+    //border-left: none;
+    &-com {
+      //border-bottom: 1px solid #CDCDCD;
+      padding: 5px;
+      display: flex;
+      height: 17%;
+      &-label {
+        line-height: 27px;
+        text-align: right;
+        width: 120px;
+        padding-right: 5px;
+        &-require {
+          position: relative;
+          &:after {
+            content: "*";
+            position: absolute;
+            color: red;
+            top: 0;
+            left: -7px;
+          }
+        }
+      }
+      &-input {
+        flex-grow: 1;
+        input {
+          width: 100%;
+        }
+      }
+      &-button-test {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}

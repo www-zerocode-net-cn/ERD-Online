@@ -1,0 +1,37 @@
+@prefix: pdman;
+
+.@{prefix}-data-type-wrapper {
+  width: 100%;
+  &-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    &-message {
+      text-align: center;
+      font-size: 12px;
+      color: red;
+    }
+    &-content {
+      width: 100%;
+      display: flex;
+    }
+    &-group {
+      &-label {
+        text-align: center;
+      }
+      &-content {
+        margin-bottom: 10px;
+      }
+    }
+    &-label {
+      width: 20%;
+      color: #000000;
+      text-align: right;
+      padding-right: 5px;
+    }
+    &-component {
+      width: 80%;
+    }
+  }
+}
