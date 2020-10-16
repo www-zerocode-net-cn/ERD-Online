@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c65fb791-1e1e-4b34-80be-2d61a9bb54cd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/MARTIN-ERD.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <ignored path=".idea/" />
@@ -61,20 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="44" column="26" selection-start-line="43" selection-start-column="4" selection-end-line="44" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/container/relation/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3835">
-              <caret line="465" selection-start-line="465" selection-end-line="468" selection-end-column="7" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="89">
+              <caret line="72" column="24" lean-forward="true" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -94,34 +80,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/webpack.config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+            <state relative-caret-position="304">
+              <caret line="462" column="26" selection-start-line="462" selection-start-column="26" selection-end-line="462" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="108">
+                <caret line="13" column="28" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="28" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/react-dev-utils/getCSSModuleLocalIdent.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-247">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/container/relation/style/index.less">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-81" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-176" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/dbversionutils.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="200" selection-start-line="200" selection-end-line="200" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/DatabaseVersion.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="457" selection-start-line="457" selection-end-line="457" />
-            </state>
           </provider>
         </entry>
       </file>
@@ -152,8 +148,12 @@
       <find>../../profile</find>
       <find>WELCOME</find>
       <find>当前为演示项目</find>
-      <find>less</find>
       <find>module</find>
+      <find>ExtractTextPlugin</find>
+      <find>webpack</find>
+      <find>sassModuleRegex</find>
+      <find>cssRegex</find>
+      <find>less</find>
     </findStrings>
     <replaceStrings>
       <replace>''</replace>
@@ -189,7 +189,6 @@
         <option value="$PROJECT_DIR$/src/components/tab/Tab.js" />
         <option value="$PROJECT_DIR$/src/components/tree/Tree.js" />
         <option value="$PROJECT_DIR$/src/app/ExportSQL.js" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/app/Loading.js" />
         <option value="$PROJECT_DIR$/src/app/Home.js" />
         <option value="$PROJECT_DIR$/src/components/code/index.js" />
@@ -197,8 +196,9 @@
         <option value="$PROJECT_DIR$/src/utils/dbversionutils.js" />
         <option value="$PROJECT_DIR$/src/app/DatabaseVersion.js" />
         <option value="$PROJECT_DIR$/src/app/container/relation/index.js" />
-        <option value="$PROJECT_DIR$/config/webpack.config.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/config/webpack.config.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -222,18 +222,6 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-        <option value="$PROJECT_DIR$/.idea/my-app.iml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/encodings.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-      </list>
-    </option>
-  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="437" />
     <option name="y" value="157" />
@@ -251,16 +239,6 @@
             <path>
               <item name="MARTIN-ERD" type="b2602c69:ProjectViewProjectNode" />
               <item name="MARTIN-ERD" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MARTIN-ERD" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MARTIN-ERD" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MARTIN-ERD" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MARTIN-ERD" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -293,6 +271,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\idea_project\pdman-web\MARTIN-ERD" />
       <recent name="C:\idea_project\pdman-web\my-app\src" />
       <recent name="C:\idea_project\pdman-web\my-app" />
       <recent name="C:\idea_project\pdman-web\my-app\src\app" />
@@ -325,7 +304,7 @@
       <updated>1602757003931</updated>
       <workItem from="1602757006048" duration="3297000" />
       <workItem from="1602813486243" duration="1406000" />
-      <workItem from="1602815047216" duration="4901000" />
+      <workItem from="1602815047216" duration="8320000" />
     </task>
     <task id="LOCAL-00001" summary="初始化版本">
       <created>1602757323988</created>
@@ -355,11 +334,25 @@
       <option name="project" value="LOCAL" />
       <updated>1602821569148</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="添加idea">
+      <created>1602821766912</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1602821766912</updated>
+    </task>
+    <task id="LOCAL-00006" summary="预览图">
+      <created>1602824066545</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1602824066545</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9604000" />
+    <option name="totallyTimeSpent" value="13023000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -382,13 +375,13 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
       <window_info anchor="bottom" id="TypeScript" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.21412037" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.4027778" />
       <window_info anchor="bottom" id="Docker" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Statistic" order="12" />
       <window_info anchor="bottom" id="Run with VisualVM" order="13" />
       <window_info anchor="bottom" id="Database Changes" order="14" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="15" visible="true" weight="0.4201389" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="15" visible="true" weight="0.5983796" />
       <window_info anchor="bottom" id="Flutter Performance" order="16" side_tool="true" />
       <window_info anchor="bottom" id="Alibaba Cloud View" order="17" />
       <window_info anchor="bottom" id="JRebel Executor" order="18" />
@@ -419,7 +412,9 @@
     <MESSAGE value="去除electron" />
     <MESSAGE value="项目进度" />
     <MESSAGE value="添加less" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加less" />
+    <MESSAGE value="添加idea" />
+    <MESSAGE value="预览图" />
+    <option name="LAST_COMMIT_MESSAGE" value="预览图" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/node_modules/@types/node/process.d.ts">
@@ -622,16 +617,6 @@
     <entry file="file://$PROJECT_DIR$/yarn.lock">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="308">
-            <caret line="17" selection-end-line="17" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/@types/node/fs.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -721,23 +706,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-176" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/container/relation/style/index.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-81" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="44" column="26" selection-start-line="43" selection-start-column="4" selection-end-line="44" selection-end-column="26" />
+        <state relative-caret-position="89">
+          <caret line="72" column="24" lean-forward="true" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-dev-utils/getCSSModuleLocalIdent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-247">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+        <state relative-caret-position="304">
+          <caret line="462" column="26" selection-start-line="462" selection-start-column="26" selection-end-line="462" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-176" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="108">
+            <caret line="13" column="28" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="28" />
+          </first_editor>
+          <second_editor />
+        </state>
       </provider>
     </entry>
   </component>
