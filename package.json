@@ -155,6 +155,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-export-default-from": "^7.10.4"
+    "@babel/plugin-proposal-export-default-from": "^7.10.4",
+    "extract-text-webpack-plugin": "^3.0.2"
   }
 }
