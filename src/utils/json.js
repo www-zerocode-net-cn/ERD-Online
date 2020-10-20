@@ -1,10 +1,25 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import {axios} from "./request";
 
 // 判断文件是否存在
 function fileExist(filePath) {
+  axios.post('/app/file-exist', {
+    file: 'asd'
+  }).then(res => {
+    console.log(res)
+  })
   return false;
+}
+
+function fileExistPromise(filePath, isCreate, obj, file = '.json') {
+}
+
+function checkFileExistPromise(filePath) {
+}
+
+function copyFileSync(from, to) {
 }
 
 // 仅删除目录下的文件
@@ -18,6 +33,9 @@ function deleteDirectoryFile(filePath) {
 function ensureDirectoryExistence(dirPath) {
 }
 
+function readFile(file) {
+}
+
 // 同步读取json文件
 function readFileSync(filePath) {
 }
@@ -28,6 +46,8 @@ function readFilePromise(filePath) {
 function readFileCall(filePath, callBack) {
 }
 
+function writeFile(file, dataBuffer) {
+}
 
 // 同步保存json文件
 function saveFileSync(jsonObj, filePath) {
@@ -47,12 +67,6 @@ function getFilesByDirPromise(dirPath) {
 function getFilesByDirSync(dirPath) {
 }
 
-function fileExistPromise(filePath, isCreate, obj, file = '.json') {
-}
-
-function checkFileExistPromise(filePath) {
-}
-
 function deleteDirPromise(dir) {
 }
 
@@ -62,34 +76,25 @@ function getDirListPromise(dir, baseName) {
 function getDirNamePromise(filePath) {
 }
 
-function readFile(file) {
-}
-
-function writeFile(file, dataBuffer) {
-}
-
-function copyFileSync(from, to) {
-}
-
 export {
   fileExist,
+  fileExistPromise,
+  checkFileExistPromise,
+  copyFileSync,
+  deleteJsonFile,
+  deleteDirectoryFile,
   ensureDirectoryExistence,
+  readFile,
   readFileSync,
   readFilePromise,
   readFileCall,
+  writeFile,
   saveFileSync,
   saveFilePromise,
   saveFileCall,
-  deleteDirectoryFile,
-  deleteJsonFile,
   getFilesByDirPromise,
   getFilesByDirSync,
-  fileExistPromise,
-  checkFileExistPromise,
   deleteDirPromise,
   getDirListPromise,
   getDirNamePromise,
-  writeFile,
-  readFile,
-  copyFileSync,
 };
