@@ -56,4 +56,10 @@
 
 有兴趣的小伙伴欢迎进群来撩！
 
+开发者名单：
+ - [whaty](https://github.com/whaty)
+ - [RalapChen](https://github.com/RalapChen)
+ - [Violet_Ice紫冰](https://github.com/violetice)
+
+
 ![IMG_0444@0.3x.jpg](https://i.loli.net/2020/10/20/Lm5qejVTkyWzA72.jpg)
