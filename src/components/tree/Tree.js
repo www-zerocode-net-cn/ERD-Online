@@ -6,7 +6,7 @@ import './style/index.less';
 import TreeNode from './TreeNode';
 import { Input } from '../index';
 import { addOnResize } from '../../utils/listener';
-import defaultConfig from '../../profile';
+import defaultConfig from '../../../profile';
 
 class Tree extends React.Component {
 

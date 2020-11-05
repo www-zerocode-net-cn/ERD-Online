@@ -88,8 +88,8 @@ class DataTable extends React.Component {
         Modal.error({title: '保存失败', message: '属性名不能包含/或者&或者:', width: 300});
         cb('error');
       } else {
-        const { project, saveProjectSome, updateTabs } = this.props;
-        saveProjectSome(`${project}.pdman.json`, currTable, () => {
+        const { saveProjectSome, updateTabs } = this.props;
+        saveProjectSome(currTable, () => {
             if (title !== table) {
               // 如果修改了表名修改更新tab信息
               updateTabs && updateTabs(module, table, title);
@@ -110,7 +110,7 @@ class DataTable extends React.Component {
     // 返回原引用，否则会影响后续的引用比较
     const tempDataTable = dataTable;
     const { columnOrder } = this.props;
-    const headers = (dataTable && dataTable.headers || []);
+    const headers = ((dataTable && dataTable.headers) || []);
     const headerNames = headers.map(header => header.fieldName);
     // 1.获取当前表的列，检查是否完整并补充
     columnOrder.forEach((column) => {
@@ -173,7 +173,7 @@ class DataTable extends React.Component {
   };
   render() {
     const { dataTable = {} } = this.state;
-    const { prefix = 'pdman', height, dataSource, columnOrder } = this.props;
+    const { prefix = 'pdman', height, dataSource, columnOrder, versions } = this.props;
     const { module, table } = this.state;
     const dataTypes = _object.get(dataSource, 'dataTypeDomains.datatype', []);
     return (<div className={`${prefix}-data-table`}>
@@ -234,6 +234,7 @@ class DataTable extends React.Component {
               project={this.props.project}
               getDataTable={this._getDataTable}
               module={module}
+              versions={versions}
             />
           </div>
           <div style={{display: this.state.tabShow === 'indexs' ? '' : 'none', height: '100%'}}>

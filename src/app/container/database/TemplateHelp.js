@@ -18,9 +18,6 @@ export default class TemplateHelp extends React.Component{
     const { didMount } = this.props;
     didMount && didMount(this);
   }
-  getCurrentDb = () => {
-    return this.state.selected;
-  };
   getTemplate = () => {
     const { selected, templateShow } = this.state;
     const db = this.data.filter(d => d.code === selected)[0];

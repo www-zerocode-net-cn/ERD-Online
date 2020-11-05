@@ -179,3 +179,76 @@
     }
   }
 }
+.pdman-home-other-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column
+}
+.pdman-sql-config {
+  border: 1px solid #ADADAD;
+  padding: 5px;
+  display: flex;
+}
+.pdman-export-sql {
+  &-content {
+    display: flex;
+    flex-direction: row;
+    &-header {
+      width: 400px;
+      border: solid 1px #DFDFDF;
+      display: flex;
+      flex-direction: column;
+      padding-top: 50px;
+      margin-right: 5px;
+      &-db {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 5px;
+      }
+      &-table {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+      }
+      &-button {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+      }
+      &-customer {
+        &-show {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 5px
+        }
+        &-hidden {
+          display: none;
+        }
+      }
+      &-checkbox {
+        display: flex;
+        flex-wrap: wrap;
+        &-item {
+          display: flex;
+          flex-direction: row;
+        }
+      }
+    }
+  }
+  &-success {
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  &-error {
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}

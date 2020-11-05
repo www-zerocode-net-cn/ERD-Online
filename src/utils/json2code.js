@@ -160,7 +160,7 @@ const generateIncreaseSql = (dataSource, module, dataTable, code, templateShow) 
   const database = _object.get(dataSource, 'dataTypeDomains.database', [])
     .filter(db => db.code === code)[0];
   const template = templateShow ? ((database && database[templateShow]) || '') : ((database && database.template) || '');
-  const separator = _object.get(dataSource, 'profile.sqlConfig', ';');
+  const separator = _object.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/');
   // 构造新的数据表传递给模板
   const tempDataTable = {
     ...dataTable,
@@ -218,7 +218,7 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
   const getTemplate = (templateShow) => {
     return `${(database && database[templateShow]) || ''}`;
   };
-  const separator = _object.get(dataSource, 'profile.sqlConfig', ';');
+  const separator = _object.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/');
   // 构造新的数据表传递给模板
   const tempEntities = getAllTable(dataSource, 'name').map((entity) => {
     return {
@@ -381,7 +381,7 @@ const getCodeByRebuildTableTemplate = (dataSource, changes, code, oldDataSource)
     const datatype = _object.get(dataSource, 'dataTypeDomains.datatype', []);
     const database = _object.get(dataSource, 'dataTypeDomains.database', [])
       .filter(db => db.code === code)[0];
-    const separator = _object.get(dataSource, 'profile.sqlConfig', ';');
+    const separator = _object.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/');
     const getTemplate = (templateShow) => {
       return `${(database && database[templateShow]) || ''}`;
     };
@@ -613,17 +613,17 @@ export const getDemoTemplateData = (templateShow) => {
   };
   switch (templateShow) {
     case 'createTableTemplate':
-      data = JSON.stringify({...demoTable, separator: ';'}, null, 2);
+      data = JSON.stringify({...demoTable, separator: '/*SQL@Run*/'}, null, 2);
       break;
     case 'deleteTableTemplate':
-      data = JSON.stringify({...demoTable, separator: ';'}, null, 2);
+      data = JSON.stringify({...demoTable, separator: '/*SQL@Run*/'}, null, 2);
       break;
     case 'rebuildTableTemplate':
       data = JSON.stringify({
         oldEntity: _object.get(demoTable, 'entity'),
         newEntity: _object.get(demoTable, 'entity'),
         ..._object.omit(demoTable, 'entity'),
-        separator: ';'
+        separator: '/*SQL@Run*/'
       }, null, 2);
       break;
     case 'createFieldTemplate':
@@ -633,7 +633,7 @@ export const getDemoTemplateData = (templateShow) => {
           addAfter: 'DEMO_NAME'
         },
         ...demoTable,
-        separator: ';'
+        separator: '/*SQL@Run*/'
       }, null, 2);
       break;
     case 'updateFieldTemplate':
@@ -644,7 +644,7 @@ export const getDemoTemplateData = (templateShow) => {
           update: '用户编号',
         },
         ...demoTable,
-        separator: ';'
+        separator: '/*SQL@Run*/'
       }, null, 2);
       break;
     case 'deleteFieldTemplate':
@@ -653,7 +653,7 @@ export const getDemoTemplateData = (templateShow) => {
           name: demoField.name,
         },
         ...demoTable,
-        separator: ';'
+        separator: '/*SQL@Run*/'
       }, null, 2);
       break;
     case 'deleteIndexTemplate':
@@ -662,20 +662,20 @@ export const getDemoTemplateData = (templateShow) => {
           name: demoIndex.name,
         },
         ...demoTable,
-        separator: ';'
+        separator: '/*SQL@Run*/'
       }, null, 2);
       break;
     case 'createIndexTemplate':
       data = JSON.stringify({
         index: demoIndex,
         ...demoTable,
-        separator: ';'
+        separator: '/*SQL@Run*/'
       }, null, 2);
       break;
     case 'updateTableComment':
       data = JSON.stringify({
         ...demoTable,
-        separator: ';'
+        separator: '/*SQL@Run*/'
       }, null, 2);
       break;
     default:break;
@@ -699,7 +699,7 @@ export const getAllDataSQL = (dataSource, code) => {
   const datatype = _object.get(dataSource, 'dataTypeDomains.datatype', []);
   const database = _object.get(dataSource, 'dataTypeDomains.database', [])
     .filter(db => db.code === code)[0];
-  const separator = _object.get(dataSource, 'profile.sqlConfig', ';');
+  const separator = _object.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/');
   const getTemplate = (templateShow) => {
     return `${(database && database[templateShow]) || ''}`;
   };
@@ -751,7 +751,7 @@ export const getAllDataSQLByFilter = (dataSource, code, filter = []) => {
   const getTemplate = (templateShow) => {
     return `${(database && database[templateShow]) || ''}`;
   };
-  const separator = _object.get(dataSource, 'profile.sqlConfig', ';');
+  const separator = _object.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/');
   let sqlString = '';
   // 1.获取所有的表
   const tempEntities = getAllTable(dataSource, 'name').map((entity) => {

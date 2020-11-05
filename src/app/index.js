@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import _object from 'lodash/object';
-
+import moment from 'moment';
 import {Icon, Tree, Context, Tab, Modal, Message, openModal, Button, Input} from '../components';
-import { ensureDirectoryExistence } from '../utils/json';
 import { addOnResize } from '../../src/utils/listener';
-import { generate } from '../../src/utils/markdown';
-import { generateByJar } from '../../src/utils/office';
-//import { generatepdf } from '../../src/utils/generatepdf';
+import { generateMD } from '../../src/utils/markdown';
 import { generateHtml } from '../../src/utils/generatehtml';
 import { saveImage } from '../../src/utils/relation2file';
 import { upgrade } from '../../src/utils/basedataupgrade';
@@ -22,6 +19,9 @@ import ExportSQL from './ExportSQL';
 import ExportImg from './ExportImg';
 import ReadDB from './container/plugin/dbreverseparse/ReadDB';
 import MultipleUtils from './container/multipleopt/MultipleUtils';
+
+import * as File from '../utils/file';
+import * as Save from '../utils/save';
 
 
 import Setting from './Setting';
@@ -44,14 +44,11 @@ const menus = [
   { name: '粘贴', key: 'paste', icon: <Icon type='fa-paste' style={{color: '#6968E1', marginRight: 5}}/> },
   { name: '打开', key: 'open', icon: <Icon type='folderopen' style={{color: '#C3D6E8', marginRight: 5}}/> },
 ];
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.flag = true;
     this.state = {
-      display: 'none',
-      style: {},
       tools: 'file',
       tab: 'table',
       width: 1,
@@ -62,6 +59,7 @@ export default class App extends React.Component {
       leftTabWidth: 0,
       toolsClickable: 'file',
       clicked: 'edit',
+      versions: [],
       //foldingTabs: [],
     };
     this.relationInstance = {};
@@ -106,10 +104,12 @@ export default class App extends React.Component {
         if (this.flag) {
           if (evt.code === 'KeyS') {
             this._saveAll();
+            evt.preventDefault();
           } else if(evt.code === 'KeyE') {
             // 关闭当前打开的tab
             const { show } = this.state;
             show && this._tabClose(show);
+            evt.preventDefault();
           }
         }
       }
@@ -119,12 +119,18 @@ export default class App extends React.Component {
       if (flag) {
         // 判断是否是演示项目
         const { saveProject, project } = this.props;
-        project && saveProject(`${project}.pdman.json`, {
+        project && saveProject({
           ...data,
         }, () => {
           Message.success({title: '项目基础数据已经成功自动更新到最新！'})
         });
       }
+    });
+    Save.hisProjectLoad().then((res) => {
+        console.log('hisProjectLoad',res);
+      this.setState({
+        versions: res.body || [],
+      });
     });
   }
   componentWillReceiveProps(nextProps){
@@ -192,43 +198,8 @@ export default class App extends React.Component {
       leftTabWidth: this.leftTabDom.getBoundingClientRect().width,
     });
   };
-  _showOpts = () => {
-    const { display, style } = this.state;
-    if (!display) {
-      document.getElementById('index-menu').focus();
-    }
-    this.setState({
-      display: !display ? 'none' : '',
-      style: style.color ? {} : {
-        color: '#FFFFFF',
-        background: '#1A7DC4',
-      },
-    });
-  };
-  _closeSubMenu = () => {
-    this.setState({
-      display: 'none',
-      style: {},
-    });
-  };
-  _open = () => {
-    const { openObject } = this.props;
-    openObject('', () => {
-      this.setState({
-        tabs: [],
-      });
-    });
-  };
-  _create = () => {
-    const { saveProject } = this.props;
-    saveProject(undefined, undefined, undefined, undefined, () => {
-      this.setState({
-        tabs: [],
-      });
-    });
-  };
   _saveAs = (status) => {
-    const { saveProject, dataSource } = this.props;
+    const { dataSource, project } = this.props;
     this._saveAll(() => {
       let tempDataSource = {...dataSource};
       if (status === 'filterDBS') {
@@ -250,12 +221,12 @@ export default class App extends React.Component {
           },
         };
       }
-      saveProject('', tempDataSource);
+      File.save(JSON.stringify(tempDataSource, null, 2), `${project}.pdman.json`);
     });
   };
   _updateDBs = (tempDBs, callback) => {
-    const { project, dataSource, saveProject } = this.props;
-    saveProject(`${project}.pdman.json`, {
+    const { dataSource, saveProject } = this.props;
+    saveProject({
       ...dataSource,
       profile: {
         ...(dataSource.profile || {}),
@@ -322,7 +293,7 @@ export default class App extends React.Component {
       onOk: (modal, com) => {
         const { saveProject } = this.props;
         const data = com.getDataSource();
-        saveProject(`${project}.pdman.json`, {
+        saveProject({
           ...dataSource,
           ...data,
         }, () => {
@@ -332,27 +303,12 @@ export default class App extends React.Component {
     });
   };
   _closeProject = () => {
-    const { closeProject } = this.props;
-    closeProject && closeProject();
+    // 关闭项目回到工作台
+    if (window.parent) {
+      window.parent.location.href = `${window.parent.location.origin}/#/user`;
+    }
   };
-  _entitySave = () => {
-    const { show } = this.state;
-    const table = this.tableInstance[show];
-    table && table.promiseSave((err) => {
-      //Modal.success({title: '保存成功', message: '保存成功', width: 200})
-      if (!err) {
-        Message.success({title: '保存成功'});
-      }
-    }).catch(err => {
-      Modal.error({title: '保存失败', message: err, width: 300});
-    });
-  };
-  _getProjectName = (item) => {
-    const tempItem = item.replace(/\\/g, '/');
-    const tempArray = tempItem.split('/');
-    return tempArray[tempArray.length - 1];
-  };
-  _showExportMessage = (path) => {
+  _showExportMessage = () => {
     let modal = null;
     const { dataSource } = this.props;
     const allTable = (dataSource.modules || []).reduce((a, b) => {
@@ -362,154 +318,83 @@ export default class App extends React.Component {
       modal = Modal.success({
         title: '导出提示',
         message: `当前导出的数据表较多，
-        共【${allTable.length}】张表，请耐心等待！
-        文档将导出到目录【${path}】，导出结束后弹窗将自动关闭！`,
+        共【${allTable.length}】张表，请耐心等待！，导出结束后弹窗将自动关闭！`,
         footer: [],
       })
     }
     return modal;
   };
   _exportFile = (type, btn) => {
-    const { dataSource, columnOrder, writeFile, openDir, project, projectDemo } = this.props;
+    const { dataSource, columnOrder, project } = this.props;
     if (type === 'Markdown') {
       // 先生成文件
       // 选择目录
-      openDir((dir) => {
-        // 保存图片
-        const modal = this._showExportMessage(dir);
-        btn && btn.setLoading(true);
-        const imagePaths = {};
-        const projectName = projectDemo || this._getProjectName(project);
-        saveImage(dataSource, columnOrder, writeFile, (images) => {
-          Promise.all(Object.keys(images).map(mo => {
-            const base64Data = images[mo].replace(/^data:image\/\w+;base64,/, "");
-            const dataBuffer = Buffer.from(base64Data, 'base64');
-            return new Promise((res) => {
-              // 判断图片目录是否存在
-              ensureDirectoryExistence(`${dir}/${projectName}_files/`);
-              writeFile(`${dir}/${projectName}_files/${mo}.png`, dataBuffer).then(() => {
-                imagePaths[mo] = `${mo}.png`;
-                res();
-              });
-            });
-          })).then(() => {
-            // 图片保存成功
-            generate(dataSource, imagePaths, projectName, (dataSource) => {
-              // 将数据保存到文件
-              writeFile(`${dir}/${projectName}.md`, dataSource).then(() => {
-                // md保存成功
-                modal && modal.close();
-                btn && btn.setLoading(false);
-                Modal.success({
-                  title: `${type}导出成功！`,
-                  message: `文件存储目录：[${dir}]`
-                });
-              });
-            });
-          });
-        }, (err) => {
+      // 保存图片
+      const modal = this._showExportMessage();
+      btn && btn.setLoading(true);
+      saveImage(dataSource, columnOrder, (images) => {
+        generateMD(dataSource, images, project, (data) => {
+          // 将数据保存到文件
+          File.save(data, `${project}.md`);
           modal && modal.close();
           btn && btn.setLoading(false);
-          Modal.error({
-            title: `${type}导出失败!请重试！`,
-            message: `出错原因：${err.message}`,
-          });
+        });
+      }, (err) => {
+        modal && modal.close();
+        btn && btn.setLoading(false);
+        Modal.error({
+          title: `${type}导出失败!请重试！`,
+          message: `出错原因：${err.message}`,
         });
       });
     } else if (type === 'Word' || type === 'PDF') {
-      const { project, projectDemo } = this.props;
-      if (!project && projectDemo) {
-        Modal.error({
-          title: '导出失败！',
-          message: `当前项目为演示项目${projectDemo}，无法直接导出${type},请先进行保存操作！`
-        })
-      } else {
-        const postfix = type === 'Word' ? 'doc' : 'pdf';
-        openDir((dir) => {
-          // 保存图片
-          const modal = this._showExportMessage(dir);
-          btn && btn.setLoading(true);
-          const projectName = projectDemo || this._getProjectName(project);
-          saveImage(dataSource, columnOrder, writeFile, (images) => {
-            const imagesPath = `${dir}/${projectName}_files/`;
-            Promise.all(Object.keys(images).map(mo => {
-              const base64Data = images[mo].replace(/^data:image\/\w+;base64,/, "");
-              const dataBuffer = Buffer.from(base64Data, 'base64');
-              return new Promise((res) => {
-                // 判断图片目录是否存在
-                ensureDirectoryExistence(imagesPath);
-                writeFile(`${imagesPath}${mo}.png`, dataBuffer).then(() => {
-                  res();
-                });
-              });
-            })).then(() => {
-              // 图片保存成功
-              const defaultPath = '';
-              const templatePath = _object.get(dataSource, 'profile.wordTemplateConfig') || defaultPath;
-              generateByJar(dataSource, {
-                pdmanfile: `${project}.pdman.json`,
-                doctpl: templatePath,
-                imgdir: imagesPath,
-                imgext: '.png',
-                out: `${dir}/${projectName}.${postfix}`,
-              }, (error, stdout, stderr) => {
-                const result = (stdout || stderr);
-                let tempResult = '';
-                try {
-                  tempResult = JSON.parse(result);
-                } catch (e) {
-                  tempResult = result;
-                }
-                btn && btn.setLoading(false);
-                modal && modal.close();
-                if (tempResult.status !== 'SUCCESS') {
-                  Modal.error({
-                    title: `${type}导出失败!请重试！`,
-                    message: `出错原因：${tempResult.body || tempResult}，可前往\${user.home}/logs/pdman目录查看出错日志`,
-                  });
-                } else {
-                  Modal.success({
-                    title: `${type}导出成功！`,
-                    message: `文件存储目录：[${dir}]`
-                  });
-                }
-              }, 'gendocx');
-            });
-          }, (err) => {
-            modal && modal.close();
-            btn && btn.setLoading(false);
-            Modal.error({
-              title: `${type}导出失败!请重试！`,
-              message: `出错原因：${err.message}`,
-            });
-          });
-        });
-      }
-    } else if (type === 'Html') {
-      openDir((dir) => {
-        // 保存图片
-        const modal = this._showExportMessage(dir);
-        btn && btn.setLoading(true);
-        const projectName = projectDemo || this._getProjectName(project);
-        saveImage(dataSource, columnOrder, writeFile, (images) => {
-          generateHtml(dataSource, images, projectName, (dataSource) => {
-            writeFile(`${dir}/${projectName}.html`, dataSource).then(() => {
-              modal && modal.close();
-              btn && btn.setLoading(false);
-              Message.success({title: `html导出成功！导出目录：[${dir}]`});
-            }).catch(() => {
-              modal && modal.close();
-              Message.success({title: 'html导出失败！'});
-              btn && btn.setLoading(false);
-            });
-          });
-        }, (err) => {
+      //Message.warning({title: '该功能正在开发中，敬请期待！'})
+      const postfix = type === 'Word' ? '.doc' : '.pdf';
+      // 保存图片
+      const modal = this._showExportMessage();
+      btn && btn.setLoading(true);
+      saveImage(dataSource, columnOrder, (images) => {
+        const tempImages = Object.keys(images).reduce((a, b) => {
+          a[b] = images[b].replace('data:image/png;base64,', '');
+          return a;
+        }, {});
+        Save.gendocx({
+          imgs: tempImages,
+          outext: postfix,
+        }).then((res) => {
+          File.saveByBlob(res, `${project}${postfix}`);
           modal && modal.close();
-          btn && btn.setLoading(false);
+        }).catch((err) => {
           Modal.error({
             title: `${type}导出失败!请重试！`,
             message: `出错原因：${err.message}`,
           });
+        }).finally(() => {
+          btn && btn.setLoading(false);
+        });
+      }, (err) => {
+        modal && modal.close();
+        btn && btn.setLoading(false);
+        Modal.error({
+          title: `${type}导出失败!请重试！`,
+          message: `出错原因：${err.message}`,
+        });
+      });
+    } else if (type === 'Html') {
+      const modal = this._showExportMessage();
+      btn && btn.setLoading(true);
+      saveImage(dataSource, columnOrder, (images) => {
+        generateHtml(dataSource, images, project, (data) => {
+          File.save(data, `${project}.html`);
+          modal && modal.close();
+          btn && btn.setLoading(false);
+        });
+      }, (err) => {
+        modal && modal.close();
+        btn && btn.setLoading(false);
+        Modal.error({
+          title: `${type}导出失败!请重试！`,
+          message: `出错原因：${err.message}`,
         });
       });
     } else if (type === 'SQL') {
@@ -522,6 +407,9 @@ export default class App extends React.Component {
         if (value.length === 0) {
           Modal.error({title: '导出失败', message: '请选择导出的内容'})
         } else {
+          const data = modal.com.getData();
+          File.save(data, `${moment().format('YYYY-MM-D-h-mm-ss')}.sql`);
+          modal && modal.close();
         }
       };
       const onCancel = () => {
@@ -532,7 +420,8 @@ export default class App extends React.Component {
         database={database}
         dataSource={dataSource}
         exportSQL={onOk}
-        project={project}
+        configJSON={this.props.configJSON}
+        updateConfig={this.props.updateConfig}
       />, {
         title: 'SQL导出配置',
         footer: [
@@ -546,8 +435,8 @@ export default class App extends React.Component {
     // 打开弹窗，选择导出html或者word
     openModal(<div style={{textAlign: 'center', padding: 10}}>
       <Button icon='HTML' onClick={(btn) => this._exportFile('Html', btn)}>导出HTML</Button>
-      <Button icon='wordfile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('Word', btn)}>导出WORD</Button>
-      {/*<Button icon='pdffile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('PDF', btn)}>导出PDF</Button>*/}
+{/*      <Button icon='wordfile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('Word', btn)}>导出WORD</Button>
+      <Button icon='pdffile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('PDF', btn)}>导出PDF</Button>*/}
       <Button icon='file1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('Markdown', btn)}>导出MARKDOWN</Button>
     </div>, {
       title: '文件导出'
@@ -566,7 +455,7 @@ export default class App extends React.Component {
     };
     const success = (keys, data) => {
       if (keys.length > 0) {
-        const { project, saveProject, dataSource } = this.props;
+        const { saveProject, dataSource } = this.props;
         const dbType = _object.get(data, 'dbType', 'MYSQL');
         const module = _object.get(data, 'module', {});
         const datatypeObj = _object.get(data, 'dataTypeMap', {});
@@ -645,7 +534,7 @@ export default class App extends React.Component {
           },
         };
         // 2.将剩余的数据表放置于新模块
-        saveProject(`${project}.pdman.json`, tempData, () => {
+        saveProject(tempData, () => {
           Message.success({title: '操作成功！'})
         });
       }
@@ -656,7 +545,7 @@ export default class App extends React.Component {
     })
   };
   _saveAll = (callBack) => {
-    const { project, saveProject, dataSource } = this.props;
+    const { project, dataSource } = this.props;
     // 1.循环调用当前所有tab的保存方法, 并且返回的都是promise
     const relations = Object.keys(this.relationInstance)
       .filter(key => this.relationInstance[key])
@@ -683,18 +572,22 @@ export default class App extends React.Component {
         !callBack && Message.success({title: '保存成功'});
         callBack && callBack();
       } else {
-        saveProject('', dataSource);
+        File.save(JSON.stringify(dataSource, null, 2), `${project}.pdman.json`);
       }
     }
-    /*saveProject(`${project}.pdman.json`, dataSource, () => {
-      this._closeSubMenu();
-    });*/
   };
   _menuClick = (tools) => {
     if (tools === "openDev") {
+
     } else {
       this.setState({
         tools,
+      });
+      Save.hisProjectLoad().then((res) => {
+          console.log('hisProjectLoad',res);
+        this.setState({
+          versions: res.body || [],
+        });
       });
     }
   };
@@ -715,29 +608,14 @@ export default class App extends React.Component {
   _refresh = () => {
     Modal.confirm({
       title: '刷新提示',
-      message: '重新加载数据会使未保存的数据丢失，是否要继续？',
+      message: '重新加载数据可能会使未保存的数据丢失，是否要继续？',
       onOk: (modal) => {
         modal && modal.close();
-        const { openObject, project } = this.props;
-        openObject(project);
+        const { refresh } = this.props;
+        refresh && refresh();
       },
       width: 350
     });
-  };
-  _saveRelation = () => {
-    const { show } = this.state;
-    this.relationInstance[show] && this.relationInstance[show].saveData(() => {
-      //Modal.success({title: '保存成功', message: '保存成功', width: 200})
-      Message.success({title: '保存成功'});
-    });
-  };
-  _undo = () => {
-    const { show } = this.state;
-    this.relationInstance[show] && this.relationInstance[show].undo();
-  };
-  _redo = () => {
-    const { show } = this.state;
-    this.relationInstance[show] && this.relationInstance[show].redo();
   };
   _changeMode = (mode) => {
     const { show } = this.state;
@@ -887,16 +765,16 @@ export default class App extends React.Component {
       tempTitle = `${module}[${entity}]`
     }
     return tempTitle;
-  }
+  };
   _onDoubleClick = (value) => {
     const { dataSource, project, saveProject } = this.props;
     if (value.startsWith('datatype&data&')) {
       DataTypeUtils.renameDataType(value.split('datatype&data&')[1], dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       });
     } else if (value.startsWith('database&data&')) {
         DatabaseUtils.renameDatabase(value.split('database&data&')[1], dataSource, (data) => {
-          saveProject(`${project}.pdman.json`, data);
+          saveProject(data);
         });
     } else {
       const types = ['map&', 'entity&'];
@@ -1064,10 +942,10 @@ export default class App extends React.Component {
     const databaseCode = key[3] || '';
     switch (optType) {
       case 'new': DatabaseUtils.addDatabase(dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       case 'rename': DatabaseUtils.renameDatabase(databaseCode, dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       case 'delete':
         Modal.confirm(
@@ -1078,7 +956,7 @@ export default class App extends React.Component {
             onOk: (modal) => {
               modal && modal.close();
               DatabaseUtils.deleteDatabase(databaseCode, dataSource, (data) => {
-                saveProject(`${project}.pdman.json`, data);
+                saveProject(data);
               });
             }
           });
@@ -1086,7 +964,7 @@ export default class App extends React.Component {
       case 'copy': DatabaseUtils.copyDatabase(databaseCode, dataSource); break;
       case 'cut': DatabaseUtils.cutDatabase(databaseCode, dataSource); break;
       case 'paste': DatabaseUtils.pasteDatabase(dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       default: break;
     }
@@ -1097,10 +975,10 @@ export default class App extends React.Component {
     const dataTypeCode = key[3] || '';
     switch (optType) {
       case 'new': DataTypeUtils.addDataType(dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       case 'rename': DataTypeUtils.renameDataType(dataTypeCode, dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       case 'delete':
         Modal.confirm(
@@ -1111,7 +989,7 @@ export default class App extends React.Component {
             onOk: (modal) => {
               modal && modal.close();
               DataTypeUtils.deleteDataType(dataTypeCode, dataSource, (data) => {
-                saveProject(`${project}.pdman.json`, data);
+                saveProject(data);
               });
             }
           });
@@ -1119,7 +997,7 @@ export default class App extends React.Component {
       case 'copy': DataTypeUtils.copyDataType(dataTypeCode, dataSource); break;
       case 'cut': DataTypeUtils.cutDataType(dataTypeCode, dataSource); break;
       case 'paste': DataTypeUtils.pasteDataType(dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       default: break;
     }
@@ -1131,10 +1009,10 @@ export default class App extends React.Component {
     const table = key[3] !== '数据表' ? key[3] : '';
     switch (optType) {
       case 'new': tableUtils.addTable(module, dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       case 'rename': tableUtils.renameTable(module, table, dataSource, (data, dataHistory) => {
-        saveProject(`${project}.pdman.json`, data, () => {
+        saveProject(data, () => {
           const { tabs = [], show } = this.state;
           let tempShow = show;
           const newTable = dataHistory.newName;
@@ -1171,7 +1049,7 @@ export default class App extends React.Component {
             onOk: (modal) => {
               modal && modal.close();
               tableUtils.deleteTable(module, table, dataSource, (data) => {
-                saveProject(`${project}.pdman.json`, data, () => {
+                saveProject(data, () => {
                   // 测试模块_Customer-fa-table
                   const { tabs = [] } = this.state;
                   if (tabs.map(tab => tab.key).includes(`${module}&${table}/fa-table`)) {
@@ -1184,7 +1062,7 @@ export default class App extends React.Component {
       case 'copy': tableUtils.copyTable(module, table, dataSource); break;
       case 'cut': tableUtils.cutTable(module, table, dataSource); break;
       case 'paste': tableUtils.pasteTable(module, dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       default: break;
     }
@@ -1192,7 +1070,7 @@ export default class App extends React.Component {
   _emptyClick = () => {
     const { dataSource, project, saveProject } = this.props;
     moduleUtils.addModule(dataSource, (data) => {
-      saveProject(`${project}.pdman.json`, data);
+      saveProject(data);
     });
   };
   _handleModule = (key) => {
@@ -1200,10 +1078,10 @@ export default class App extends React.Component {
     const optType = key[0];
     switch (optType) {
       case 'new': moduleUtils.addModule(dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       case 'rename': moduleUtils.renameModule(key[2], dataSource, (data, newModule) => {
-        saveProject(`${project}.pdman.json`, data, () => {
+        saveProject(data, () => {
           // 如果有当前模块中已经打开的tab，则需要对其进行更新
           const { tabs = [], show } = this.state;
           const oldModule = key[2];
@@ -1243,7 +1121,7 @@ export default class App extends React.Component {
             onOk: (modal) => {
               modal && modal.close();
               moduleUtils.deleteModule(key[2], dataSource, (data) => {
-                saveProject(`${project}.pdman.json`, data, () => {
+                saveProject(data, () => {
                   // 关闭该模块下的所有tab;
                   // map&qqq/关系图/fa-snowflake-o
                   // module&table/fa-table
@@ -1266,7 +1144,7 @@ export default class App extends React.Component {
       case 'copy': moduleUtils.copyModule(key[2], dataSource); break;
       case 'cut': moduleUtils.cutModule(key[2], dataSource); break;
       case 'paste': moduleUtils.pasteModule(dataSource, (data) => {
-        saveProject(`${project}.pdman.json`, data);
+        saveProject(data);
       }); break;
       default: break;
     }
@@ -1285,7 +1163,7 @@ export default class App extends React.Component {
       const datatype = _object.get(dataSource, `dataTypeDomains.${dropType}`, []);
       const dropIndex = datatype.findIndex(type => type.code === dropKey);
       const dragIndex = datatype.findIndex(type => type.code === dragKey);
-      saveProject(`${project}.pdman.json`, {
+      saveProject({
         ...dataSource,
         dataTypeDomains: {
           ...dataSource.dataTypeDomains || {},
@@ -1304,7 +1182,7 @@ export default class App extends React.Component {
         const { saveProject, dataSource, project } = this.props;
         const dragIndex = (dataSource.modules || []).findIndex(mo => mo.name === dragModule);
         const dropIndex = (dataSource.modules || []).findIndex(mo => mo.name === dropModule);
-        saveProject(`${project}.pdman.json`, {
+        saveProject({
           ...dataSource,
           modules: moveArrayPosition(dataSource.modules || [], dragIndex, dropIndex),
         });
@@ -1381,7 +1259,7 @@ export default class App extends React.Component {
             }
           }
         });
-        saveProject(`${project}.pdman.json`, {
+        saveProject({
           ...dataSource,
           modules: (dataSource.modules || []).map((module) => {
             if (module.name === dragModule) {
@@ -1444,7 +1322,7 @@ export default class App extends React.Component {
       } else {
         // 交换数据表的位置
         const { saveProject, dataSource, project } = this.props;
-        saveProject(`${project}.pdman.json`, {
+        saveProject({
           ...dataSource,
           modules: (dataSource.modules || []).map((module) => {
             if (module.name === dragModule) {
@@ -1515,21 +1393,18 @@ export default class App extends React.Component {
       onOk: (modal, com) => {
         modal.close();
         const type = com.getType();
-        // 打开选择图片存储路径的对话框
+        const { show } = this.state;
+        this.relationInstance[show] && this.relationInstance[show].exportImg(type);
       }
     });
   };
   render() {
     const { dataSource, project, saveProject, changeDataType,
-      dataHistory, saveProjectSome, columnOrder, writeFile } = this.props;
-    const { tools, tab, width, toolsClickable, show, clicked, tabs = [] } = this.state;
+      dataHistory, saveProjectSome, columnOrder, configJSON, updateConfig } = this.props;
+    const { tools, tab, width, toolsClickable, show, clicked, tabs = [], versions } = this.state;
+    console.log('versions1405',versions);
     return (
-      <div style={{
-        width: '100%',
-        height: 'calc(100% - 36px)',
-        flexGrow: 1,
-        overflow: 'hidden',
-      }}>
+      <div className="pdman-wrapper">
         <div className='pdman-home-header'>
           <div
             className='pdman-home-header-save'
@@ -1576,8 +1451,8 @@ export default class App extends React.Component {
                   </ul>
                   <Icon
                     type='logout'
-                    title='关闭当前项目'
-                    style={{float: 'right', marginRight: 5, paddingTop: 1, cursor: 'pointer'}}
+                    title='关闭当前项目，回到工作台'
+                    style={{float: 'right', marginRight: 20, paddingTop: 1, cursor: 'pointer'}}
                     onClick={this._closeProject}
                   />
                 </div>
@@ -1595,18 +1470,6 @@ export default class App extends React.Component {
               <div className="tools-content-tab" style={{display: (tools === 'file' || tools === 'entity') ? '' : 'none'}}>
                 <div className='tools-content-group'>
                   <div className='tools-content-group-content'>
-                    <div
-                      className='tools-content-clickeable'
-                      onClick={this._open}
-                    >
-                      <Icon type='folderopen' style={{marginRight: 5, color: '#FFCA28'}}/>打开
-                    </div>
-                    <div
-                      className='tools-content-clickeable'
-                      onClick={this._create}
-                    >
-                      <Icon type='addfolder' style={{marginRight: 5, color: '#96C080'}}/>新建
-                    </div>
                     <div
                       className='tools-content-clickeable'
                       onClick={() => this._saveAs()}
@@ -1716,14 +1579,14 @@ export default class App extends React.Component {
                       className='tools-content-clickeable'
                       onClick={() => this._readDB()}
                     ><Icon type="fa-hand-lizard-o"/>数据库逆向解析</div>
-                    {/*<div
+                    <div
                       className='tools-content-clickeable'
                       onClick={() => this._readPDMfile()}
                     ><Icon type="fa-file" />解析PDM文件</div>
                     <div
                       className='tools-content-clickeable'
                       onClick={() => this._readPDMfile()}
-                    ><Icon type="fa-file" />解析ERWin文件</div>*/}
+                    ><Icon type="fa-file" />解析ERWin文件</div>
                   </div>
                   <div className='tools-content-group-name'>
                     解析导入
@@ -1904,8 +1767,8 @@ export default class App extends React.Component {
                       dataHistory,
                       saveProjectSome,
                       columnOrder,
+                      versions,
                       modeChange: this._changeMode,
-                      writeFile,
                       openTab: this._onDoubleClick,
                     })}</TabPane>);
                   })}
@@ -1914,7 +1777,16 @@ export default class App extends React.Component {
           </div>
         </div>
         {
-          tools === 'dbversion' ? <DatabaseVersion project={project} dataSource={dataSource} saveProject={saveProject}/> : ''
+          tools === 'dbversion' ?
+            <DatabaseVersion
+              project={project}
+              dataSource={dataSource}
+              configJSON={configJSON}
+              saveProject={saveProject}
+              updateConfig={updateConfig}
+              versions={versions}
+              dbVersion='v0.0.0'
+            /> : ''
         }
       </div>
     );

@@ -9,7 +9,7 @@ import TabPane from './TabPane';
 
 import './style/index.less';
 import { addOnResize } from '../../utils/listener';
-import defaultConfig from '../../profile';
+import defaultConfig from '../../../profile';
 
 class Tab extends React.Component {
 
@@ -92,21 +92,18 @@ class Tab extends React.Component {
   _getTabHeader = () => {
     const { children, type, tabs = [], prefix = 'pdman' } = this.props;
     const tempTabs = tabs.filter(tab => tab.folding);
-    return (<div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', flexDirection: 'row', position: 'relative' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+    return (<div className='pdman-tab-header'>
+      <div className='pdman-tab-header-content'>
+        <div className='pdman-tab-header-content-first'>
           {
             [].concat(children)
               .map(child => (<div
                 title={child.props.realName || child.props.title}
+                className='pdman-tab-header-content-first-item'
                 style={{
-                  alignItems: 'center',
-                  display: 'flex',
-                  width: 150,
                   borderTop: child.key === this._getShowKey() ? this.state.border : 'none',
                   cursor: 'pointer',
                   userSelect: 'none',
-                  justifyContent: 'space-between',
                   backgroundColor: child.key === this._getShowKey() ?
                     this.state.defaultSelectColor : this.state.defaultColor
                 }}
@@ -175,7 +172,7 @@ class Tab extends React.Component {
 
   render() {
     const { children, headerPosition, leftTabWidth, dataSource } = this.props;
-    return (<div style={{ display: 'flex', flexDirection: 'column' }}>
+    return (<div className='pdman-tab'>
       {
         headerPosition === 'top' ? this._getTabHeader() : null
       }

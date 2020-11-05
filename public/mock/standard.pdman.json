@@ -1,0 +1,1090 @@
+{
+  "modules": [
+    {
+      "name": "CRDT-授信",
+      "entities": [
+        {
+          "title": "CRDT_PLAN",
+          "fields": [
+            {
+              "name": "PLAN_ID",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "授信号",
+              "pk": true
+            },
+            {
+              "name": "PLAN_NAME",
+              "type": "Name",
+              "remark": "",
+              "chnname": "授信名称"
+            },
+            {
+              "name": "CUST_ID",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "客户号"
+            },
+            {
+              "name": "CUST_NAME",
+              "type": "Name",
+              "remark": "",
+              "chnname": "客户名"
+            },
+            {
+              "name": "PROD_POLICY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "产品"
+            },
+            {
+              "name": "PROD_NAME",
+              "type": "Name",
+              "remark": "",
+              "chnname": "产品名称"
+            },
+            {
+              "name": "LIMIT_ID",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "使用的额度"
+            },
+            {
+              "name": "OPERATOR",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "主办人"
+            },
+            {
+              "name": "OPERATE_ORG",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "主办机构"
+            },
+            {
+              "name": "CURRENCY",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "币种"
+            },
+            {
+              "name": "PLAN_AMOUNT",
+              "type": "Money",
+              "remark": "",
+              "chnname": "金额"
+            },
+            {
+              "name": "OCCUR_DATE",
+              "type": "Date",
+              "remark": "",
+              "chnname": "发生日期"
+            },
+            {
+              "name": "OCCUR_TYPE",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "发生类型"
+            },
+            {
+              "name": "VOUCH_TYPE",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "担保方式"
+            },
+            {
+              "name": "PURPOSE",
+              "type": "INTRO",
+              "remark": "",
+              "chnname": "用途说明"
+            },
+            {
+              "name": "GB_INDUSTRY",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "国标行业"
+            },
+            {
+              "name": "MILESTONE",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "业务进程"
+            },
+            {
+              "name": "DOCLIST_ID",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "资料清单"
+            },
+            {
+              "name": "DETECTOR_CODE",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "业务检查器"
+            },
+            {
+              "name": "STATUS",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "状态"
+            },
+            {
+              "name": "IS_DRAFT",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "是否草稿"
+            },
+            {
+              "name": "WORKFLOW_KEY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "使用的流程"
+            },
+            {
+              "name": "REMARK_NOTE",
+              "type": "INTRO",
+              "remark": "",
+              "chnname": "备注",
+              "relationNoShow": true
+            },
+            {
+              "name": "REVISION",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "乐观锁",
+              "relationNoShow": true
+            },
+            {
+              "name": "CREATED_BY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "创建人",
+              "relationNoShow": true
+            },
+            {
+              "name": "CREATED_TIME",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "创建时间",
+              "relationNoShow": true
+            },
+            {
+              "name": "UPDATED_BY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "更新人",
+              "relationNoShow": true
+            },
+            {
+              "name": "UPDATED_TIME",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "更新时间",
+              "relationNoShow": true
+            }
+          ],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "授信业务",
+          "remark": "业务申请"
+        },
+        {
+          "title": "CRDT_COBOROWER",
+          "fields": [
+            {
+              "name": "SERIAL_NO",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "流水号",
+              "pk": true
+            },
+            {
+              "name": "CUST_ID",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "客户号"
+            },
+            {
+              "name": "CUST_NAME",
+              "type": "Name",
+              "remark": "",
+              "chnname": "客户名"
+            },
+            {
+              "name": "RIGHT_SHARE_RATIO",
+              "type": "Ratio",
+              "remark": "",
+              "chnname": "权益分担比例"
+            },
+            {
+              "name": "DEBT_SHARE_RATIO",
+              "type": "Ratio",
+              "remark": "",
+              "chnname": "债务分担比例"
+            },
+            {
+              "name": "OBJECT_TYPE",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "关联对象类型"
+            },
+            {
+              "name": "OBJECT_NO",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "关联对象编号"
+            }
+          ],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "共同借款人"
+        },
+        {
+          "title": "CRDT_LIMIT",
+          "fields": [
+            {
+              "name": "LIMIT_ID",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "额度号",
+              "pk": true
+            },
+            {
+              "name": "LIMIT_NAME",
+              "type": "Name",
+              "remark": "",
+              "chnname": "名称"
+            },
+            {
+              "name": "PROD_POLICY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "产品"
+            },
+            {
+              "name": "PROD_POLICY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "产品名称"
+            },
+            {
+              "name": "CUST_ID",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "客户号"
+            },
+            {
+              "name": "CUST_NAME",
+              "type": "Name",
+              "remark": "",
+              "chnname": "客户名"
+            },
+            {
+              "name": "OPERATOR",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "主办人"
+            },
+            {
+              "name": "OPERATE_ORG",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "主办机构"
+            },
+            {
+              "name": "OCCUR_DATE",
+              "type": "Date",
+              "remark": "",
+              "chnname": "发生日期"
+            },
+            {
+              "name": "OCCUR_TYPE",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "发生类型"
+            },
+            {
+              "name": "VOUCH_TYPE",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "担保方式"
+            },
+            {
+              "name": "CURRENCY",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "币种"
+            },
+            {
+              "name": "LIMIT_AMOUNT",
+              "type": "Money",
+              "remark": "",
+              "chnname": "额度金额"
+            },
+            {
+              "name": "EXPOSURE_AMOUNT",
+              "type": "Money",
+              "remark": "",
+              "chnname": "额度敞口金额"
+            },
+            {
+              "name": "IS_REVOLVE",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "是否循环"
+            },
+            {
+              "name": "EFFECTIVE_DATE",
+              "type": "Date",
+              "remark": "",
+              "chnname": "生效日"
+            },
+            {
+              "name": "EXPIRY_DATE",
+              "type": "Date",
+              "remark": "",
+              "chnname": "到期日"
+            },
+            {
+              "name": "LATEST_USE_DATE",
+              "type": "Date",
+              "remark": "",
+              "chnname": "最迟使用日期"
+            },
+            {
+              "name": "LATEST_USE_EXPIRY_DATE",
+              "type": "Date",
+              "remark": "",
+              "chnname": "项下业务最迟到期日"
+            },
+            {
+              "name": "INTRO",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "额度使用说明"
+            },
+            {
+              "name": "PURPOSE",
+              "type": "INTRO",
+              "remark": "",
+              "chnname": "用途说明"
+            },
+            {
+              "name": "MILESTONE",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "业务进程"
+            },
+            {
+              "name": "DOCLIST_ID",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "资料清单"
+            },
+            {
+              "name": "DETECTOR_CODE",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "业务检查器"
+            },
+            {
+              "name": "WORKFLOW_KEY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "使用的流程"
+            },
+            {
+              "name": "STATUS",
+              "type": "Dict",
+              "remark": "",
+              "chnname": "状态"
+            },
+            {
+              "name": "IS_DRAFT",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "是否草稿"
+            },
+            {
+              "name": "REMARK_NOTE",
+              "type": "INTRO",
+              "remark": "",
+              "chnname": "备注",
+              "relationNoShow": true
+            },
+            {
+              "name": "REVISION",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "乐观锁",
+              "relationNoShow": true
+            },
+            {
+              "name": "CREATED_BY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "创建人",
+              "relationNoShow": true
+            },
+            {
+              "name": "CREATED_TIME",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "创建时间",
+              "relationNoShow": true
+            },
+            {
+              "name": "UPDATED_BY",
+              "type": "IdOrKey",
+              "remark": "",
+              "chnname": "更新人",
+              "relationNoShow": true
+            },
+            {
+              "name": "UPDATED_TIME",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "更新时间",
+              "relationNoShow": true
+            }
+          ],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "授信额度"
+        },
+        {
+          "title": "CRDT_CONTRACT",
+          "fields": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "合同数据"
+        },
+        {
+          "title": "LOAN_PUTOUT",
+          "fields": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "出账"
+        },
+        {
+          "title": "LOAN_DUEBILL",
+          "fields": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "借据"
+        },
+        {
+          "title": "HIST_CRDT_PLAN",
+          "fields": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "授信业务历史"
+        }
+      ],
+      "graphCanvas": {
+        "nodes": [
+          {
+            "shape": "table",
+            "title": "CRDT_PLAN",
+            "x": 50,
+            "y": 220,
+            "id": "eaab1812"
+          },
+          {
+            "shape": "table",
+            "title": "CRDT_LIMIT",
+            "x": 580,
+            "y": -310,
+            "id": "520a2c82"
+          },
+          {
+            "shape": "table",
+            "title": "CRDT_COBOROWER",
+            "x": -400,
+            "y": -40,
+            "id": "3a40dbe8"
+          },
+          {
+            "shape": "table",
+            "title": "CRDT_COBOROWER:1",
+            "x": -141.39027260148157,
+            "y": -105.65545724092988,
+            "id": "db42a4ed"
+          }
+        ],
+        "edges": [
+          {
+            "shape": "polyLineFlow",
+            "source": "eaab1812",
+            "target": "520a2c82",
+            "id": "d2a8ac33",
+            "controlPoints": [
+              {
+                "x": 202.3251953125,
+                "y": 142.33510638297872
+              },
+              {
+                "x": 375.20703125,
+                "y": -557.9342105263158
+              }
+            ],
+            "sourceAnchor": 13,
+            "targetAnchor": 0
+          },
+          {
+            "shape": "polyLineFlow",
+            "source": "3a40dbe8",
+            "target": "eaab1812",
+            "id": "41858204",
+            "controlPoints": [
+              {
+                "x": -231.3388671875,
+                "y": 32.926470588235304
+              },
+              {
+                "x": -102.3251953125,
+                "y": 22.079787234042556
+              }
+            ],
+            "sourceAnchor": 13,
+            "targetAnchor": 0
+          }
+        ]
+      },
+      "associations": [
+        {
+          "relation": "",
+          "from": {
+            "entity": "CRDT_PLAN",
+            "field": "LIMIT_ID"
+          },
+          "to": {
+            "entity": "CRDT_LIMIT",
+            "field": "LIMIT_ID"
+          }
+        },
+        {
+          "relation": "",
+          "from": {
+            "entity": "CRDT_COBOROWER",
+            "field": "OBJECT_NO"
+          },
+          "to": {
+            "entity": "CRDT_PLAN",
+            "field": "PLAN_ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ACNT-账务处理",
+      "entities": [
+        {
+          "title": "ACNT_BOOK",
+          "fields": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "账套"
+        },
+        {
+          "title": "ACNT_ENTRY",
+          "fields": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "会计科目"
+        }
+      ],
+      "graphCanvas": {
+        "nodes": [],
+        "edges": []
+      },
+      "associations": []
+    },
+    {
+      "name": "CUST-客户",
+      "entities": [
+        {
+          "title": "圭",
+          "fields": []
+        }
+      ],
+      "graphCanvas": []
+    }
+  ],
+  "dataTypeDomains": {
+    "datatype": [
+      {
+        "name": "默认字串",
+        "code": "DefaultString",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "VARCHAR(32)"
+          },
+          "Oracle": {
+            "type": "NVARCHAR2(32)"
+          }
+        }
+      },
+      {
+        "name": "标识号",
+        "code": "IdOrKey",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "Oracle": {
+            "type": "VARCHAR2(32)"
+          },
+          "MySQL": {
+            "type": "VARCHAR(32)"
+          }
+        }
+      },
+      {
+        "name": "名称",
+        "code": "Name",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "VARCHAR(128)"
+          },
+          "Oracle": {
+            "type": "NVARCHAR2(128)"
+          }
+        }
+      },
+      {
+        "name": "备注说明",
+        "code": "INTRO",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "VARCHAR(512)"
+          },
+          "Oracle": {
+            "type": "NVARCHAR2(512)"
+          }
+        }
+      },
+      {
+        "name": "字串-短",
+        "code": "ShortString",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "VARCHAR(128)"
+          },
+          "Oracle": {
+            "type": "NVARCHAR2(128)"
+          }
+        }
+      },
+      {
+        "name": "字串-中",
+        "code": "MiddleString",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "VARCHAR(1024)"
+          },
+          "Oracle": {
+            "type": "NVARCHAR2(1024)"
+          }
+        }
+      },
+      {
+        "name": "字串-长",
+        "code": "LongString",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "Oracle": {
+            "type": "NVARCHAR2(3120)"
+          },
+          "MySQL": {
+            "type": "VARCHAR(3120)"
+          }
+        }
+      },
+      {
+        "name": "大文本",
+        "code": "LongText",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "TEXT"
+          },
+          "Oracle": {
+            "type": "CLOB"
+          }
+        }
+      },
+      {
+        "name": "小数",
+        "code": "Double",
+        "apply": {
+          "Java": {
+            "type": "Double"
+          },
+          "MySQL": {
+            "type": "DECIMAL(64,16)"
+          },
+          "Oracle": {
+            "type": "NUMBER(64,16)"
+          }
+        }
+      },
+      {
+        "name": "比例",
+        "code": "Ratio",
+        "apply": {
+          "MySQL": {
+            "type": "DECIMAL(2,2)"
+          },
+          "Java": {
+            "type": "Double"
+          },
+          "Oracle": {
+            "type": "NUMBER(2,2)"
+          }
+        }
+      },
+      {
+        "name": "整数",
+        "code": "Integer",
+        "apply": {
+          "Java": {
+            "type": "Integer"
+          },
+          "MySQL": {
+            "type": "INT"
+          },
+          "Oracle": {
+            "type": "INT"
+          }
+        }
+      },
+      {
+        "name": "金额",
+        "code": "Money",
+        "apply": {
+          "Java": {
+            "type": "Double"
+          },
+          "MySQL": {
+            "type": "DECIMAL(32,8)"
+          },
+          "Oracle": {
+            "type": "NUMBER(32,8)"
+          }
+        }
+      },
+      {
+        "name": "是否",
+        "code": "YesNo",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "VARCHAR(1)"
+          },
+          "Oracle": {
+            "type": "VARCHAR2(1)"
+          }
+        }
+      },
+      {
+        "name": "数据字典",
+        "code": "Dict",
+        "apply": {
+          "Java": {
+            "type": "String"
+          },
+          "MySQL": {
+            "type": "VARCHAR(32)"
+          },
+          "Oracle": {
+            "type": "VARCHAR2(32)"
+          }
+        }
+      },
+      {
+        "name": "日期",
+        "code": "Date",
+        "apply": {
+          "Java": {
+            "type": "Date"
+          },
+          "MySQL": {
+            "type": "Date"
+          },
+          "Oracle": {
+            "type": "Date"
+          }
+        }
+      },
+      {
+        "name": "日期时间",
+        "code": "DateTime",
+        "apply": {
+          "Java": {
+            "type": "Date"
+          },
+          "MySQL": {
+            "type": "DateTime"
+          },
+          "Oracle": {
+            "type": "Date"
+          }
+        }
+      }
+    ],
+    "database": [
+      {
+        "code": "MySQL",
+        "fileShow": false,
+        "template": "CREATE TABLE ${table}(\n   ${column} ${dataType} NOT NULL , #如果为主键才用\n  ${column} ${dataType}, \n   PRIMARY KEY (\"${主键列}\")\n   ) ;"
+      },
+      {
+        "code": "Oracle"
+      },
+      {
+        "code": "Java",
+        "fileShow": false
+      },
+      {
+        "code": "Oracle1"
+      }
+    ]
+  }
+}

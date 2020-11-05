@@ -1,5 +1,6 @@
 import React from 'react';
 import _object from 'lodash/object';
+import ClipboardJS from 'clipboard';
 import * as Com from '../../../components';
 import { getCodeByDataTable } from '../../../utils/json2code';
 import { getCurrentVersionData } from '../../../utils/dbversionutils';
@@ -13,8 +14,23 @@ export default class TableDataCode extends React.Component{
       templateShow: 'createTableTemplate',
       dataTable: this._getDataTable(props),
     };
-    this._getChanges(props);
   }
+  componentDidMount() {
+    this.clipboard = new ClipboardJS('#copy-button', {
+      text:  () => {
+        const { codesTabShow, templateShow } = this.state;
+        const { dataSource } = this.props;
+        const database = _object.get(dataSource, 'dataTypeDomains.database', []);
+        const currentCode = codesTabShow || (database[0] && database[0].code) || '';
+        return this._getTableCode(currentCode, templateShow);
+      },
+    });
+    this.clipboard.on('success', () => {
+      Com.Message.success({title: '代码经成功复制到粘贴板'});
+    });
+    this._getChanges(this.props);
+  }
+
   componentWillReceiveProps(nextProps){
     if (nextProps.dataSource !== this.props.dataSource) {
       // 数据发生了变化
@@ -35,6 +51,9 @@ export default class TableDataCode extends React.Component{
       || (nextProps.height !== this.props.height)
       || (nextProps.dataSource.dataTypeDomains !== this.props.dataSource.dataTypeDomains);
   }
+  componentWillUnmount() {
+    this.clipboard && this.clipboard.destroy();
+  }
   _codesTabClick = (code) => {
     this.setState({
       codesTabShow: code,
@@ -44,9 +63,6 @@ export default class TableDataCode extends React.Component{
     this.setState({
       templateShow: template,
     });
-  };
-  _copyClick = (data) => {
-    Com.Message.success({title: '代码经成功复制到粘贴板'});
   };
   _getTableCode = (code, templateShow) => {
     const { changes = [], oldDataSource, dataTable } = this.state;
@@ -78,8 +94,7 @@ export default class TableDataCode extends React.Component{
       code, templateShow, tempChanges, oldDataSource);
   };
   _getChanges = (props) => {
-    const split = process.platform === 'win32' ? '\\' : '/';
-    getCurrentVersionData(props.dataSource, props.project, split, (changes, oldDataSource) => {
+    getCurrentVersionData(props.dataSource, props.versions, (changes, oldDataSource) => {
       this.setState({
         changes,
         oldDataSource,
@@ -173,13 +188,12 @@ export default class TableDataCode extends React.Component{
                   </div>
                 </div>
                 <div className={`${prefix}-data-tab-content`}>
-                  <div style={{display: 'flex', padding: 5}}>
+                  <div className={`${prefix}-data-tab-content-item`}>
                     <Com.Icon
+                      id='copy-button'
                       type='copy1'
                       style={{cursor: 'pointer'}}
                       title='点击复制到粘贴板'
-                      onClick={() => this._copyClick(
-                        this._getTableCode(currentCode, templateShow))}
                     />
                     <span
                       style={{marginLeft: '10px', fontSize: 12, color: 'green'}}

@@ -4,5 +4,4 @@ const demo = {
   standard,
 };
 
-
 export default demo;

@@ -3,6 +3,8 @@ import _object from 'lodash/object';
 import defaultData from '../../defaultData';
 import {openModal, Input, Modal} from '../../../components';
 
+import * as cache from '../../../utils/cache';
+
 
 const validateTable = (data) => {
   let flag = false;
@@ -155,7 +157,7 @@ export const copyTable = (moduleName, tableName, dataSource) => {
     } else {
       table = tempModule.entities;
     }
-      JSON.stringify(table);
+    cache.setItem('clipboard', table);
   }
 };
 
@@ -168,7 +170,7 @@ export const cutTable = (moduleName, tableName, dataSource) => {
     } else {
       table = tempModule.entities;
     }
-      JSON.stringify(table.map(entity => ({...entity, rightType: 'cut'})));
+    cache.setItem('clipboard', table);
   }
 };
 
@@ -177,7 +179,7 @@ export const pasteTable = (moduleName, dataSource, cb) => {
   const copyTables = [];
   let data = [];
   try {
-    data = '';
+    data = cache.getItem2object('clipboard') || {};
   } catch (err) {
     console.log('数据格式错误，无法粘贴', err);
   }

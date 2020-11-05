@@ -6,6 +6,7 @@ class Button extends React.Component {
 
   constructor(props) {
     super(props);
+    this.flag = true;
     this.state = {
       selectBorder: '1px solid #0784DE',
       selectColor: '#E3F1FA',
@@ -21,10 +22,12 @@ class Button extends React.Component {
       });
     }
   }
+  componentWillUnmount() {
+    this.flag = false;
+  }
+
   _setLoading = (flag) => {
-    this.setState({
-      loading: flag,
-    });
+    this.flag && this.setState({loading: flag});
   };
   _onClick = () => {
     const { onClick } = this.props;

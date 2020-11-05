@@ -23,14 +23,14 @@ class Modal extends React.Component {
       this.dom.onmousemove = null;
     };
   }
-  _onClickOk = () => {
+  _onClickOk = (btn) => {
     const { onOk } = this.props;
-    onOk && onOk();
+    onOk && onOk(btn);
   };
 
-  _onClickCancel = () => {
+  _onClickCancel = (btn) => {
     const { onCancel } = this.props;
-    onCancel && onCancel();
+    onCancel && onCancel(btn);
   };
 
   _getDefaultButton = () => {
@@ -149,6 +149,7 @@ class Modal extends React.Component {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
+            cursor: 'move',
           }}
         >
           <span className='pdman-modal-header-context'>
@@ -164,7 +165,7 @@ class Modal extends React.Component {
           <Icon
             onClick={this._onClickCancel}
             type="close"
-            style={{lineHeight: '31px', width: 31, display: fullScreen ? 'none' : ''}}
+            style={{lineHeight: '31px', width: 31, display: fullScreen ? 'none' : '', cursor: 'pointer'}}
           />
         </div>
         <div

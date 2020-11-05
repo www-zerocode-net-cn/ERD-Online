@@ -1,6 +1,6 @@
 import React from 'react';
 import _object from 'lodash/object';
-import { generateByJar } from '../../../../utils/office';
+import * as Save from '../../../../utils/save';
 import { Modal, TreeSelect, Icon  } from '../../../../components';
 
 export default class Parse extends React.Component{
@@ -15,34 +15,32 @@ export default class Parse extends React.Component{
     };
   }
   componentDidMount() {
-    const { dataSource, db = {}, dataFormat } = this.props;
-    generateByJar(dataSource, {
-      ...db.properties,
+    const { db = {}, dataFormat } = this.props;
+    const dbConfig = _object.omit(db.properties, ['driver_class_name']);
+    Save.dbReverseParse({
+      ...dbConfig,
+      driverClassName: db.properties['driver_class_name'], // eslint-disable-line
       flag: dataFormat,
-    }, (error, stdout, stderr) => {
-      const result = (stdout || stderr);
-      let tempResult = '';
-      try {
-        tempResult = JSON.parse(result);
-      } catch (e) {
-        tempResult = result;
-      }
-      if (tempResult.status === 'SUCCESS') {
+    }).then((res) => {
+      if (res.status === 'SUCCESS') {
         this.setState({
-          data: tempResult.body || tempResult,
-          exists: this.checkField(tempResult.body || tempResult),
+          data: res.body || res,
+          exists: this.checkField(res.body || res),
           status: 'SUCCESS',
         });
       } else {
         this.setState({
           status: 'FAILED',
         });
-        Modal.error({title: '数据库解析失败！', message: tempResult.body || tempResult});
+        Modal.error({title: '数据库解析失败！', message: res.body || res});
       }
+    }).catch((err) => {
+      Modal.error({title: '数据库解析失败！', message: err.message});
+    }).finally(() => {
       this.setState({
         flag: false,
       });
-    }, 'dbReverseParse');
+    });
   }
   getSelectedEntity = (cb) => {
     // 增加提示

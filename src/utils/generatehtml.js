@@ -91,7 +91,7 @@ const generateTableColumnListTable = (dataSource, moduleName, tableName) => {
   return `${tableString}</table>`;
 };
 
-const generateRelation = (moduleName, images, projectName) => {
+const generateRelation = (moduleName, images) => {
   /*
   ![Alt text](/path/to/img.jpg "Optional title")
    */

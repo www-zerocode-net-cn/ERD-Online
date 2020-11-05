@@ -3,17 +3,15 @@ import ReactDom from 'react-dom';
 import _object from 'lodash/object';
 import * as Com from '../components';
 import defaultData from './defaultData';
-import JavaHomeConfig from './JavaHomeConfig';
 import SQLConfig from './SQLConfig';
 import WORDConfig from './WORDConfig';
-//import Register from './Register';
 
 import './style/setting.less';
 import { uuid } from '../utils/uuid';
 import { moveArrayPositionByFuc, moveArrayPosition } from '../utils/array';
-import DataTypeHelp from './container/datatype/help';
+import * as cache from '../utils/cache';
 
-const { Modal, openModal, TextArea, Select, openMask } = Com;
+const { Modal, openModal, TextArea, Select } = Com;
 
 export default class Setting extends React.Component{
   constructor(props){
@@ -26,8 +24,7 @@ export default class Setting extends React.Component{
       defaultFieldsType: _object.get(props.dataSource, 'profile.defaultFieldsType', '1'),
     };
     this.inputInstance = [];
-    this.javaConfig = _object.get(props.dataSource, 'profile.javaConfig', {});
-    this.sqlConfig = _object.get(props.dataSource, 'profile.sqlConfig', ';');
+    this.sqlConfig = _object.get(props.dataSource, 'profile.sqlConfig', '/*SQL@Run*/');
     this.wordTemplateConfig = _object.get(props.dataSource, 'profile.wordTemplateConfig', '');
     this.dbs = _object.get(props.dataSource, 'profile.dbs', []);
   }
@@ -191,10 +188,11 @@ export default class Setting extends React.Component{
             Modal.error({title: '复制无效', message: '未选中属性', width: 200});
             return;
           }
-          Com.Message.success({title: '数据表列已经成功复制到粘贴板'});
+          cache.setItem('clipboard', clipboardData);
+          Com.Message.success({title: '数据表列已经成功复制'});
         } else if(e.keyCode === 86) {
           try {
-            const tempData ='';
+            const tempData = cache.getItem2object('clipboard');
             if (this._checkFields(tempData)) {
               const fieldNames = (fields || []).map(field => field.name);
               const copyFields = tempData.map((field) => {
@@ -385,9 +383,6 @@ export default class Setting extends React.Component{
       }),
     });
   };
-  _javaHomeChange = (data) => {
-    this.javaConfig = data;
-  };
   _sqlSeparatorChange = (data) => {
     this.sqlConfig = data;
   };
@@ -422,9 +417,6 @@ export default class Setting extends React.Component{
           </option>
         ));
   };
-  _showCreateType = () => {
-    openMask(<DataTypeHelp/>);
-  };
   render(){
     const { height, selectedTrs, fields, defaultFieldsType } = this.state;
     const { prefix = 'pdman', columnOrder, dataSource, project, register, updateRegister } = this.props;
@@ -436,10 +428,6 @@ export default class Setting extends React.Component{
           className={`${prefix}-data-table-content-tab${this.state.tabShow === 'fields' ? '-selected' : '-unselected'}`}
         >默认属性
         </div>
-        <div
-          onClick={() => this._tabClick('java')}
-          className={`${prefix}-data-table-content-tab${this.state.tabShow === 'java' ? '-selected' : '-unselected'}`}
-        >JAVA环境配置</div>
         <div
           onClick={() => this._tabClick('SQL')}
           className={`${prefix}-data-table-content-tab${this.state.tabShow === 'SQL' ? '-selected' : '-unselected'}`}
@@ -510,12 +498,6 @@ export default class Setting extends React.Component{
                       <div>
                         <div>
                           {column.value}
-                          <Com.Icon
-                            title='创建新的数据类型'
-                            onClick={this._showCreateType}
-                            type='fa-question-circle-o'
-                            style={{display: column.code === 'type' ? '' : 'none', color: 'green'}}
-                          />
                           {
                             column.code !== 'relationNoShow' &&
                             <Com.Icon
@@ -594,9 +576,6 @@ export default class Setting extends React.Component{
               </tbody>
             </table>
           </div>
-        </div>
-        <div style={{ width: '100%', display: this.state.tabShow === 'java' ? '' : 'none' }}>
-          <JavaHomeConfig onChange={this._javaHomeChange} data={this.javaConfig} project={project}/>
         </div>
         <div style={{ width: '100%', display: this.state.tabShow === 'SQL' ? '' : 'none' }}>
           <SQLConfig onChange={this._sqlSeparatorChange} data={this.sqlConfig}/>

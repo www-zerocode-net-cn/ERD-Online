@@ -1,29 +1,17 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import _object from 'lodash/object';
-import {Input, Checkbox, Editor, openModal, Button, Modal} from '../../../components';
+import {Input, Checkbox, Editor, openModal, Button} from '../../../components';
 import * as Utils from './DatabaseUtils';
 import './style/index.less';
 import TemplateHelp from './TemplateHelp';
 import TemplatePreviewEdit from './TemplatePreviewEdit';
 import { getDemoTemplateData } from '../../../utils/json2code';
-import defaultData from '../../defaultData.json';
 
 class Database extends React.Component{
   static Utils = Utils;
   constructor(props){
     super(props);
-    this.defaultTemplates = _object.get(defaultData, 'profile.defaultDataTypeDomains.database', []);
-    this.templateNames = [
-      { name: '创建数据表', value: 'createTableTemplate' },
-      { name: '删除数据表', value: 'deleteTableTemplate' },
-      { name: '重建数据表', value: 'rebuildTableTemplate' },
-      { name: '添加字段', value: 'createFieldTemplate' },
-      { name: '修改字段', value: 'updateFieldTemplate' },
-      { name: '删除字段', value: 'deleteFieldTemplate' },
-      { name: '删除索引', value: 'deleteIndexTemplate' },
-      { name: '创建索引', value: 'createIndexTemplate' },
-      { name: '表注释', value: 'updateTableComment' }];
     this.state = {
       value: props.value || {},
       parentWidth: '490px',
@@ -94,23 +82,6 @@ class Database extends React.Component{
           [tabShow]: templateHelp && templateHelp.getTemplate() || value[tabShow] || ''
         }
       });
-    }
-    const onAllOk = () => {
-      modal && modal.close();
-      const { value = {} } = this.state;
-      const currentTemplate = this.defaultTemplates.filter((t) => t.code.toLocaleLowerCase()
-        === templateHelp.getCurrentDb().toLocaleLowerCase())[0];
-      this.setState({
-        value: {
-          ...value,
-          ...(this.templateNames.reduce((a, b) => {
-            return {
-              ...a,
-              [b.value]: currentTemplate[b.value],
-            }
-          }, {}))
-        }
-      });
     };
     const onCancel = () => {
       modal && modal.close();
@@ -118,8 +89,7 @@ class Database extends React.Component{
     modal = openModal(<TemplateHelp didMount={instance}/>, {
       autoFocus: true,
       footer: [
-        <Button key="onAllOk" onClick={onAllOk} type="primary">使用此数据库案例模板</Button>,
-        <Button key="ok" onClick={onOk} style={{marginLeft: 10}} type="primary">使用此案例模板</Button>,
+        <Button key="ok" onClick={onOk} type="primary">使用此案例模板</Button>,
         <Button key="cancel" onClick={onCancel} style={{marginLeft: 10}}>关闭</Button>],
       title: '默认模板配置案例'
     })
@@ -128,31 +98,6 @@ class Database extends React.Component{
     this.setState({
       tabShow,
     });
-  };
-  _useAllDefaultTemplate = () => {
-    const { code } = this.state.value;
-    const currentTemplate = this.defaultTemplates.filter((t) => t.code.toLocaleLowerCase() === code.toLocaleLowerCase())[0];
-    if (!currentTemplate) {
-      Modal.error({
-        title: '使用默认模板失败',
-        message: '无匹配数据库，请点击[从默认模板中选取]选择需要使用的数据库模板'
-      });
-    } else {
-      this.setState((state) => {
-        return {
-          ...state,
-          value: {
-            ...state.value,
-            ...(this.templateNames.reduce((a, b) => {
-              return {
-                ...a,
-                [b.value]: currentTemplate[b.value],
-              }
-            }, {}))
-          }
-        }
-      });
-    }
   };
   render(){
     const { value, parentWidth } = this.state;
@@ -201,31 +146,59 @@ class Database extends React.Component{
         </span>
       </div>
       <div className={`${prefix}-database-summary-item`}>
-        <span  className={`${prefix}-database-summary-item-name`}>
-          <span className={`${prefix}-database-summary-item-name-container`}>
-            <span>模板配置</span>
-            <span onClick={this._useAllDefaultTemplate}>全部默认</span>
-          </span>
-        </span>
+        <span  className={`${prefix}-database-summary-item-name`}>模板配置</span>
         <div style={{border: 'solid 1px #9B9B9B', padding: 5}}>
           <div className={`${prefix}-data-table-content-tab`} style={{fontSize: 13}}>
-            {
-              this.templateNames.map((t) => {
-                return <div
-                  key={t.value}
-                  onClick={() => this._tabClick(t.value)}
-                  className={`${prefix}-data-table-content-tab${this.state.tabShow === t.value ? '-selected' : '-unselected'}`}
-                >
-                  {t.name}
-                </div>
-              })
-            }
+            <div
+              onClick={() => this._tabClick('createTableTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'createTableTemplate' ? '-selected' : '-unselected'}`}
+            >创建数据表
+            </div>
+            <div
+              onClick={() => this._tabClick('deleteTableTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'deleteTableTemplate' ? '-selected' : '-unselected'}`}
+            >删除数据表
+            </div>
+            <div
+              onClick={() => this._tabClick('rebuildTableTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'rebuildTableTemplate' ? '-selected' : '-unselected'}`}
+            >重建数据表
+            </div>
+            <div
+              onClick={() => this._tabClick('createFieldTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'createFieldTemplate' ? '-selected' : '-unselected'}`}
+            >添加字段
+            </div>
+            <div
+              onClick={() => this._tabClick('updateFieldTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'updateFieldTemplate' ? '-selected' : '-unselected'}`}
+            >修改字段
+            </div>
+            <div
+              onClick={() => this._tabClick('deleteFieldTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'deleteFieldTemplate' ? '-selected' : '-unselected'}`}
+            >删除字段
+            </div>
+            <div
+              onClick={() => this._tabClick('deleteIndexTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'deleteIndexTemplate' ? '-selected' : '-unselected'}`}
+            >删除索引
+            </div>
+            <div
+              onClick={() => this._tabClick('createIndexTemplate')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'createIndexTemplate' ? '-selected' : '-unselected'}`}
+            >创建索引
+            </div>
+            <div
+              onClick={() => this._tabClick('updateTableComment')}
+              className={`${prefix}-data-table-content-tab${this.state.tabShow === 'updateTableComment' ? '-selected' : '-unselected'}`}
+            >表注释
+            </div>
           </div>
           <div className={`${prefix}-data-tab-content`}>
             <div style={{ width: '100%' }}>
               <div
-                className={`${prefix}-database-summary-item`}
-                style={{display: 'flex', flexDirection: 'column'}}
+                className={`${prefix}-database-summary-item ${prefix}-database-summary-item-special`}
               >
               <div style={{marginBottom: 10, color: 'green'}}>
                 <span

@@ -6,7 +6,7 @@ export default class SQLConfig extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      separator: props.data || ';',
+      separator: props.data || '/*SQL@Run*/',
     };
   }
   _separatorChange = (e) => {
@@ -21,14 +21,10 @@ export default class SQLConfig extends React.Component{
     const { separator } = this.state;
     return (
       <div
-        style={{
-          border: '1px solid #ADADAD',
-          padding: '5px',
-          display: 'flex',
-        }}
+        className='pdman-sql-config'
       >
         <span style={{width: 100}}>SQL分隔符：</span>
-        <Input value={separator} placeholder='默认为“;”' onChange={this._separatorChange}/>
+        <Input value={separator} placeholder='默认为“/*SQL@Run*/”' onChange={this._separatorChange}/>
       </div>
     );
   }

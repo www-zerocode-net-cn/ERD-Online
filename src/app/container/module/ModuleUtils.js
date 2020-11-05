@@ -1,15 +1,17 @@
 import React from 'react';
 import _object from 'lodash/object';
-// import * as json from '../../../utils/json';
 import { openModal, Input, Modal } from '../../../components';
 
+import * as cache from '../../../utils/cache';
+
+import './style/index.less';
 
 class ModuleForm extends React.Component{
   render() {
     const { onChange, validate, defaultValue } = this.props;
     return (
       <div>
-        <div style={{display: 'flex', padding: 5}}>
+        <div className='pdman-module-util-item'>
           <span style={{width: 100, textAlign: 'right', paddingRight: 5}}>
             模块名:
           </span>
@@ -21,7 +23,7 @@ class ModuleForm extends React.Component{
             defaultValue={defaultValue.name}
           />
         </div>
-        <div style={{display: 'flex', padding: 5}}>
+        <div className='pdman-module-util-item'>
           <span style={{width: 100, textAlign: 'right', paddingRight: 5}}>
             中文名:
           </span>
@@ -191,10 +193,15 @@ export const deleteModule = (name, dataSource, cb) => {
 
 export const copyModule = (name, dataSource) => {
   // 复制模块
+  cache.setItem('clipboard', (dataSource.modules || [])
+    .filter(module => module.name === name)[0]);
 };
 
 export const cutModule = (name, dataSource) => {
   // 剪切模块
+  cache.setItem('clipboard', (dataSource.modules || [])
+    .filter(module => module.name === name)
+    .map(module => ({...module, rightType: 'cut'}))[0]);
 };
 
 export const pasteModule = (dataSource, cb) => {
@@ -203,7 +210,7 @@ export const pasteModule = (dataSource, cb) => {
   // 粘贴模块
   let data = {};
   try {
-    data = '';
+    data = cache.getItem2object('clipboard') || {};
   } catch (err) {
     console.log('数据格式错误，无法粘贴', err);
   }

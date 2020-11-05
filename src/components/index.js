@@ -17,5 +17,3 @@ export { default as Text } from './text';
 export { default as Radio } from './radio';
 export { default as RadioGroup } from './radiogroup';
 export { default as TreeSelect } from './treeselect';
-export { default as Mask } from './mask';
-export openMask from './mask/MaskWrapper';

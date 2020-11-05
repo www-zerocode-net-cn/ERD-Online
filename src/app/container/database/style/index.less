@@ -4,7 +4,11 @@
   display: flex;
   flex-direction: column;
   &-item {
+    &-special {
+      flex-direction: column;
+    }
     display: flex;
+    flex-direction: row;
     margin-top: 10px;
     &-help {
       color: green;
@@ -18,15 +22,6 @@
       display: inline-block;
       width: 100px;
       text-align: right;
-      &-container {
-        display: flex;
-        flex-direction: column;
-        span:nth-child(2) {
-          cursor: pointer;
-          color: #36AC55;
-          text-decoration: underline;
-        }
-      }
     }
   }
 }
@@ -64,4 +59,8 @@
   th {
     padding: 5px;
   }
+}
+.pdman-template-preview-edit {
+  display: flex;
+  flex-direction: row;
 }

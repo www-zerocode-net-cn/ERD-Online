@@ -1,13 +1,12 @@
 import React from 'react';
-
 import { Icon, Button } from '../components';
 import './style/create.less';
 
 export default class CreatePro extends React.Component {
   constructor(props){
     super(props);
-    this.split = process.platform === 'win32' ? '\\' : '/';
     this.state = {
+      value: '',
     };
   }
   componentDidMount(){
@@ -15,14 +14,6 @@ export default class CreatePro extends React.Component {
     onChange && onChange(this.state.value);
   }
   _iconClick = () => {
-    console.log(process.platform);
-    const { onChange } = this.props;
-    const extensions = [];
-    if (process.platform === 'darwin') {
-      extensions.push('json');
-    } else {
-      extensions.push('pdman.json');
-    }
   };
   _onChange = (e) => {
     const { onChange } = this.props;

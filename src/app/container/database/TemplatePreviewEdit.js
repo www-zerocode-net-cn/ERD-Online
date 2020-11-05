@@ -178,7 +178,7 @@ export default class TemplatePreviewEdit extends React.Component{
     const tempWidth = width - 50;
     const tempHeight = height - 25;
     return (
-      <div style={{display: 'flex'}}>
+      <div className='pdman-template-preview-edit'>
         <div style={{padding: 5}}>
           <div style={{textAlign: 'center', marginBottom: 5}}>
             <span>参考数据</span>

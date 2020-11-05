@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -28,6 +29,7 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
+const  ZipPlugin = require('zip-webpack-plugin');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -308,7 +310,7 @@ module.exports = function (webpackEnv) {
                 // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
                 // please link the files into your node_modules/ and let module-resolution kick in.
                 // Make sure your source files are compiled, as they will not be processed in any way.
-                new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+                // new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
             ],
         },
         resolveLoader: {
@@ -524,7 +526,7 @@ module.exports = function (webpackEnv) {
                     {},
                     {
                         inject: true,
-                        template: paths.appHtml,
+                        template: paths.appHtml
                     },
                     isEnvProduction
                         ? {
@@ -544,6 +546,13 @@ module.exports = function (webpackEnv) {
                         : undefined
                 )
             ),
+            new ScriptExtHtmlPlugin({
+                defaultAttribute: 'defer'
+            }),
+            new ZipPlugin({
+                path: path.join(__dirname, '../dist'),
+                filename: 'dist.zip'
+            }),
             // Inlines the webpack runtime script. This script is too small to warrant
             // a network request.
             // https://github.com/facebook/create-react-app/issues/5358

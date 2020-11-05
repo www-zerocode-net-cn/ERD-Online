@@ -1,5 +1,6 @@
 import _object from 'lodash/object';
 
+import * as cache from '../../../utils/cache';
 
 const opt = (key, menu, dataSource) => {
   // 多选操作集合目前只有复制
@@ -34,7 +35,7 @@ const opt = (key, menu, dataSource) => {
       database: someDatabase,
       datatype: someDatatypes,
     };
-
+    cache.setItem('clipboard', data);
   } else {
     const allModules = dataSource.modules || [];
     // 2.模块和数据表同时存在的复制
@@ -78,7 +79,7 @@ const opt = (key, menu, dataSource) => {
         }),
       },
     };
-
+    cache.setItem('clipboard', data);
   }
 };
 

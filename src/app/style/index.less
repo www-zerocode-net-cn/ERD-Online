@@ -207,6 +207,10 @@ body {
       height: 20px;
       margin-right: 2px;
     }
+    &-flex {
+      flex-grow: 1;
+      text-align: right;
+    }
   }
 
   &-clicked {
@@ -321,6 +325,12 @@ body {
 .tools-right-paint {
   //width: 80%;
   text-align: center;
+}
+.pdman-wrapper {
+  width: 100%;
+  height: calc(~'100% - 36px');
+  flex-grow: 1;
+  overflow: hidden;
 }
 .pdman-home-header {
   display: flex;

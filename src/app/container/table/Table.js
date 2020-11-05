@@ -5,9 +5,9 @@ import * as Com from '../../../components';
 import TableRow from './TableRow';
 import { uuid } from '../../../utils/uuid';
 import { moveArrayPositionByFuc } from '../../../utils/array';
-import DataTypeHelp from '../datatype/help';
+import * as cache from '../../../utils/cache';
 
-const { Modal, openMask }  = Com;
+const { Modal }  = Com;
 
 export default class Table extends React.Component{
   constructor(props){
@@ -67,10 +67,11 @@ export default class Table extends React.Component{
             Modal.error({title: '复制无效', message: '未选中属性', width: 200});
             return;
           }
-          Com.Message.success({title: '数据表列已经成功复制到粘贴板'});
+          cache.setItem('clipboard', clipboardData);
+          Com.Message.success({title: '数据表列已经成功复制'});
         } else if(e.keyCode === 86) {
           try {
-            const tempData = '';
+            const tempData = cache.getItem2object('clipboard');
             if (this._checkFields(tempData)) {
               const fieldNames = (dataTable.fields || []).map(field => field.name);
               const copyFields = tempData.map((field) => {
@@ -179,9 +180,6 @@ export default class Table extends React.Component{
         return header;
       }),
     });
-  };
-  _showCreateType = () => {
-    openMask(<DataTypeHelp/>);
   };
   _relationNoShowClick = (e, key, code, value) => {
     if (key) {
@@ -370,7 +368,7 @@ export default class Table extends React.Component{
                     const showLeft = index === 0 ? 'none' : '';
                     const showRight = index === headers.length - 1 ? 'none' : '';
                     return (<th key={column.code}>
-                      <div style={{minWidth: column.code === 'type' ? 150 : 'auto' }}>
+                      <div>
                         <Com.Icon
                           onClick={() => this._columnClick('left', index)}
                           type='arrowleft'
@@ -388,12 +386,6 @@ export default class Table extends React.Component{
                             />}
                         </div>
                         <Com.Icon
-                          title='创建新的数据类型'
-                          onClick={this._showCreateType}
-                          type='fa-question-circle-o'
-                          style={{display: column.code === 'type' ? '' : 'none', color: 'green'}}
-                        />
-                        <Com.Icon
                           onClick={() => this._columnClick('right', index)}
                           type='arrowright'
                           style={{display: showRight}}
@@ -404,7 +396,7 @@ export default class Table extends React.Component{
                 }
               </tr>
               {
-                (dataTable && dataTable.fields || []).map((field, index) => (
+                ((dataTable && dataTable.fields) || []).map((field, index) => (
                   <TableRow
                     field={field}
                     index={index}

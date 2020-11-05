@@ -6,17 +6,17 @@ const openModal = (component, params = {}) => {
   const maskDiv = document.createElement('div');
   document.body.appendChild(maskDiv);
   let comInstance = null;
-  const _close = () => {
+  const _close = (btn) => {
     const unmountResult = ReactDOM.unmountComponentAtNode(maskDiv);
     if (unmountResult) {
       maskDiv.parentNode.removeChild(maskDiv);
       const { onCancel } = params;
-      onCancel && onCancel();
+      onCancel && onCancel(btn);
     }
   };
-  const _onOk = () => {
+  const _onOk = (btn) => {
     const { onOk } = params;
-    onOk && onOk({close: _close}, comInstance);
+    onOk && onOk({close: _close}, comInstance, btn);
   };
 
   class ModalWrapper extends React.Component {

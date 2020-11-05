@@ -1,4 +1,13 @@
 const debounce = (fn, delay) => {
+  let timer = null;
+  return () => {
+    let context = this,
+      args = '';
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, delay);
+  };
 };
 
 export const addOnResize = (fuc, flag = false) => {

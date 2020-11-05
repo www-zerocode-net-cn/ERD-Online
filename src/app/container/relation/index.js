@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import G6 from '@antv/g6';
 import _object from 'lodash/object';
 import { Context, openModal, Icon, Modal } from '../../../components';
 import RelationEdit from './RelationEdit';
-import { writeFile } from '../../../utils/json';
 import './style/index.less';
 import { uuid } from '../../../utils/uuid';
+import * as File from '../../../utils/file';
+
 
 /* eslint-disable */
 G6.track(false);
@@ -75,6 +75,7 @@ export default class Relation extends React.Component{
     }
   }
   componentWillUnmount(){
+    this.net.destroy();
   }
   onZoom = (zoom) => {
     let scale = this.net.getScale();
@@ -217,7 +218,7 @@ export default class Relation extends React.Component{
   setNodes = (nodes) => {
     this.newNodes = nodes;
   };
-  exportImg = (path, type, callback) => {
+  exportImg = (type) => {
     const { value } = this.props;
     const tempNet = this.net;
     const currentDom = document.getElementById(`paint-${value}`);
@@ -252,25 +253,23 @@ export default class Relation extends React.Component{
       const tempGraphContainer = this.net.get('graphContainer');
       // 关闭缩略图
       this._keyDown({key: 'm'}, true);
-      const imageType = path.endsWith('.jpg') ? 'jpg' : 'png';
       html2canvas(tempGraphContainer).then(canvas => {
-        const dataBuffer = Buffer.from(canvas.toDataURL(`image/${imageType}`).replace(/^data:image\/\w+;base64,/, ""), 'base64');
-        writeFile(path, dataBuffer).then(() => {
-          callback && callback(path);
-          this.net = tempNet;
-          tempDom && tempDom.parentNode.removeChild(tempDom);
-        });
+        const url = canvas.toDataURL('png');
+        const moduleName = this.props.value.split('map&')[1].split('/')[0];
+        File.saveByUrl(url, `${moduleName}-relation.png`);
+        this.net = tempNet;
+        tempDom && tempDom.parentNode.removeChild(tempDom);
       });
     });
   };
   saveData = (callBack) => {
     this.graphCanvas = this.net.save().source;
-    const { saveProjectSome, project, dataSource, value } = this.props;
+    const { saveProjectSome, dataSource, value } = this.props;
     let tempData = this._filterFieldsAndCopy(this.graphCanvas);
     tempData = this._clearInvalidData(tempData, dataSource);
     const moduleName = value.split('map&')[1].split('/')[0];
     const module = (dataSource.modules || []).filter(mo => mo.name === moduleName)[0];
-    saveProjectSome(`${project}.pdman.json`, {
+    saveProjectSome({
       associations: this._getAssociations(this.graphCanvas, module),
       graphCanvas: {...tempData}}, () => {
       callBack && callBack();
@@ -919,34 +918,6 @@ export default class Relation extends React.Component{
           const module = ev.item._attrs.model.moduleName;
           const moduleName = this.props.value.split('map&')[1].split('/')[0];
           openTab && openTab(`entity&${module || moduleName}&${title}`);
-          /*openModal(<Table
-            value={`entity&${moduleName}&${title}`}
-            dataSource={this.props.dataSource}
-            project={project}
-            saveProjectSome={saveProjectSome}
-            updateTabs={updateTabs}
-            copy={ev.item._attrs.model.copy}
-            id={ev.item._attrs.id}
-            columnOrder={this.props.columnOrder}
-          />, {
-            title: '编辑数据表',
-            modality: true,
-            autoFocus: true,
-            onOk: (modal, com) => {
-              const allTable = this._getAllTable(this.props.dataSource);
-              if (com.getName() !== title && allTable.includes(com.getName())) {
-                Modal.error({title: '保存失败', message: '该数据表已经存在！', width: 200})
-              } else {
-                com.save((err) => {
-                  if (!err) {
-                    modal.close();
-                  } else {
-                    Modal.error({title: '保存失败', message: '保存失败', width: 100})
-                  }
-                });
-              }
-            }
-          })*/
         }
       }
     });
@@ -1212,6 +1183,7 @@ export default class Relation extends React.Component{
     });
     // 右键菜单
     this.net.on('contextmenu', (ev) => {
+      ev.domEvent.preventDefault();
       if (this.net._attrs.mode === 'edit') {
         let clickPoint = -1;
         let item = ev.item;
@@ -1329,9 +1301,9 @@ export default class Relation extends React.Component{
     e.preventDefault();
   };
   _saveTable = (table, type) => {
-    const { saveProject, project, dataSource, value } = this.props;
+    const { saveProject, dataSource, value } = this.props;
     const moduleName = value.split('map&')[1].split('/')[0];
-    saveProject(`${project}.pdman.json`, {
+    saveProject({
       ...dataSource,
       modules: (dataSource.modules || []).map((mo) => {
         if (mo.name === moduleName) {
@@ -1374,24 +1346,6 @@ export default class Relation extends React.Component{
         associations,
         realName: title,
       });
-      /*// 将数据表保存到文件
-      const { project, saveProject, dataSource, value } = this.props;
-      const moduleName = value.split('map_')[1].split('-')[0];
-      saveProject(`${project}.pdman.json`, {
-        ...dataSource,
-        modules: (dataSource.modules || []).map(m => {
-          if (m.name === moduleName) {
-            return {
-              ...m,
-              entities: (m.entities || []).concat({
-                title: title,
-                fields: [],
-              })
-            }
-          }
-          return m;
-        })
-      });*/
     } else {
       const tables = this._getAllTableData(dataSource);
       tableData = tables.filter(table => table.title === title.split(':')[0])[0];

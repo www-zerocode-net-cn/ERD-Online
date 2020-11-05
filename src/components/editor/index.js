@@ -37,6 +37,7 @@ export default class Editor extends React.Component{
   render() {
     const { name } = this.state;
     const { mode = 'mysql', theme = 'monokai', value, height, width } = this.props;
+    console.log('value', value);
     return (
       <div onKeyDown={this._onKeyDown}>
         <AceEditor

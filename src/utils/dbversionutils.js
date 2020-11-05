@@ -1,14 +1,5 @@
 import _object from 'lodash/object';
-import { getDirListPromise, readFilePromise } from './json';
-
-const getProject = (project, type, split) => {
-  const tempItem = project.replace(/\\/g, '/');
-  const tempArray = tempItem.split('/');
-  if (type === 'name') {
-    return tempArray[tempArray.length - 1];
-  }
-  return tempArray.splice(0, tempArray.length - 1).join(split);
-};
+import { compareStringVersion } from './string';
 
 const getAllTable = (dataSource) => {
   return (dataSource.modules || []).reduce((a, b) => {
@@ -191,12 +182,14 @@ export const checkVersionData = (dataSource1, dataSource2) => {
   return changes;
 };
 
-export const getCurrentVersionData = (dataSource, project, split, cb) => {
+export const getCurrentVersionData = (dataSource, versions, cb) => {
   // 保存当前版本信息
   // 1.计算当前版本变化
-  // 1.1. 读取版本控制目录下的所有文件找出版本号最大的一个版本文件进行比较（如果没有其他的版本文件，则直接与基线版本进行对比）
-  const proName = getProject(project, 'name', split);
-  const proPath = getProject(project, 'path', split);
-  const basePathDir = `${proPath}${split}.${proName}.version${split}`;
+  let checkVersion = versions.sort((a, b) => compareStringVersion(b.version, a.version))[0];
+  // 读取当前版本的内容
+  const currentDataSource = {...dataSource};
+  // 组装需要比较的版本内容
+  const changes = checkVersionData(currentDataSource, checkVersion || currentDataSource);
+  cb && cb(changes, checkVersion);
 };
 

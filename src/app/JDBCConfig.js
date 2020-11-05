@@ -1,20 +1,18 @@
 import React from 'react';
 import _object from 'lodash/object';
 
-
 import {Input, Icon, Button, Modal, RadioGroup, Select, openModal } from '../components';
 import { uuid } from '../utils/uuid';
 
 import './style/jdbc.less';
+import * as Save from '../utils/save';
 
-const { execFile } = require('child_process');
 
 const Radio = RadioGroup.Radio;
 
 export default class JDBCConfig extends React.Component{
   constructor(props){
     super(props);
-    this.split = process.platform === 'win32' ? '\\' : '/';
     const data = this._initData(props.data || []);
     this.state = {
       selectedTrs: this._getDefaultDBSelected(data),
@@ -185,38 +183,6 @@ export default class JDBCConfig extends React.Component{
       onChange && onChange(this.state.data.map(field => _object.omit(field, ['key'])));
     });
   };
-  _getParam = (selectJDBC) => {
-    const paramArray = [];
-    const properties = _object.get(selectJDBC, 'properties', {});
-    Object.keys(properties).forEach((pro) => {
-      if (pro !== 'customer_driver') {
-        paramArray.push(`${pro}=${properties[pro]}`);
-      }
-    });
-    return paramArray;
-  };
-  _getJAVAVersion = (java, cb) => {
-    const minVersion = ['1', '8'];
-    execFile(java, ['-version'],
-      (error, stdout, stderr) => {
-        if (error) {
-          Modal.error({title: '获取JDK版本失败！', message: error.message || error});
-          cb && cb(error);
-        } else {
-          const versionNumber = (stderr.match(/"(\S+)"/g)[0] || '');
-          // 2.获取版本号的第一，第二位
-          const currentVersion = (versionNumber.split('.') || []).map(v => v.replace('"', ''));
-          let flag = false;
-          if (currentVersion[0] === minVersion[0]) {
-            // 如果版本号第一位相等
-            flag = currentVersion[1] >= minVersion[1];
-          } else {
-            flag = currentVersion[0] >= minVersion[0];
-          }
-          cb && cb(null, flag, versionNumber);
-        }
-      });
-  };
   _connectJDBC = (selectJDBC) => {
     const { properties = {} } = (selectJDBC || {});
     if (Object.keys(properties).some((p) => {
@@ -228,57 +194,22 @@ export default class JDBCConfig extends React.Component{
     this.setState({
       loading: true,
     });
-    const { getJavaConfig } = this.props;
-    const configData = (getJavaConfig && getJavaConfig()) || {};
-    const value = configData.JAVA_HOME;
-    const defaultPath = '';
-    const jar = configData.DB_CONNECTOR || defaultPath;
-    const tempValue = value ? `${value}${this.split}bin${this.split}java` : 'java';
-    // 先判断当前的JAVA版本
-    this._getJAVAVersion(tempValue, (versionError, flag, versionNumber) => {
-      if (!versionError) {
-        if (!flag) {
-          Modal.error({
-            title: '当前系统安装的JDK版本过低！',
-            message: `当前版本：${versionNumber}，请安装JDK1.8及以上版本！`,
-          });
-          this.setState({
-            loading: false,
-          });
-        } else {
-          const customerDriver = _object.get(selectJDBC, 'properties.customer_driver', '');
-          const commend = [
-            '-Dfile.encoding=utf-8', '-jar', jar, 'ping',
-            ...this._getParam({
-              ...selectJDBC,
-              properties: {
-                ...(selectJDBC.properties || {}),
-              },
-            }),
-          ];
-          if (customerDriver) {
-            commend.unshift(`-Xbootclasspath/a:${customerDriver}`);
-          }
-          execFile(tempValue, commend,
-            (error, stdout, stderr) => {
-              const result = (stdout || stderr);
-              this.setState({
-                loading: false,
-              });
-              let tempResult = '';
-              try {
-                tempResult = JSON.parse(result);
-              } catch (e) {
-                tempResult = result;
-              }
-              if (tempResult.status !== 'SUCCESS') {
-                Modal.error({title: '连接失败', message: tempResult.body || tempResult});
-              } else {
-                Modal.success({title: '连接成功', message: `${tempResult.body}!数据库连接设置配置正确`});
-              }
-            });
-        }
+    const dbConfig = _object.omit(selectJDBC.properties, ['driver_class_name']);
+    Save.ping({
+      ...dbConfig,
+      driverClassName: selectJDBC.properties && selectJDBC.properties['driver_class_name'], // eslint-disable-line
+    }).then((res) => {
+      if (res.status !== 'SUCCESS') {
+        Modal.error({title: '连接失败', message: res.body});
+      } else {
+        Modal.success({title: '连接成功', message: `${res.body}!数据库连接设置配置正确`});
       }
+    }).catch((err) => {
+      Modal.error({title: '连接失败！', message: err.message});
+    }).finally(() => {
+      this.setState({
+        loading: false,
+      });
     });
   };
   _defaultDBChange = (value) => {
@@ -341,6 +272,7 @@ export default class JDBCConfig extends React.Component{
     });
   };
   _selectJar = () => {
+    this.upload && this.upload.click();
   };
   render(){
     const { dataSource } = this.props;
@@ -381,7 +313,7 @@ export default class JDBCConfig extends React.Component{
                 <RadioGroup
                   name='defaultDB'
                   title='选择默认版本管理的数据库'
-                  value={defaultDB && defaultDB.key || selectedTrs[0]}
+                  value={(defaultDB && defaultDB.key) || selectedTrs[0]}
                   onChange={this._defaultDBChange}
                 >
                   <Radio
@@ -414,10 +346,18 @@ export default class JDBCConfig extends React.Component{
           </div>
           <div className='pdman-jdbc-config-right-com-input'>
             <input
+              readOnly
               style={{width: '80%'}}
               onChange={e => this._onChange('customer_driver', e)}
               value={_object.get(selectJDBC, 'properties.customer_driver', '')}
               placeholder='目前mysql,sqlserver,oracle,postgresql无需配置'
+            />
+            <input
+              onChange={e => this._onChange('customer_driver', e)}
+              ref={instance => this.upload = instance}
+              style={{display: 'none'}}
+              type='file'
+              accept='.jar'
             />
             <Button
               style={{width: '20%', height: '27px'}}

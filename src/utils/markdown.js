@@ -122,7 +122,7 @@ const generateRelation = (moduleName, images, projectName) => {
   /*
   ![Alt text](/path/to/img.jpg "Optional title")
    */
-  return `\n![${moduleName}-关系图](./${projectName}_files/${images[moduleName]})\n`;
+  return `\n![${moduleName}-关系图](${images[moduleName]})\n`;
 };
 
 const generateModuleBody = (dataSource, images = {}, projectName) => {
@@ -196,7 +196,7 @@ const generateModuleBody = (dataSource, images = {}, projectName) => {
   return modulesString;
 };
 
-export const generate = (dataSource, images, projectName, callBack) => {
+export const generateMD = (dataSource, images, projectName, callBack) => {
   console.log('正在生成makedown');
   const index = '## <center>目录</center>\n';
   const header = generateHeader(dataSource);

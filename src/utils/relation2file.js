@@ -548,7 +548,7 @@ const createNotRelationDom = () => {
   return dom;
 };
 
-export const saveImage = (dataSource, columnOrder, writeFile, callBack, errorCallback) => {
+export const saveImage = (dataSource, columnOrder, callBack, errorCallback) => {
   // 循环渲染每个模块的关系图
   const modules = _object.get(dataSource, 'modules', []);
   const images = {};

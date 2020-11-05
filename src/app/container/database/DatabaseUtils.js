@@ -3,6 +3,7 @@ import _object from 'lodash/object';
 import Database from './index';
 import {openModal, Modal} from '../../../components';
 
+import * as cache from '../../../utils/cache';
 
 const validateDatabase = (databases) => {
   let flag = false;
@@ -162,17 +163,29 @@ export const deleteDatabase = (databaseCode, dataSource, callback) => {
 
 export const copyDatabase = (databaseCode, dataSource) => {
   if (databaseCode) {
+    cache.setItem('clipboard',_object.get(dataSource, 'dataTypeDomains.database', [])
+      .filter(database => database.code === databaseCode));
   } else {
+    cache.setItem('clipboard',_object.get(dataSource, 'dataTypeDomains.database', []));
   }
 };
 
 export const cutDatabase = (databaseCode, dataSource) => {
+  if (databaseCode) {
+    cache.setItem('clipboard',_object.get(dataSource, 'dataTypeDomains.database', [])
+      .filter(database => database.code === databaseCode)
+      .map(database => ({...database, rightType: 'cut'})));
+  } else {
+    cache.setItem('clipboard',_object.get(dataSource, 'dataTypeDomains.database', [])
+      .map(database => ({...database, rightType: 'cut'})));
+  }
 };
 
 export const pasteDatabase = (dataSource, callback) => {
   const copyDatabaseData = [];
   let data = [];
   try {
+    data = cache.getItem2object('clipboard');
   } catch (err) {
     console.log('数据格式错误，无法粘贴', err);
   }

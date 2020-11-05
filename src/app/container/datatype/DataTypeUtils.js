@@ -3,6 +3,7 @@ import _object from 'lodash/object';
 import DataType from './index';
 import {Modal, openModal} from '../../../components';
 
+import * as cache from '../../../utils/cache';
 
 const validateDataType = (dataType) => {
   let flag = false;
@@ -140,11 +141,24 @@ export const renameDataType = (dataTypeCode, dataSource, callBack) => {
 };
 
 export const copyDataType = (dataTypeCode, dataSource) => {
-// 复制数据类型
+  // 复制数据类型
+  if (dataTypeCode) {
+    cache.setItem('clipboard', _object.get(dataSource, 'dataTypeDomains.datatype', [])
+      .filter(dataType => dataType.code === dataTypeCode));
+  } else {
+    cache.setItem('clipboard', _object.get(dataSource, 'dataTypeDomains.datatype', []));
+  }
 };
 
 export const cutDataType = (dataTypeCode, dataSource) => {
   // 复制数据类型
+  if (dataTypeCode) {
+    cache.setItem('clipboard', _object.get(dataSource, 'dataTypeDomains.datatype', [])
+      .filter(dataType => dataType.code === dataTypeCode).map(dataType => ({...dataType, rightType: 'cut'})));
+  } else {
+    cache.setItem('clipboard',_object.get(dataSource, 'dataTypeDomains.datatype', [])
+      .map(dataType => ({...dataType, rightType: 'cut'})));
+  }
 };
 
 export const pasteDataType = (dataSource, callBack) => {
@@ -152,7 +166,7 @@ export const pasteDataType = (dataSource, callBack) => {
   const copyDataTypeDataName = [];
   let data = [];
   try {
-    data = '';
+    data = cache.getItem2object('clipboard') || {};
   } catch (err) {
     console.log('数据格式错误，无法粘贴', err);
   }
