@@ -41,7 +41,7 @@ export default class Loading extends React.Component{
       } else {
         flag = true;
       }
-    }, 2000);
+    }, 3000);
     const projectId = cache.getItem('projectId');
     get(`project/info/${projectId}`).then((res) => {
       if (flag) {
@@ -97,7 +97,7 @@ export default class Loading extends React.Component{
             <div className='pdman-loading-content-welcom'>
               <span style={{fontSize: 35, fontWeight: 2, color: '#65B1F0'}}>WELCOME</span>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              <span style={{fontSize: 35, fontWeight: 2, color: '#FFF'}}>PDMAN</span>
+              <span style={{fontSize: 35, fontWeight: 2, color: '#FFF'}}>ERD-ONLINE</span>
             </div>
           </div>
           <div style={{position: 'relative', width: '100%', height: '30%'}}>
@@ -110,7 +110,7 @@ export default class Loading extends React.Component{
           </div>
           <div className='pdman-loading-content-footer'>
             <div className='pdman-loading-content-footer-content'>
-              Copyright© {version.date.split('.')[0]} robergroup team All rights reserved
+
             </div>
           </div>
         </div>

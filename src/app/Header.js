@@ -17,7 +17,7 @@ export default class Header extends React.Component{
             {projectName || '无打开的项目'}
           </div>
           <div className='pdman-header-left-app'>
-            &nbsp;-&nbsp;PDMan
+            &nbsp;-&nbsp;ERD-ONLINE
           </div>
         </div>
         <div className='pdman-header-right'>

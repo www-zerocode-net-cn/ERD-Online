@@ -50,7 +50,7 @@ export const addTable = (moduleName, dataSource, cb) => {
   openModal(<div>
     <Input autoFocus onChange={onChange} style={{width: '100%'}} validate={validate}/>
   </div>, {
-    title: 'PDMan-新增数据表',
+    title: 'ERD-ONLINE-新增数据表',
     onOk: (modal) => {
       if (!tempTableName) {
         Modal.error({title: '新增失败', message: '数据表名不能为空'});
@@ -115,7 +115,7 @@ export const renameTable = (moduleName, oldTableName, dataSource, cb) => {
   openModal(<div>
     <Input autoFocus onChange={onChange} style={{width: '100%'}} validate={validate} defaultValue={oldTableName}/>
   </div>, {
-    title: 'PDMan-重命名数据表',
+    title: 'ERD-ONLINE-重命名数据表',
     onOk: (modal) => {
       if (tempTableName === oldTableName) {
         Modal.error({title: '重命名失败', message: '数据表名不能与旧名相同'});

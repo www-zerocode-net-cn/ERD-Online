@@ -98,7 +98,7 @@ export const addModule = (dataSource, cb) => {
     onChange={onChange}
     defaultValue={{name: '', chnname: ''}}
   />, {
-    title: 'PDMan-新增模块',
+    title: 'ERD-ONLINE-新增模块',
     onOk: (modal) => {
       // 1.修改dataSource
       if (!tempModuleName) {
@@ -154,7 +154,7 @@ export const renameModule = (oldName, dataSource, cb) => {
     onChange={onChange}
     defaultValue={{name: oldName, chnname: tempModuleChnname}}
   />, {
-    title: 'PDMan-重命名模块',
+    title: 'ERD-ONLINE-重命名模块',
     onOk: (modal) => {
       // 1.修改dataSource
       if (tempModuleName === oldName && tempModuleChnname === oldModuleChnname) {

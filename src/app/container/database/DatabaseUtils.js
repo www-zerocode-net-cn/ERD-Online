@@ -53,7 +53,7 @@ const checkDatabase = (database = []) => {
 
 export const addDatabase = (dataSource, callback) => {
   openModal(<Database/>, {
-    title: 'PDMan-新增数据库',
+    title: 'ERD-ONLINE-新增数据库',
     onOk: (modal, com) => {
       const result = com.save();
       if (!result.code) {
@@ -93,7 +93,7 @@ export const renameDatabase = (databaseCode, dataSource, callback) => {
   const databases = _object.get(dataSource, 'dataTypeDomains.database', []);
   const value = databases.filter(data => data.code === databaseCode)[0] || {};
   openModal(<Database value={value}/>, {
-    title: 'PDMan-修改数据库',
+    title: 'ERD-ONLINE-修改数据库',
     onOk: (modal, com) => {
       const result = com.save();
       if (!result.code) {

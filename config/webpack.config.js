@@ -29,7 +29,9 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
-const  ZipPlugin = require('zip-webpack-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
+const FileManagerWebpackPlugin = require('filemanager-webpack-plugin');
+
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -548,10 +550,6 @@ module.exports = function (webpackEnv) {
             ),
             new ScriptExtHtmlPlugin({
                 defaultAttribute: 'defer'
-            }),
-            new ZipPlugin({
-                path: path.join(__dirname, '../dist'),
-                filename: 'dist.zip'
             }),
             // Inlines the webpack runtime script. This script is too small to warrant
             // a network request.

@@ -34,7 +34,7 @@ export const addDataType = (dataSource, callBack) => {
     flag = result;
   };
   openModal(<DataType onChange={onChange} dataSource={dataSource} validate={validate}/>, {
-    title: 'PDMan-新增数据类型',
+    title: 'ERD-ONLINE-新增数据类型',
     onOk: (modal) => {
       // 1.修改dataSource
       if (!tempDataType || !tempDataType.code ||  !tempDataType.name) {
@@ -99,7 +99,7 @@ export const renameDataType = (dataTypeCode, dataSource, callBack) => {
     value={tempDataType}
     validate={validate}
   />, {
-    title: 'PDMan-重命名数据类型',
+    title: 'ERD-ONLINE-重命名数据类型',
     onOk: (modal) => {
       // 1.修改dataSource
       if (!tempDataType || !tempDataType.code ||  !tempDataType.name) {
