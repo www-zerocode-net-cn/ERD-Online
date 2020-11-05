@@ -32,6 +32,10 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 [https://www.java2e.com/](https://www.java2e.com/)
 
 
+## 代码仓库：
+
+Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MARTIN-ERD.git)
+
 ## 软件说明博客
 
 [ERD-ONLINE 免费在线数据库建模工具](https://my.oschina.net/martin88/blog/4704797 "ERD-ONLINE 免费在线数据库建模工具")
