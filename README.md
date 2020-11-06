@@ -27,7 +27,25 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 	- 	 支持桌面程序、web版数据互导互通
  
 
-## WEB版预览地址：
+## 安装运行
+
+- 安装依赖
+```shell script
+# git clone https://github.com/whaty/MARTIN-ERD.git erd
+
+# cd erd
+
+# yarn install
+```
+
+- 运行
+
+```
+# yarn start
+```
+打开 [http://localhost:3000](http://localhost:3000)
+
+## 官方在线预览地址：
 
 [https://www.java2e.com/](https://www.java2e.com/)
 
