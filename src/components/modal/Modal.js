@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import { Icon } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 
 import './style/index.less';
 
@@ -113,96 +113,96 @@ class Modal extends React.Component {
       width: '100%',
       backgroundColor: 'rgba(55, 55, 55, 0.6)',
     };
-    return (<div
-      style={style}
-    >
+    return (
       <div
-        onBlur={this._onBlur}
-        onFocus={this._onFocus}
-        onKeyDown={this._onKeyDown}
-        tabIndex="0"
-        ref={instance => this.instance = instance}
-        id="modal"
-        style={{
-          border: '1px solid #0784DE',
-          display: 'flex',
-          flexDirection: 'column',
-          // borderRadius: 5,
-          width: width || '80%',
-          position: modality ? 'fixed' : 'relative',
-          margin: `0 ${modality ? '10%' : 'auto'}`,
-          top: '15%',
-          background: '#FFFFFF',
-          boxShadow: '0 0 5px 0 #888888',
-          outline: 'none',
-          ...fullScreenStyle,
-        }}
+        style={style}
       >
         <div
-          onClick={this._onHeaderClick}
-          onMouseDown={this._onMouseDown}
-          onMouseUp={this._onMouseUp}
-          className={`${prefix}-modal-header`}
-          id="modal-header"
+          onBlur={this._onBlur}
+          onFocus={this._onFocus}
+          onKeyDown={this._onKeyDown}
+          tabIndex="0"
+          ref={instance => this.instance = instance}
+          id="modal"
           style={{
-            //background: '#FFFFFF',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            cursor: 'move',
-          }}
-        >
-          <span className='pdman-modal-header-context'>
-            {
-              !customerIcon && (
-                <div className='pdman-modal-header-left-icon'>
-                  {}
-                </div>
-              )
-            }
-            {title}
-          </span>
-          <Icon
-            onClick={this._onClickCancel}
-            type="close"
-            style={{lineHeight: '31px', width: 31, display: fullScreen ? 'none' : '', cursor: 'pointer'}}
-          />
-        </div>
-        <div
-          style={{
-            margin: '0 10px 10px 10px',
-            //border: '1px solid #5A6672',
+            border: '1px solid #0784DE',
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#F2F2F2',
-            ...fullScreenBodyStyle,
+            // borderRadius: 5,
+            width: width || '80%',
+            position: modality ? 'fixed' : 'relative',
+            margin: `0 ${modality ? '10%' : 'auto'}`,
+            top: '15%',
+            background: '#FFFFFF',
+            boxShadow: '0 0 5px 0 #888888',
+            outline: 'none',
+            ...fullScreenStyle,
           }}
         >
           <div
+            onClick={this._onHeaderClick}
+            onMouseDown={this._onMouseDown}
+            onMouseUp={this._onMouseUp}
+            className={`${prefix}-modal-header`}
+            id="modal-header"
             style={{
-              marginTop: 10,
-              display: 'flex',
-              flexDirection: 'column',
-              height: 'calc(100% - 20px)',
-            }}
-          >
-            {children}
-          </div>
-          <div
-            id="modal-footer"
-            style={{
-              paddingTop: footer === undefined ? 10 : 0,
+              //background: '#FFFFFF',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'center',
-              minHeight: 30,
+              justifyContent: 'space-between',
+              cursor: 'move',
             }}
           >
-            {this._getDefaultButton()}
+            <span className='pdman-modal-header-context'>
+              {
+                !customerIcon && (
+                  <div className='pdman-modal-header-left-icon'>
+                    {}
+                  </div>
+                )
+              }
+              {title}
+            </span>
+            <CloseOutlined
+              onClick={this._onClickCancel}
+              style={{lineHeight: '31px', width: 31, display: fullScreen ? 'none' : '', cursor: 'pointer'}} />
+          </div>
+          <div
+            style={{
+              margin: '0 10px 10px 10px',
+              //border: '1px solid #5A6672',
+              display: 'flex',
+              flexDirection: 'column',
+              backgroundColor: '#F2F2F2',
+              ...fullScreenBodyStyle,
+            }}
+          >
+            <div
+              style={{
+                marginTop: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                height: 'calc(100% - 20px)',
+              }}
+            >
+              {children}
+            </div>
+            <div
+              id="modal-footer"
+              style={{
+                paddingTop: footer === undefined ? 10 : 0,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                minHeight: 30,
+              }}
+            >
+              {this._getDefaultButton()}
+            </div>
           </div>
         </div>
       </div>
-    </div>);
+    );
   }
 }
 
