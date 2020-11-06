@@ -1,6 +1,6 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
+  "name": "ERD-ONLINE",
+  "version": "V1.0.0",
   "private": true,
   "dependencies": {
     "@antv/g6": "^1.2.8",
