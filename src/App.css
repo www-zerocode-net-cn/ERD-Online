@@ -1,0 +1,26 @@
+@import '~antd/dist/antd.css';
+.logo {
+  height: 20px;
+  margin: 21px;
+  background:url(./app/style/header20.jpg) no-repeat;
+  color: #fff;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+  [data-theme="dark"] .site-layout .site-layout-background {
+    background: #141414;
+  }
+
+  .erd_title{
+    color: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* width: 50%; */
+    height: 30%;
+    margin: auto;
+  }

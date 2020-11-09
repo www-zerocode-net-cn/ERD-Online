@@ -462,7 +462,18 @@ module.exports = function (webpackEnv) {
                             }, {
                                 loader: "css-loader" // translates CSS into CommonJS
                             }, {
-                                loader: "less-loader" // compiles Less to CSS
+                                loader: "less-loader", // compiles Less to CSS
+                                options: {
+                                    sourceMap: true,
+                                    lessOptions: {
+                                        javascriptEnabled: true,
+                                        // modifyVars: {
+                                        //   'primary-color': '#ff4757',
+                                        //   'link-color': '#ff4757',
+                                        //   'border-radius-base': '2px',
+                                        // }
+                                    }
+                                }
                             }]
                         },
                         // Opt-in support for SASS (using .scss or .sass extensions).

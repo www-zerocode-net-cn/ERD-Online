@@ -41,7 +41,7 @@ export default class Loading extends React.Component{
       } else {
         flag = true;
       }
-    }, 3000);
+    }, 1500);
     const projectId = cache.getItem('projectId');
     get(`project/info/${projectId}`).then((res) => {
       if (flag) {

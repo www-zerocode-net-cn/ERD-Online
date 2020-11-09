@@ -222,9 +222,9 @@ export default class Home extends React.Component{
       <div
         className='pdman-home-other-content'
       >
-        <Header
-          projectName={projectName}
-        />
+        {/*<Header*/}
+        {/*  projectName={projectName}*/}
+        {/*/>*/}
         <App
           changeDataType={this.state.changeDataType}
           dataSource={this.state.dataSource}
