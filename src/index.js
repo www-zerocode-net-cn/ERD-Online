@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Loading from './app/Loading';
-import ErdLayout from './app/ErdLayout';
+import ErdRouter from './app/ErdRouter';
 import './App.css';
 
 function initComponent() {
-    ReactDOM.render(<ErdLayout/>, document.getElementById('app'));
+    ReactDOM.render(<ErdRouter/>, document.getElementById('app'));
 }
 
 initComponent();

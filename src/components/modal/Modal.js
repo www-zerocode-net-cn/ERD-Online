@@ -173,7 +173,7 @@ class Modal extends React.Component {
               //border: '1px solid #5A6672',
               display: 'flex',
               flexDirection: 'column',
-              backgroundColor: '#F2F2F2',
+              backgroundColor: '#FFFFFF',
               ...fullScreenBodyStyle,
             }}
           >

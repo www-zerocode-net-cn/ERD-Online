@@ -1,4 +1,4 @@
 module.exports = {
-  request: 'http://localhost:8080/erd',
+  request: 'http://127.0.0.1:8080/erd',
   menuHeight: 80,
 };

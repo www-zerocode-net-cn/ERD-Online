@@ -5,7 +5,7 @@ import './style/header.less';
 export default class Header extends React.Component{
   render() {
     const { projectName } = this.props;
-    return (<div style={{background: '#E3E3E5'}}>
+    return (<div style={{background: '#ffffff'}}>
       <div className='pdman-top-border' onDoubleClick={this._onDbClick}>{}</div>
       <div className='pdman-header'>
         <div className='pdman-header-left'>

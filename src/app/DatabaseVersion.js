@@ -1,10 +1,22 @@
 import React from 'react';
 import _object from 'lodash/object';
 import moment from 'moment';
-import {Button, openModal, Message, Modal, Input, Select, Icon, RadioGroup, Code, Editor, TextArea} from '../components';
-import {getCodeByChanges, getAllDataSQL} from '../utils/json2code';
-import { checkVersionData } from '../utils/dbversionutils';
-import { compareStringVersion } from '../utils/string';
+import {
+    Button,
+    Code,
+    Editor,
+    Icon,
+    Input,
+    Message,
+    Modal,
+    openModal,
+    RadioGroup,
+    Select,
+    TextArea
+} from '../components';
+import {getAllDataSQL, getCodeByChanges} from '../utils/json2code';
+import {checkVersionData} from '../utils/dbversionutils';
+import {compareStringVersion} from '../utils/string';
 import * as Save from '../utils/save';
 import * as cache from '../utils/cache';
 import * as File from '../utils/file';

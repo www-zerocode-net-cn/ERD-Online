@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioGroup } from '../components';
+import {RadioGroup} from '../components';
 
 const Radio = RadioGroup.Radio;
 

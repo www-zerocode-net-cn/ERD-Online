@@ -7,8 +7,8 @@ import SQLConfig from './SQLConfig';
 import WORDConfig from './WORDConfig';
 
 import './style/setting.less';
-import { uuid } from '../utils/uuid';
-import { moveArrayPositionByFuc, moveArrayPosition } from '../utils/array';
+import {uuid} from '../utils/uuid';
+import {moveArrayPosition, moveArrayPositionByFuc} from '../utils/array';
 import * as cache from '../utils/cache';
 
 const { Modal, openModal, TextArea, Select } = Com;

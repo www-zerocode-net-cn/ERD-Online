@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Button } from '../components';
+import {Button, Icon} from '../components';
 import './style/create.less';
 
 export default class CreatePro extends React.Component {

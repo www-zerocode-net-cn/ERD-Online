@@ -9,17 +9,20 @@
   background: #FFFFFF;
   z-index: 2;
   border: 1px solid #929292;
+
   li {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+
     &:hover {
       background: #1A7DC4;
       color: #FFFFFF;
       cursor: pointer;
     }
   }
+
   span {
     display: inline-block;
     width: 100px;
@@ -28,26 +31,32 @@
     white-space: nowrap;
   }
 }
+
 .pdman-tab-header {
   display: flex;
   flex-direction: column;
+
   &-content {
     display: flex;
     flex-direction: row;
     position: relative;
+
     &-first {
       display: flex;
-      flex-direction:row;
+      flex-direction: row;
       width: 100%;
+
       &-item {
         align-items: center;
         display: flex;
         width: 150px;
-        justify-content: space-between,
+        justify-content: space-between;
+        margin-right: 1px;
       }
     }
   }
 }
+
 .pdman-tab {
   display: flex;
   flex-direction: column;

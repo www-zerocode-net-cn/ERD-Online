@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import _object from 'lodash/object';
 import moment from 'moment';
-import {Icon, Tree, Context, Tab, Modal, Message, openModal, Button, Input} from '../components';
+import {Button, Context, Icon, Input, Message, Modal, openModal, Tab, Tree} from '../components';
 import {addOnResize} from '../../src/utils/listener';
 import {generateMD} from '../../src/utils/markdown';
 import {generateHtml} from '../../src/utils/generatehtml';
@@ -28,7 +28,7 @@ import Setting from './Setting';
 
 import './style/index.less';
 import JDBCConfig from './JDBCConfig';
-import LogoutOutlined from "@ant-design/icons/es/icons/LogoutOutlined";
+import SaveOutlined from "@ant-design/icons/es/icons/SaveOutlined";
 
 const moduleUtils = Module.Utils;
 const tableUtils = Table.Utils;
@@ -1477,7 +1477,7 @@ export default class App extends React.Component {
                         style={{display: tools === 'dbversion' ? 'none' : ''}}
                         onClick={() => this._saveAll()}
                     >
-                        <span><Icon type="save"/></span>
+                        <span><SaveOutlined/></span>
                         <span>保存</span>
                     </div>
                     <div className='pdman-home-header-menu' style={{paddingLeft: tools === 'dbversion' ? '60px' : '0'}}>
@@ -1490,7 +1490,7 @@ export default class App extends React.Component {
                    ${(tools === 'file' || tools === 'entity') ? 'menu-tools-edit-active' : 'tools-content-enable-click'}`}
                                             onClick={() => this._menuClick('file')}
                                         >
-                                            <span><u>开</u>始</span>
+                                            <span>开始</span>
                                         </li>
                                         <li
                                             className={`other-options-menu-tools
@@ -1498,21 +1498,21 @@ export default class App extends React.Component {
                   ${tabs.length > 0 && toolsClickable === 'map' ? '' : 'tools-content-un-click'}`}
                                             onClick={() => tabs.length > 0 && toolsClickable === 'map' && this._menuClick('map')}
                                         >
-                                            <span><u>关</u>系图</span>
+                                            <span style={{marginLeft: "6px"}}>关系图</span>
                                         </li>
                                         <li
                                             className={`other-options-menu-tools ${tools === 'plug' ?
                                                 'menu-tools-edit-active' : 'tools-content-enable-click'}`}
                                             onClick={() => this._menuClick('plug')}
                                         >
-                                            <span><u>模</u>型</span>
+                                            <span>模型</span>
                                         </li>
                                         <li
                                             className={`other-options-menu-tools ${tools === 'dbversion' ?
                                                 'menu-tools-edit-active' : 'tools-content-enable-click'}`}
                                             onClick={() => this._menuClick('dbversion')}
                                         >
-                                            <span><u>模</u>型版本</span>
+                                            <span>版本</span>
                                         </li>
                                     </ul>
                                     {/*<LogoutOutlined*/}
@@ -1698,7 +1698,7 @@ export default class App extends React.Component {
                         style={{
                             width: width === 0 ? 20 : '20%',
                             minWidth: width === 0 ? 20 : 200,
-                            background: '#EBEEF2'
+                            background: '#ffffff'
                         }}
                         ref={instance => this.leftTabInstance = instance}
                     >
@@ -1810,7 +1810,7 @@ export default class App extends React.Component {
                     <div
                         className="tools-right-paint"
                         ref={instance => this.instance = instance}
-                        style={{width: width === 0 ? 'calc(100% - 20px)' : '80%', minWidth: 200}}
+                        style={{width: width === 0 ? 'calc(100% - 20px)' : '80%', minWidth: 200,background: "#ffffff"}}
                     >
                         {
                             tabs.filter(lefttab => !lefttab.folding).length === 0 ?

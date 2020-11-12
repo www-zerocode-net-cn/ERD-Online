@@ -2,20 +2,20 @@ import React from 'react';
 import _object from 'lodash/object';
 
 import {
-  Button,
-  Checkbox,
-  Editor,
-  RadioGroup,
-  Select,
-  TreeSelect,
-  openModal,
-  Modal,
-  Input,
-  Icon,
-  Code,
+    Button,
+    Checkbox,
+    Code,
+    Editor,
+    Icon,
+    Input,
+    Modal,
+    openModal,
+    RadioGroup,
+    Select,
+    TreeSelect,
 } from '../components';
-import { getAllDataSQLByFilter } from '../utils/json2code';
-import { addOnResize } from '../../src/utils/listener';
+import {getAllDataSQLByFilter} from '../utils/json2code';
+import {addOnResize} from '../../src/utils/listener';
 import * as Save from '../utils/save';
 
 const { Radio } = RadioGroup;

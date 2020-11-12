@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Input } from '../components';
+import {Input} from '../components';
 
 export default class SQLConfig extends React.Component{
   constructor(props){

@@ -2,12 +2,7 @@ import {Col, Layout, Menu, Row} from 'antd';
 import {PieChartOutlined,} from '@ant-design/icons';
 import React from "react";
 
-import {HashRouter, Link, Route, Switch} from 'react-router-dom'
-import Project from './Project'
-import User from './User'
-import Role from './Role'
-import Permission from './Permission'
-import Loading from './Loading'
+import {HashRouter, Link} from 'react-router-dom';
 import HeaderDropdown from "./container/HeaderDropdown";
 
 import styles from './style/erdlayout.less';
@@ -17,6 +12,11 @@ import Divider from "antd/es/divider";
 import TeamOutlined from "@ant-design/icons/es/icons/TeamOutlined";
 import HomeOutlined from "@ant-design/icons/es/icons/HomeOutlined";
 import SolutionOutlined from "@ant-design/icons/es/icons/SolutionOutlined";
+import * as cache from "../utils/cache";
+
+import {createHashHistory} from 'history';
+// const history = createBrowserHistory() // history模式
+const history = createHashHistory() // hash模式
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -32,23 +32,17 @@ export default class ErdLayout extends React.Component {
     };
 
     handleMenuClick = ({key}) => {
-        const {dispatch} = this.props;
-        if (key === 'userCenter') {
-            return;
-        }
-        if (key === 'triggerError') {
-            return;
-        }
-        if (key === 'userinfo') {
-            return;
-        }
         if (key === 'logout') {
-            return;
+            cache.clear();
+            history.push("/login");
         }
     };
 
+
     render() {
+        const {content, defaultSelectedKeys} = this.props;
         const {collapsed} = this.state;
+        const username = cache.getItem("username");
         const menu = (
             <Menu className={styles.menu} selectedKeys={[]} onClick={this.handleMenuClick}>
                 <Menu.Divider/>
@@ -61,13 +55,15 @@ export default class ErdLayout extends React.Component {
             <HashRouter>
                 <Layout style={{minHeight: '100vh'}}>
                     <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-                        <Row style={{margin:"30 30"}}>
+                        <Row style={{margin: "30 30"}}>
                             <Col span={12}><span className="logo"/></Col>
-                            <Col span={12} style={{verticalAlign: "middle"}}><span className="erd_title">ERD-ONLINE</span></Col>
+                            <Col span={12} style={{verticalAlign: "middle"}}><span
+                                className="erd_title">ERD-ONLINE</span></Col>
                         </Row>
-                        <Menu theme="dark" defaultSelectedKeys={['project']} mode="inline">
-                            <Menu.Item key="project">
-                                <Link to="/project"><HomeOutlined/>项目</Link>
+                        <Menu theme="dark" defaultSelectedKeys={defaultSelectedKeys} defaultOpenKeys={['system']}
+                              mode="inline">
+                            <Menu.Item key="project" icon={<HomeOutlined/>}>
+                                <Link to="/project">项目</Link>
                             </Menu.Item>
                             <SubMenu key="system" icon={<PieChartOutlined/>} title="系统管理">
                                 <Menu.Item key="user"><Link to="/user"><UserOutlined/>用户</Link></Menu.Item>
@@ -84,21 +80,15 @@ export default class ErdLayout extends React.Component {
                                 <span className={`${styles.action} ${styles.account}`}>
                                     <UserOutlined/>
                                     <Divider type={"vertical"}/>
-                                    <span><b>erd</b></span>
+                                    <span><b>{username}</b></span>
                                 </span>
                                 </HeaderDropdown>
                             </div>
                         </Header>
 
                         <Content>
-                            <div style={{margin: "20px 20px"}}>
-                                <Switch>
-                                    <Route exact={true} path="/project" component={Project}></Route>
-                                    <Route path="/user" component={User}></Route>
-                                    <Route path="/role" component={Role}></Route>
-                                    <Route path="/permission" component={Permission}></Route>
-                                    <Route path="/loading" component={Loading}></Route>
-                                </Switch>
+                            <div style={{margin: "20px 20px", height: "100%"}}>
+                                {content}
                             </div>
                         </Content>
                         <Footer style={{textAlign: 'center'}}>ERD-ONLINE ©2020 Created by Martin</Footer>

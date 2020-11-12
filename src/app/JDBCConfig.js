@@ -1,8 +1,8 @@
 import React from 'react';
 import _object from 'lodash/object';
 
-import {Input, Icon, Button, Modal, RadioGroup, Select, openModal } from '../components';
-import { uuid } from '../utils/uuid';
+import {Button, Icon, Input, Modal, openModal, RadioGroup, Select} from '../components';
+import {uuid} from '../utils/uuid';
 
 import './style/jdbc.less';
 import * as Save from '../utils/save';

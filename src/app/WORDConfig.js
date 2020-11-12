@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Modal } from '../components';
+import {Button, Modal} from '../components';
 import './style/word.less';
 
-import { post, get } from '../utils/fetch';
+import {get, post} from '../utils/fetch';
 import * as cache from '../utils/cache';
 import * as File from '../utils/file';
 

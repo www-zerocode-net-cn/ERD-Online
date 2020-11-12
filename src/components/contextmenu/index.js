@@ -13,7 +13,7 @@ class Context extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultBackgroundColor: '#F2F2F2',
+      defaultBackgroundColor: '#FFFFFF',
       defaultTextColor: '#000000',
       selectBackgroundColor: '#1A7DC4',
       selectTextColor: '#FFFFFF',
