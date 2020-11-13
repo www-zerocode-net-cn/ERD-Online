@@ -322,7 +322,7 @@ export default class Table extends React.Component{
   };
   render() {
     const { dataTable, selectedTrs } = this.state;
-    const { prefix = 'pdman', columnOrder = this.emptyArray, dataTypes = this.emptyArray, dataSource, height } = this.props;
+    const { prefix = 'erd', columnOrder = this.emptyArray, dataTypes = this.emptyArray, dataSource, height } = this.props;
     const { headers } = dataTable;
     return (
       <div>

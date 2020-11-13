@@ -96,16 +96,16 @@ class Tab extends React.Component {
         })
     };
     _getTabHeader = () => {
-        const {children, type, tabs = [], prefix = 'pdman'} = this.props;
+        const {children, type, tabs = [], prefix = 'erd'} = this.props;
         const tempTabs = tabs.filter(tab => tab.folding);
-        return (<div className='pdman-tab-header'>
-            <div className='pdman-tab-header-content'>
-                <div className='pdman-tab-header-content-first'>
+        return (<div className='erd-tab-header'>
+            <div className='erd-tab-header-content'>
+                <div className='erd-tab-header-content-first'>
                     {
                         [].concat(children)
                             .map(child => (<div
                                 title={child.props.realName || child.props.title}
-                                className='pdman-tab-header-content-first-item'
+                                className='erd-tab-header-content-first-item'
                                 style={{
                                     borderTop: child.key === this._getShowKey() ? this.state.border : 'none',
                                     cursor: 'pointer',
@@ -184,7 +184,7 @@ class Tab extends React.Component {
 
     render() {
         const {children, headerPosition, leftTabWidth, dataSource} = this.props;
-        return (<div className='pdman-tab'>
+        return (<div className='erd-tab'>
             {
                 headerPosition === 'top' ? this._getTabHeader() : null
             }

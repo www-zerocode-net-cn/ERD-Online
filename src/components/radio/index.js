@@ -22,7 +22,7 @@ export default class Radio extends React.Component{
     e.stopPropagation();
   };
   render(){
-    const { prefix = 'pdman',
+    const { prefix = 'erd',
       style, wrapperStyle, groupValue, value,
       title, disabled = false, children, name = uuid(), radioStyle = {} } = this.props;
     return (

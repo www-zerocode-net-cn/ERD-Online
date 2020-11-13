@@ -67,7 +67,7 @@ export default class TableRow extends React.Component{
     relationNoShowClick && relationNoShowClick(e, key, code, value);
   };
   render() {
-    const { prefix = 'pdman', field, index, selectedTrs = [],
+    const { prefix = 'erd', field, index, selectedTrs = [],
       headers, columnOrder, dataTypes, setInputInstance,
       inputOnChange, updateInputPosition, dataSource } = this.props;
     return (

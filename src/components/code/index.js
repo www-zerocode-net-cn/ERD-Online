@@ -19,7 +19,7 @@ export default class Code extends React.Component{
     return (nextStyle.height !== thisStyle.height) || (nextStyle.width !== thisStyle.width)
   };
   render() {
-    const { data, style, prefix = 'pdman' } = this.props;
+    const { data, style, prefix = 'erd' } = this.props;
     return (<div style={style} className={`${prefix}-code`}>
       <pre ref={instance => this.instance = instance} style={style}>
         {data}

@@ -11,7 +11,7 @@ class ModuleForm extends React.Component{
     const { onChange, validate, defaultValue } = this.props;
     return (
       <div>
-        <div className='pdman-module-util-item'>
+        <div className='erd-module-util-item'>
           <span style={{width: 100, textAlign: 'right', paddingRight: 5}}>
             模块名:
           </span>
@@ -23,7 +23,7 @@ class ModuleForm extends React.Component{
             defaultValue={defaultValue.name}
           />
         </div>
-        <div className='pdman-module-util-item'>
+        <div className='erd-module-util-item'>
           <span style={{width: 100, textAlign: 'right', paddingRight: 5}}>
             中文名:
           </span>

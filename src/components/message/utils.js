@@ -6,7 +6,7 @@ import Icon from '../icon';
 
 const initMessage = ({title, duration = 1000}) => {
   // 判断是否已经有message存在， 如果有需要往下移
-  const messageLength = document.querySelectorAll('.pdman-message').length;
+  const messageLength = document.querySelectorAll('.erd-message').length;
   // console.log(messageLength);
   const message = document.createElement('div');
   document.body.appendChild(message);

@@ -90,7 +90,7 @@ class Modal extends React.Component {
     }
   };
   render() {
-    const { children, title, visible, footer, prefix = 'pdman', width, modality, zIndex, customerIcon, fullScreen } = this.props;
+    const { children, title, visible, footer, prefix = 'erd', width, modality, zIndex, customerIcon, fullScreen } = this.props;
     const fullScreenStyle = fullScreen ? {
       top: 0,
       height: '100%',
@@ -153,10 +153,10 @@ class Modal extends React.Component {
               cursor: 'move',
             }}
           >
-            <span className='pdman-modal-header-context'>
+            <span className='erd-modal-header-context'>
               {
                 !customerIcon && (
-                  <div className='pdman-modal-header-left-icon'>
+                  <div className='erd-modal-header-left-icon'>
                     {}
                   </div>
                 )

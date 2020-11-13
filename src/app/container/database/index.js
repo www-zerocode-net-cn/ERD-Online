@@ -101,7 +101,7 @@ class Database extends React.Component{
   };
   render(){
     const { value, parentWidth } = this.state;
-    const { prefix = 'pdman' } = this.props;
+    const { prefix = 'erd' } = this.props;
     const mode = this._getMode(_object.get(value, 'code', '').toLocaleLowerCase());
     return (<div
       ref={instance => this.instance = instance}

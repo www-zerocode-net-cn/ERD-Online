@@ -143,7 +143,7 @@ class Tree extends React.Component {
         const {height} = this.state;
         return (<div
             tabIndex="0"
-            className='pdman-tree'
+            className='erd-tree'
             onBlur={this._onBlur}
             id="tree"
             style={{

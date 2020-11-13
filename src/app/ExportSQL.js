@@ -178,7 +178,7 @@ export default class ExportSQL extends React.Component{
               onKeyDown={e => this._onKeyDown(e)}
             >
               <div
-                className='pdman-export-sql-success'
+                className='erd-export-sql-success'
               >
                 <Input
                   onChange={this._searchValueChange}
@@ -216,7 +216,7 @@ export default class ExportSQL extends React.Component{
               onKeyDown={e => this._onKeyDown(e)}
             >
               <div
-                className='pdman-export-sql-error'
+                className='erd-export-sql-error'
               >
                 <Input
                   onChange={this._searchValueChange}
@@ -267,12 +267,12 @@ export default class ExportSQL extends React.Component{
   render() {
     const { database } = this.props;
     const { data, defaultDb, selectTable, loading, editorWidth } = this.state;
-    return (<div className='pdman-export-sql-content' ref={instance => this.instance = instance}>
+    return (<div className='erd-export-sql-content' ref={instance => this.instance = instance}>
       <div
-        className='pdman-export-sql-content-header'
+        className='erd-export-sql-content-header'
         >
         <div
-          className='pdman-export-sql-content-header-db'
+          className='erd-export-sql-content-header-db'
         >
           <span style={{width: 110, textAlign: 'right'}}>数据库:</span>
           <Select onChange={this._onDBChange} value={this.state.defaultDb} style={{marginLeft: 10}}>
@@ -282,7 +282,7 @@ export default class ExportSQL extends React.Component{
           </Select>
         </div>
         <div
-          className='pdman-export-sql-content-header-table'
+          className='erd-export-sql-content-header-table'
         >
           <span style={{width: 110, textAlign: 'right'}}>导出数据表:</span>
           <span style={{marginLeft: 10}}>
@@ -292,7 +292,7 @@ export default class ExportSQL extends React.Component{
           <Button style={{marginLeft: 10}} title='选择数据表' onClick={this._selectTable}>...</Button>
         </div>
         <div
-          className='pdman-export-sql-content-header-button'
+          className='erd-export-sql-content-header-button'
          >
           <span style={{width: 110, textAlign: 'right'}}>导出内容:</span>
           <RadioGroup
@@ -307,13 +307,13 @@ export default class ExportSQL extends React.Component{
           </RadioGroup>
         </div>
         <div
-          className={`pdman-export-sql-content-header-customer-${this.state.export === 'customer' ? 'show' : 'hidden'}`}
+          className={`erd-export-sql-content-header-customer-${this.state.export === 'customer' ? 'show' : 'hidden'}`}
          >
           <span style={{width: 110, textAlign: 'right', minWidth: 110}}>
             自定义导出内容:
           </span>
-          <div className='pdman-export-sql-content-header-checkbox'>
-            <div className='pdman-export-sql-content-header-checkbox-item'>
+          <div className='erd-export-sql-content-header-checkbox'>
+            <div className='erd-export-sql-content-header-checkbox-item'>
               <Checkbox
                 wrapperStyle={{width: 20, alignItems: 'center', marginLeft: 10}}
                 onChange={e => this._typeChange(e, 'deleteTable')}
@@ -321,7 +321,7 @@ export default class ExportSQL extends React.Component{
               />
               <span>删表语句</span>
             </div>
-            <div className='pdman-export-sql-content-header-checkbox-item'>
+            <div className='erd-export-sql-content-header-checkbox-item'>
               <Checkbox
                 wrapperStyle={{width: 20, alignItems: 'center', marginLeft: 10}}
                 onChange={e => this._typeChange(e, 'createTable')}
@@ -329,7 +329,7 @@ export default class ExportSQL extends React.Component{
               />
               <span>建表语句</span>
             </div>
-            <div className='pdman-export-sql-content-header-checkbox-item'>
+            <div className='erd-export-sql-content-header-checkbox-item'>
               <Checkbox
                 wrapperStyle={{width: 20, alignItems: 'center', marginLeft: 10}}
                 onChange={e => this._typeChange(e, 'createIndex')}
@@ -337,7 +337,7 @@ export default class ExportSQL extends React.Component{
               />
               <span>建索引语句</span>
             </div>
-            <div className='pdman-export-sql-content-header-checkbox-item'>
+            <div className='erd-export-sql-content-header-checkbox-item'>
               <Checkbox
                 wrapperStyle={{width: 20, alignItems: 'center', marginLeft: 10}}
                 onChange={e => this._typeChange(e, 'updateComment')}

@@ -27,7 +27,7 @@ export default class Checkbox extends React.Component{
     e.stopPropagation();
   };
   render() {
-    const { prefix = 'pdman', style, wrapperStyle, value = false, title, disabled = false } = this.props;
+    const { prefix = 'erd', style, wrapperStyle, value = false, title, disabled = false } = this.props;
     return (<div className={`${prefix}-checkbox-wrapper`}  style={wrapperStyle}>
       <input
         disabled={disabled}

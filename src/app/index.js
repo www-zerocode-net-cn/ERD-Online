@@ -77,7 +77,7 @@ export default class App extends React.Component {
         /* eslint-disable */
         // 增加监听窗口大小的事件
         // console.log(this.props);
-        // window.PDMan.loading(window, this.props);
+        // window.erd.loading(window, this.props);
         this.dom = ReactDom.findDOMNode(this.instance);
         this.weight = this.dom.getBoundingClientRect().width;
         this.leftTabDom = ReactDom.findDOMNode(this.leftTabInstance);
@@ -143,7 +143,7 @@ export default class App extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.project !== this.props.project) {
-            // window.PDMan.loading(window, nextProps);
+            // window.erd.loading(window, nextProps);
         }
     }
 
@@ -231,7 +231,7 @@ export default class App extends React.Component {
                     },
                 };
             }
-            File.save(JSON.stringify(tempDataSource, null, 2), `${project}.pdman.json`);
+            File.save(JSON.stringify(tempDataSource, null, 2), `${project}.erd.json`);
         });
     };
     _updateDBs = (tempDBs, callback) => {
@@ -298,7 +298,7 @@ export default class App extends React.Component {
         openModal(<Setting
             columnOrder={columnOrder}
             dataSource={dataSource}
-            project={`${project}.pdman.json`}
+            project={`${project}.erd.json`}
             register={register}
             updateRegister={updateRegister}
         />, {
@@ -586,7 +586,7 @@ export default class App extends React.Component {
                 !callBack && Message.success({title: '保存成功'});
                 callBack && callBack();
             } else {
-                File.save(JSON.stringify(dataSource, null, 2), `${project}.pdman.json`);
+                File.save(JSON.stringify(dataSource, null, 2), `${project}.erd.json`);
             }
         }
     };
@@ -1477,17 +1477,17 @@ export default class App extends React.Component {
         const {tools, tab, width, toolsClickable, show, clicked, tabs = [], versions} = this.state;
         console.log('versions1405', versions);
         return (
-            <div className="pdman-wrapper">
-                <div className='pdman-home-header'>
+            <div className="erd-wrapper">
+                <div className='erd-home-header'>
                     <div
-                        className='pdman-home-header-save'
+                        className='erd-home-header-save'
                         style={{display: tools === 'dbversion' ? 'none' : ''}}
                         onClick={() => this._saveAll()}
                     >
                         <span><SaveOutlined/></span>
                         <span>保存</span>
                     </div>
-                    <div className='pdman-home-header-menu' style={{paddingLeft: tools === 'dbversion' ? '60px' : '0'}}>
+                    <div className='erd-home-header-menu' style={{paddingLeft: tools === 'dbversion' ? '60px' : '0'}}>
                         <header>
                             <div className="options-wrapper">
                                 <div>

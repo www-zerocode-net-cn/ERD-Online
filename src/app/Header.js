@@ -6,21 +6,21 @@ export default class Header extends React.Component{
   render() {
     const { projectName } = this.props;
     return (<div style={{background: '#ffffff'}}>
-      <div className='pdman-top-border' onDoubleClick={this._onDbClick}>{}</div>
-      <div className='pdman-header'>
-        <div className='pdman-header-left'>
-          <div className='pdman-header-left-icon'>
+      <div className='erd-top-border' onDoubleClick={this._onDbClick}>{}</div>
+      <div className='erd-header'>
+        <div className='erd-header-left'>
+          <div className='erd-header-left-icon'>
             {}
           </div>
-          {/*<Icon type='roic-pdman' style={{color: '#3091E3'}}/>*/}
-          <div className='pdman-header-left-project'>
+          {/*<Icon type='roic-erd' style={{color: '#3091E3'}}/>*/}
+          <div className='erd-header-left-project'>
             {projectName || '无打开的项目'}
           </div>
-          <div className='pdman-header-left-app'>
+          <div className='erd-header-left-app'>
             &nbsp;-&nbsp;ERD-ONLINE
           </div>
         </div>
-        <div className='pdman-header-right'>
+        <div className='erd-header-right'>
           {}
         </div>
       </div>

@@ -107,7 +107,7 @@ export default class TableDataCode extends React.Component{
   };
   render() {
     const { codesTabShow, templateShow } = this.state;
-    const { prefix = 'pdman', dataSource, height } = this.props;
+    const { prefix = 'erd', dataSource, height } = this.props;
     const database = _object.get(dataSource, 'dataTypeDomains.database', []);
     const currentCode = codesTabShow || (database[0] && database[0].code) || '';
     return (

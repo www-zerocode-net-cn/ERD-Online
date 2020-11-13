@@ -8,7 +8,7 @@ export default class Message extends React.Component{
   static error = utils.error;
   static warning = utils.warning;
   render() {
-    const { prefix = 'pdman', children, style } = this.props;
+    const { prefix = 'erd', children, style } = this.props;
     return (<div className={`${prefix}-message`} style={{zIndex: 9999, ...style}}>
       <div className={`${prefix}-message-content`}>
         {children}

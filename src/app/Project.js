@@ -20,6 +20,7 @@ import request from "../utils/request";
 import * as cache from "../utils/cache";
 import PlusOutlined from "@ant-design/icons/es/icons/PlusOutlined";
 import logo from './style/logo.png';
+import project from './style/project.png';
 import {Link} from "react-router-dom";
 import EditOutlined from "@ant-design/icons/es/icons/EditOutlined";
 import DeleteOutlined from "@ant-design/icons/es/icons/DeleteOutlined";
@@ -233,7 +234,7 @@ export default class Project extends React.Component {
                                                         <img
                                                             width={272}
                                                             alt="logo"
-                                                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                                            src={project}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -245,7 +246,7 @@ export default class Project extends React.Component {
                         </List.Item>
                     ) : (
                         <List.Item>
-                            <Button type="dashed" block className={styles.newButton} onClick={this.addProject}>
+                            <Button type="dashed" block className={styles.newButton} onClick={this.addProject} style={{height:"305px"}}>
                                 <PlusOutlined/> 新建项目
                             </Button>
                         </List.Item>
@@ -277,8 +278,7 @@ export default class Project extends React.Component {
                         </Form.Item>
                     </Form>
                 </Modal>
-            </div>
-        ;
+            </div>;
         return (
             <ErdLayout
                 content={content}

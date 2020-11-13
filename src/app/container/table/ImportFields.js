@@ -37,17 +37,17 @@ export default class ImportFields extends React.Component{
     const fieldsName = fields.map(f => f.name);
     // 过滤掉已经引入的字段
     const tempFields = (dataTable.fields || []).filter(f => !fieldsName.includes(f.name));
-    return (<div className='pdman-import-fields'>
+    return (<div className='erd-import-fields'>
       {
         tempFields.map(f => (
-          <div key={f.key} className='pdman-import-fields-field'>
+          <div key={f.key} className='erd-import-fields-field'>
             <Checkbox
               wrapperStyle={{width:'auto'}}
               style={{height: 21}}
               onChange={e => this._onChange(e, f.key)}
               value={selects[f.key]}
             />
-            <span className='pdman-import-fields-field-name'>{`${f.name}(${f.chnname})`}</span>
+            <span className='erd-import-fields-field-name'>{`${f.name}(${f.chnname})`}</span>
           </div>
         ))
       }

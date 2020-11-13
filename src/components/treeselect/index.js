@@ -84,12 +84,12 @@ export default class TreeSelect extends React.Component {
         const {openKeys, checkeds} = this.state;
         console.log(81, data);
         console.log(82, openKeys);
-        return (<div className='pdman-treeselect'>
+        return (<div className='erd-treeselect'>
             {
                 data.map((d) => {
                     return (
-                        <div className='pdman-treeselect-item' key={d.name}>
-                            <div className='pdman-treeselect-item-name'>
+                        <div className='erd-treeselect-item' key={d.name}>
+                            <div className='erd-treeselect-item-name'>
                                 <RightOutlined
                                     onClick={() => this._iconClick(d.name)}
                                     style={{
@@ -104,13 +104,13 @@ export default class TreeSelect extends React.Component {
                                 <span>{d.name}</span>
                             </div>
                             <div
-                                className='pdman-treeselect-item-children'
+                                className='erd-treeselect-item-children'
                                 style={{display: openKeys.includes(d.name) ? '' : 'none'}}
                             >
                                 {
                                     (d.entities || []).map((c) => {
                                         return (
-                                            <div className='pdman-treeselect-item-children-item' key={c.title}>
+                                            <div className='erd-treeselect-item-children-item' key={c.title}>
                                                 <Checkbox
                                                     value={checkeds.includes(d.name) || checkeds.includes(`${d.name}/${c.title}`)}
                                                     onChange={e => this._onChange(e, `${d.name}/${c.title}`)}

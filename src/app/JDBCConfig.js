@@ -285,29 +285,29 @@ export default class JDBCConfig extends React.Component{
     }
     const defaultDB = this._getData();
     const database = _object.get(dataSource, 'dataTypeDomains.database', []);
-    return (<div className='pdman-jdbc-config'>
-      <div className='pdman-jdbc-config-left'>
-        <div className='pdman-jdbc-config-left-db-opt'>
+    return (<div className='erd-jdbc-config'>
+      <div className='erd-jdbc-config-left'>
+        <div className='erd-jdbc-config-left-db-opt'>
           <Icon
             onClick={() => selectedTrs.length !== 0 && this._deleteDB()}
             className={selectedTrs.length === 0 ?
-              'pdman-data-table-content-table-disabled-icon'
-              : 'pdman-data-table-content-table-normal-icon'}
+              'erd-data-table-content-table-disabled-icon'
+              : 'erd-data-table-content-table-normal-icon'}
             type="fa-minus"
           />
           <Icon
             onClick={() => this._addDB()}
-            className='pdman-data-table-content-table-normal-icon'
+            className='erd-data-table-content-table-normal-icon'
             type="fa-plus"
           />
           <span>{defaultDB ? `当前数据库版本使用的数据库为【${defaultDB.name}】` : '当前数据库版本未选择默认数据库'}</span>
         </div>
-        <div className='pdman-jdbc-config-left-db-list'>
+        <div className='erd-jdbc-config-left-db-list'>
           {
             data.map((d, index) => (
               <div
-                className={`pdman-jdbc-config-left-db-list-item pdman-data-table-content-table-normal-tr
-                        ${selectedTrs.some(tr => tr === d.key) ? 'pdman-data-table-content-table-selected-tr' : ''}`}
+                className={`erd-jdbc-config-left-db-list-item erd-data-table-content-table-normal-tr
+                        ${selectedTrs.some(tr => tr === d.key) ? 'erd-data-table-content-table-selected-tr' : ''}`}
                 key={d.key}
               >
                 <RadioGroup
@@ -323,7 +323,7 @@ export default class JDBCConfig extends React.Component{
                     //onClick={e => this._trClick(e, d.key)}
                   >
                     <span
-                      className='pdman-jdbc-config-left-db-list-item-index'
+                      className='erd-jdbc-config-left-db-list-item-index'
                     >{index + 1}</span>
                     <Input onChange={e => this._onDBChange(d.key, e, 'name')} value={d.name}/>
                     <Select onChange={e => this._onDBChange(d.key, e, 'type')} defaultValue={d.type}>
@@ -339,12 +339,12 @@ export default class JDBCConfig extends React.Component{
           }
         </div>
       </div>
-      <div className='pdman-jdbc-config-right' style={{display: selectedTrs.length > 0 ? '' : 'none'}}>
-        <div className='pdman-jdbc-config-right-com'>
-          <div className='pdman-jdbc-config-right-com-label'>
+      <div className='erd-jdbc-config-right' style={{display: selectedTrs.length > 0 ? '' : 'none'}}>
+        <div className='erd-jdbc-config-right-com'>
+          <div className='erd-jdbc-config-right-com-label'>
             <span title='目前mysql,sqlserver,oracle,postgresql无需配置'>自定义驱动:</span>
           </div>
-          <div className='pdman-jdbc-config-right-com-input'>
+          <div className='erd-jdbc-config-right-com-input'>
             <input
               readOnly
               style={{width: '80%'}}
@@ -368,8 +368,8 @@ export default class JDBCConfig extends React.Component{
             </Button>
           </div>
         </div>
-        <div className='pdman-jdbc-config-right-com'>
-          <div className='pdman-jdbc-config-right-com-label'>
+        <div className='erd-jdbc-config-right-com'>
+          <div className='erd-jdbc-config-right-com-label'>
             <span>
               <span
                 onClick={this._showHelp}
@@ -378,18 +378,18 @@ export default class JDBCConfig extends React.Component{
               >
                 <Icon type='fa-exclamation-circle'/>
               </span>
-              <span className='pdman-jdbc-config-right-com-label-require'>driver-class:</span>
+              <span className='erd-jdbc-config-right-com-label-require'>driver-class:</span>
             </span>
           </div>
-          <div className='pdman-jdbc-config-right-com-input'>
+          <div className='erd-jdbc-config-right-com-input'>
             <input
               onChange={e => this._onChange('driver_class_name', e)}
               value={_object.get(selectJDBC, 'properties.driver_class_name', '')}
             />
           </div>
         </div>
-        <div className='pdman-jdbc-config-right-com'>
-          <div className='pdman-jdbc-config-right-com-label'>
+        <div className='erd-jdbc-config-right-com'>
+          <div className='erd-jdbc-config-right-com-label'>
             <span>
               <span
                 onClick={this._showHelp}
@@ -398,39 +398,39 @@ export default class JDBCConfig extends React.Component{
               >
                 <Icon type='fa-exclamation-circle'/>
               </span>
-              <span className='pdman-jdbc-config-right-com-label-require'>url:</span></span>
+              <span className='erd-jdbc-config-right-com-label-require'>url:</span></span>
           </div>
-          <div className='pdman-jdbc-config-right-com-input'>
+          <div className='erd-jdbc-config-right-com-input'>
             <input
               onChange={e => this._onChange('url', e)}
               value={_object.get(selectJDBC, 'properties.url', '')}
             />
           </div>
         </div>
-        <div className='pdman-jdbc-config-right-com'>
-          <div className='pdman-jdbc-config-right-com-label'>
-            <span className='pdman-jdbc-config-right-com-label-require'>username:</span>
+        <div className='erd-jdbc-config-right-com'>
+          <div className='erd-jdbc-config-right-com-label'>
+            <span className='erd-jdbc-config-right-com-label-require'>username:</span>
           </div>
-          <div className='pdman-jdbc-config-right-com-input'>
+          <div className='erd-jdbc-config-right-com-input'>
             <input
               onChange={e => this._onChange('username', e)}
               value={_object.get(selectJDBC, 'properties.username', '')}
             />
           </div>
         </div>
-        <div className='pdman-jdbc-config-right-com'>
-          <div className='pdman-jdbc-config-right-com-label'>
-            <span className='pdman-jdbc-config-right-com-label-require'>password:</span>
+        <div className='erd-jdbc-config-right-com'>
+          <div className='erd-jdbc-config-right-com-label'>
+            <span className='erd-jdbc-config-right-com-label-require'>password:</span>
           </div>
-          <div className='pdman-jdbc-config-right-com-input'>
+          <div className='erd-jdbc-config-right-com-input'>
             <input
               onChange={e => this._onChange('password', e)}
               value={_object.get(selectJDBC, 'properties.password', '')}
             />
           </div>
         </div>
-        <div className='pdman-jdbc-config-right-com'>
-          <div className='pdman-jdbc-config-right-com-button-test'>
+        <div className='erd-jdbc-config-right-com'>
+          <div className='erd-jdbc-config-right-com-button-test'>
             <Button
               loading={this.state.loading}
               onClick={() => this._connectJDBC(selectJDBC)}

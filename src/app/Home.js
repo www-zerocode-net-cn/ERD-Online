@@ -221,7 +221,7 @@ export default class Home extends React.Component{
     const { projectName, updateData, refresh, configJSON, updateConfig } = this.props;
     return (
       <div
-        className='pdman-home-other-content'
+        className='erd-home-other-content'
       >
         <Header
           projectName={projectName}

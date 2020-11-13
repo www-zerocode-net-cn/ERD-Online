@@ -26,7 +26,7 @@ export default class RelationEdit extends React.Component{
   };
   render() {
     const { from, to } = this.state;
-    const { prefix = 'pdman' } = this.props;
+    const { prefix = 'erd' } = this.props;
     return (<div className={`${prefix}-relation-edit`}>
       <span>from</span>
       <Select

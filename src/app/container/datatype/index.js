@@ -72,7 +72,7 @@ export default class DataType extends React.Component{
     this._validate(this.dataType);
   };
   render() {
-    const { dataSource, prefix = 'pdman', value = {} } = this.props;
+    const { dataSource, prefix = 'erd', value = {} } = this.props;
     return (<div className={`${prefix}-data-type-wrapper`}>
       <div className={`${prefix}-data-type-wrapper-item`}>
         <div className={`${prefix}-data-type-wrapper-item-content`}>

@@ -316,7 +316,7 @@ export default class TableIndexConfig extends React.Component{
   };
   render(){
     const { selectedIndexs = [], selectedFields = [], dataTable } = this.state;
-    const { prefix = 'pdman', height } = this.props;
+    const { prefix = 'erd', height } = this.props;
     const dataFields = dataTable.fields || [];
     // 显示最后点击的索引的字段
     const key = selectedIndexs && selectedIndexs[selectedIndexs.length - 1];
@@ -328,8 +328,8 @@ export default class TableIndexConfig extends React.Component{
     const fields = ((indexField && indexField.fields) || [])
       .map(name => dataFields.filter(dt => name === dt.name)[0]).filter(field => !!field);
     const { indexs = [] } = dataTable;
-    return (<div className='pdman-table-index-config'>
-      <div className='pdman-table-index-config-left'>
+    return (<div className='erd-table-index-config'>
+      <div className='erd-table-index-config-left'>
         <div className={`${prefix}-data-table-content-table-opt-icon`}>
           <Icon
             onClick={() => selectedIndexs.length !== 0 && this._moveIndex('up')}
@@ -357,7 +357,7 @@ export default class TableIndexConfig extends React.Component{
             type="fa-plus"
           />
         </div>
-        <div className='pdman-table-index-config-left-list' style={{height: height - 190, overflow: 'auto'}}>
+        <div className='erd-table-index-config-left-list' style={{height: height - 190, overflow: 'auto'}}>
           <table
             style={{minWidth: 200}}
             tabIndex="0"
@@ -410,7 +410,7 @@ export default class TableIndexConfig extends React.Component{
           </table>
         </div>
       </div>
-      <div className='pdman-table-index-config-right' style={{display: key ? '' : 'none'}}>
+      <div className='erd-table-index-config-right' style={{display: key ? '' : 'none'}}>
         <div className={`${prefix}-data-table-content-table-opt-icon`}>
           <Icon
             onClick={() => selectedFields.length !== 0 && this._moveField('up', key)}
@@ -438,7 +438,7 @@ export default class TableIndexConfig extends React.Component{
             type="fa-plus"
           />
         </div>
-        <div className='pdman-table-index-config-right-list'>
+        <div className='erd-table-index-config-right-list'>
           <table
             style={{minWidth: 200}}
             tabIndex="0"

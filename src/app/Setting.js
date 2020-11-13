@@ -419,7 +419,7 @@ export default class Setting extends React.Component{
   };
   render(){
     const { height, selectedTrs, fields, defaultFieldsType } = this.state;
-    const { prefix = 'pdman', columnOrder, dataSource, project, register, updateRegister } = this.props;
+    const { prefix = 'erd', columnOrder, dataSource, project, register, updateRegister } = this.props;
     const dataTypes = _object.get(dataSource, 'dataTypeDomains.datatype', []);
     return (<div className={`${prefix}-data-table-content`} ref={instance => this.instance = instance}>
       <div className={`${prefix}-data-table-content-tab`}>

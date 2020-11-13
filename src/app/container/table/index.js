@@ -173,7 +173,7 @@ class DataTable extends React.Component {
   };
   render() {
     const { dataTable = {} } = this.state;
-    const { prefix = 'pdman', height, dataSource, columnOrder, versions } = this.props;
+    const { prefix = 'erd', height, dataSource, columnOrder, versions } = this.props;
     const { module, table } = this.state;
     const dataTypes = _object.get(dataSource, 'dataTypeDomains.datatype', []);
     return (<div className={`${prefix}-data-table`}>

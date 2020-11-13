@@ -1479,7 +1479,7 @@ export default class Relation extends React.Component{
   };
   render() {
     const { empty = false, count = 1 } = this.state;
-    const { prefix = 'pdman', value, width } = this.props;
+    const { prefix = 'erd', value, width } = this.props;
     return (<div
       onKeyDown={this._keyDown}
       className={`${prefix}-relation`}

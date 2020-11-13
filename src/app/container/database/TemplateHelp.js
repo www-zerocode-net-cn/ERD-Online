@@ -46,7 +46,7 @@ export default class TemplateHelp extends React.Component{
   };
   render(){
     const { selected } = this.state;
-    const { prefix = 'pdman' } = this.props;
+    const { prefix = 'erd' } = this.props;
     const data = this.data;
     const currentDB = this._getCurrentDB();
     return (<div>

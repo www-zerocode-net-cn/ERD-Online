@@ -22,6 +22,8 @@ import * as cache from '../utils/cache';
 import * as File from '../utils/file';
 
 import './style/dbVersion.less';
+import EditOutlined from "@ant-design/icons/es/icons/EditOutlined";
+import DeleteOutlined from "@ant-design/icons/es/icons/DeleteOutlined";
 
 const {Radio} = RadioGroup;
 
@@ -79,18 +81,18 @@ class ChangeCode extends React.Component {
         } = this.props;
         const {version} = currentVersion;
         const selectCode = code || database.filter(db => db.defaultDatabase).map(db => db.code)[0];
-        return (<div className='pdman-change-code'>
+        return (<div className='erd-change-code'>
             <Icon
                 onClick={this._iconClick}
-                className='pdman-change-code-icon'
+                className='erd-change-code-icon'
                 type={width === '50%' ? 'verticleright' : 'verticleleft'}
                 title={width === '50%' ? '点击收起变化信息' : '点击展开变化信息'}
                 style={{left: width === '50%' ? '47%' : 10}}
             />
             <div
-                className='pdman-change-code-context'
+                className='erd-change-code-context'
                 style={{width: width === '50%' ? '50%' : '0px', display: width === '50%' ? '' : 'none'}}>
-                <span className='pdman-change-code-context-header'>变化信息</span>
+                <span className='erd-change-code-context-header'>变化信息</span>
                 <div>
                     {
                         messages.length > 0 ?
@@ -99,8 +101,8 @@ class ChangeCode extends React.Component {
                     }
                 </div>
             </div>
-            <div className='pdman-change-code-context' style={{width: width}}>
-        <span className='pdman-change-code-context-header'>
+            <div className='erd-change-code-context' style={{width: width}}>
+        <span className='erd-change-code-context-header'>
           {
               version ? `变化脚本(${compareStringVersion(version, dbVersion) <= 0 ?
                   '已同步' : '未同步'})` : '变化脚本'
@@ -108,16 +110,16 @@ class ChangeCode extends React.Component {
         </span>
                 <div>
                     <div
-                        className='pdman-data-table-content-tab'
+                        className='erd-data-table-content-tab'
                     >
                         <div
                             key={selectCode}
-                            className='pdman-data-table-content-tab-selected'
+                            className='erd-data-table-content-tab-selected'
                         >
                             {selectCode}
                         </div>
                     </div>
-                    <div className='pdman-data-tab-content'>
+                    <div className='erd-data-tab-content'>
                         <Button style={{marginBottom: 10}} key="save" onClick={this._onSave}>导出到文件</Button>
                         <Button
                             loading={preSynchronous}
@@ -311,8 +313,8 @@ class DatabaseVersionContext extends React.Component {
 
     render() {
         const {versionReadonly, defaultVersion, defaultMessage} = this.props;
-        return (<div className='pdman-db-version-context'>
-            <div className='pdman-db-version-context-item'>
+        return (<div className='erd-db-version-context'>
+            <div className='erd-db-version-context-item'>
                 <span>版本号：</span>
                 <Input
                     disabled={versionReadonly}
@@ -321,7 +323,7 @@ class DatabaseVersionContext extends React.Component {
                     placeholder='例如：v1.0.0【请勿低于系统默认的数据库版本v0.0.0】'
                     onChange={e => this.onChange(e, 'version')}/>
             </div>
-            <div className='pdman-db-version-context-item'>
+            <div className='erd-db-version-context-item'>
                 <span>版本描述：</span>
                 <TextArea
                     defaultValue={defaultMessage}
@@ -498,7 +500,7 @@ export default class DatabaseVersion extends React.Component {
             this.allMatchCount = (this.tempHtml.match(regExp) && this.tempHtml.match(regExp).length) || 0;
             this.countDom.innerHTML = `${this.allMatchCount === 0 ? 0 : 1}/${this.allMatchCount}`;
             this.code.innerHTML = (this.tempHtml || '')
-                .replace(regExp, `<span class='pdman-select-value'>${this.searchValue}</span>`);
+                .replace(regExp, `<span class='erd-select-value'>${this.searchValue}</span>`);
         } else {
             this.countDom.innerHTML = '0/0';
             this.code.innerHTML = this.tempHtml;
@@ -508,7 +510,7 @@ export default class DatabaseVersion extends React.Component {
         const left = document.body.clientWidth * 0.10 + 16;
         const modalWidth = document.body.clientWidth * 0.8 - 32;
         //console.log(top);
-        this.spans = Array.from(this.code.querySelectorAll('.pdman-select-value'));
+        this.spans = Array.from(this.code.querySelectorAll('.erd-select-value'));
         this.positions = this.spans
             .map((s) => {
                 const rect = s.getBoundingClientRect();
@@ -883,7 +885,7 @@ export default class DatabaseVersion extends React.Component {
                 version: 'v0.0.0',
                 versionDesc: '基线版本，新建版本时请勿低于该版本',
             }).then((res) => {
-                if (res && res.status == 'SUCCESS') {
+                if (res && res.status === 'SUCCESS') {
                     Message.success({title: '初始化数据表成功'});
                     this._getDBVersion();
                 } else {
@@ -1045,12 +1047,19 @@ export default class DatabaseVersion extends React.Component {
                     };
                     Save.hisProjectSave(version).then((res) => {
                         modal && modal.close();
-                        this._getVersionMessage(res.data);
-                        this.setState({
-                            changes: [],
-                            versions: res.body,
-                        });
-                        Message.success({title: '当前版本保存成功'});
+                        if (res && res.status === 'SUCCESS') {
+                            this._getVersionMessage(res.data);
+                            this.setState({
+                                changes: [],
+                                versions: res.body,
+                            });
+                            Message.success({title: '当前版本保存成功'});
+                        } else {
+                            Modal.error({
+                                title: '当前版本保存失败！',
+                                message: '当前版本保存失败',
+                            });
+                        }
                     }).catch((err) => {
                         Modal.error({
                             title: '当前版本保存失败！',
@@ -1298,7 +1307,7 @@ export default class DatabaseVersion extends React.Component {
                 ...dbConfig,
                 driverClassName: dbData.properties['driver_class_name'], // eslint-disable-line
             }).then((res) => {
-                if (res && res.status == 'SUCCESS') {
+                if (res && res.status === 'SUCCESS') {
                     Message.success({title: '数据库版本信息获取成功'});
                 } else {
                     Message.error({title: '数据库版本信息获取失败', message: res.body || res});
@@ -1497,56 +1506,50 @@ export default class DatabaseVersion extends React.Component {
 
     render() {
         const {init, versionData, versions, dbVersion, changes, dbs, synchronous} = this.state;
-        console.log(14444, versionData);
-        console.log('versions', versions);
-        console.log('dbVersion', dbVersion);
-        console.log(14447, dbs);
-        console.log(14448, synchronous);
-        console.log('changes', changes);
         const currentDB = this._getCurrentDB();
-        return (<div className='pdman-db-version'>
-            <div className='pdman-db-version-opt-container'>
-                <div className='pdman-db-version-opt'>
+        return (<div className='erd-db-version'>
+            <div className='erd-db-version-opt-container'>
+                <div className='erd-db-version-opt'>
                     <div
-                        className='pdman-db-version-opt-synchronous pdman-db-version-opt-wrapper'
+                        className='erd-db-version-opt-synchronous erd-db-version-opt-wrapper'
                         onClick={this._synchronousConfig}
                     >
-                        <span className='pdman-db-version-opt-synchronous-icon'>{}</span>
-                        <span className='pdman-db-version-opt-synchronous-name'>同步配置</span>
+                        <span className='erd-db-version-opt-synchronous-icon'>{}</span>
+                        <span className='erd-db-version-opt-synchronous-name'>同步配置</span>
                     </div>
                     <div
-                        className='pdman-db-version-opt-init  pdman-db-version-opt-wrapper'
+                        className='erd-db-version-opt-init  erd-db-version-opt-wrapper'
                         style={{display: init ? '' : 'none'}}
                         onClick={() => this._initBase()}
                     >
-                        <span className='pdman-db-version-opt-init-icon'>{}</span>
-                        <span className='pdman-db-version-opt-init-name'>初始化基线</span>
+                        <span className='erd-db-version-opt-init-icon'>{}</span>
+                        <span className='erd-db-version-opt-init-name'>初始化基线</span>
                     </div>
                     <div
-                        className='pdman-db-version-opt-save  pdman-db-version-opt-wrapper'
+                        className='erd-db-version-opt-save  erd-db-version-opt-wrapper'
                         style={{display: init ? 'none' : ''}}
                         onClick={() => this._saveNewVersion()}
                     >
-                        <span className='pdman-db-version-opt-save-icon'>{}</span>
-                        <span className='pdman-db-version-opt-save-name'>保存新版本</span>
+                        <span className='erd-db-version-opt-save-icon'>{}</span>
+                        <span className='erd-db-version-opt-save-name'>保存新版本</span>
                     </div>
                     <div
-                        className='pdman-db-version-opt-rebuild  pdman-db-version-opt-wrapper'
+                        className='erd-db-version-opt-rebuild  erd-db-version-opt-wrapper'
                         style={{display: init ? 'none' : ''}}
                         onClick={this._rebuild}
                     >
-                        <span className='pdman-db-version-opt-rebuild-icon'>{}</span>
-                        <span className='pdman-db-version-opt-rebuild-name'>重建基线</span>
+                        <span className='erd-db-version-opt-rebuild-icon'>{}</span>
+                        <span className='erd-db-version-opt-rebuild-name'>重建基线</span>
                     </div>
                     <div
-                        className='pdman-db-version-opt-compare  pdman-db-version-opt-wrapper'
+                        className='erd-db-version-opt-compare  erd-db-version-opt-wrapper'
                         onClick={this._customerVersionCheck}
                     >
-                        <span className='pdman-db-version-opt-compare-icon'>{}</span>
-                        <span className='pdman-db-version-opt-compare-name'>任意版本比较</span>
+                        <span className='erd-db-version-opt-compare-icon'>{}</span>
+                        <span className='erd-db-version-opt-compare-name'>任意版本比较</span>
                     </div>
                 </div>
-                <div className='pdman-db-version-opt'>
+                <div className='erd-db-version-opt'>
           <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           切换数据库：
             <Select value={currentDB} style={{minWidth: 200}} onChange={this._dbChange}>
@@ -1567,7 +1570,7 @@ export default class DatabaseVersion extends React.Component {
                         justifyContent: 'center',
                     }}
                 >正在获取版本信息...</div> : (
-                    <div className='pdman-db-version-list'>
+                    <div className='erd-db-version-list'>
             <span
                 style={{textAlign: 'center', color: '#2492E6'}}
             >
@@ -1576,21 +1579,21 @@ export default class DatabaseVersion extends React.Component {
                   : '当前未选择数据库，如需同步到数据库请先配置数据库!'}
             </span>
                         <div style={{display: 'flex', justifyContent: 'center', flexGrow: 1, minHeight: 65}}>
-                            <div className='pdman-db-version-list-item'>
-                                <div className='pdman-db-version-list-item-time'>
+                            <div className='erd-db-version-list-item'>
+                                <div className='erd-db-version-list-item-time'>
                                     {}
                                 </div>
-                                <div className='pdman-db-version-list-item-line'>
+                                <div className='erd-db-version-list-item-line'>
                                     <div>{}</div>
                                     <span
-                                        className={`pdman-db-version-list-item-line-${changes.length > 0 ? 'current-changes' : 'current-unchange'}`}
+                                        className={`erd-db-version-list-item-line-${changes.length > 0 ? 'current-changes' : 'current-unchange'}`}
                                     >
                     {}
                   </span>
                                 </div>
-                                <div className='pdman-db-version-list-item-tag'>
+                                <div className='erd-db-version-list-item-tag'>
                   <span
-                      className='pdman-db-version-list-item-tag-message'
+                      className='erd-db-version-list-item-tag-message'
                       onClick={() => this._showChanges(changes, false,
                           this.props.dataSource, versions[0] || this.props.dataSource)}
                   >
@@ -1605,30 +1608,30 @@ export default class DatabaseVersion extends React.Component {
                             versions.map((v, index) => (
                                 <div key={v.version}
                                      style={{display: 'flex', justifyContent: 'center', flexGrow: 1, minHeight: 50}}>
-                                    <div className='pdman-db-version-list-item'>
-                                        <div className='pdman-db-version-list-item-time'>
-                      <span className='pdman-db-version-list-item-time-all'>
+                                    <div className='erd-db-version-list-item'>
+                                        <div className='erd-db-version-list-item-time'>
+                      <span className='erd-db-version-list-item-time-all'>
                         <span
-                            className='pdman-db-version-list-item-time-day'
+                            className='erd-db-version-list-item-time-day'
                         >{v.versionDate.split(' ')[0]}
                         </span>
                         <span
-                            className='pdman-db-version-list-item-time-min'
+                            className='erd-db-version-list-item-time-min'
                         >{v.versionDate.split(' ')[1]}
                         </span>
                       </span>
                                         </div>
-                                        <div className='pdman-db-version-list-item-line'>
+                                        <div className='erd-db-version-list-item-line'>
                                             <div>{}</div>
                                             <span
-                                                className={`pdman-db-version-list-item-line-${compareStringVersion(v.version, dbVersion) <= 0 ?
+                                                className={`erd-db-version-list-item-line-${compareStringVersion(v.version, dbVersion) <= 0 ?
                                                     'success' : 'error'}`}
                                             >
                         {compareStringVersion(v.version, dbVersion) <= 0 ? <Icon type='check'/> : <Icon type='minus'/>}
                       </span>
                                         </div>
-                                        <div className='pdman-db-version-list-item-tag'>
-                                            <div className='pdman-db-version-list-item-tag-arrow'>{}
+                                        <div className='erd-db-version-list-item-tag'>
+                                            <div className='erd-db-version-list-item-tag-arrow'>{}
                                             </div>
                                             <div
                                                 onClick={() => this._readDb(
@@ -1637,7 +1640,7 @@ export default class DatabaseVersion extends React.Component {
                                                     versions[index + 1] || v, v.changes,
                                                     index === (versions.length - 1), true)}
                                                 title={compareStringVersion(v.version, dbVersion) <= 0 ? '' : '点击将进行同步'}
-                                                className={`pdman-db-version-list-item-tag-${compareStringVersion(v.version, dbVersion) <= 0 ?
+                                                className={`erd-db-version-list-item-tag-${compareStringVersion(v.version, dbVersion) <= 0 ?
                                                     'success' : 'error'}`}
                                             >
                                                 {
@@ -1653,19 +1656,17 @@ export default class DatabaseVersion extends React.Component {
                                             </div>
                                             <span
                                                 title='点击查看变更详情'
-                                                className='pdman-db-version-list-item-tag-message'
+                                                className='erd-db-version-list-item-tag-message'
                                                 onClick={() => this._showChanges(v.changes,
                                                     v.baseVersion, v, versions[index + 1] || v, dbVersion)}
                                             >
                         {v.version}: {v.versionDesc}
                       </span>
-                                            <span className='pdman-db-version-list-item-tag-icon'>
-                        <Icon type='edit' onClick={() => this._editVersion(index, v)}/>
-                        <Icon
-                            style={{display: index === 0 ? '' : 'none'}}
-                            type='delete'
-                            onClick={() => this._deleteVersion(v)}
-                        />
+                                            <span className='erd-db-version-list-item-tag-icon'>
+                                                <EditOutlined onClick={() => this._editVersion(index, v)}/>
+                                                <DeleteOutlined
+                                                    style={{display: index === 0 ? '' : 'none', marginLeft: 5}}
+                                                    onClick={() => this._deleteVersion(v)}/>
                       </span>
                                         </div>
                                     </div>

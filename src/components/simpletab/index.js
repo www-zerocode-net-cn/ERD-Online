@@ -17,7 +17,7 @@ export default class SimpleTab extends React.Component{
     });
   };
   render(){
-    const { children, prefix = 'pdman' } = this.props;
+    const { children, prefix = 'erd' } = this.props;
     let { show } = this.state;
     if (!show) {
       show = children[0] && children[0].props.value;

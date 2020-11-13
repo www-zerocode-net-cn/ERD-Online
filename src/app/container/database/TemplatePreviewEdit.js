@@ -18,39 +18,39 @@ class DotHelp extends React.Component{
       <div>
         <div>
           <span style={{padding: 5, display: 'block'}}>语法对照：参考地址：https://tech.meituan.com/dot.html</span>
-          <table style={{width: '100%', padding: 5}} className='pdman-normal-table'>
+          <table style={{width: '100%', padding: 5}} className='erd-normal-table'>
             <tbody>
-              <tr className='pdman-data-table-content-table-first-tr'>
+              <tr className='erd-data-table-content-table-first-tr'>
                 <th>项目</th>
                 <th>JavaScript语法</th>
                 <th>对应语法</th>
                 <th>案例</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>输出变量</th>
                 <th>=</th>
                 <th>{'{{=变量名}}'}</th>
                 <th>{'{{=it.name}}'}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>条件判断</th>
                 <th>if</th>
                 <th>{'{{? 条件表达式}}'}</th>
                 <th>{'{{? i > 3}}'}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>条件转折</th>
                 <th>else/else if</th>
                 <th>{'{{??}}/{{?? 表达式}}'}</th>
                 <th>{'{{?? i ==2}}'}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>循环遍历</th>
                 <th>for</th>
                 <th>{'{{~ 循环变量}}'}</th>
                 <th>{'{{~ it.arr:item}}...{{~}}'}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>执行方法</th>
                 <th>funcName()</th>
                 <th>{'{{= funcName() }}'}</th>
@@ -61,57 +61,57 @@ class DotHelp extends React.Component{
         </div>
         <div>
           <span style={{padding: 5, display: 'block'}}>全局方法：可以通过it.func.方法名使用</span>
-          <table style={{width: '100%', padding: 5}} className='pdman-normal-table'>
+          <table style={{width: '100%', padding: 5}} className='erd-normal-table'>
             <tbody>
-              <tr className='pdman-data-table-content-table-first-tr'>
+              <tr className='erd-data-table-content-table-first-tr'>
                 <th>方法名</th>
                 <th>方法功能</th>
                 <th>参数介绍</th>
                 <th>案例</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>camel</th>
                 <th>下划线转驼峰</th>
                 <th>参数1：需要转化的字符串，参数2：首字母是否需要大写</th>
                 <th>{"('USER_NAME', true) => 'userName'"}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>underline</th>
                 <th>驼峰转下划线</th>
                 <th>参数1：需要转化的字符串，参数2：是否全大写</th>
                 <th>{"('userName', true) => 'USER_NAME'"}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>upperCase</th>
                 <th>全大写</th>
                 <th>参数1：需要转化的字符串</th>
                 <th>{"('userName') => 'USERNAME'"}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>lowerCase</th>
                 <th>全小写</th>
                 <th>参数1：需要转化的字符串</th>
                 <th>{"('USERNAME') => 'useranem'"}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>join</th>
                 <th>多个字符串拼接</th>
                 <th>不限参数，最后一个参数为拼接符</th>
                 <th>{"('user','name','/') => 'user/name'"}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>intersect</th>
                 <th>两个数组交集</th>
                 <th>参数1：数组1，参数2：数组2</th>
                 <th>{"(['1', '2'], ['1', '2', '3']) => ['1', '2']"}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>union</th>
                 <th>两个数组并集</th>
                 <th>参数1：数组1，参数2：数组2</th>
                 <th>{"(['1', '2'], ['1', '2', '3']) => ['1', '2', '3']"}</th>
               </tr>
-              <tr className='pdman-data-table-content-table-normal-tr'>
+              <tr className='erd-data-table-content-table-normal-tr'>
                 <th>minus</th>
                 <th>两个数组差集</th>
                 <th>参数1：数组1，参数2：数组2；（数组1比数组2多出的数据）</th>
@@ -178,7 +178,7 @@ export default class TemplatePreviewEdit extends React.Component{
     const tempWidth = width - 50;
     const tempHeight = height - 25;
     return (
-      <div className='pdman-template-preview-edit'>
+      <div className='erd-template-preview-edit'>
         <div style={{padding: 5}}>
           <div style={{textAlign: 'center', marginBottom: 5}}>
             <span>参考数据</span>

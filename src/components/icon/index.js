@@ -2,7 +2,7 @@ import React from 'react';
 
 import './style/index.less';
 
-export default class PDManIcon extends React.Component {
+export default class erdIcon extends React.Component {
   shouldComponentUpdate(nextProps){
     // 阻止图标组件无意义的渲染
     return (nextProps.type !== this.props.type)

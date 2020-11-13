@@ -59,12 +59,12 @@ export default class WORDConfig extends React.Component{
   render() {
     const { data } = this.state;
     return (
-      <div className='pdman-config-word'>
-        <div className='pdman-config-word-config'>
-          <div className='pdman-config-word-config-label'>
+      <div className='erd-config-word'>
+        <div className='erd-config-word-config'>
+          <div className='erd-config-word-config-label'>
             <span>WORD模板:</span>
           </div>
-          <div className='pdman-config-word-config-input'>
+          <div className='erd-config-word-config-input'>
             <input
               placeholder='默认为系统自带的模板，如需修改，请先另存为，再指定模板文件'
               value={data || ''}
@@ -79,7 +79,7 @@ export default class WORDConfig extends React.Component{
               accept='.docx'
             />
           </div>
-          <div className='pdman-config-word-config-button'>
+          <div className='erd-config-word-config-button'>
             <Button onClick={this._iconClick} title='从本地选择模板'>...</Button>
             <Button style={{marginLeft: 5}} onClick={this._saveTemplate}>模板另存为</Button>
           </div>

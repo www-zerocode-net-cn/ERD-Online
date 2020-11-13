@@ -3,7 +3,6 @@ import Home from './Home';
 import './style/loading.less';
 import defaultData from './defaultData';
 
-import {get} from '../utils/fetch';
 import * as cache from '../utils/cache';
 import {Modal} from '../components';
 import * as Save from '../utils/save';
@@ -94,11 +93,11 @@ export default class Loading extends React.Component {
         const {width, data: {projectName, projectJSON, configJSON}, columnOrder} = this.state;
         let content;
         if (width !== '100%') {
-            content = <div className='pdman-loading-content'>
-                <div className='pdman-loading-content-img'>
+            content = <div className='erd-loading-content'>
+                <div className='erd-loading-content-img'>
                     <div style={{textAlign: 'center', marginTop: 100}}>
-                        <div className='pdman-loading-content-logo'>{}</div>
-                        <div className='pdman-loading-content-welcom'>
+                        <div className='erd-loading-content-logo'>{}</div>
+                        <div className='erd-loading-content-welcom'>
                             <span style={{fontSize: 35, fontWeight: 2, color: '#65B1F0'}}>WELCOME</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <span style={{fontSize: 35, fontWeight: 2, color: '#FFF'}}>ERD-ONLINE</span>
@@ -106,15 +105,15 @@ export default class Loading extends React.Component {
                     </div>
                     <div style={{position: 'relative', width: '100%', height: '30%'}}>
                         <span style={{position: 'absolute', left: '26%', bottom: 5, color: '#FFF'}}>正在加载...</span>
-                        <div className='pdman-loading-content-progress'>
-                            <div className='pdman-loading-content-progress-base'>
-                                <div className='pdman-loading-content-progress-base-line'
+                        <div className='erd-loading-content-progress'>
+                            <div className='erd-loading-content-progress-base'>
+                                <div className='erd-loading-content-progress-base-line'
                                      style={{width: this.state.width}}>{}</div>
                             </div>
                         </div>
                     </div>
-                    <div className='pdman-loading-content-footer'>
-                        <div className='pdman-loading-content-footer-content'>
+                    <div className='erd-loading-content-footer'>
+                        <div className='erd-loading-content-footer-content'>
 
                         </div>
                     </div>

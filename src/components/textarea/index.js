@@ -31,7 +31,7 @@ export default class TextArea extends React.Component{
     }
   };
   render() {
-    const { prefix = 'pdman', style, defaultValue, wrapperStyle, value, readOnly, placeholder } = this.props;
+    const { prefix = 'erd', style, defaultValue, wrapperStyle, value, readOnly, placeholder } = this.props;
     return (<div className={`${prefix}-textarea-wrapper`} style={wrapperStyle}>
       <textarea
         onKeyDown={e => this._onKeyDown(e)}

@@ -97,7 +97,7 @@ export default class Input extends React.Component{
       otherProps.value = this.fixControlledValue(otherProps.value);
       delete otherProps.defaultValue;
     }
-    const { prefix = 'pdman', style, defaultValue, wrapperStyle, value, autoFocus, suffix, placeholder, disabled } = otherProps;
+    const { prefix = 'erd', style, defaultValue, wrapperStyle, value, autoFocus, suffix, placeholder, disabled } = otherProps;
     return (<div className={`${prefix}-input-wrapper`}  style={wrapperStyle}>
       <input
         onKeyDown={e => this._onKeyDown(e)}

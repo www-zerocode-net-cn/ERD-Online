@@ -85,7 +85,6 @@ export default class ErdLayout extends React.Component {
                                 </HeaderDropdown>
                             </div>
                         </Header>
-
                         <Content>
                             <div style={{margin: "20px 20px", height: "100%"}}>
                                 {content}

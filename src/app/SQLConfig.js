@@ -21,7 +21,7 @@ export default class SQLConfig extends React.Component{
     const { separator } = this.state;
     return (
       <div
-        className='pdman-sql-config'
+        className='erd-sql-config'
       >
         <span style={{width: 100}}>SQL分隔符：</span>
         <Input value={separator} placeholder='默认为“/*SQL@Run*/”' onChange={this._separatorChange}/>
