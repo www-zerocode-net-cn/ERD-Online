@@ -12,6 +12,7 @@ export default class Home extends React.Component{
       dataSource: props.dataSource,
       changeDataType: 'reset',
     };
+    console.log(15,props.dataSource);
   }
   _saveProject = (data, cb, dataHistory) => {
     // 保存项目

@@ -9,6 +9,8 @@ import {Modal} from '../components';
 import * as Save from '../utils/save';
 import ErdLayout from "./ErdLayout";
 
+import request from "../utils/request";
+
 export default class Loading extends React.Component {
     constructor(props) {
         super(props);
@@ -36,14 +38,14 @@ export default class Loading extends React.Component {
         let result = {};
         let flag = false;
         setTimeout(() => {
-            if (result.data) {
+            if (result && result.data) {
                 this.setState({width: '100%', data: result.data});
             } else {
                 flag = true;
             }
-        }, 1000);
+        }, 2000);
         const projectId = cache.getItem('projectId');
-        get(`project/info/${projectId}`).then((res) => {
+        request.get(`/project/info/${projectId}`).then((res) => {
             if (flag) {
                 this.setState({width: '100%', data: result.data});
             } else {
@@ -63,7 +65,7 @@ export default class Loading extends React.Component {
 
     _refresh = () => {
         const projectId = cache.getItem('projectId');
-        get(`project/info/${projectId}`).then((res) => {
+        request.get(`/project/info/${projectId}`).then((res) => {
             this.setState({data: res.data});
         });
     };
@@ -118,19 +120,21 @@ export default class Loading extends React.Component {
                     </div>
                 </div>
             </div>;
+        } else {
+            content = <Home
+                columnOrder={columnOrder}
+                projectName={projectName}
+                dataSource={projectJSON || {
+                    modules: [],
+                    dataTypeDomains: defaultData.profile.defaultDataTypeDomains,
+                }}
+                configJSON={configJSON}
+                updateConfig={this.updateConfig}
+                updateData={this.updateData}
+                refresh={this._refresh}
+            />;
         }
-        content = <Home
-            columnOrder={columnOrder}
-            projectName={projectName}
-            dataSource={projectJSON || {
-                modules: [],
-                dataTypeDomains: defaultData.profile.defaultDataTypeDomains,
-            }}
-            configJSON={configJSON}
-            updateConfig={this.updateConfig}
-            updateData={this.updateData}
-            refresh={this._refresh}
-        />;
+
         return (
             <ErdLayout
                 content={content}

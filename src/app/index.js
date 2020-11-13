@@ -29,6 +29,12 @@ import Setting from './Setting';
 import './style/index.less';
 import JDBCConfig from './JDBCConfig';
 import SaveOutlined from "@ant-design/icons/es/icons/SaveOutlined";
+import DeleteOutlined from "@ant-design/icons/es/icons/DeleteOutlined";
+import CopyOutlined from "@ant-design/icons/es/icons/CopyOutlined";
+import RadiusSettingOutlined from "@ant-design/icons/es/icons/RadiusSettingOutlined";
+import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
+import ExportOutlined from "@ant-design/icons/es/icons/ExportOutlined";
+import FileTextOutlined from "@ant-design/icons/es/icons/FileTextOutlined";
 
 const moduleUtils = Module.Utils;
 const tableUtils = Table.Utils;
@@ -39,8 +45,8 @@ const TabPane = Tab.TabPane;
 const menus = [
     {name: '新增', key: 'new', icon: <Icon type='addfolder' style={{color: '#008000', marginRight: 5}}/>},
     {name: '重命名', key: 'rename', icon: <Icon type='fa-undo' style={{color: '#F96B36', marginRight: 5}}/>},
-    {name: '删除', key: 'delete', icon: <Icon type='delete' style={{color: '#FF0000', marginRight: 5}}/>},
-    {name: '复制', key: 'copy', icon: <Icon type='copy1' style={{color: '#0078D7', marginRight: 5}}/>},
+    {name: '删除', key: 'delete', icon: <DeleteOutlined style={{color: '#FF0000', marginRight: 5}}/>},
+    {name: '复制', key: 'copy', icon: <CopyOutlined style={{color: '#0078D7', marginRight: 5}}/>},
     {name: '剪切', key: 'cut', icon: <Icon type='fa-cut' style={{color: '#D2B3AF', marginRight: 5}}/>},
     {name: '粘贴', key: 'paste', icon: <Icon type='fa-paste' style={{color: '#6968E1', marginRight: 5}}/>},
     {name: '打开', key: 'open', icon: <Icon type='folderopen' style={{color: '#C3D6E8', marginRight: 5}}/>},
@@ -129,9 +135,8 @@ export default class App extends React.Component {
             }
         });
         Save.hisProjectLoad().then((res) => {
-            console.log('hisProjectLoad', res);
             this.setState({
-                versions: res.body || [],
+                versions: res && res.body || [],
             });
         });
     }
@@ -253,6 +258,8 @@ export default class App extends React.Component {
     _JDBCConfig = () => {
         const {project, dataSource} = this.props;
         let tempDBs = _object.get(dataSource, 'profile.dbs', []);
+        console.log(255, tempDBs);
+        console.log(256, dataSource);
         const dbChange = (db) => {
             tempDBs = db;
         };
@@ -593,7 +600,7 @@ export default class App extends React.Component {
             Save.hisProjectLoad().then((res) => {
                 console.log('hisProjectLoad', res);
                 this.setState({
-                    versions: res.body || [],
+                    versions: res && res.body || [],
                 });
             });
         }
@@ -1554,7 +1561,7 @@ export default class App extends React.Component {
                                             className='tools-content-clickeable'
                                             onClick={() => this._setting()}
                                         >
-                                            <Icon type='setting' style={{marginRight: 5}}/>设置
+                                            <SettingOutlined style={{marginRight: 5}}/>设置
                                         </div>
                                         <div
                                             className='tools-content-clickeable'
@@ -1671,7 +1678,7 @@ export default class App extends React.Component {
                                         <div
                                             className='tools-content-clickeable'
                                             onClick={() => this._export()}
-                                        ><Icon type="export"/>导出文档
+                                        ><ExportOutlined />导出文档
                                         </div>
                                         <div
                                             className='tools-content-clickeable'
@@ -1681,7 +1688,7 @@ export default class App extends React.Component {
                                         <div
                                             className='tools-content-clickeable'
                                             onClick={() => this._saveAs('filterDBS')}
-                                        ><Icon type="file1"/>导出JSON
+                                        ><FileTextOutlined />导出JSON
                                         </div>
                                     </div>
                                     <div className='tools-content-group-name'>
@@ -1810,7 +1817,7 @@ export default class App extends React.Component {
                     <div
                         className="tools-right-paint"
                         ref={instance => this.instance = instance}
-                        style={{width: width === 0 ? 'calc(100% - 20px)' : '80%', minWidth: 200,background: "#ffffff"}}
+                        style={{width: width === 0 ? 'calc(100% - 20px)' : '80%', minWidth: 200, background: "#ffffff"}}
                     >
                         {
                             tabs.filter(lefttab => !lefttab.folding).length === 0 ?

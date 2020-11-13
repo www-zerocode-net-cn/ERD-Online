@@ -21,7 +21,7 @@ class Index extends React.Component {
     e.stopPropagation();
   };
   render() {
-    const { defaultValue, prefix = 'pdman', style, children, value } = this.props;
+    const { defaultValue, prefix = 'erd', style, children, value } = this.props;
     return (
       <select
         draggable

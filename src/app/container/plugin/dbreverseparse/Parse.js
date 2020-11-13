@@ -22,11 +22,12 @@ export default class Parse extends React.Component{
       driverClassName: db.properties['driver_class_name'], // eslint-disable-line
       flag: dataFormat,
     }).then((res) => {
-      if (res.status === 'SUCCESS') {
+      if (res && res.status === 'SUCCESS') {
         this.setState({
           data: res.body || res,
           exists: this.checkField(res.body || res),
           status: 'SUCCESS',
+          flag: false,
         });
       } else {
         this.setState({

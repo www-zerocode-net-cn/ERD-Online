@@ -26,7 +26,7 @@ const checkStatus = (response, isStream) => { // eslint-disable-line
 
 export const post = (url, data, header, customerData, isStream) => {
     const defaultHeader = {
-        'Authorization': cache.getItem('Authorization') || '', // eslint-disable-line
+        'Authorization': 'Bearer ' + cache.getItem('Authorization') || '', // eslint-disable-line
     };
     const customerHeader = header || {
         'Content-Type': 'application/json',
