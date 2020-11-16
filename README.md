@@ -85,9 +85,14 @@ Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MART
 
 
 ## Information Exchange Group
-***Wechat Group***
+***QQ Group***
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105174815921.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+Click the link to join the group chat
+
+【ERD-ONLINE】：https://jq.qq.com/?_wv=1027&k=lnlbfelw
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111611001565.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+
 
 ***Dingding Group***
 
