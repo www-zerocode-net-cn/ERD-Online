@@ -12,23 +12,36 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 	 - 在线执行sql
 	 - 导出字段文档（word、pdf、html、markdown）
 	 - 同时支持桌面版程序，Windows，Mac，Linux三个平台均可以使用，打通线下、线上环境
- 
+
+- **v2.0.3** 完成版
+	 - 集成and design，加入人员、角色、权限
+	 - 加入登录页
+	 - 加入项目管理，支持新增、修改、删除项目
+	 - 加入退出登录
+	 - 加入用户体系，美化页面
+
 ## Documentation
  See the [English Documentation](./README.md) for document in English.
  
  
 ## 版本规划
-- **v1.0.1**
-	-  自动保存
+- **v2..0.4**
+	-  用户分配角色、角色配置权限
+
+- **v2..0.5**
+	-  通过权限控制页面菜单、以及按钮权限
+
+- **v2..0.6**
+	-  操作日志审计
+
+- **v3.0.0**
+	- 	自动保存
+
+- **v3.0.1**
+	- 	在线多人协作
 	
-- **v1.0.2**
-	- 	 加入用户权限体系
-
-- **v1.0.3**
-	- 	 在线多人协作
-
-- **v1.0.4**
-	- 	 支持桌面程序、web版数据互导互通
+- **v3.0.2**
+	- 	通过权限控制sql操作权限，进一步实现sql审批
  
 
 ## 安装运行
@@ -60,28 +73,37 @@ Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MART
 
 ## 软件说明博客
 
-[ERD-ONLINE 免费在线数据库建模工具](https://my.oschina.net/martin88/blog/4704797 "ERD-ONLINE 免费在线数据库建模工具")
+[ERD-ONLINE 免费在线数据库建模工具](https://my.oschina.net/martin88/blog/4719346 "ERD-ONLINE 免费在线数据库建模工具")
 
 
 ###  先睹为快
+#### 登录页
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111611212547.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+#### 工作台
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116112149167.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
-#### 启动页
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105181812430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+
+#### Loading页
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116112328963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
 
 
 #### 工作页
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105172949165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173014853.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116112229639.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116112755606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116112815724.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173032885.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173049567.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173116475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116113101826.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020110517313999.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173213434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020110517322835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116113031403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116113144719.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116113205515.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116113225911.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116113436813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201116113451323.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+
 
 
 
