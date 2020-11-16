@@ -1,56 +1,76 @@
 
-# ERD-ONLINE INTRODUCTION
-ERD-ONLINE is an online design software which shares collabarative data warehouse.Local apps are not needed to instal for using this online data warehouse.This is an excellent alternative to desktop data modeling tools.It has the following characteristics:
-- **v1.0.0** Finished Version
-	 - Online Operation
-	 - Version Management
-	 - Multi-database Support.(mysql、oracle、sqlserver、postgresql)
-	 - Multi-database Configuration Management
-	 - Database Reverse Analysis
-	 - Exporting sql
-	 - Online Execution of sql
-	 - Exporting field Documents（word、pdf、html、markdown）
-	 - Supporting Desktop Programs.(Windows，Mac，Linux).Opening up offline and online environments
-
+# ERD-ONLINE说明
+## 功能特点
+ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应用程序，在线操作数据库，是桌面数据建模工具的一个优秀的替代方案。具备以下特点:
+- **v1.0.0** 完成版
+	 - 在线操作
+	 - 版本管理
+	 - 多数据库支持，mysql、oracle、sqlserver、postgresql
+	 - 多数据库配置管理
+	 - 数据库逆向解析
+	 - 导出sql
+	 - 在线执行sql
+	 - 导出字段文档（word、pdf、html、markdown）
+	 - 同时支持桌面版程序，Windows，Mac，Linux三个平台均可以使用，打通线下、线上环境
+ 
 ## Documentation
- See the [中文文档](./README_CN.md) for document in Chinese.
-
+ See the [English Documentation](./README.md) for document in English.
  
  
-## Version Planning
+## 版本规划
 - **v1.0.1**
-	-  Auto save
+	-  自动保存
 	
 - **v1.0.2**
-	- 	 Joining the User's Authority System
+	- 	 加入用户权限体系
 
 - **v1.0.3**
-	- 	 Online Multiplayer Collaboration
+	- 	 在线多人协作
+
 - **v1.0.4**
-	- 	Support Desktop Program and Web Version Data Interoperability
+	- 	 支持桌面程序、web版数据互导互通
  
 
-## WEB Version Preview Address：
+## 安装运行
+
+- 安装依赖
+```shell script
+# git clone https://github.com/whaty/MARTIN-ERD.git erd
+
+# cd erd
+
+# yarn install
+```
+
+- 运行
+
+```
+# yarn start
+```
+打开 [http://localhost:3000](http://localhost:3000)
+
+## 官方在线预览地址：
 
 [https://www.java2e.com/](https://www.java2e.com/)
 
-## Code Warehouse：
+
+## 代码仓库：
 
 Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MARTIN-ERD.git)
 
-## Software Description Blog
+## 软件说明博客
 
-[ERD-ONLINE Free Online Database Modeling Tool](https://my.oschina.net/martin88/blog/4704797 "ERD-ONLINE Free Online Database Modeling Tool")
+[ERD-ONLINE 免费在线数据库建模工具](https://my.oschina.net/martin88/blog/4704797 "ERD-ONLINE 免费在线数据库建模工具")
 
 
-###  Let's Have A Look
+###  先睹为快
 
-#### Start Page
+#### 启动页
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105181812430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
 
 
-#### Work Page
+#### 工作页
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105172949165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173014853.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
@@ -65,11 +85,11 @@ Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MART
 
 
 
-#### Documentation Generating
+#### 生成文档
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173536907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
 
-####  Shoulders of Giants
+####  巨人的肩膀
 
 - React[(https://reactjs.org](https://reactjs.org))
 - font-awesome([http://www.fontawesome.com.cn](http://www.fontawesome.com.cn))
@@ -78,18 +98,18 @@ Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MART
 - ace editor([https://ace.c9.io](https://ace.c9.io))
 - doT.js([http://olado.github.io](http://olado.github.io))
 
-##### Gratitudes
-- PDMan ([http://www.pdman.cn/](http://www.pdman.cn/))，Thanks for PDMan  working hard to open up the MIT protocol for many years.
+##### 特别感谢
+- PDMan ([http://www.pdman.cn/](http://www.pdman.cn/))，PDMan以MIT协议开放了多年的心血，鸣谢
 
 
 
 
-## Information Exchange Group
-***Wechat Group***
+## 交流群
+***微信群***
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105174815921.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
-***Dingding Group***
+***钉钉群***
 
 ![](https://img-blog.csdnimg.cn/img_convert/1d01b1b76d64ea8129fa4a4ac0d5e517.png)
 

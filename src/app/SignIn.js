@@ -98,6 +98,7 @@ export default function SignIn() {
                         label="用户名"
                         name="username"
                         autoFocus
+                        defaultValue="admin"
                     />
                     <TextField
                         variant="outlined"
@@ -109,6 +110,7 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        defaultValue="admin"
                     />
                     <Button
                         onClick={onLogin}

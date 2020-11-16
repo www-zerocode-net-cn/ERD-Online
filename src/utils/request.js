@@ -84,7 +84,7 @@ const errorHandler = error => {
  * 配置request请求时的默认参数
  */
 const request = extend({
-    prefix: 'http://127.0.0.1:8080/erd',
+    prefix: 'https://www.java2e.com/erd',
     errorHandler, // 默认错误处理
 });
 
