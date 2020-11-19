@@ -19,6 +19,8 @@ ERD-ONLINE is an online design software which shares collabarative data warehous
 	 - Add log out
 	 - Add the user system and beautify the page
 
+
+
 ## Documentation
  See the [中文文档](./README_CN.md) for document in Chinese.
 
@@ -42,7 +44,49 @@ ERD-ONLINE is an online design software which shares collabarative data warehous
 - **v3.0.2**
 	- 	Through the authority control SQL operation authority, further realizes the SQL approval
 
- 
+ ## preparation
+
+### Install Docker
+[https://www.runoob.com/docker/centos-docker-install.html](https://www.runoob.com/docker/centos-docker-install.html)
+
+### Install Docker-compose
+[https://www.runoob.com/docker/docker-compose.html](https://www.runoob.com/docker/docker-compose.html)
+
+### configure Host
+```bash
+127.0.0.1 www.java2e.com
+127.0.0.1 martin-erd
+```
+- martin-erd Configure the IP address of MySQL database 
+
+
+## Start And Operation
+### Start Server
+- clone project
+```shell script
+# git clone https://github.com/whaty/MARTIN-ERD.git erd
+
+# cd erd
+
+```
+- One click Start
+```shell script
+# docker-compose up -d
+
+```
+
+### Start UI
+- Installation dependency
+```shell script
+# yarn install
+```
+
+- Run
+
+```
+# yarn start
+```
+open [http://localhost:3000](http://localhost:3000)
 
 ## WEB Version Preview Address：
 

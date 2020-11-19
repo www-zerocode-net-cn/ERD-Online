@@ -1,4 +1,5 @@
 
+
 # ERD-ONLINE说明
 ## 功能特点
 ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应用程序，在线操作数据库，是桌面数据建模工具的一个优秀的替代方案。具备以下特点:
@@ -43,15 +44,41 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 - **v3.0.2**
 	- 	通过权限控制sql操作权限，进一步实现sql审批
  
+## 准备
+
+### 安装 docker
+[https://www.runoob.com/docker/centos-docker-install.html](https://www.runoob.com/docker/centos-docker-install.html)
+
+### 安装 docker-compose
+[https://www.runoob.com/docker/docker-compose.html](https://www.runoob.com/docker/docker-compose.html)
+
+### 配置host
+```bash
+127.0.0.1 www.java2e.com
+127.0.0.1 martin-erd
+```
+- martin-erd 前面配置mysql数据库IP地址
+
+
 
 ## 安装运行
-
-- 安装依赖
+### 启动服务端
+- 下载项目
 ```shell script
 # git clone https://github.com/whaty/MARTIN-ERD.git erd
 
 # cd erd
 
+```
+- 一键启动
+```shell script
+# docker-compose up -d
+
+```
+
+### 启动前端
+- 安装依赖
+```shell script
 # yarn install
 ```
 
@@ -107,11 +134,20 @@ Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MART
 
 
 
+
+
 #### 生成文档
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173536907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
+## 本地启动服务端
 
-####  巨人的肩膀
+### 安装 docker-compose
+
+https://www.paddlepaddle.org.cn/install/quick/zh/
+
+
+
+##  巨人的肩膀
 
 - React[(https://reactjs.org](https://reactjs.org))
 - font-awesome([http://www.fontawesome.com.cn](http://www.fontawesome.com.cn))
@@ -120,7 +156,7 @@ Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MART
 - ace editor([https://ace.c9.io](https://ace.c9.io))
 - doT.js([http://olado.github.io](http://olado.github.io))
 
-##### 特别感谢
+#### 特别感谢
 - PDMan ([http://www.pdman.cn/](http://www.pdman.cn/))，PDMan以MIT协议开放了多年的心血，鸣谢
 
 
