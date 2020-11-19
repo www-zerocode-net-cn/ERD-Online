@@ -55,9 +55,7 @@ ERD-ONLINE is an online design software which shares collabarative data warehous
 ### configure Host
 ```bash
 127.0.0.1 www.java2e.com
-127.0.0.1 martin-erd
 ```
-- martin-erd Configure the IP address of MySQL database 
 
 
 ## Start And Operation

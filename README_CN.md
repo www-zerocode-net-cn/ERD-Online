@@ -55,9 +55,7 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 ### 配置host
 ```bash
 127.0.0.1 www.java2e.com
-127.0.0.1 martin-erd
 ```
-- martin-erd 前面配置mysql数据库IP地址
 
 
 
