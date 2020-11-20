@@ -1,13 +1,11 @@
-import React, { PureComponent } from 'react';
-import { Dropdown } from 'antd';
-import classNames from 'classnames';
-import styles from './index.less';
+import React, {Component} from 'react';
+import {Dropdown} from 'antd';
 
-export default class HeaderDropdown extends PureComponent {
-  render() {
-    const { overlayClassName, ...props } = this.props;
-    return (
-      <Dropdown overlayClassName={classNames(styles.container, overlayClassName)} {...props} />
-    );
-  }
+export default class HeaderDropdown extends Component {
+    render() {
+        const {overlayClassName, ...props} = this.props;
+        return (
+            <Dropdown {...props} />
+        );
+    }
 }

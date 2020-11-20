@@ -1,9 +1,11 @@
 {
   "name": "ERD-ONLINE",
-  "version": "1.0.0",
+  "version": "2.0.3",
   "private": true,
   "main": "main.js",
   "homepage": ".",
+  "author": "Martin",
+  "description": "an online design software which shares collabarative data warehouse",
   "dependencies": {
     "@ant-design/icons": "latest",
     "@antv/g6": "^1.2.8",
@@ -11,60 +13,27 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@svgr/webpack": "4.3.3",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@typescript-eslint/eslint-plugin": "^2.10.0",
-    "@typescript-eslint/parser": "^2.10.0",
     "antd": "^4.0.0",
     "axios": "^0.20.0",
-    "babel-eslint": "10.1.0",
-    "babel-jest": "^24.9.0",
-    "babel-loader": "8.1.0",
-    "babel-plugin-named-asset-import": "^0.3.6",
-    "babel-preset-react-app": "^9.1.2",
     "brace": "^0.11.1",
     "camelcase": "^5.3.1",
-    "case-sensitive-paths-webpack-plugin": "2.3.0",
     "clipboard": "^2.0.6",
-    "css-loader": "3.4.2",
     "dot": "^1.1.2",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
-    "electron": "^11.0.1",
-    "eslint": "^6.6.0",
-    "eslint-config-react-app": "^5.2.1",
-    "eslint-loader": "3.0.3",
-    "eslint-plugin-flowtype": "4.6.0",
-    "eslint-plugin-import": "2.20.1",
-    "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.19.0",
-    "eslint-plugin-react-hooks": "^1.6.1",
-    "file-loader": "4.3.0",
     "fs-extra": "^8.1.0",
     "history": "latest",
     "hoist-non-react-statics": "^2.3.1",
-    "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
-    "less": "^3.12.2",
-    "less-loader": "^7.0.2",
     "lodash": "^4.17.5",
-    "mini-css-extract-plugin": "0.9.0",
     "moment": "^2.22.2",
     "officegen": "^0.4.7",
-    "optimize-css-assets-webpack-plugin": "5.0.3",
     "particles-bg": "^2.5.0",
     "pdfkit": "^0.8.3",
-    "pnp-webpack-plugin": "1.6.4",
-    "postcss-flexbugs-fixes": "4.1.0",
-    "postcss-loader": "3.0.0",
-    "postcss-normalize": "8.0.1",
-    "postcss-preset-env": "6.7.0",
-    "postcss-safe-parser": "4.0.1",
     "prop-types": "^15.6.1",
     "react": "^16.14.0",
     "react-ace": "^6.1.1",
@@ -86,11 +55,52 @@
     "ts-pnp": "1.1.6",
     "umi-request": "^1.3.5",
     "url-loader": "2.3.0",
-    "uuid": "^8.3.1",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
+    "@babel/plugin-proposal-export-default-from": "^7.10.4",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "8.1.0",
+    "babel-plugin-named-asset-import": "^0.3.6",
+    "babel-preset-react-app": "^9.1.2",
+    "css-loader": "3.4.2",
+    "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "electron": "^11.0.1",
+    "electron-builder": "^22.9.1",
+    "eslint": "^6.6.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-loader": "3.0.3",
+    "eslint-plugin-flowtype": "4.6.0",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-react": "7.19.0",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "filemanager-webpack-plugin": "^3.0.0-alpha.5",
+    "file-loader": "4.3.0",
+    "less": "^3.12.2",
+    "less-loader": "^7.0.2",
+    "mini-css-extract-plugin": "0.9.0",
+    "html-webpack-plugin": "4.0.0-beta.11",
+    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "postcss-flexbugs-fixes": "4.1.0",
+    "postcss-loader": "3.0.0",
+    "postcss-normalize": "8.0.1",
+    "postcss-preset-env": "6.7.0",
+    "postcss-safe-parser": "4.0.1",
+    "pnp-webpack-plugin": "1.6.4",
+    "script-ext-html-webpack-plugin": "^2.0.1",
     "webpack": "4.42.0",
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "zip-webpack-plugin": "^3.0.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -98,10 +108,10 @@
     "test": "node scripts/test.js",
     "eject": "react-scripts eject",
     "electron-start": "electron .",
-    "package-win": "yarn build && build --win ",
-    "package-linux": "yarn build && build --linux",
-    "package-all": "yarn build && build -mwl",
-    "package-mac": "yarn build && build --mac"
+    "package-win": "yarn build && electron-builder --win --x64",
+    "package-linux": "yarn build && electron-builder --linux",
+    "package-all": "yarn build && electron-builder -mwl",
+    "package-mac": "yarn build && electron-builder --mac"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -176,70 +186,30 @@
       "@babel/plugin-proposal-export-default-from"
     ]
   },
-  "devDependencies": {
-    "@babel/plugin-proposal-export-default-from": "^7.10.4",
-    "electron-builder": "^22.9.1",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "filemanager-webpack-plugin": "^3.0.0-alpha.5",
-    "script-ext-html-webpack-plugin": "^2.0.1",
-    "zip-webpack-plugin": "^3.0.0"
-  },
   "build": {
-    "appId": "com.java2e.erd",
-    "productName": "ERD-ONLINE",
-    "artifactName": "${name}-${platform}_v${version}.${ext}",
-    "directories": {
-      "buildResources": "build",
-      "output": "dist"
-    },
+    "appId": "com.java2e.com",
+    "extends": null,
     "files": [
+      "./main.js",
       "build/"
     ],
-    "npmRebuild": false,
-    "asar": true,
-    "asarUnpack": [
-      "build/jar/",
-      "build/word/"
-    ],
-    "dmg": {
-      "icon": "build/icon.icns",
-      "contents": [
-        {
-          "x": 410,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 150,
-          "type": "file"
-        }
+    "mac": {
+      "icon": "build/256x256.png",
+      "target": [
+        "dmg",
+        "zip"
       ]
     },
     "win": {
-      "icon": "build/icon.ico",
+      "icon": "build/256x256.png",
       "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
+        "nsis",
+        "zip"
       ]
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    },
-    "linux": {
-      "icon": "build/256x256.png",
-      "target": [
-        "zip",
-        "deb",
-        "AppImage"
-      ]
     }
   }
 }

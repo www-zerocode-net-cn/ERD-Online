@@ -53,7 +53,7 @@ const errorHandler = error => {
         notification.error({
             message: '未登录或登录已过期，请重新登录。',
         });
-        history.push("/login");
+        history.replace("/login");
         return;
     }
     // environment should not be used
@@ -84,7 +84,7 @@ const errorHandler = error => {
  * 配置request请求时的默认参数
  */
 const request = extend({
-    prefix: 'http://www.java2e.com/erd',
+    prefix: 'http://erd-online/erd',
     errorHandler, // 默认错误处理
 });
 

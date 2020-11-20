@@ -54,7 +54,7 @@ ERD-ONLINE is an online design software which shares collabarative data warehous
 
 ### configure Host
 ```bash
-127.0.0.1 www.java2e.com
+127.0.0.1 erd-online
 ```
 
 
@@ -85,6 +85,25 @@ ERD-ONLINE is an online design software which shares collabarative data warehous
 # yarn start
 ```
 open [http://localhost:3000](http://localhost:3000)
+
+## Package desktop package
+
+- Windows
+```
+# yarn package-win
+```
+
+- MAC
+```
+# yarn package-mac
+```
+
+- Linux
+```
+# yarn package-linux
+```
+
+** At this point, Web, Windows, MAC, Linux can be used together!! **
 
 ## WEB Version Preview Address：
 

@@ -53,9 +53,15 @@ export default class Project extends React.Component {
             }
         ).then(res => {
             if (res) {
-                this.setState({
-                    data: res.records
-                });
+                if (res.records) {
+                    this.setState({
+                        data: res.records
+                    });
+                } else {
+                    notification.error({
+                        message: '获取项目信息失败',
+                    });
+                }
             }
         });
     };
@@ -246,7 +252,8 @@ export default class Project extends React.Component {
                         </List.Item>
                     ) : (
                         <List.Item>
-                            <Button type="dashed" block className={styles.newButton} onClick={this.addProject} style={{height:"305px"}}>
+                            <Button type="dashed" block className={styles.newButton} onClick={this.addProject}
+                                    style={{height: "305px"}}>
                                 <PlusOutlined/> 新建项目
                             </Button>
                         </List.Item>

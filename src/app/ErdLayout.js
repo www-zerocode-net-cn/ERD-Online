@@ -34,7 +34,6 @@ export default class ErdLayout extends React.Component {
     handleMenuClick = ({key}) => {
         if (key === 'logout') {
             cache.clear();
-            history.push("/login");
         }
     };
 
@@ -47,7 +46,7 @@ export default class ErdLayout extends React.Component {
             <Menu className={styles.menu} selectedKeys={[]} onClick={this.handleMenuClick}>
                 <Menu.Divider/>
                 <Menu.Item key="logout">
-                    <LogoutOutlined/>退出登录
+                    <Link to="/login"><LogoutOutlined/>退出登录</Link>
                 </Menu.Item>
             </Menu>
         );
@@ -56,7 +55,7 @@ export default class ErdLayout extends React.Component {
                 <Layout style={{minHeight: '100vh'}}>
                     <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                         <Row style={{margin: "30 30"}}>
-                            <Col span={12}><span className="logo"/></Col>
+                            <Col span={12}> <Link to="/login"><span className="logo"/></Link></Col>
                             <Col span={12} style={{verticalAlign: "middle"}}><span
                                 className="erd_title">ERD-ONLINE</span></Col>
                         </Row>

@@ -54,7 +54,7 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 
 ### 配置host
 ```bash
-127.0.0.1 www.java2e.com
+127.0.0.1 erd-online
 ```
  
 
@@ -86,6 +86,26 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 # yarn start
 ```
 打开 [http://localhost:3000](http://localhost:3000)
+
+## 打包桌面程序包
+- Windows
+```
+# yarn package-win
+```
+
+- MAC
+```
+# yarn package-mac
+```
+
+- Linux
+```
+# yarn package-linux
+```
+
+**至此，web、Windows、MAC、Linux多端都可以一起用了，开心吧！！**
+
+
 
 ## 官方在线预览地址：
 
@@ -136,13 +156,6 @@ Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MART
 
 #### 生成文档
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201105173536907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
-
-## 本地启动服务端
-
-### 安装 docker-compose
-
-https://www.paddlepaddle.org.cn/install/quick/zh/
-
 
 
 ##  巨人的肩膀

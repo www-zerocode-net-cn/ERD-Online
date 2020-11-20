@@ -1,4 +1,4 @@
 module.exports = {
-  request: 'http://www.java2e.com/erd',
+  request: 'http://erd-online/erd',
   menuHeight: 80,
 };
