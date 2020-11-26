@@ -21,9 +21,12 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 	 - 加入退出登录
 	 - 加入用户体系，美化页面
 
+## 走过路过，点个Star再过,爱你哦！
+
 ## Documentation
  See the [English Documentation](./README.md) for document in English.
  
+
  
 ## 版本规划
 - **v2..0.4**

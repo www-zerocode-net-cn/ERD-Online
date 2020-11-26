@@ -19,7 +19,7 @@ ERD-ONLINE is an online design software which shares collabarative data warehous
 	 - Add log out
 	 - Add the user system and beautify the page
 
-
+## Pass by, point a star again，thank u!
 
 ## Documentation
  See the [中文文档](./README_CN.md) for document in Chinese.
