@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Button, Form, Input, Popconfirm, Table} from 'antd';
+import {Button, Form, Input, Pagination, Popconfirm, Table} from 'antd';
 import request from "../utils/request";
 import {v4 as uuidv4} from 'uuid';
 import ErdLayout from "./ErdLayout";
@@ -108,7 +108,7 @@ export default class Permission extends React.Component {
                 editable: true,
             },
             {
-                title: 'operation',
+                title: '操作',
                 dataIndex: 'operation',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
@@ -122,26 +122,29 @@ export default class Permission extends React.Component {
         this.state = {
             dataSource: [],
             count: 2,
-            limit: 3,
-            page: 1,
+            current: 1,
+            pageSize: 10,
+            total: 0
         };
     }
 
     componentDidMount() {
-        this.fetchData();
+        this.fetchData(this.state.current, this.state.pageSize);
     }
 
-    fetchData = () => {
+    fetchData = (current, size) => {
         request.post('/sysPermission/page', {
                 data: {
-                    page: this.state.page,
-                    limit: this.state.limit
+                    current: current,
+                    size: size
                 }
             }
         ).then(res => {
             if (res) {
                 this.setState({
-                    dataSource: res.records
+                    dataSource: res.records,
+                    current: res.current,
+                    total: res.total
                 });
             }
         });
@@ -153,7 +156,7 @@ export default class Permission extends React.Component {
             }
         ).then(res => {
             if (res) {
-                this.fetchData();
+                this.fetchData(this.state.current, this.state.pageSize);
             }
         });
 
@@ -162,7 +165,9 @@ export default class Permission extends React.Component {
         const {dataSource} = this.state;
         const newData = {
             id: uuidv4(),
-            name: `erd`,
+            name: `ERD`,
+            description: 'ERD',
+            url: 'ERD'
         };
         request.post('/sysPermission/add', {
                 data: newData
@@ -182,13 +187,20 @@ export default class Permission extends React.Component {
             }
         ).then(res => {
             if (res) {
-                this.fetchData();
+                this.fetchData(this.state.current, this.state.pageSize);
             }
         });
     };
 
+    onChange = (page, pageSize) => {
+        this.setState({
+            current: page
+        });
+        this.fetchData(page, this.state.pageSize);
+    }
+
     render() {
-        const {dataSource} = this.state;
+        const {dataSource, current, total, pageSize} = this.state;
         const components = {
             body: {
                 row: EditableRow,
@@ -212,7 +224,7 @@ export default class Permission extends React.Component {
             };
         });
         const content =
-            <div>
+            <div key={"permission"}>
                 <Button
                     onClick={this.handleAdd}
                     type="primary"
@@ -228,6 +240,14 @@ export default class Permission extends React.Component {
                     bordered
                     dataSource={dataSource}
                     columns={columns}
+                    pagination={false}
+                />
+                <Pagination
+                    total={total}
+                    current={current}
+                    pageSize={pageSize}
+                    onChange={this.onChange}
+                    showTotal={total => `共 ${total} 条`}
                 />
             </div>;
 

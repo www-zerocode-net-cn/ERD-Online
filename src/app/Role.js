@@ -1,5 +1,18 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Button, Form, Input, Popconfirm, Table} from 'antd';
+import {
+    Button,
+    Checkbox,
+    Col,
+    Divider,
+    Form,
+    Input,
+    Modal,
+    notification,
+    Pagination,
+    Popconfirm,
+    Row,
+    Table
+} from 'antd';
 import request from "../utils/request";
 import {v4 as uuidv4} from 'uuid';
 import ErdLayout from "./ErdLayout";
@@ -94,44 +107,145 @@ export default class Role extends React.Component {
             {
                 title: '角色名',
                 dataIndex: 'name',
+                key: 'name',
                 width: '50%',
                 editable: true,
             },
             {
-                title: 'operation',
+                title: '操作',
+                key: 'operation',
                 dataIndex: 'operation',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
-                        <Popconfirm title="确认删除?" okText={"删除"} cancelText={"取消"}
-                                    onConfirm={() => this.handleDelete(record)}>
-                            <a href={"###"}>删除</a>
-                        </Popconfirm>
+                        <>
+                            <Popconfirm title="确认删除?" okText={"删除"} cancelText={"取消"}
+                                        onConfirm={() => this.handleDelete(record)}>
+                                <a href={"###"}>删除</a>
+                            </Popconfirm>
+                            <Divider type="vertical"/>
+                            <a onClick={() => this.fetchPermission(record)}>权限</a>
+                            <Modal
+                                title="授权"
+                                visible={this.state.visible}
+                                onOk={this.savePermission}
+                                onCancel={this.hideModal}
+                                okText="确认"
+                                cancelText="取消"
+                            >
+                                <Checkbox.Group style={{width: '100%'}} onChange={this.onPermissionChange} value={this.state.checkedPermissions}>
+                                    <Row>
+                                        {
+                                            this.state.allPermissions && this.state.allPermissions.map(item => (
+                                                <Col span={12}>
+                                                    <Checkbox
+                                                        value={item.id}
+                                                    >
+                                                        {item.name}
+                                                    </Checkbox>
+                                                </Col>
+                                            ))
+                                        }
+                                    </Row>
+                                    <>
+                                    </>
+                                </Checkbox.Group>
+                            </Modal>
+                        </>
                     ) : null,
             },
         ];
         this.state = {
             dataSource: [],
             count: 2,
-            limit: 3,
-            page: 1,
+            current: 1,
+            pageSize: 3,
+            total: 0,
+            visible: false,
+            allPermissions: [],
+            checkedPermissions: [],
+
         };
     }
 
-    componentDidMount() {
-        this.fetchData();
+
+    onPermissionChange = (checkedValues) => {
+        console.log(checkedValues)
+        this.setState({
+            checkedPermissions: checkedValues
+        });
     }
 
-    fetchData = () => {
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    hideModal = () => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+
+    savePermission = () => {
+        request.post('/sysRole/savePermission', {
+                data: {
+                    roleId: this.state.roleId,
+                    checkedPermissions: this.state.checkedPermissions
+                }
+            }
+        ).then(res => {
+            if (res) {
+                notification['success']({
+                    message: '',
+                    description:
+                        '保存权限成功',
+                });
+                this.hideModal();
+            }
+        });
+    };
+
+
+    componentDidMount() {
+        this.fetchData(this.state.current, this.state.pageSize);
+    }
+
+    fetchPermission = (record) => {
+        this.setState({
+            roleId:record.id
+        });
+        request.post('/sysPermission/fetchPermission', {
+                data: {
+                    roleId: record.id
+                }
+            }
+        ).then(res => {
+            if (res) {
+                console.log(res.checkedPermissions.map(item=>(item.id)))
+                this.setState({
+                    allPermissions: res.allPermissions,
+                    checkedPermissions: res.checkedPermissions.map(item=>(item.id)),
+                });
+                this.showModal();
+            }
+        });
+    }
+
+    fetchData = (current, size) => {
         request.post('/sysRole/page', {
                 data: {
-                    page: this.state.page,
-                    limit: this.state.limit
+                    current: current,
+                    size: size
                 }
             }
         ).then(res => {
             if (res) {
                 this.setState({
-                    dataSource: res.records
+                    dataSource: res.records,
+                    current: res.current,
+                    total: res.total
                 });
             }
         });
@@ -143,7 +257,7 @@ export default class Role extends React.Component {
             }
         ).then(res => {
             if (res) {
-                this.fetchData();
+                this.fetchData(this.state.current, this.state.pageSize);
             }
         });
 
@@ -172,13 +286,20 @@ export default class Role extends React.Component {
             }
         ).then(res => {
             if (res) {
-                this.fetchData();
+                this.fetchData(this.state.current, this.state.pageSize);
             }
         });
     };
 
+    onPageChange = (page, pageSize) => {
+        this.setState({
+            current: page
+        });
+        this.fetchData(page, this.state.pageSize);
+    }
+
     render() {
-        const {dataSource} = this.state;
+        const {dataSource, current, total, pageSize} = this.state;
         const components = {
             body: {
                 row: EditableRow,
@@ -201,7 +322,7 @@ export default class Role extends React.Component {
                 }),
             };
         });
-        const content = <div>
+        const content = <div key={"role"}>
             <Button
                 onClick={this.handleAdd}
                 type="primary"
@@ -217,6 +338,14 @@ export default class Role extends React.Component {
                 bordered
                 dataSource={dataSource}
                 columns={columns}
+                pagination={false}
+            />
+            <Pagination
+                total={total}
+                current={current}
+                pageSize={pageSize}
+                onChange={this.onPageChange}
+                showTotal={total => `共 ${total} 条`}
             />
         </div>;
 

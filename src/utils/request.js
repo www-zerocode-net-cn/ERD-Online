@@ -84,7 +84,10 @@ const errorHandler = error => {
  * 配置request请求时的默认参数
  */
 const request = extend({
+    //本地
     prefix: 'http://erd-online/erd',
+    // //生产
+    // prefix: 'https://www.java2e.com/erd',
     errorHandler, // 默认错误处理
 });
 

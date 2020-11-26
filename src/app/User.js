@@ -1,8 +1,10 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Button, Form, Input, Popconfirm, Table} from 'antd';
+import {Button, Divider, Dropdown, Form, Input, Menu, Modal, Pagination, Popconfirm, Table} from 'antd';
 import request from "../utils/request";
 import {v4 as uuidv4} from 'uuid';
 import ErdLayout from "./ErdLayout";
+import DownOutlined from "@ant-design/icons/es/icons/DownOutlined";
+import UserOutlined from "@ant-design/icons/es/icons/UserOutlined";
 
 
 const EditableContext = React.createContext();
@@ -87,6 +89,7 @@ const EditableCell = ({
     return <td {...restProps}>{childNode}</td>;
 };
 
+
 export default class User extends React.Component {
     constructor(props) {
         super(props);
@@ -98,45 +101,106 @@ export default class User extends React.Component {
                 editable: true,
             },
             {
-                title: '密码',
+                title: '密码(密码前面必须带着{noop})',
                 dataIndex: 'password',
                 editable: true,
             },
             {
-                title: 'operation',
+                title: '角色',
+                dataIndex: 'bindRole',
+                render: (text, record) =>
+                    this.state.roles.length >= 1 ? (
+                        <Dropdown overlay={this.getMenus(record)} trigger={['click']}>
+                            <Button>
+                                {text} <DownOutlined/>
+                            </Button>
+                        </Dropdown>
+                    ) : null,
+            },
+            {
+                title: '操作',
                 dataIndex: 'operation',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
-                        <Popconfirm title="确认删除?" okText={"删除"} cancelText={"取消"}
-                                    onConfirm={() => this.handleDelete(record)}>
-                            <a href={"###"}>删除</a>
-                        </Popconfirm>
+                        <>
+                            <Popconfirm title="确认删除?" okText={"删除"} cancelText={"取消"}
+                                        onConfirm={() => this.handleDelete(record)}>
+                                <a href={"###"}>删除</a>
+                            </Popconfirm>
+
+                        </>
                     ) : null,
             },
         ];
         this.state = {
             dataSource: [],
             count: 2,
-            limit: 3,
-            page: 1,
+            current: 1,
+            pageSize: 3,
+            total: 0,
+            roles: [],
+            currentRole: '',
+            visible: false
         };
     }
 
     componentDidMount() {
-        this.fetchData();
+        this.fetchData(this.state.current, this.state.pageSize);
+        this.fetchRole();
     }
 
-    fetchData = () => {
+    getMenus = (record) => {
+        const roles = this.state.roles;
+        const map = roles.map(item => {
+            return (<Menu.Item key={item.id} icon={<UserOutlined/>}
+                               onClick={() => this.handleMenuClick(item.id, record)}> {item.name}</Menu.Item>);
+        });
+        return <Menu>{map}</Menu>;
+    }
+
+    handleMenuClick = (roleId, record) => {
+        console.log('click', record);
+        request.post('/sysUser/bindRole', {
+                data: {
+                    userId: record.id,
+                    roleId: roleId
+                }
+            }
+        ).then(res => {
+            if (res) {
+                this.fetchData(this.state.current, this.state.pageSize);
+            }
+        });
+    }
+
+    fetchRole = () => {
+        request.post('/sysRole/all', {
+                data: {}
+            }
+        ).then(res => {
+            if (res) {
+                console.log(res)
+                this.setState({
+                    roles: res.roles,
+                    currentRole: res.currentRole,
+                });
+            }
+        });
+    }
+
+    fetchData = (current, size) => {
         request.post('/sysUser/page', {
                 data: {
-                    page: this.state.page,
-                    limit: this.state.limit
+                    current: current,
+                    size: size
                 }
             }
         ).then(res => {
             if (res) {
                 this.setState({
-                    dataSource: res.records
+                    dataSource: res.records,
+                    current: res.current,
+                    total: res.total
                 });
             }
         });
@@ -148,7 +212,7 @@ export default class User extends React.Component {
             }
         ).then(res => {
             if (res) {
-                this.fetchData();
+                this.fetchData(this.state.current, this.state.pageSize);
             }
         });
 
@@ -178,13 +242,20 @@ export default class User extends React.Component {
             }
         ).then(res => {
             if (res) {
-                this.fetchData();
+                this.fetchData(this.state.current, this.state.pageSize);
             }
         });
     };
 
+    onChange = (page, pageSize) => {
+        this.setState({
+            current: page
+        });
+        this.fetchData(page, this.state.pageSize);
+    }
+
     render() {
-        const {dataSource} = this.state;
+        const {dataSource, current, total, pageSize} = this.state;
         const components = {
             body: {
                 row: EditableRow,
@@ -207,7 +278,7 @@ export default class User extends React.Component {
                 }),
             };
         });
-        const content = <div>
+        const content = <div key={"user"}>
             <Button
                 onClick={this.handleAdd}
                 type="primary"
@@ -223,6 +294,14 @@ export default class User extends React.Component {
                 bordered
                 dataSource={dataSource}
                 columns={columns}
+                pagination={false}
+            />
+            <Pagination
+                total={total}
+                current={current}
+                pageSize={pageSize}
+                onChange={this.onChange}
+                showTotal={total => `共 ${total} 条`}
             />
         </div>;
         return (

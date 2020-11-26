@@ -13,13 +13,13 @@ export default class ErdRouter extends React.Component {
         return (
             <HashRouter>
                 <Switch>
-                    <Route exact={true} path="/project" component={Project}></Route>
-                    <Route path="/user" component={User}></Route>
-                    <Route path="/role" component={Role}></Route>
-                    <Route path="/permission" component={Permission}></Route>
-                    <Route path="/loading" component={Loading}></Route>
-                    <Route path="/login" component={Login}></Route>
-                    <Route path="/" component={Login}></Route>
+                    <Route key={"project"} exact={true} path="/project" component={Project}></Route>
+                    <Route key={"user"} path="/user" component={User}></Route>
+                    <Route key={"role"} path="/role" component={Role}></Route>
+                    <Route key={"permission"} path="/permission" component={Permission}></Route>
+                    <Route key={"loading"} path="/loading" component={Loading}></Route>
+                    <Route key={"login"} path="/login" component={Login}></Route>
+                    <Route key={"home"} path="/" component={Login}></Route>
                 </Switch>
             </HashRouter>
         );
