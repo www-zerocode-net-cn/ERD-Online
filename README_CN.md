@@ -59,6 +59,9 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 ```bash
 127.0.0.1 erd-online
 ```
+ **备注：如果本地部署则写127.0.0.1，远程部署则需要写远程服务器ip。如果觉得麻烦，可使用域名，替换/src/utils/request.js中以下地方**
+ ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020113017231535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70)
+
  
 
 

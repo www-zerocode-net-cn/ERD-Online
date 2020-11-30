@@ -56,6 +56,8 @@ ERD-ONLINE is an online design software which shares collabarative data warehous
 ```bash
 127.0.0.1 erd-online
 ```
+ **Note: write 127.0.0.1 for local deployment and remote server IP for remote deployment. If you feel troublesome, you can use the domain name instead of /src/ utils/ request.js :**
+ ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020113017231535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70)
 
 
 ## Start And Operation
