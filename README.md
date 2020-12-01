@@ -113,8 +113,8 @@ open [http://localhost:3000](http://localhost:3000)
 
 ## Code Warehouse：
 
-Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MARTIN-ERD.git)
-Gitee:  [https://gitee.com/MARTIN-88/erd-online.git](https://gitee.com/MARTIN-88/erd-online.git)
+- Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MARTIN-ERD.git)
+- Gitee:  [https://gitee.com/MARTIN-88/erd-online.git](https://gitee.com/MARTIN-88/erd-online.git)
 
 ## Software Description Blog
 

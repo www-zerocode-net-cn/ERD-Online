@@ -120,8 +120,8 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 
 ## 代码仓库：
 
-Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MARTIN-ERD.git)
-Gitee:  [https://gitee.com/MARTIN-88/erd-online.git](https://gitee.com/MARTIN-88/erd-online.git)
+- Github : [https://github.com/whaty/MARTIN-ERD.git](https://github.com/whaty/MARTIN-ERD.git)
+- Gitee:  [https://gitee.com/MARTIN-88/erd-online.git](https://gitee.com/MARTIN-88/erd-online.git)
 
 ## 软件说明博客
 
