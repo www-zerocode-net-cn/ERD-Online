@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import React from 'react';
 import styles from './style/project.less';
-import ErdLayout from "./ErdLayout";
+import ErdLayout from "./layout/ErdLayout";
 import request from "../utils/request";
 import * as cache from "../utils/cache";
 import PlusOutlined from "@ant-design/icons/es/icons/PlusOutlined";

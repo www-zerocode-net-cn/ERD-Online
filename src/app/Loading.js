@@ -6,7 +6,7 @@ import defaultData from './defaultData';
 import * as cache from '../utils/cache';
 import {Modal} from '../components';
 import * as Save from '../utils/save';
-import ErdLayout from "./ErdLayout";
+import ErdLayout from "./layout/ErdLayout";
 
 import request from "../utils/request";
 

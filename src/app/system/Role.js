@@ -12,10 +12,10 @@ import {
     Popconfirm,
     Row,
     Table
-} from 'antd';
-import request from "../utils/request";
+} from 'antd/lib/index';
+import request from "../../utils/request";
 import {v4 as uuidv4} from 'uuid';
-import ErdLayout from "./ErdLayout";
+import ErdLayout from "../layout/ErdLayout";
 
 
 const EditableContext = React.createContext();

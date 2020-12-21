@@ -1,4 +1,4 @@
-import { post, get } from '../utils/fetch';
+import {post} from '../utils/fetch';
 import * as cache from './cache';
 
 import request from "../utils/request";

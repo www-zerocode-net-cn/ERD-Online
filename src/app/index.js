@@ -31,7 +31,6 @@ import JDBCConfig from './JDBCConfig';
 import SaveOutlined from "@ant-design/icons/es/icons/SaveOutlined";
 import DeleteOutlined from "@ant-design/icons/es/icons/DeleteOutlined";
 import CopyOutlined from "@ant-design/icons/es/icons/CopyOutlined";
-import RadiusSettingOutlined from "@ant-design/icons/es/icons/RadiusSettingOutlined";
 import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
 import ExportOutlined from "@ant-design/icons/es/icons/ExportOutlined";
 import FileTextOutlined from "@ant-design/icons/es/icons/FileTextOutlined";

@@ -1,8 +1,8 @@
 import {HashRouter, Route, Switch} from 'react-router-dom';
 import Project from './Project';
-import User from './User';
-import Role from './Role';
-import Permission from './Permission';
+import User from './system/User';
+import Role from './system/Role';
+import Permission from './system/Permission';
 import Loading from './Loading';
 import Login from './Login';
 import React from "react";

@@ -1,26 +1,32 @@
-import {Col, Layout, Menu, Row} from 'antd';
-import {PieChartOutlined,} from '@ant-design/icons';
+import {Col, Layout, Menu, Row} from 'antd/lib/index';
+import {createFromIconfontCN, PieChartOutlined,} from '@ant-design/icons';
 import React from "react";
 
 import {HashRouter, Link} from 'react-router-dom';
-import HeaderDropdown from "./container/HeaderDropdown";
+import HeaderDropdown from "../container/HeaderDropdown";
 
-import styles from './style/erdlayout.less';
+import styles from '../style/erdlayout.less';
 import UserOutlined from "@ant-design/icons/es/icons/UserOutlined";
 import LogoutOutlined from "@ant-design/icons/es/icons/LogoutOutlined";
-import Divider from "antd/es/divider";
+import Divider from "antd/es/divider/index";
 import TeamOutlined from "@ant-design/icons/es/icons/TeamOutlined";
 import HomeOutlined from "@ant-design/icons/es/icons/HomeOutlined";
 import SolutionOutlined from "@ant-design/icons/es/icons/SolutionOutlined";
-import * as cache from "../utils/cache";
+import * as cache from "../../utils/cache";
 
-import {createHashHistory} from 'history';
+
+import {createHashHistory} from 'history/index';
+import GithubOutlined from "@ant-design/icons/es/icons/GithubOutlined";
 // const history = createBrowserHistory() // history模式
 const history = createHashHistory() // hash模式
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
 
+
+const MyIcon = createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_1485538_aadddrmj2oj.js', // 在 iconfont.cn 上生成
+});
 export default class ErdLayout extends React.Component {
     state = {
         collapsed: false,
@@ -75,10 +81,19 @@ export default class ErdLayout extends React.Component {
                     <Layout className="site-layout">
                         <Header className="site-layout-background">
                             <div style={{textAlign: "right"}}>
+                                <Divider type="vertical"/>
+                                <a href={"https://github.com/whaty/MARTIN-ERD"} target="_blank"
+                                   title={"Github"}><GithubOutlined
+                                    style={{margin: "10px"}}/></a>
+                                <Divider type="vertical"/>
+                                <a href={"https://gitee.com/MARTIN-88/erd-online"} target="_blank" title={"Gitee"}>
+                                    <MyIcon type="icon-gitee" style={{margin: "10px"}}/>
+                                </a>
+
+                                <Divider type="vertical"/>
                                 <HeaderDropdown overlay={menu}>
                                 <span className={`${styles.action} ${styles.account}`}>
                                     <UserOutlined/>
-                                    <Divider type={"vertical"}/>
                                     <span><b>{username}</b></span>
                                 </span>
                                 </HeaderDropdown>
