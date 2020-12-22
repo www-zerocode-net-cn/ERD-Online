@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import _object from 'lodash/object';
 import moment from 'moment';
-import {Button, Context, Icon, Input, Message, Modal, openModal, Tab, Tree} from '../components';
+import {Context, Icon, Input, Message, Modal, openModal, Tab, Tree} from '../components';
 import {addOnResize} from '../../src/utils/listener';
 import {generateMD} from '../../src/utils/markdown';
 import {generateHtml} from '../../src/utils/generatehtml';
@@ -34,6 +34,14 @@ import CopyOutlined from "@ant-design/icons/es/icons/CopyOutlined";
 import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
 import ExportOutlined from "@ant-design/icons/es/icons/ExportOutlined";
 import FileTextOutlined from "@ant-design/icons/es/icons/FileTextOutlined";
+import {Button, Col, Divider, Menu, Row, Space} from "antd";
+import UserOutlined from "@ant-design/icons/es/icons/UserOutlined";
+import ArrowLeftOutlined from "@ant-design/icons/es/icons/ArrowLeftOutlined";
+import SwaggerButton from "../components/swagger/button";
+import SettingTwoTone from "@ant-design/icons/es/icons/SettingTwoTone";
+import SaveTwoTone from "@ant-design/icons/es/icons/SaveTwoTone";
+import ThunderboltTwoTone from "@ant-design/icons/es/icons/ThunderboltTwoTone";
+import {createFromIconfontCN} from "@ant-design/icons";
 
 const moduleUtils = Module.Utils;
 const tableUtils = Table.Utils;
@@ -50,6 +58,11 @@ const menus = [
     {name: '粘贴', key: 'paste', icon: <Icon type='fa-paste' style={{color: '#6968E1', marginRight: 5}}/>},
     {name: '打开', key: 'open', icon: <Icon type='folderopen' style={{color: '#C3D6E8', marginRight: 5}}/>},
 ];
+
+const MyIcon = createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_1485538_2bpvcyswpp1.js', // 在 iconfont.cn 上生成
+});
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -446,10 +459,10 @@ export default class App extends React.Component {
     _export = () => {
         // 打开弹窗，选择导出html或者word
         openModal(<div style={{textAlign: 'center', padding: 10}}>
-            <Button icon='HTML' onClick={(btn) => this._exportFile('Html', btn)}>导出HTML</Button>
+            <Button onClick={(btn) => this._exportFile('Html', btn)}>导出HTML</Button>
             {/*      <Button icon='wordfile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('Word', btn)}>导出WORD</Button>
       <Button icon='pdffile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('PDF', btn)}>导出PDF</Button>*/}
-            <Button icon='file1' style={{marginLeft: 40}}
+            <Button style={{marginLeft: 40}}
                     onClick={(btn) => this._exportFile('Markdown', btn)}>导出MARKDOWN</Button>
         </div>, {
             title: '文件导出'
@@ -1474,416 +1487,525 @@ export default class App extends React.Component {
             dataHistory, saveProjectSome, columnOrder, configJSON, updateConfig
         } = this.props;
         const {tools, tab, width, toolsClickable, show, clicked, tabs = [], versions} = this.state;
-        console.log('versions1405', versions);
+
+        const projectInfo = (
+            <Menu>
+                <Menu.Item key="1" icon={<UserOutlined/>}>
+                    1st menu item
+                </Menu.Item>
+                <Menu.Item key="2" icon={<UserOutlined/>}>
+                    2nd menu item
+                </Menu.Item>
+                <Menu.Item key="3" icon={<UserOutlined/>}>
+                    3rd menu item
+                </Menu.Item>
+            </Menu>
+        );
+
+        const versionInfo = (
+            <Menu>
+                <Menu.Item key="1" icon={<UserOutlined/>}>
+                    同步配置
+                </Menu.Item>
+                <Menu.Item key="2" icon={<UserOutlined/>}>
+                    保存新版本
+                </Menu.Item>
+                <Menu.Item key="3" icon={<UserOutlined/>}>
+                    重建基线
+                </Menu.Item>
+                <Menu.Item key="4" icon={<UserOutlined/>}>
+                    任意版本比较
+                </Menu.Item>
+            </Menu>
+        );
+
+        const importInfo = (
+            <Menu>
+                <Menu.Item key="1" icon={<MyIcon type="icon-line-height"/>} onClick={() => this._readDB()}>
+                    数据库逆向解析
+                </Menu.Item>
+                <Menu.Item key="2" icon={<MyIcon type="icon-PDM"/>} onClick={() => this._readPDMfile()}>
+                    解析PDM文件
+                </Menu.Item>
+                <Menu.Item key="3" icon={<MyIcon type="icon-other_win"/>} onClick={() => this._readPDMfile()}>
+                    解析ERWin文件
+                </Menu.Item>
+            </Menu>
+        );
+
+        const saveInfo = (
+            <Menu>
+                <Menu.Item key="1" icon={<SaveOutlined/>} onClick={() => this._saveAll()}>
+                    保存
+                </Menu.Item>
+                <Menu.Item key="2" icon={<Icon type='fa-save' style={{marginRight: 5, color: '#9291CD'}}/>}
+                           onClick={() => this._saveAs()}>
+                    另存为
+                </Menu.Item>
+            </Menu>
+        );
+
+
+        const exportInfo = (
+            <Menu>
+                <Menu.Item key="1" icon={<MyIcon type="icon-f-export"/>} onClick={() => this._export()}>
+                    导出文档
+                </Menu.Item>
+                <Menu.Item key="2" icon={<MyIcon type="icon-DDL"/>} onClick={() => this._exportSQL()}>
+                    导出DDL
+                </Menu.Item>
+                <Menu.Item key="3" icon={<MyIcon type="icon-JSON"/>} onClick={() => this._saveAs()}>
+                    导出JSON
+                </Menu.Item>
+            </Menu>
+        );
+
         return (
-            <div className="erd-wrapper">
-                <div className='erd-home-header'>
-                    <div
-                        className='erd-home-header-save'
-                        style={{display: tools === 'dbversion' ? 'none' : ''}}
-                        onClick={() => this._saveAll()}
-                    >
-                        <span><SaveOutlined/></span>
-                        <span>保存</span>
-                    </div>
-                    <div className='erd-home-header-menu' style={{paddingLeft: tools === 'dbversion' ? '60px' : '0'}}>
-                        <header>
-                            <div className="options-wrapper">
-                                <div>
-                                    <ul className="other-options-menu">
-                                        <li
-                                            className={`other-options-menu-tools
+            <div>
+                <Row style={{padding: "10px"}}>
+                    <Col span={6}>
+                        <Space split={<Divider type="vertical"/>}>
+                            <ArrowLeftOutlined title={"返回"} title={"返回"}/>
+                            <SwaggerButton type="text" overlay={projectInfo} text={"test1"} title={"项目信息"}>
+                            </SwaggerButton>
+                            <SwaggerButton type="text" overlay={versionInfo} text={"1.0.0"} title={"版本"}>
+                            </SwaggerButton>
+                            <SwaggerButton type="text" overlay={importInfo} text={"解析"}>
+                            </SwaggerButton>
+                        </Space>
+                    </Col>
+                    <Col span={18} align="right">
+                        <Space split={<Divider type="vertical"/>}>
+                            <Button shape="circle" title={"数据源"} onClick={() => this._JDBCConfig()}>
+                                <ThunderboltTwoTone title={"数据源"}/>
+                            </Button>
+                            <Button shape="circle" title={"配置默认数据"} onClick={() => this._setting()}>
+                                <SettingTwoTone title={"配置默认数据"}/>
+                            </Button>
+                            <Button shape="circle" title={"保存"} onClick={() => this._saveAll()}>
+                                <SaveTwoTone title={"保存"}/>
+                            </Button>
+                            <SwaggerButton type="text" overlay={exportInfo} text={"导出"}>
+                            </SwaggerButton>
+                        </Space>
+                    </Col>
+                </Row>
+
+                <div className="erd-wrapper">
+                    <div className='erd-home-header'>
+                        <div
+                            className='erd-home-header-save'
+                            style={{display: tools === 'dbversion' ? 'none' : ''}}
+                            onClick={() => this._saveAll()}
+                        >
+                            <span><SaveOutlined/></span>
+                            <span>保存</span>
+                        </div>
+                        <div className='erd-home-header-menu'
+                             style={{paddingLeft: tools === 'dbversion' ? '60px' : '0'}}>
+                            <header>
+                                <div className="options-wrapper">
+                                    <div>
+                                        <ul className="other-options-menu">
+                                            <li
+                                                className={`other-options-menu-tools
                    ${(tools === 'file' || tools === 'entity') ? 'menu-tools-edit-active' : 'tools-content-enable-click'}`}
-                                            onClick={() => this._menuClick('file')}
-                                        >
-                                            <span>开始</span>
-                                        </li>
-                                        <li
-                                            className={`other-options-menu-tools
+                                                onClick={() => this._menuClick('file')}
+                                            >
+                                                <span>开始</span>
+                                            </li>
+                                            <li
+                                                className={`other-options-menu-tools
                    ${tabs.length > 0 && tools === 'map' ? 'menu-tools-edit-active' : ''}
                   ${tabs.length > 0 && toolsClickable === 'map' ? '' : 'tools-content-un-click'}`}
-                                            onClick={() => tabs.length > 0 && toolsClickable === 'map' && this._menuClick('map')}
-                                        >
-                                            <span style={{marginLeft: "6px"}}>关系图</span>
-                                        </li>
-                                        <li
-                                            className={`other-options-menu-tools ${tools === 'plug' ?
-                                                'menu-tools-edit-active' : 'tools-content-enable-click'}`}
-                                            onClick={() => this._menuClick('plug')}
-                                        >
-                                            <span>模型</span>
-                                        </li>
-                                        <li
-                                            className={`other-options-menu-tools ${tools === 'dbversion' ?
-                                                'menu-tools-edit-active' : 'tools-content-enable-click'}`}
-                                            onClick={() => this._menuClick('dbversion')}
-                                        >
-                                            <span>版本</span>
-                                        </li>
-                                    </ul>
-                                    {/*<LogoutOutlined*/}
-                                    {/*    title='关闭当前项目，回到工作台'*/}
-                                    {/*    style={{float: 'right', marginRight: 20, paddingTop: 1, cursor: 'pointer'}}*/}
-                                    {/*    onClick={this._closeProject}*/}
-                                    {/*/>*/}
+                                                onClick={() => tabs.length > 0 && toolsClickable === 'map' && this._menuClick('map')}
+                                            >
+                                                <span style={{marginLeft: "6px"}}>关系图</span>
+                                            </li>
+                                            <li
+                                                className={`other-options-menu-tools ${tools === 'plug' ?
+                                                    'menu-tools-edit-active' : 'tools-content-enable-click'}`}
+                                                onClick={() => this._menuClick('plug')}
+                                            >
+                                                <span>模型</span>
+                                            </li>
+                                            <li
+                                                className={`other-options-menu-tools ${tools === 'dbversion' ?
+                                                    'menu-tools-edit-active' : 'tools-content-enable-click'}`}
+                                                onClick={() => this._menuClick('dbversion')}
+                                            >
+                                                <span>版本</span>
+                                            </li>
+                                        </ul>
+                                        {/*<LogoutOutlined*/}
+                                        {/*    title='关闭当前项目，回到工作台'*/}
+                                        {/*    style={{float: 'right', marginRight: 20, paddingTop: 1, cursor: 'pointer'}}*/}
+                                        {/*    onClick={this._closeProject}*/}
+                                        {/*/>*/}
 
-                                </div>
-                            </div>
-                        </header>
-                        <Context
-                            menus={this.state.contextMenus}
-                            left={this.state.left}
-                            top={this.state.top}
-                            display={this.state.contextDisplay}
-                            closeContextMenu={this._closeContextMenu}
-                            onClick={this._contextClick}
-                        />
-                        <div className="tools-content" style={{display: tools === 'dbversion' ? 'none' : ''}}>
-                            <div className="tools-content-tab"
-                                 style={{display: (tools === 'file' || tools === 'entity') ? '' : 'none'}}>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._saveAs()}
-                                        >
-                                            <Icon type='fa-save' style={{marginRight: 5, color: '#9291CD'}}/>另存为
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group-name'>
-                                        项目
                                     </div>
                                 </div>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._setting()}
-                                        >
-                                            <SettingOutlined style={{marginRight: 5}}/>设置
+                            </header>
+                            <Context
+                                menus={this.state.contextMenus}
+                                left={this.state.left}
+                                top={this.state.top}
+                                display={this.state.contextDisplay}
+                                closeContextMenu={this._closeContextMenu}
+                                onClick={this._contextClick}
+                            />
+                            <div className="tools-content" style={{display: tools === 'dbversion' ? 'none' : ''}}>
+                                <div className="tools-content-tab"
+                                     style={{display: (tools === 'file' || tools === 'entity') ? '' : 'none'}}>
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._saveAs()}
+                                            >
+                                                <Icon type='fa-save' style={{marginRight: 5, color: '#9291CD'}}/>另存为
+                                            </div>
                                         </div>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._JDBCConfig()}
-                                        >
-                                            <Icon type='fa-link' style={{marginRight: 5}}/>数据库连接
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group-name'>
-                                        配置
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tools-content-tab"
-                                 style={{display: tabs.length > 0 && tools === 'map' ? '' : 'none'}}>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._onZoom('add')}
-                                        >
-                                            <Icon type="fa-search-plus"/>
-                                            放大
-                                        </div>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._onZoom('sub')}
-                                        >
-                                            <Icon type="fa-search-minus"/>
-                                            缩小
-                                        </div>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._onZoom('normal')}
-                                        >
-                                            <Icon type="fa-search"/>
-                                            原始大小
+                                        <div className='tools-content-group-name'>
+                                            项目
                                         </div>
                                     </div>
-                                    <div className='tools-content-group-name'>
-                                        比例
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._setting()}
+                                            >
+                                                <SettingOutlined style={{marginRight: 5}}/>设置
+                                            </div>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._JDBCConfig()}
+                                            >
+                                                <Icon type='fa-link' style={{marginRight: 5}}/>数据库连接
+                                            </div>
+                                        </div>
+                                        <div className='tools-content-group-name'>
+                                            配置
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className={`tools-content-${clicked === 'drag' ? 'clicked' : 'clickeable'}`}
-                                            onClick={() => this._changeMode('drag')}
-                                        ><Icon type="fa-arrows"/>拖拽模式
+                                <div className="tools-content-tab"
+                                     style={{display: tabs.length > 0 && tools === 'map' ? '' : 'none'}}>
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._onZoom('add')}
+                                            >
+                                                <Icon type="fa-search-plus"/>
+                                                放大
+                                            </div>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._onZoom('sub')}
+                                            >
+                                                <Icon type="fa-search-minus"/>
+                                                缩小
+                                            </div>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._onZoom('normal')}
+                                            >
+                                                <Icon type="fa-search"/>
+                                                原始大小
+                                            </div>
                                         </div>
-                                        <div
-                                            className={`tools-content-${clicked === 'edit' ? 'clicked' : 'clickeable'}`}
-                                            onClick={() => this._changeMode('edit')}
-                                        ><Icon type="fa-edit"/>编辑模式
+                                        <div className='tools-content-group-name'>
+                                            比例
                                         </div>
                                     </div>
-                                    <div className='tools-content-group-name'>
-                                        模式
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className={`tools-content-${clicked === 'drag' ? 'clicked' : 'clickeable'}`}
+                                                onClick={() => this._changeMode('drag')}
+                                            ><Icon type="fa-arrows"/>拖拽模式
+                                            </div>
+                                            <div
+                                                className={`tools-content-${clicked === 'edit' ? 'clicked' : 'clickeable'}`}
+                                                onClick={() => this._changeMode('edit')}
+                                            ><Icon type="fa-edit"/>编辑模式
+                                            </div>
+                                        </div>
+                                        <div className='tools-content-group-name'>
+                                            模式
+                                        </div>
+                                    </div>
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._exportImage()}
+                                            ><Icon type="fa-file-image-o"/>导出图片
+                                            </div>
+                                        </div>
+                                        <div className='tools-content-group-name'>
+                                            导出
+                                        </div>
+                                    </div>
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                style={{flexGrow: 1, textAlign: 'right'}}
+                                            ><Input
+                                                onChange={this._relationSearch}
+                                                style={{margin: '10px 10px 0 0', borderRadius: 3}}
+                                                placeholder='在图上找表'
+                                            /></div>
+                                        </div>
+                                        <div className='tools-content-group-name'>
+                                            搜索
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._exportImage()}
-                                        ><Icon type="fa-file-image-o"/>导出图片
+                                <div className="tools-content-tab" style={{display: tools === 'plug' ? '' : 'none'}}>
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._readDB()}
+                                            ><Icon type="fa-hand-lizard-o"/>数据库逆向解析
+                                            </div>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._readPDMfile()}
+                                            ><Icon type="fa-file"/>解析PDM文件
+                                            </div>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._readPDMfile()}
+                                            ><Icon type="fa-file"/>解析ERWin文件
+                                            </div>
+                                        </div>
+                                        <div className='tools-content-group-name'>
+                                            解析导入
                                         </div>
                                     </div>
-                                    <div className='tools-content-group-name'>
-                                        导出
-                                    </div>
-                                </div>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            style={{flexGrow: 1, textAlign: 'right'}}
-                                        ><Input
-                                            onChange={this._relationSearch}
-                                            style={{margin: '10px 10px 0 0', borderRadius: 3}}
-                                            placeholder='在图上找表'
-                                        /></div>
-                                    </div>
-                                    <div className='tools-content-group-name'>
-                                        搜索
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tools-content-tab" style={{display: tools === 'plug' ? '' : 'none'}}>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._readDB()}
-                                        ><Icon type="fa-hand-lizard-o"/>数据库逆向解析
+                                    <div className='tools-content-group'>
+                                        <div className='tools-content-group-content'>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._export()}
+                                            ><ExportOutlined/>导出文档
+                                            </div>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._exportSQL()}
+                                            ><Icon type="fa-database"/>导出DDL脚本
+                                            </div>
+                                            <div
+                                                className='tools-content-clickeable'
+                                                onClick={() => this._saveAs('filterDBS')}
+                                            ><FileTextOutlined/>导出JSON
+                                            </div>
                                         </div>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._readPDMfile()}
-                                        ><Icon type="fa-file"/>解析PDM文件
+                                        <div className='tools-content-group-name'>
+                                            导出
                                         </div>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._readPDMfile()}
-                                        ><Icon type="fa-file"/>解析ERWin文件
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group-name'>
-                                        解析导入
-                                    </div>
-                                </div>
-                                <div className='tools-content-group'>
-                                    <div className='tools-content-group-content'>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._export()}
-                                        ><ExportOutlined />导出文档
-                                        </div>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._exportSQL()}
-                                        ><Icon type="fa-database"/>导出DDL脚本
-                                        </div>
-                                        <div
-                                            className='tools-content-clickeable'
-                                            onClick={() => this._saveAs('filterDBS')}
-                                        ><FileTextOutlined />导出JSON
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group-name'>
-                                        导出
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="tools-work-content" style={{display: tools === 'dbversion' ? 'none' : ''}}>
-                    <div
-                        className="tools-left-tab"
-                        style={{
-                            width: width === 0 ? 20 : '20%',
-                            minWidth: width === 0 ? 20 : 200,
-                            background: '#ffffff'
-                        }}
-                        ref={instance => this.leftTabInstance = instance}
-                    >
-                        <div className="tools-left-tab-header">
-                            <div className="tools-left-tab-header-icons">
-                                <Icon title='收起左侧树图' type="verticleright" onClick={this._closeLeftTab}/>
-                                <Icon title='重新加载项目' type="reload1" onClick={this._refresh}
-                                      style={{display: width === 0 ? 'none' : ''}}/>
-                            </div>
-                            <div className="tools-left-tab-header-tab-names"
-                                 style={{display: width === 0 ? 'none' : ''}}>
+                    <div className="tools-work-content" style={{display: tools === 'dbversion' ? 'none' : ''}}>
+                        <div
+                            className="tools-left-tab"
+                            style={{
+                                width: width === 0 ? 20 : '20%',
+                                minWidth: width === 0 ? 20 : 200,
+                                background: '#ffffff'
+                            }}
+                            ref={instance => this.leftTabInstance = instance}
+                        >
+                            <div className="tools-left-tab-header">
+                                <div className="tools-left-tab-header-icons">
+                                    <Icon title='收起左侧树图' type="verticleright" onClick={this._closeLeftTab}/>
+                                    <Icon title='重新加载项目' type="reload1" onClick={this._refresh}
+                                          style={{display: width === 0 ? 'none' : ''}}/>
+                                </div>
+                                <div className="tools-left-tab-header-tab-names"
+                                     style={{display: width === 0 ? 'none' : ''}}>
                 <span
                     className={`${tab === 'table' ? 'menu-tab-tools-edit-active' : ''}`}
                     onClick={() => this._leftTabChange('table')}
                 ><Icon type='fa-th' style={{marginRight: 5}}/>数据表</span>
-                                <span
-                                    className={`${tab === 'domain' ? 'menu-tab-tools-edit-active' : ''}`}
-                                    onClick={() => this._leftTabChange('domain')}
-                                ><Icon type='fa-th-list' style={{marginRight: 5}}/>数据域</span>
+                                    <span
+                                        className={`${tab === 'domain' ? 'menu-tab-tools-edit-active' : ''}`}
+                                        onClick={() => this._leftTabChange('domain')}
+                                    ><Icon type='fa-th-list' style={{marginRight: 5}}/>数据域</span>
+                                </div>
                             </div>
-                        </div>
-                        <div className="tools-left-tab-body" style={{display: width === 0 ? 'none' : ''}}>
-                            <div className="tools-left-tab-body-table" style={{display: tab === 'table' ? '' : 'none'}}>
-                                {
-                                    (dataSource.modules || []).length > 0 ? <Tree
-                                        showSearch
-                                        ref={instance => this.treeInstance = instance}
-                                        onContextMenu={this._onContextMenu}
-                                        onDoubleClick={this._onDoubleClick}
-                                        onDrop={this._onDataTableDrop}
-                                    >
-                                        {
-                                            (dataSource.modules || []).map((module) => {
-                                                const realName = module.chnname ? `${module.name}-${module.chnname}` : module.name;
-                                                return (<TreeNode
-                                                    draggable
-                                                    key={module.name}
-                                                    realName={realName}
-                                                    name={realName}
-                                                    value={`module&${module.name}`}>
-                                                    <TreeNode
-                                                        name={<span><Icon
-                                                            type='fa-wpforms'
-                                                            style={{marginRight: 2, color: '#50B011'}}
-                                                        />关系图</span>}
-                                                        value={`map&${module.name}/关系图`}/>
-                                                    <TreeNode
-                                                        name='数据表'
-                                                        value={`table&${module.name}&数据表`}
-                                                    >
-                                                        {(module.entities || [])
-                                                            .map((entity) => {
-                                                                const realName = this._getTableNameByNameTemplate(entity);
-                                                                return (
-                                                                    <TreeNode
-                                                                        realName={realName}
-                                                                        key={entity.title}
-                                                                        name={<span>
+                            <div className="tools-left-tab-body" style={{display: width === 0 ? 'none' : ''}}>
+                                <div className="tools-left-tab-body-table"
+                                     style={{display: tab === 'table' ? '' : 'none'}}>
+                                    {
+                                        (dataSource.modules || []).length > 0 ? <Tree
+                                            showSearch
+                                            ref={instance => this.treeInstance = instance}
+                                            onContextMenu={this._onContextMenu}
+                                            onDoubleClick={this._onDoubleClick}
+                                            onDrop={this._onDataTableDrop}
+                                        >
+                                            {
+                                                (dataSource.modules || []).map((module) => {
+                                                    const realName = module.chnname ? `${module.name}-${module.chnname}` : module.name;
+                                                    return (<TreeNode
+                                                        draggable
+                                                        key={module.name}
+                                                        realName={realName}
+                                                        name={realName}
+                                                        value={`module&${module.name}`}>
+                                                        <TreeNode
+                                                            name={<span><Icon
+                                                                type='fa-wpforms'
+                                                                style={{marginRight: 2, color: '#50B011'}}
+                                                            />关系图</span>}
+                                                            value={`map&${module.name}/关系图`}/>
+                                                        <TreeNode
+                                                            name='数据表'
+                                                            value={`table&${module.name}&数据表`}
+                                                        >
+                                                            {(module.entities || [])
+                                                                .map((entity) => {
+                                                                    const realName = this._getTableNameByNameTemplate(entity);
+                                                                    return (
+                                                                        <TreeNode
+                                                                            realName={realName}
+                                                                            key={entity.title}
+                                                                            name={<span>
                                     <Icon
                                         type='fa-table'
                                         style={{marginRight: 2, color: '#1B8CDC'}}
                                     />{realName}</span>}
-                                                                        value={`entity&${module.name}&${entity.title}`}/>
-                                                                )
-                                                            })}
-                                                    </TreeNode>
-                                                </TreeNode>);
-                                            })
-                                        }
-                                    </Tree> : <span onClick={this._emptyClick}
-                                                    className='tools-left-tab-body-domain-empty-span'>
+                                                                            value={`entity&${module.name}&${entity.title}`}/>
+                                                                    )
+                                                                })}
+                                                        </TreeNode>
+                                                    </TreeNode>);
+                                                })
+                                            }
+                                        </Tree> : <span onClick={this._emptyClick}
+                                                        className='tools-left-tab-body-domain-empty-span'>
                     <Icon type='addfolder'/>无模块点击新增</span>
-                                }
-                            </div>
-                            <div className="tools-left-tab-body-domain"
-                                 style={{display: tab === 'domain' ? '' : 'none'}}>
-                                <Tree onContextMenu={this._onContextMenu} onDoubleClick={this._onDoubleClick}
-                                      onDrop={this._onDrop}>
-                                    {
-                                        ([{name: '数据类型', type: 'datatype'}, {
-                                            name: '数据库',
-                                            type: 'database'
-                                        }]).map((type) => {
-                                            return (<TreeNode key={type.name} name={type.name}
-                                                              value={`${type.type}&${type.name}`}>
-                                                {
-                                                    (dataSource.dataTypeDomains &&
-                                                        dataSource.dataTypeDomains[type.type] || [])
-                                                        .map(data => (
-                                                            <TreeNode
-                                                                key={data.code || data.name}
-                                                                realName={`${data.name || data.code}${data.defaultDatabase ? '(默认)' : ''}`}
-                                                                name={<span>
+                                    }
+                                </div>
+                                <div className="tools-left-tab-body-domain"
+                                     style={{display: tab === 'domain' ? '' : 'none'}}>
+                                    <Tree onContextMenu={this._onContextMenu} onDoubleClick={this._onDoubleClick}
+                                          onDrop={this._onDrop}>
+                                        {
+                                            ([{name: '数据类型', type: 'datatype'}, {
+                                                name: '数据库',
+                                                type: 'database'
+                                            }]).map((type) => {
+                                                return (<TreeNode key={type.name} name={type.name}
+                                                                  value={`${type.type}&${type.name}`}>
+                                                    {
+                                                        (dataSource.dataTypeDomains &&
+                                                            dataSource.dataTypeDomains[type.type] || [])
+                                                            .map(data => (
+                                                                <TreeNode
+                                                                    key={data.code || data.name}
+                                                                    realName={`${data.name || data.code}${data.defaultDatabase ? '(默认)' : ''}`}
+                                                                    name={<span>
                                 <Icon
                                     type={type.type === 'datatype' ? 'fa-viacoin' : 'fa-database'}
                                     style={{marginRight: 2, color: type.type === 'datatype' ? '#3BB359' : '#E17729'}}
                                 />{`${data.name || data.code}${data.defaultDatabase ? '(默认)' : ''}`}</span>
-                                                                }
-                                                                value={`${type.type}&data&${data.code || data.name}`}/>))
-                                                }
-                                            </TreeNode>);
-                                        })
-                                    }
-                                </Tree>
+                                                                    }
+                                                                    value={`${type.type}&data&${data.code || data.name}`}/>))
+                                                    }
+                                                </TreeNode>);
+                                            })
+                                        }
+                                    </Tree>
+                                </div>
                             </div>
                         </div>
+                        <div className="tools-left-border" onMouseDown={this._onMouseDown}>{}</div>
+                        <div
+                            className="tools-right-paint"
+                            ref={instance => this.instance = instance}
+                            style={{
+                                width: width === 0 ? 'calc(100% - 20px)' : '80%',
+                                minWidth: 200,
+                                background: "#ffffff"
+                            }}
+                        >
+                            {
+                                tabs.filter(lefttab => !lefttab.folding).length === 0 ?
+                                    <div
+                                        style={{
+                                            textAlign: 'center',
+                                            width: '100%',
+                                            height: '100%',
+                                            paddingTop: 50,
+                                            userSelect: 'none',
+                                        }}>
+                                        双击左侧树图开始工作吧
+                                    </div>
+                                    : <Tab
+                                        dataSource={this.props.dataSource}
+                                        leftTabWidth={this.state.leftTabWidth}
+                                        onClose={this._tabClose}
+                                        onClick={this._tabHeaderClick}
+                                        show={this.state.show}
+                                        tabs={tabs}
+                                    >
+                                        {tabs.filter(lefttab => !lefttab.folding).map((leftTab) => {
+                                            return (<TabPane
+                                                realName={this._getTabRealName(leftTab.title)}
+                                                icon={leftTab.icon}
+                                                title={leftTab.title.replace('&', '/')}
+                                                key={leftTab.key}
+                                            >{React.cloneElement(leftTab.com, {
+                                                id: leftTab.key,
+                                                value: leftTab.value,
+                                                changeDataType: changeDataType,
+                                                updateTabs: this._updateTabs,
+                                                ref: instance => {
+                                                    if (leftTab.value.startsWith('entity&')) {
+                                                        this.tableInstance[leftTab.key] = instance
+                                                    } else {
+                                                        this.relationInstance[leftTab.key] = instance
+                                                    }
+                                                },
+                                                dataSource,
+                                                project,
+                                                saveProject,
+                                                show,
+                                                dataHistory,
+                                                saveProjectSome,
+                                                columnOrder,
+                                                versions,
+                                                modeChange: this._changeMode,
+                                                openTab: this._onDoubleClick,
+                                            })}</TabPane>);
+                                        })}
+                                    </Tab>
+                            }
+                        </div>
                     </div>
-                    <div className="tools-left-border" onMouseDown={this._onMouseDown}>{}</div>
-                    <div
-                        className="tools-right-paint"
-                        ref={instance => this.instance = instance}
-                        style={{width: width === 0 ? 'calc(100% - 20px)' : '80%', minWidth: 200, background: "#ffffff"}}
-                    >
-                        {
-                            tabs.filter(lefttab => !lefttab.folding).length === 0 ?
-                                <div
-                                    style={{
-                                        textAlign: 'center',
-                                        width: '100%',
-                                        height: '100%',
-                                        paddingTop: 50,
-                                        userSelect: 'none',
-                                    }}>
-                                    双击左侧树图开始工作吧
-                                </div>
-                                : <Tab
-                                    dataSource={this.props.dataSource}
-                                    leftTabWidth={this.state.leftTabWidth}
-                                    onClose={this._tabClose}
-                                    onClick={this._tabHeaderClick}
-                                    show={this.state.show}
-                                    tabs={tabs}
-                                >
-                                    {tabs.filter(lefttab => !lefttab.folding).map((leftTab) => {
-                                        return (<TabPane
-                                            realName={this._getTabRealName(leftTab.title)}
-                                            icon={leftTab.icon}
-                                            title={leftTab.title.replace('&', '/')}
-                                            key={leftTab.key}
-                                        >{React.cloneElement(leftTab.com, {
-                                            id: leftTab.key,
-                                            value: leftTab.value,
-                                            changeDataType: changeDataType,
-                                            updateTabs: this._updateTabs,
-                                            ref: instance => {
-                                                if (leftTab.value.startsWith('entity&')) {
-                                                    this.tableInstance[leftTab.key] = instance
-                                                } else {
-                                                    this.relationInstance[leftTab.key] = instance
-                                                }
-                                            },
-                                            dataSource,
-                                            project,
-                                            saveProject,
-                                            show,
-                                            dataHistory,
-                                            saveProjectSome,
-                                            columnOrder,
-                                            versions,
-                                            modeChange: this._changeMode,
-                                            openTab: this._onDoubleClick,
-                                        })}</TabPane>);
-                                    })}
-                                </Tab>
-                        }
-                    </div>
+                    {
+                        tools === 'dbversion' ?
+                            <DatabaseVersion
+                                project={project}
+                                dataSource={dataSource}
+                                configJSON={configJSON}
+                                saveProject={saveProject}
+                                updateConfig={updateConfig}
+                                versions={versions}
+                                dbVersion='v0.0.0'
+                            /> : ''
+                    }
                 </div>
-                {
-                    tools === 'dbversion' ?
-                        <DatabaseVersion
-                            project={project}
-                            dataSource={dataSource}
-                            configJSON={configJSON}
-                            saveProject={saveProject}
-                            updateConfig={updateConfig}
-                            versions={versions}
-                            dbVersion='v0.0.0'
-                        /> : ''
-                }
             </div>
         );
     }

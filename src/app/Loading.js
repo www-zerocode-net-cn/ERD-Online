@@ -9,6 +9,8 @@ import * as Save from '../utils/save';
 import ErdLayout from "./layout/ErdLayout";
 
 import request from "../utils/request";
+import SwaggerLayout from "./layout/SwaggerLayout";
+import Swagger from "./api/Swagger";
 
 export default class Loading extends React.Component {
     constructor(props) {
@@ -120,7 +122,7 @@ export default class Loading extends React.Component {
                 </div>
             </div>;
         } else {
-            content = <Home
+            content = <Swagger
                 columnOrder={columnOrder}
                 projectName={projectName}
                 dataSource={projectJSON || {
@@ -135,7 +137,7 @@ export default class Loading extends React.Component {
         }
 
         return (
-            <ErdLayout
+            <SwaggerLayout
                 content={content}
                 defaultSelectedKeys={['project']}
             />
