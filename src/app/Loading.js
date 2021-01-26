@@ -1,12 +1,10 @@
 import React from 'react';
-import Home from './Home';
 import './style/loading.less';
 import defaultData from './defaultData';
 
 import * as cache from '../utils/cache';
 import {Modal} from '../components';
 import * as Save from '../utils/save';
-import ErdLayout from "./layout/ErdLayout";
 
 import request from "../utils/request";
 import SwaggerLayout from "./layout/SwaggerLayout";

@@ -24,6 +24,13 @@ import * as File from '../utils/file';
 import './style/dbVersion.less';
 import EditOutlined from "@ant-design/icons/es/icons/EditOutlined";
 import DeleteOutlined from "@ant-design/icons/es/icons/DeleteOutlined";
+import {Badge, Button as AntButton, Card, Col, Divider, List, Row, Space, Tag, Tooltip} from "antd";
+import PlusCircleOutlined from "@ant-design/icons/es/icons/PlusCircleOutlined";
+import {createFromIconfontCN} from "@ant-design/icons";
+import SyncOutlined from "@ant-design/icons/es/icons/SyncOutlined";
+import CheckCircleOutlined from "@ant-design/icons/es/icons/CheckCircleOutlined";
+import ClockCircleOutlined from "@ant-design/icons/es/icons/ClockCircleOutlined";
+import ExclamationCircleOutlined from "@ant-design/icons/es/icons/ExclamationCircleOutlined";
 
 const {Radio} = RadioGroup;
 
@@ -379,6 +386,10 @@ class ReadDB extends React.Component {
         </div>);
     }
 }
+
+const MyIcon = createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_1485538_zhb6fnmux9a.js', // 在 iconfont.cn 上生成
+});
 
 export default class DatabaseVersion extends React.Component {
     constructor(props) {
@@ -1243,6 +1254,7 @@ export default class DatabaseVersion extends React.Component {
         const dbData = this._getCurrentDBData();
         const code = _object.get(dbData, 'type', this.state.defaultDB);
         let data = '';
+        debugger;
         if (init) {
             data = getAllDataSQL({
                 ...dataSource,
@@ -1252,13 +1264,13 @@ export default class DatabaseVersion extends React.Component {
             data = initVersion ?
                 getAllDataSQL({
                     ...dataSource,
-                    modules: currentVersion.projectJSON.modules,
+                    modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
                 }, code) :
                 getCodeByChanges({
                     ...dataSource,
-                    modules: currentVersion.projectJSON.modules,
+                    modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
                 }, tempChanges, code, {
-                    modules: (lastVersion && lastVersion.projectJSON.modules) || [],
+                    modules: (lastVersion && lastVersion.modules) || [],
                 });
         }
 
@@ -1507,175 +1519,144 @@ export default class DatabaseVersion extends React.Component {
     render() {
         const {init, versionData, versions, dbVersion, changes, dbs, synchronous} = this.state;
         const currentDB = this._getCurrentDB();
-        return (<div className='erd-db-version'>
-            <div className='erd-db-version-opt-container'>
-                <div className='erd-db-version-opt'>
-                    <div
-                        className='erd-db-version-opt-synchronous erd-db-version-opt-wrapper'
-                        onClick={this._synchronousConfig}
-                    >
-                        <span className='erd-db-version-opt-synchronous-icon'>{}</span>
-                        <span className='erd-db-version-opt-synchronous-name'>同步配置</span>
+
+        return (
+            <div style={{border: "solid 1px #9B9B9B"}}>
+                <Card>
+                    {
+                        changes.length > 0
+                            ?
+                            <AntButton type={"link"} onClick={() => this._showChanges(changes, false,
+                                this.props.dataSource, versions[0] || this.props.dataSource)}>
+                                <Badge status="error"/>当前内容与上一版本的内容有变化，但未保存版本！
+                            </AntButton>
+                            : <Badge status="success" text="当前内容与上一版本内容无变化"/>
+                    }
+                    <div className='erd-db-version-opt'>
+                            <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            切换数据库：
+                            <Select value={currentDB} style={{minWidth: 200}} onChange={this._dbChange}>
+                            <option key='' value=''>-请选择-</option>
+                                {
+                                    dbs.map(db => (<option key={db.name} value={db.name}>{db.name}</option>))
+                                }
+                            </Select>
+                            </span>
                     </div>
-                    <div
-                        className='erd-db-version-opt-init  erd-db-version-opt-wrapper'
-                        style={{display: init ? '' : 'none'}}
-                        onClick={() => this._initBase()}
-                    >
-                        <span className='erd-db-version-opt-init-icon'>{}</span>
-                        <span className='erd-db-version-opt-init-name'>初始化基线</span>
-                    </div>
-                    <div
-                        className='erd-db-version-opt-save  erd-db-version-opt-wrapper'
-                        style={{display: init ? 'none' : ''}}
+                    <Divider style={{marginBottom: "0px"}}/>
+                    <List
+                        size="large"
+                        rowKey="id"
+                        dataSource={versions}
+                        renderItem={(v, index) => (
+                            <List.Item>
+                                <Row align={"left"} style={{width: "350px"}}>
+                                    <Col span={6}>
+                                        <AntButton
+                                            type="link"
+                                            onClick={() => this._showChanges(v.changes,
+                                                v.baseVersion, v, versions[index + 1] || v, dbVersion)}
+                                        >
+                                            <Tooltip title={v.versionDate.concat(':').concat(v.versionDesc)}
+                                                     color={"green"} key={"green"}>
+                                                {v.version}
+                                            </Tooltip>
+                                        </AntButton>
+                                    </Col>
+                                    <Col span={6}>
+                                        {
+                                            compareStringVersion(v.version, dbVersion) <= 0 ?
+                                                <Tag icon={<CheckCircleOutlined/>} color="success">
+                                                    已同步
+                                                </Tag> :
+                                                <span>
+                            {synchronous[v.version] ?
+                                <Tag icon={<SyncOutlined spin/>} color="processing">
+                                    正在同步
+                                </Tag> : <Tag icon={<ExclamationCircleOutlined/>} color="error">
+                                    未同步
+                                </Tag>}
+                          </span>
+                                        }
+                                    </Col>
+                                    <Col span={12}>
+                                        <Space>
+
+
+                                            <MyIcon
+                                                type="icon-Comparewiththecurrent" title={"任意版本比较"}
+                                                onClick={this._customerVersionCheck}/>
+                                            <Divider type="vertical"/>
+                                            <EditOutlined
+                                                title={"编辑版本"}
+                                                onClick={() => this._editVersion(index, v)}
+                                            />
+                                            <Divider type="vertical"/>
+                                            <DeleteOutlined
+                                                title={"删除版本"}
+                                                onClick={() => this._deleteVersion(v)}/>
+                                            <Divider type="vertical"/>
+                                            {
+                                                compareStringVersion(v.version, dbVersion) <= 0 ? '' :
+                                                    synchronous[v.version] ?
+                                                        '' :
+                                                        < SyncOutlined
+                                                            title={"同步到数据库"}
+                                                            onClick={() => this._readDb(
+                                                                compareStringVersion(v.version, dbVersion) <= 0,
+                                                                v,
+                                                                versions[index + 1] || v, v.changes,
+                                                                index === (versions.length - 1), true)}
+                                                        />
+                                            }
+                                            {
+                                                compareStringVersion(v.version, dbVersion) == 0 ?
+                                                    < MyIcon
+                                                        type="icon-book-mark" title={"当前数据库版本"}
+                                                    /> : ''
+                                            }
+                                        </Space>
+                                    </Col>
+                                </Row>
+                            </List.Item>
+                        )}
+                    />
+                    <AntButton
+                        type="dashed"
+                        style={{width: '100%', marginTop: 8, display: init ? 'none' : ''}}
+                        icon={<PlusCircleOutlined/>}
                         onClick={() => this._saveNewVersion()}
                     >
-                        <span className='erd-db-version-opt-save-icon'>{}</span>
-                        <span className='erd-db-version-opt-save-name'>保存新版本</span>
-                    </div>
-                    <div
-                        className='erd-db-version-opt-rebuild  erd-db-version-opt-wrapper'
-                        style={{display: init ? 'none' : ''}}
-                        onClick={this._rebuild}
+                        新增版本
+                    </AntButton>
+                    <AntButton
+                        type="dashed"
+                        style={{width: '100%', marginTop: 8}}
+                        icon={<SyncOutlined/>}
+                        onClick={() => this._synchronousConfig()}
                     >
-                        <span className='erd-db-version-opt-rebuild-icon'>{}</span>
-                        <span className='erd-db-version-opt-rebuild-name'>重建基线</span>
-                    </div>
-                    <div
-                        className='erd-db-version-opt-compare  erd-db-version-opt-wrapper'
-                        onClick={this._customerVersionCheck}
+                        同步配置
+                    </AntButton>
+                    <AntButton
+                        type="dashed"
+                        style={{width: '100%', marginTop: 8, display: init ? '' : 'none'}}
+                        icon={<MyIcon type={"icon-initial"}/>}
+                        onClick={() => this._initBase()}
                     >
-                        <span className='erd-db-version-opt-compare-icon'>{}</span>
-                        <span className='erd-db-version-opt-compare-name'>任意版本比较</span>
-                    </div>
-                </div>
-                <div className='erd-db-version-opt'>
-          <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          切换数据库：
-            <Select value={currentDB} style={{minWidth: 200}} onChange={this._dbChange}>
-              <option key='' value=''>-请选择-</option>
-                {
-                    dbs.map(db => (<option key={db.name} value={db.name}>{db.name}</option>))
-                }
-            </Select>
-          </span>
-                </div>
+                        初始化基线
+                    </AntButton>
+                    <AntButton
+                        type="dashed"
+                        style={{width: '100%', marginTop: 8, display: init ? 'none' : ''}}
+                        icon={<MyIcon type={"icon-rebuild"}/>}
+                        onClick={() => this._rebuild()}
+                    >
+                        重建基线
+                    </AntButton>
+                </Card>
+
+
             </div>
-            {
-                versionData ? <div
-                    style={{
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >正在获取版本信息...</div> : (
-                    <div className='erd-db-version-list'>
-            <span
-                style={{textAlign: 'center', color: '#2492E6'}}
-            >
-              {currentDB ? `当前使用的数据库：【${currentDB}】,
-              当前数据库版本：【${dbVersion || '未获取到数据库版本，请先初始化基线或者同步当前版本！'}】`
-                  : '当前未选择数据库，如需同步到数据库请先配置数据库!'}
-            </span>
-                        <div style={{display: 'flex', justifyContent: 'center', flexGrow: 1, minHeight: 65}}>
-                            <div className='erd-db-version-list-item'>
-                                <div className='erd-db-version-list-item-time'>
-                                    {}
-                                </div>
-                                <div className='erd-db-version-list-item-line'>
-                                    <div>{}</div>
-                                    <span
-                                        className={`erd-db-version-list-item-line-${changes.length > 0 ? 'current-changes' : 'current-unchange'}`}
-                                    >
-                    {}
-                  </span>
-                                </div>
-                                <div className='erd-db-version-list-item-tag'>
-                  <span
-                      className='erd-db-version-list-item-tag-message'
-                      onClick={() => this._showChanges(changes, false,
-                          this.props.dataSource, versions[0] || this.props.dataSource)}
-                  >
-                    {
-                        changes.length > 0 ? '当前内容与上一版本的内容有变化，但未保存版本！' : '当前内容与上一版本内容无变化'
-                    }
-                  </span>
-                                </div>
-                            </div>
-                        </div>
-                        {
-                            versions.map((v, index) => (
-                                <div key={v.version}
-                                     style={{display: 'flex', justifyContent: 'center', flexGrow: 1, minHeight: 50}}>
-                                    <div className='erd-db-version-list-item'>
-                                        <div className='erd-db-version-list-item-time'>
-                      <span className='erd-db-version-list-item-time-all'>
-                        <span
-                            className='erd-db-version-list-item-time-day'
-                        >{v.versionDate.split(' ')[0]}
-                        </span>
-                        <span
-                            className='erd-db-version-list-item-time-min'
-                        >{v.versionDate.split(' ')[1]}
-                        </span>
-                      </span>
-                                        </div>
-                                        <div className='erd-db-version-list-item-line'>
-                                            <div>{}</div>
-                                            <span
-                                                className={`erd-db-version-list-item-line-${compareStringVersion(v.version, dbVersion) <= 0 ?
-                                                    'success' : 'error'}`}
-                                            >
-                        {compareStringVersion(v.version, dbVersion) <= 0 ? <Icon type='check'/> : <Icon type='minus'/>}
-                      </span>
-                                        </div>
-                                        <div className='erd-db-version-list-item-tag'>
-                                            <div className='erd-db-version-list-item-tag-arrow'>{}
-                                            </div>
-                                            <div
-                                                onClick={() => this._readDb(
-                                                    compareStringVersion(v.version, dbVersion) <= 0,
-                                                    v,
-                                                    versions[index + 1] || v, v.changes,
-                                                    index === (versions.length - 1), true)}
-                                                title={compareStringVersion(v.version, dbVersion) <= 0 ? '' : '点击将进行同步'}
-                                                className={`erd-db-version-list-item-tag-${compareStringVersion(v.version, dbVersion) <= 0 ?
-                                                    'success' : 'error'}`}
-                                            >
-                                                {
-                                                    compareStringVersion(v.version, dbVersion) <= 0 ? '已同步' :
-                                                        <span>
-                            {synchronous[v.version] ?
-                                <span>
-                                <Icon className='anticon-spin' type='loading1' style={{marginRight: 5}}/>
-                                正在同步
-                              </span> : '未同步'}
-                          </span>
-                                                }
-                                            </div>
-                                            <span
-                                                title='点击查看变更详情'
-                                                className='erd-db-version-list-item-tag-message'
-                                                onClick={() => this._showChanges(v.changes,
-                                                    v.baseVersion, v, versions[index + 1] || v, dbVersion)}
-                                            >
-                        {v.version}: {v.versionDesc}
-                      </span>
-                                            <span className='erd-db-version-list-item-tag-icon'>
-                                                <EditOutlined onClick={() => this._editVersion(index, v)}/>
-                                                <DeleteOutlined
-                                                    style={{display: index === 0 ? '' : 'none', marginLeft: 5}}
-                                                    onClick={() => this._deleteVersion(v)}/>
-                      </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                )
-            }
-        </div>);
+        );
     }
 }

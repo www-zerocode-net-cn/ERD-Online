@@ -229,7 +229,7 @@ export default class Project extends React.Component {
                                     />}
                                     title={<a onClick={() => this.modifyProject(item)}>{item.projectName}</a>}
                                     description={
-                                        <Link to="/loading" onClick={() => this.onSetting(item.id)}
+                                        <Link to="/swagger" onClick={() => this.onSetting(item.id)}
                                               title={"开始数据库设计"}>
                                             <Paragraph className={styles.item} ellipsis={{rows: 3}}>
                                                 <Row>

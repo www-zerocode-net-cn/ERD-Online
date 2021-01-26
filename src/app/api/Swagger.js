@@ -1,11 +1,7 @@
 import React from 'react';
 import SwaggerLayout from "../layout/SwaggerLayout";
-import {Button, Col, Divider, Menu, Row, Space} from "antd";
+import {Menu} from "antd";
 import UserOutlined from "@ant-design/icons/es/icons/UserOutlined";
-import ArrowLeftOutlined from "@ant-design/icons/es/icons/ArrowLeftOutlined";
-import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
-import SwaggerButton from "../../components/swagger/button";
-import LinkOutlined from "@ant-design/icons/es/icons/LinkOutlined";
 import App from "../index";
 import _object from "lodash/object";
 import * as cache from "../../utils/cache";
@@ -38,33 +34,15 @@ export default class Swagger extends React.Component {
     }
 
     componentDidMount() {
-        // 增加两秒的延迟时间
-        let result = {};
-        let flag = false;
-        setTimeout(() => {
-            if (result && result.data) {
-                this.setState({width: '100%', data: result.data});
-            } else {
-                flag = true;
-            }
-        }, 500);
         const projectId = cache.getItem('projectId');
         request.get(`/project/info/${projectId}`).then((res) => {
-            if (flag) {
-                this.setState({width: '100%', data: result.data});
-            } else {
-                result = res;
-            }
+            this.setState({width: '100%', data: res.data});
         }).catch((err) => {
             Modal.error({
                 title: '打开项目失败！',
                 message: `出错原因：${err.message}，请尝试刷新页面！`,
             });
         });
-        // 方便前端演示 暂时注释接口
-        // setTimeout(() => {
-        //   this.setState({width: '100%', data: project.data});
-        // }, 2000);
     }
 
     _refresh = () => {
@@ -74,11 +52,13 @@ export default class Swagger extends React.Component {
         });
     };
     updateData = (data, cb) => {
+        debugger;
         Save.saveProject({
             ...this.state.data,
             projectJSON: data,
         }).then(() => {
             cb && cb();
+            this._refresh();
         }).catch((err) => {
             Modal.error({title: '保存失败！', message: err.message});
         });
@@ -89,6 +69,7 @@ export default class Swagger extends React.Component {
             configJSON: data,
         }).then(() => {
             cb && cb();
+            this._refresh();
         }).catch((err) => {
             Modal.error({title: '保存失败！', message: err.message});
         });
@@ -96,8 +77,7 @@ export default class Swagger extends React.Component {
 
     _saveProject = (data, cb, dataHistory) => {
         // 保存项目
-        const {updateData} = this.props;
-        updateData(data, () => {
+        this.updateData(data, () => {
             this.setState({
                 dataSource: data || {},
                 changeDataType: 'update',
@@ -114,7 +94,7 @@ export default class Swagger extends React.Component {
     };
     _saveProjectSome = (data, cb, dataHistory, type) => {
         // 保存部分数据
-        const {dataSource} = this.state;
+        const dataSource = this.state.data.projectJSON;
         const typeArray = type.split('/');
         let tempDataSource = {...dataSource};
         if (typeArray.length === 0) {
@@ -305,6 +285,7 @@ export default class Swagger extends React.Component {
             return;
         }
         const {projectName, projectJSON, configJSON} = data;
+        debugger;
         const menu = (
             <Menu>
                 <Menu.Item key="1" icon={<UserOutlined/>}>

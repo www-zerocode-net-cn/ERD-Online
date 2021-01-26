@@ -34,7 +34,7 @@ import CopyOutlined from "@ant-design/icons/es/icons/CopyOutlined";
 import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
 import ExportOutlined from "@ant-design/icons/es/icons/ExportOutlined";
 import FileTextOutlined from "@ant-design/icons/es/icons/FileTextOutlined";
-import {Button, Col, Divider, Menu, Row, Space} from "antd";
+import {Button, Card, Col, Divider, List, Menu, Row, Space} from "antd";
 import UserOutlined from "@ant-design/icons/es/icons/UserOutlined";
 import ArrowLeftOutlined from "@ant-design/icons/es/icons/ArrowLeftOutlined";
 import SwaggerButton from "../components/swagger/button";
@@ -42,6 +42,9 @@ import SettingTwoTone from "@ant-design/icons/es/icons/SettingTwoTone";
 import SaveTwoTone from "@ant-design/icons/es/icons/SaveTwoTone";
 import ThunderboltTwoTone from "@ant-design/icons/es/icons/ThunderboltTwoTone";
 import {createFromIconfontCN} from "@ant-design/icons";
+import PlusCircleOutlined from "@ant-design/icons/es/icons/PlusCircleOutlined";
+import * as cache from "../utils/cache";
+import {Link} from "react-router-dom";
 
 const moduleUtils = Module.Utils;
 const tableUtils = Table.Utils;
@@ -60,7 +63,7 @@ const menus = [
 ];
 
 const MyIcon = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1485538_2bpvcyswpp1.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/font_1485538_zhb6fnmux9a.js', // 在 iconfont.cn 上生成
 });
 
 export default class App extends React.Component {
@@ -79,6 +82,7 @@ export default class App extends React.Component {
             toolsClickable: 'file',
             clicked: 'edit',
             versions: [],
+            dbVersion: '',
             //foldingTabs: [],
         };
         this.relationInstance = {};
@@ -151,6 +155,26 @@ export default class App extends React.Component {
                 versions: res && res.body || [],
             });
         });
+
+        this.getBDVersion();
+    }
+
+    getBDVersion() {
+        const projectId = cache.getItem('projectId');
+        Save.dbversion({
+            projectId: projectId, // eslint-disable-line
+        }).then((res) => {
+            if (res && res.status === 'SUCCESS') {
+                Message.success({title: '数据库版本信息获取成功'});
+            } else {
+                Message.error({title: '数据库版本信息获取失败', message: res.body || res});
+            }
+            this.setState({
+                dbVersion: res.status !== 'SUCCESS' ? '' : res.body,
+            });
+        }).catch((err) => {
+            Message.error({title: '数据库版本信息获取失败', message: err.message});
+        })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -610,7 +634,6 @@ export default class App extends React.Component {
                 tools,
             });
             Save.hisProjectLoad().then((res) => {
-                console.log('hisProjectLoad', res);
                 this.setState({
                     versions: res && res.body || [],
                 });
@@ -1489,34 +1512,20 @@ export default class App extends React.Component {
         const {tools, tab, width, toolsClickable, show, clicked, tabs = [], versions} = this.state;
 
         const projectInfo = (
-            <Menu>
-                <Menu.Item key="1" icon={<UserOutlined/>}>
-                    1st menu item
-                </Menu.Item>
-                <Menu.Item key="2" icon={<UserOutlined/>}>
-                    2nd menu item
-                </Menu.Item>
-                <Menu.Item key="3" icon={<UserOutlined/>}>
-                    3rd menu item
-                </Menu.Item>
-            </Menu>
+            <div></div>
         );
 
+
         const versionInfo = (
-            <Menu>
-                <Menu.Item key="1" icon={<UserOutlined/>}>
-                    同步配置
-                </Menu.Item>
-                <Menu.Item key="2" icon={<UserOutlined/>}>
-                    保存新版本
-                </Menu.Item>
-                <Menu.Item key="3" icon={<UserOutlined/>}>
-                    重建基线
-                </Menu.Item>
-                <Menu.Item key="4" icon={<UserOutlined/>}>
-                    任意版本比较
-                </Menu.Item>
-            </Menu>
+            <DatabaseVersion
+                project={project}
+                dataSource={dataSource}
+                configJSON={configJSON}
+                saveProject={saveProject}
+                updateConfig={updateConfig}
+                versions={versions}
+                dbVersion='v0.0.0'
+            />
         );
 
         const importInfo = (
@@ -1565,10 +1574,11 @@ export default class App extends React.Component {
                 <Row style={{padding: "10px"}}>
                     <Col span={6}>
                         <Space split={<Divider type="vertical"/>}>
-                            <ArrowLeftOutlined title={"返回"} title={"返回"}/>
-                            <SwaggerButton type="text" overlay={projectInfo} text={"test1"} title={"项目信息"}>
+                            <Link to="/project"><ArrowLeftOutlined title={"返回"} title={"返回"}/></Link>
+                            <SwaggerButton type="text" overlay={projectInfo} text={this.props.project} title={"项目信息"}>
                             </SwaggerButton>
-                            <SwaggerButton type="text" overlay={versionInfo} text={"1.0.0"} title={"版本"}>
+                            <SwaggerButton type="text" overlay={versionInfo} text={this.state.dbVersion} title={"版本"}
+                                           onClick={() => this._menuClick('plug')}>
                             </SwaggerButton>
                             <SwaggerButton type="text" overlay={importInfo} text={"解析"}>
                             </SwaggerButton>
@@ -1582,8 +1592,8 @@ export default class App extends React.Component {
                             <Button shape="circle" title={"配置默认数据"} onClick={() => this._setting()}>
                                 <SettingTwoTone title={"配置默认数据"}/>
                             </Button>
-                            <Button shape="circle" title={"保存"} onClick={() => this._saveAll()}>
-                                <SaveTwoTone title={"保存"}/>
+                            <Button shape="circle" title={"保存(CTRL+S)"} onClick={() => this._saveAll()}>
+                                <SaveTwoTone title={"保存(CTRL+S)"}/>
                             </Button>
                             <SwaggerButton type="text" overlay={exportInfo} text={"导出"}>
                             </SwaggerButton>
@@ -1592,228 +1602,7 @@ export default class App extends React.Component {
                 </Row>
 
                 <div className="erd-wrapper">
-                    <div className='erd-home-header'>
-                        <div
-                            className='erd-home-header-save'
-                            style={{display: tools === 'dbversion' ? 'none' : ''}}
-                            onClick={() => this._saveAll()}
-                        >
-                            <span><SaveOutlined/></span>
-                            <span>保存</span>
-                        </div>
-                        <div className='erd-home-header-menu'
-                             style={{paddingLeft: tools === 'dbversion' ? '60px' : '0'}}>
-                            <header>
-                                <div className="options-wrapper">
-                                    <div>
-                                        <ul className="other-options-menu">
-                                            <li
-                                                className={`other-options-menu-tools
-                   ${(tools === 'file' || tools === 'entity') ? 'menu-tools-edit-active' : 'tools-content-enable-click'}`}
-                                                onClick={() => this._menuClick('file')}
-                                            >
-                                                <span>开始</span>
-                                            </li>
-                                            <li
-                                                className={`other-options-menu-tools
-                   ${tabs.length > 0 && tools === 'map' ? 'menu-tools-edit-active' : ''}
-                  ${tabs.length > 0 && toolsClickable === 'map' ? '' : 'tools-content-un-click'}`}
-                                                onClick={() => tabs.length > 0 && toolsClickable === 'map' && this._menuClick('map')}
-                                            >
-                                                <span style={{marginLeft: "6px"}}>关系图</span>
-                                            </li>
-                                            <li
-                                                className={`other-options-menu-tools ${tools === 'plug' ?
-                                                    'menu-tools-edit-active' : 'tools-content-enable-click'}`}
-                                                onClick={() => this._menuClick('plug')}
-                                            >
-                                                <span>模型</span>
-                                            </li>
-                                            <li
-                                                className={`other-options-menu-tools ${tools === 'dbversion' ?
-                                                    'menu-tools-edit-active' : 'tools-content-enable-click'}`}
-                                                onClick={() => this._menuClick('dbversion')}
-                                            >
-                                                <span>版本</span>
-                                            </li>
-                                        </ul>
-                                        {/*<LogoutOutlined*/}
-                                        {/*    title='关闭当前项目，回到工作台'*/}
-                                        {/*    style={{float: 'right', marginRight: 20, paddingTop: 1, cursor: 'pointer'}}*/}
-                                        {/*    onClick={this._closeProject}*/}
-                                        {/*/>*/}
 
-                                    </div>
-                                </div>
-                            </header>
-                            <Context
-                                menus={this.state.contextMenus}
-                                left={this.state.left}
-                                top={this.state.top}
-                                display={this.state.contextDisplay}
-                                closeContextMenu={this._closeContextMenu}
-                                onClick={this._contextClick}
-                            />
-                            <div className="tools-content" style={{display: tools === 'dbversion' ? 'none' : ''}}>
-                                <div className="tools-content-tab"
-                                     style={{display: (tools === 'file' || tools === 'entity') ? '' : 'none'}}>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._saveAs()}
-                                            >
-                                                <Icon type='fa-save' style={{marginRight: 5, color: '#9291CD'}}/>另存为
-                                            </div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            项目
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._setting()}
-                                            >
-                                                <SettingOutlined style={{marginRight: 5}}/>设置
-                                            </div>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._JDBCConfig()}
-                                            >
-                                                <Icon type='fa-link' style={{marginRight: 5}}/>数据库连接
-                                            </div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            配置
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="tools-content-tab"
-                                     style={{display: tabs.length > 0 && tools === 'map' ? '' : 'none'}}>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._onZoom('add')}
-                                            >
-                                                <Icon type="fa-search-plus"/>
-                                                放大
-                                            </div>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._onZoom('sub')}
-                                            >
-                                                <Icon type="fa-search-minus"/>
-                                                缩小
-                                            </div>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._onZoom('normal')}
-                                            >
-                                                <Icon type="fa-search"/>
-                                                原始大小
-                                            </div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            比例
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className={`tools-content-${clicked === 'drag' ? 'clicked' : 'clickeable'}`}
-                                                onClick={() => this._changeMode('drag')}
-                                            ><Icon type="fa-arrows"/>拖拽模式
-                                            </div>
-                                            <div
-                                                className={`tools-content-${clicked === 'edit' ? 'clicked' : 'clickeable'}`}
-                                                onClick={() => this._changeMode('edit')}
-                                            ><Icon type="fa-edit"/>编辑模式
-                                            </div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            模式
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._exportImage()}
-                                            ><Icon type="fa-file-image-o"/>导出图片
-                                            </div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            导出
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                style={{flexGrow: 1, textAlign: 'right'}}
-                                            ><Input
-                                                onChange={this._relationSearch}
-                                                style={{margin: '10px 10px 0 0', borderRadius: 3}}
-                                                placeholder='在图上找表'
-                                            /></div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            搜索
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="tools-content-tab" style={{display: tools === 'plug' ? '' : 'none'}}>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._readDB()}
-                                            ><Icon type="fa-hand-lizard-o"/>数据库逆向解析
-                                            </div>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._readPDMfile()}
-                                            ><Icon type="fa-file"/>解析PDM文件
-                                            </div>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._readPDMfile()}
-                                            ><Icon type="fa-file"/>解析ERWin文件
-                                            </div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            解析导入
-                                        </div>
-                                    </div>
-                                    <div className='tools-content-group'>
-                                        <div className='tools-content-group-content'>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._export()}
-                                            ><ExportOutlined/>导出文档
-                                            </div>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._exportSQL()}
-                                            ><Icon type="fa-database"/>导出DDL脚本
-                                            </div>
-                                            <div
-                                                className='tools-content-clickeable'
-                                                onClick={() => this._saveAs('filterDBS')}
-                                            ><FileTextOutlined/>导出JSON
-                                            </div>
-                                        </div>
-                                        <div className='tools-content-group-name'>
-                                            导出
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div className="tools-work-content" style={{display: tools === 'dbversion' ? 'none' : ''}}>
                         <div
                             className="tools-left-tab"

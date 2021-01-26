@@ -25,7 +25,7 @@ const {SubMenu} = Menu;
 
 
 const MyIcon = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1485538_2bpvcyswpp1.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/font_1485538_zhb6fnmux9a.js', // 在 iconfont.cn 上生成
 });
 export default class ErdLayout extends React.Component {
     state = {
