@@ -69,7 +69,7 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 ### 启动服务端
 - 下载项目
 ```shell script
-# git clone https://github.com/whaty/MARTIN-ERD.git erd
+# git clone https://gitee.com/MARTIN-88/erd-online.git erd
 
 # cd erd
 
