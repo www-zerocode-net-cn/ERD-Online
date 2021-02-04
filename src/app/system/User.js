@@ -159,7 +159,6 @@ export default class User extends React.Component {
     }
 
     handleMenuClick = (roleId, record) => {
-        console.log('click', record);
         request.post('/sysUser/bindRole', {
                 data: {
                     userId: record.id,
@@ -179,7 +178,6 @@ export default class User extends React.Component {
             }
         ).then(res => {
             if (res) {
-                console.log(res)
                 this.setState({
                     roles: res.roles,
                     currentRole: res.currentRole,

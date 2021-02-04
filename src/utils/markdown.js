@@ -197,7 +197,6 @@ const generateModuleBody = (dataSource, images = {}, projectName) => {
 };
 
 export const generateMD = (dataSource, images, projectName, callBack) => {
-  console.log('正在生成makedown');
   const index = '## <center>目录</center>\n';
   const header = generateHeader(dataSource);
   const body = generateModuleBody(dataSource, images, projectName);

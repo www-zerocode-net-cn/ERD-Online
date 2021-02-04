@@ -64,7 +64,6 @@ export default function SignIn() {
             '/oauth/token?username=' + username + '&password=' + password + '&grant_type=password&scope=test',
         ).then(res => {
             if (res) {
-                console.log(res.access_token);
                 if (res.access_token) {
                     cache.setItem('Authorization', res.access_token);
                     cache.setItem('username', username);

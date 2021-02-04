@@ -18,7 +18,7 @@ export default class Swagger extends React.Component {
             changeDataType: 'reset',
             columnOrder: [
                 {code: 'chnname', value: '字段名', com: 'Input', relationNoShow: false},
-                {code: 'name', value: '逻辑名', com: 'Input', relationNoShow: false},
+                {code: 'name', value: '逻辑名(英文名)', com: 'Input', relationNoShow: false},
                 {code: 'type', value: '类型', com: 'Select', relationNoShow: false},
                 {code: 'dataType', value: '数据库类型', com: 'Text', relationNoShow: true},
                 {code: 'remark', value: '说明', com: 'Input', relationNoShow: true},
@@ -52,7 +52,6 @@ export default class Swagger extends React.Component {
         });
     };
     updateData = (data, cb) => {
-        debugger;
         Save.saveProject({
             ...this.state.data,
             projectJSON: data,
@@ -279,27 +278,13 @@ export default class Swagger extends React.Component {
     };
 
     render() {
-        const {updateConfig, data, columnOrder} = this.state;
+        const { data, columnOrder} = this.state;
+        console.log(282,data)
         if (!data) {
             Modal.error({title: '打开项目失败', message: "无法加载项目信息，请刷新后重试"});
             return;
         }
         const {projectName, projectJSON, configJSON} = data;
-        debugger;
-        const menu = (
-            <Menu>
-                <Menu.Item key="1" icon={<UserOutlined/>}>
-                    1st menu item
-                </Menu.Item>
-                <Menu.Item key="2" icon={<UserOutlined/>}>
-                    2nd menu item
-                </Menu.Item>
-                <Menu.Item key="3" icon={<UserOutlined/>}>
-                    3rd menu item
-                </Menu.Item>
-            </Menu>
-        );
-
 
         const content =
             <div
@@ -319,7 +304,7 @@ export default class Swagger extends React.Component {
                     updateData={this.updateData}
                     refresh={this._refresh}
                     configJSON={configJSON}
-                    updateConfig={updateConfig}
+                    updateConfig={this.updateConfig}
                 />
             </div>
         ;

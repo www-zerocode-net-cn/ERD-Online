@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import _object from 'lodash/object';
 import moment from 'moment';
-import {Context, Icon, Input, Message, Modal, openModal, Tab, Tree} from '../components';
+import { Context, Icon, Message, Modal, openModal, Tab, Tree} from '../components';
+import {Button as ErdButton} from '../components';
 import {addOnResize} from '../../src/utils/listener';
 import {generateMD} from '../../src/utils/markdown';
 import {generateHtml} from '../../src/utils/generatehtml';
@@ -31,18 +32,13 @@ import JDBCConfig from './JDBCConfig';
 import SaveOutlined from "@ant-design/icons/es/icons/SaveOutlined";
 import DeleteOutlined from "@ant-design/icons/es/icons/DeleteOutlined";
 import CopyOutlined from "@ant-design/icons/es/icons/CopyOutlined";
-import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
-import ExportOutlined from "@ant-design/icons/es/icons/ExportOutlined";
-import FileTextOutlined from "@ant-design/icons/es/icons/FileTextOutlined";
-import {Button, Card, Col, Divider, List, Menu, Row, Space} from "antd";
-import UserOutlined from "@ant-design/icons/es/icons/UserOutlined";
+import {Col, Divider, Menu, Row, Space,Button} from "antd";
 import ArrowLeftOutlined from "@ant-design/icons/es/icons/ArrowLeftOutlined";
 import SwaggerButton from "../components/swagger/button";
 import SettingTwoTone from "@ant-design/icons/es/icons/SettingTwoTone";
 import SaveTwoTone from "@ant-design/icons/es/icons/SaveTwoTone";
 import ThunderboltTwoTone from "@ant-design/icons/es/icons/ThunderboltTwoTone";
 import {createFromIconfontCN} from "@ant-design/icons";
-import PlusCircleOutlined from "@ant-design/icons/es/icons/PlusCircleOutlined";
 import * as cache from "../utils/cache";
 import {Link} from "react-router-dom";
 
@@ -294,8 +290,6 @@ export default class App extends React.Component {
     _JDBCConfig = () => {
         const {project, dataSource} = this.props;
         let tempDBs = _object.get(dataSource, 'profile.dbs', []);
-        console.log(255, tempDBs);
-        console.log(256, dataSource);
         const dbChange = (db) => {
             tempDBs = db;
         };
@@ -307,6 +301,7 @@ export default class App extends React.Component {
             dataSource={dataSource}
         />, {
             title: '数据库连接配置',
+            width: '60%',
             onOk: (m) => {
                 const currentDB = tempDBs.filter(d => d.defaultDB)[0];
                 if (!currentDB) {
@@ -483,12 +478,13 @@ export default class App extends React.Component {
     _export = () => {
         // 打开弹窗，选择导出html或者word
         openModal(<div style={{textAlign: 'center', padding: 10}}>
-            <Button onClick={(btn) => this._exportFile('Html', btn)}>导出HTML</Button>
+            <ErdButton onClick={(btn) => this._exportFile('Html', btn)}>导出HTML</ErdButton>
             {/*      <Button icon='wordfile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('Word', btn)}>导出WORD</Button>
       <Button icon='pdffile1' style={{marginLeft: 40}} onClick={(btn) => this._exportFile('PDF', btn)}>导出PDF</Button>*/}
-            <Button style={{marginLeft: 40}}
-                    onClick={(btn) => this._exportFile('Markdown', btn)}>导出MARKDOWN</Button>
+            <ErdButton style={{marginLeft: 40}}
+                    onClick={(btn) => this._exportFile('Markdown', btn)}>导出MARKDOWN</ErdButton>
         </div>, {
+            width: '40%',
             title: '文件导出'
         })
     };
@@ -591,6 +587,7 @@ export default class App extends React.Component {
         };
         modal = openModal(<ReadDB {...this.props} success={success}/>, {
             title: '解析已有数据库',
+            width: '50%',
             footer: [<Button key="cancel" onClick={onClickCancel}>关闭</Button>]
         })
     };
@@ -1571,6 +1568,14 @@ export default class App extends React.Component {
 
         return (
             <div>
+                <Context
+                    menus={this.state.contextMenus}
+                    left={this.state.left}
+                    top={this.state.top}
+                    display={this.state.contextDisplay}
+                    closeContextMenu={this._closeContextMenu}
+                    onClick={this._contextClick}
+                />
                 <Row style={{padding: "10px"}}>
                     <Col span={6}>
                         <Space split={<Divider type="vertical"/>}>
@@ -1624,7 +1629,9 @@ export default class App extends React.Component {
                 <span
                     className={`${tab === 'table' ? 'menu-tab-tools-edit-active' : ''}`}
                     onClick={() => this._leftTabChange('table')}
-                ><Icon type='fa-th' style={{marginRight: 5}}/>数据表</span>
+                >
+                    <Icon type='fa-th' style={{marginRight: 5}}/>数据表
+                </span>
                                     <span
                                         className={`${tab === 'domain' ? 'menu-tab-tools-edit-active' : ''}`}
                                         onClick={() => this._leftTabChange('domain')}

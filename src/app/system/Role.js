@@ -169,7 +169,6 @@ export default class Role extends React.Component {
 
 
     onPermissionChange = (checkedValues) => {
-        console.log(checkedValues)
         this.setState({
             checkedPermissions: checkedValues
         });
@@ -223,7 +222,6 @@ export default class Role extends React.Component {
             }
         ).then(res => {
             if (res) {
-                console.log(res.checkedPermissions.map(item=>(item.id)))
                 this.setState({
                     allPermissions: res.allPermissions,
                     checkedPermissions: res.checkedPermissions.map(item=>(item.id)),

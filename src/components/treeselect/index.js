@@ -82,8 +82,6 @@ export default class TreeSelect extends React.Component {
     render() {
         const {data, titleRender} = this.props;
         const {openKeys, checkeds} = this.state;
-        console.log(81, data);
-        console.log(82, openKeys);
         return (<div className='erd-treeselect'>
             {
                 data.map((d) => {

@@ -58,7 +58,7 @@ export default class TableSummary extends React.Component{
     return (
       <React.Fragment>
         <div>
-          <span>表名</span>
+          <span>表名(中文名)</span>
           <Input
             wrapperStyle={{width: 'calc(100% - 80px)'}}
             style={{height: 23, width: '100%'}}
@@ -67,7 +67,7 @@ export default class TableSummary extends React.Component{
           />
         </div>
         <div>
-          <span>逻辑名</span>
+          <span>逻辑名(英文名)</span>
           <Input
             wrapperStyle={{width: 'calc(100% - 80px)'}}
             style={{height: 23, width: '100%'}}

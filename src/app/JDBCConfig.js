@@ -136,7 +136,6 @@ export default class JDBCConfig extends React.Component{
     const { data } = this.state;
     this.setState({
       data: data.map((d) => {
-        debugger;
         if (d.key === key) {
           let properties = {
             ...(d.properties || {}),

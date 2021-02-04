@@ -67,7 +67,6 @@ export default class Project extends React.Component {
     };
 
     onSetting = (id) => {
-        console.log('=====', id)
         cache.setItem("projectId", id);
     }
 
@@ -194,7 +193,6 @@ export default class Project extends React.Component {
                     }}
                     pagination={{
                         onChange: page => {
-                            console.log(page);
                         },
                         pageSize: 6,
                     }}
@@ -288,6 +286,7 @@ export default class Project extends React.Component {
             </div>;
         return (
             <ErdLayout
+                showSider={false}
                 content={content}
                 defaultSelectedKeys={['project']}
             />

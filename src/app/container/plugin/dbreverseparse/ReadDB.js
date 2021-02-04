@@ -40,6 +40,7 @@ export default class ReadDB extends React.Component{
     } else {
       openModal(<Parse db={db} dataSource={dataSource} dataFormat={dataFormat}/>, {
         title: '获取数据库信息',
+        width: '50%',
         onOk: (m, c) => {
           c.getSelectedEntity((keys, data) => {
             m && m.close();

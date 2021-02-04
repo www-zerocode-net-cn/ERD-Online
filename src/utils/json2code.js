@@ -430,7 +430,6 @@ const getCodeByRebuildTableTemplate = (dataSource, changes, code, oldDataSource)
 };
 
 export const getCodeByChanges = (dataSource, changes, code, oldDataSource = {}) => {
-  debugger;
   let sqlString = '';
   try {
     sqlString = generateUpdateSql(dataSource, changes, code, oldDataSource)
@@ -696,7 +695,6 @@ export const getDataByTemplate = (data, template) => {
 };
 
 export const getAllDataSQL = (dataSource, code) => {
-  debugger;
   // 获取全量脚本（删表，建表，建索引）
   const datatype = _object.get(dataSource, 'dataTypeDomains.datatype', []);
   const database = _object.get(dataSource, 'dataTypeDomains.database', [])

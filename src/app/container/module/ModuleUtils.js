@@ -99,6 +99,7 @@ export const addModule = (dataSource, cb) => {
     defaultValue={{name: '', chnname: ''}}
   />, {
     title: 'ERD-ONLINE-新增模块',
+    width: '50%',
     onOk: (modal) => {
       // 1.修改dataSource
       if (!tempModuleName) {

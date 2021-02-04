@@ -11,6 +11,8 @@ import './style/index.less';
 import {addOnResize} from '../../utils/listener';
 import defaultConfig from '../../../profile';
 import {Divider} from "antd";
+import CloseOutlined from "@ant-design/icons/es/icons/CloseOutlined";
+import CloseSquareOutlined from "@ant-design/icons/es/icons/CloseSquareOutlined";
 
 class Tab extends React.Component {
 
@@ -104,42 +106,41 @@ class Tab extends React.Component {
                     {
                         [].concat(children)
                             .map(child => (<div
-                                title={child.props.realName || child.props.title}
-                                className='erd-tab-header-content-first-item'
-                                style={{
-                                    borderTop: child.key === this._getShowKey() ? this.state.border : 'none',
-                                    cursor: 'pointer',
-                                    userSelect: 'none',
-                                    backgroundColor: child.key === this._getShowKey() ?
-                                        this.state.defaultSelectColor : this.state.defaultColor,
-                                    color: child.key === this._getShowKey() ?
-                                        "#6C93FF" : "",
-                                    border: child.key === this._getShowKey() ?
-                                        "1px solid #6C93FF" : "none"
-                                }}
-                                key={child.key}
-                                onClick={() => this._titleClick(child.key)}
-                                onDoubleClick={() => this._titleDoubleClick(child.key)}
-                            >
-                                <Icon type={child.props.icon || "file"} style={{paddingLeft: 5}}/><span
-                                style={{
-                                    display: 'inline-block',
-                                    width: 100,
-                                    marginLeft: 2.5,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >{child.props.realName || child.props.title}</span>
-                                {
-                                    type === 'edit' ? <Icon
-                                        onClick={(e) => this._iconCloseClick(e, child.key)}
-                                        style={{marginLeft: 2.5}}
-                                        type="close"
-                                    /> : null
-                                }
-                            <Divider type={"vertical"} style={{}}/>
-                            </div>
+                                    title={child.props.realName || child.props.title}
+                                    className='erd-tab-header-content-first-item'
+                                    style={{
+                                        borderTop: child.key === this._getShowKey() ? this.state.border : 'none',
+                                        cursor: 'pointer',
+                                        userSelect: 'none',
+                                        backgroundColor: child.key === this._getShowKey() ?
+                                            this.state.defaultSelectColor : this.state.defaultColor,
+                                        color: child.key === this._getShowKey() ?
+                                            "#6C93FF" : "",
+                                        border: child.key === this._getShowKey() ?
+                                            "1px solid #6C93FF" : "none"
+                                    }}
+                                    key={child.key}
+                                    onClick={() => this._titleClick(child.key)}
+                                    onDoubleClick={() => this._titleDoubleClick(child.key)}
+                                >
+                                    <Icon type={child.props.icon || "file"} style={{paddingLeft: 5}}/><span
+                                    style={{
+                                        display: 'inline-block',
+                                        width: 100,
+                                        marginLeft: 2.5,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >{child.props.realName || child.props.title}</span>
+                                    {
+                                        type === 'edit' ?
+
+                                            <CloseSquareOutlined onClick={(e) => this._iconCloseClick(e, child.key)}
+                                                           style={{marginLeft: 2.5}}/>
+                                            : null
+                                    }
+                                </div>
                             ))
                     }
                 </div>

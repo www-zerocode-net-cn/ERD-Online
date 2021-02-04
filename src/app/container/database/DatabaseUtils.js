@@ -94,6 +94,7 @@ export const renameDatabase = (databaseCode, dataSource, callback) => {
   const value = databases.filter(data => data.code === databaseCode)[0] || {};
   openModal(<Database value={value}/>, {
     title: 'ERD-ONLINE-修改数据库',
+    width: '60%',
     onOk: (modal, com) => {
       const result = com.save();
       if (!result.code) {

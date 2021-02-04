@@ -14,6 +14,7 @@ import * as cache from "../../utils/cache";
 
 import {createHashHistory} from 'history/index';
 import GithubOutlined from "@ant-design/icons/es/icons/GithubOutlined";
+import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
 // const history = createBrowserHistory() // history模式
 const history = createHashHistory() // hash模式
 
@@ -30,7 +31,6 @@ export default class SwaggerLayout extends React.Component {
     };
 
     onCollapse = collapsed => {
-        console.log(collapsed);
         this.setState({collapsed});
     };
 
@@ -47,7 +47,9 @@ export default class SwaggerLayout extends React.Component {
         const username = cache.getItem("username");
         const menu = (
             <Menu className={styles.menu} selectedKeys={[]} onClick={this.handleMenuClick}>
-                <Menu.Divider/>
+                <Menu.Item key="user">
+                    <Link to="/user"><SettingOutlined/>系统设置</Link>
+                </Menu.Item>
                 <Menu.Item key="logout">
                     <Link to="/login"><LogoutOutlined/>退出登录</Link>
                 </Menu.Item>

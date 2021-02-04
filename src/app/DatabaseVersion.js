@@ -128,17 +128,7 @@ class ChangeCode extends React.Component {
                     </div>
                     <div className='erd-data-tab-content'>
                         <Button style={{marginBottom: 10}} key="save" onClick={this._onSave}>导出到文件</Button>
-                        <Button
-                            loading={preSynchronous}
-                            title='不会更新数据库中的版本号'
-                            style={{
-                                marginLeft: 10,
-                                display: init === false ? 'none' : '',
-                            }}
-                            onClick={() => this._execSQL(false, 'preSynchronous')}
-                        >
-                            {preSynchronous ? '正在预同步' : '预同步'}
-                        </Button>
+
                         <Button
                             loading={synchronous}
                             title='会更新数据库中的版本号'
@@ -520,7 +510,6 @@ export default class DatabaseVersion extends React.Component {
         const top = document.body.clientHeight * 0.15 + 76;
         const left = document.body.clientWidth * 0.10 + 16;
         const modalWidth = document.body.clientWidth * 0.8 - 32;
-        //console.log(top);
         this.spans = Array.from(this.code.querySelectorAll('.erd-select-value'));
         this.positions = this.spans
             .map((s) => {
@@ -536,7 +525,6 @@ export default class DatabaseVersion extends React.Component {
             this.code.scrollTop = this.positions[0].top - 200;
             this.code.scrollLeft = this.positions[0].left - modalWidth / 2;
         }
-        //console.log(this.code.scrollTop);
     };
     _connectJDBC = (param, opt, cb) => {
         let modal = null;
@@ -549,6 +537,7 @@ export default class DatabaseVersion extends React.Component {
                 data='执行同步命令：dbversion'
             />, {
                 title: '开始同步，同步结束后当前窗口将会自动关闭！',
+                width: '50%',
                 footer: [<Button style={{marginTop: 10}} key="ok" onClick={onOk} type="primary">关闭</Button>],
             });
         }
@@ -616,6 +605,7 @@ export default class DatabaseVersion extends React.Component {
                 if (result.status === 'SUCCESS') {
                     Modal.success({
                         title: '数据库同步成功',
+                        width: '50%',
                         message: <div
                             onKeyDown={e => this._onKeyDown(e)}
                         >
@@ -762,6 +752,7 @@ export default class DatabaseVersion extends React.Component {
                 } else {
                     Modal.confirm({
                         title: '同步确认',
+                        width: '40%',
                         message: '数据即将同步到数据库，同步后不可撤销，确定同步吗？',
                         onOk: (m) => {
                             this.setState({
@@ -829,6 +820,7 @@ export default class DatabaseVersion extends React.Component {
         };
         openModal(<DatabaseVersionContext versions={this.state.versions} onChange={onChange}/>, {
             title: '版本信息',
+            width: '40%',
             onOk: (modal) => {
                 if (!tempValue.version || !tempValue.versionDesc) {
                     Modal.error({title: '操作失败', message: '版本号和版本描述不能为空', width: 200});
@@ -1037,6 +1029,7 @@ export default class DatabaseVersion extends React.Component {
         };
         openModal(<DatabaseVersionContext versions={this.state.versions} onChange={onChange}/>, {
             title: '版本信息',
+            width: '40%',
             onOk: (modal) => {
                 if (!tempValue.version || !tempValue.versionDesc) {
                     Modal.error({title: '操作失败', message: '版本号和版本描述不能为空', width: 200});
@@ -1217,7 +1210,6 @@ export default class DatabaseVersion extends React.Component {
         });
     };
     _showChanges = (changes = [], initVersion, currentVersion, lastVersion, dbVersion) => {
-        console.log('currentVersion', currentVersion);
         const {init, configData} = this.state;
         const {dataSource} = this.props;
         let tempChanges = [...changes];
@@ -1254,7 +1246,6 @@ export default class DatabaseVersion extends React.Component {
         const dbData = this._getCurrentDBData();
         const code = _object.get(dbData, 'type', this.state.defaultDB);
         let data = '';
-        debugger;
         if (init) {
             data = getAllDataSQL({
                 ...dataSource,
@@ -1292,6 +1283,7 @@ export default class DatabaseVersion extends React.Component {
         />, {
             autoFocus: true,
             title: '版本变更记录详情',
+            width: '60%',
             footer: [
                 <Button style={{marginTop: 10}} key="ok" onClick={onOk} type="primary">关闭</Button>,
             ],
@@ -1380,6 +1372,7 @@ export default class DatabaseVersion extends React.Component {
         };
         openModal(<ReadDB onChange={onChange} data={tempValue}/>, {
             title: '同步配置（配置成功后，后续的同步的操作都使用该配置）',
+            width: '50%',
             onOk: (modal) => {
                 // 更新用户配置信息
                 this.setState({
@@ -1418,6 +1411,7 @@ export default class DatabaseVersion extends React.Component {
             defaultDB={this.state.defaultDB}
         />, {
             title: '请选择两个版本',
+            width: '60%',
             footer: [
                 <Button style={{marginTop: 10}} key="ok" onClick={onOk} type="primary">关闭</Button>,
             ],

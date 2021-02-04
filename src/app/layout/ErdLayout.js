@@ -17,6 +17,7 @@ import * as cache from "../../utils/cache";
 
 import {createHashHistory} from 'history/index';
 import GithubOutlined from "@ant-design/icons/es/icons/GithubOutlined";
+import SettingOutlined from "@ant-design/icons/es/icons/SettingOutlined";
 // const history = createBrowserHistory() // history模式
 const history = createHashHistory() // hash模式
 
@@ -28,12 +29,14 @@ const MyIcon = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1485538_zhb6fnmux9a.js', // 在 iconfont.cn 上生成
 });
 export default class ErdLayout extends React.Component {
+    static defaultProps = {
+        showSider: true
+    }
     state = {
         collapsed: false,
     };
 
     onCollapse = collapsed => {
-        console.log(collapsed);
         this.setState({collapsed});
     };
 
@@ -45,11 +48,14 @@ export default class ErdLayout extends React.Component {
 
 
     render() {
-        const {content, defaultSelectedKeys} = this.props;
+        const {content, defaultSelectedKeys, showSider} = this.props;
         const {collapsed} = this.state;
         const username = cache.getItem("username");
         const menu = (
             <Menu className={styles.menu} selectedKeys={[]} onClick={this.handleMenuClick}>
+                <Menu.Item key="user">
+                    <Link to="/user"><SettingOutlined/>系统设置</Link>
+                </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item key="logout">
                     <Link to="/login"><LogoutOutlined/>退出登录</Link>
@@ -59,7 +65,8 @@ export default class ErdLayout extends React.Component {
         return (
             <HashRouter>
                 <Layout style={{minHeight: '100vh'}}>
-                    <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
+                    <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}
+                           style={{display: showSider ? '' : 'none'}}>
                         <Row style={{margin: "30 30"}}>
                             <Col span={12}> <Link to="/login"><span className="logo"/></Link></Col>
                             <Col span={12} style={{verticalAlign: "middle"}}><span

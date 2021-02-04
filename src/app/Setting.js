@@ -222,7 +222,6 @@ export default class Setting extends React.Component{
               Modal.error({title: '粘贴失败', message: '无效的数据', width: 200});
             }
           } catch (err) {
-            console.log(err);
             Modal.error({title: '粘贴失败', message: '无效的数据', width: 200});
           }
         }
@@ -244,7 +243,6 @@ export default class Setting extends React.Component{
           this.inputInstance[y + 1][x].select();
           //dom = ReactDom.findDOMNode(this.inputInstance[y + 1][x]);
         }
-        //console.log(dom);
         //dom && dom.focus();
       }
     }

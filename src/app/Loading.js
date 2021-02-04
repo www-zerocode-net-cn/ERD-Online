@@ -17,7 +17,7 @@ export default class Loading extends React.Component {
             width: '90%',
             columnOrder: [
                 {code: 'chnname', value: '字段名', com: 'Input', relationNoShow: false},
-                {code: 'name', value: '逻辑名', com: 'Input', relationNoShow: false},
+                {code: 'name', value: '逻辑名(英文名)', com: 'Input', relationNoShow: false},
                 {code: 'type', value: '类型', com: 'Select', relationNoShow: false},
                 {code: 'dataType', value: '数据库类型', com: 'Text', relationNoShow: true},
                 {code: 'remark', value: '说明', com: 'Input', relationNoShow: true},

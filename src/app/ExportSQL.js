@@ -170,31 +170,17 @@ export default class ExportSQL extends React.Component{
         separator,
       };
       Save.sqlexec(data).then((res) => {
-        const result = res.data;
+        const result = res;
         if (result.status === 'SUCCESS') {
           Modal.success({
             title: '执行成功',
             message: <div
-              onKeyDown={e => this._onKeyDown(e)}
+
             >
               <div
                 className='erd-export-sql-success'
               >
-                <Input
-                  onChange={this._searchValueChange}
-                  wrapperStyle={{width: 'auto'}}
-                />
-                <Icon
-                  type='fa-search'
-                  style={{marginLeft: 10, cursor: 'pointer'}}
-                  onClick={this._search}
-                />
-                <span
-                  ref={instance => this.countDom = instance}
-                  style={{ marginLeft: 10, cursor: 'pointer' }}
-                >
-                      0/0
-                </span>
+
                 <Icon style={{ marginLeft: 10, cursor: 'pointer' }} type='arrowdown' onClick={this._selectNext}/>
                 <Icon style={{ marginLeft: 10, cursor: 'pointer' }} type='arrowup' onClick={this._selectPre}/>
               </div>

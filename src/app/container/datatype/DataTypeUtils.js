@@ -100,6 +100,7 @@ export const renameDataType = (dataTypeCode, dataSource, callBack) => {
     validate={validate}
   />, {
     title: 'ERD-ONLINE-重命名数据类型',
+    width: '40%',
     onOk: (modal) => {
       // 1.修改dataSource
       if (!tempDataType || !tempDataType.code ||  !tempDataType.name) {

@@ -37,7 +37,6 @@ export default class Relation extends React.Component{
       nextProps.dataSource !== this.props.dataSource) {
       this.net.changeSize(nextProps.width, nextProps.height);
       if (nextProps.dataSource !== this.props.dataSource) {
-        //console.log(nextProps.dataHistory);
         if (nextProps.changeDataType === 'reset') {
           // 1.刷新数据源，则所有的数据进行重置
           const newGraphCanvas = this._getData(nextProps.dataSource);
