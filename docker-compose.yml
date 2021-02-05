@@ -9,7 +9,7 @@ services:
     networks:
       - martin
   martin-extension-erd:
-    image: registry.cn-shanghai.aliyuncs.com/java2e/martin-extension-erd:v3.0.0
+    image: registry.cn-shanghai.aliyuncs.com/java2e/martin-extension-erd:v3.0.1
     ports:
       - 80:80
     command: "./xjar java  -Xms256m -Xmx256m  -Djava.security.egd=file:/dev/./urandom -jar erd-api-xjar-1.0.jar"
