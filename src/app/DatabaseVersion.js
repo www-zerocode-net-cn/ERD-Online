@@ -737,7 +737,7 @@ export default class DatabaseVersion extends React.Component {
                 Modal.error({
                     title: '同步失败',
                     message: '无法获取到数据库信息，' +
-                        '请切换尝试数据库'
+                        '请尝试切换数据库，并检查是否已经配置数据库信息！'
                 });
             } else {
                 let flag = false;

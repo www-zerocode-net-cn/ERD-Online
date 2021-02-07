@@ -5,6 +5,9 @@ import Button from '../button/Button';
 import Icon from '../icon';
 
 export const error = ({title, message, width, footer}) => {
+    if (!width) {
+        width = '50%'
+    }
     let modal = null;
     const onOk = () => {
         modal && modal.close();
@@ -42,6 +45,9 @@ export const success = ({title, message, width, footer}) => {
 };
 
 export const confirm = ({title, message, width, onOk, onCancel, footer}) => {
+    if (!width) {
+        width = '50%'
+    }
     let modal = null;
     const onOKClick = () => {
         onOk(modal);
