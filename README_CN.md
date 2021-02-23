@@ -180,15 +180,9 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 
 
 ## 交流群
-***QQ***
-点击链接加入群聊【ERD-ONLINE】：https://jq.qq.com/?_wv=1027&k=lnlbfelw
+***微信群***
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111611001565.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
-
-
-***钉钉群***
-
-![](https://img-blog.csdnimg.cn/img_convert/1d01b1b76d64ea8129fa4a4ac0d5e517.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210223101704475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
 
 
 
