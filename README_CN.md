@@ -3,6 +3,12 @@
 ## 官方在线预览地址：
  [https://www.java2e.com/](https://www.java2e.com/)
  
+## 交流群
+***微信群***
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210223101704475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+
+
+ 
 ## 功能特点
 ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应用程序，在线操作数据库，是桌面数据建模工具的一个优秀的替代方案。具备以下特点:
 - **v1.0.0** 完成版
