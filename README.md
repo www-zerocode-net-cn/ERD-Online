@@ -3,6 +3,12 @@
 ## WEB Version Preview Address：
 [https://www.java2e.com/](https://www.java2e.com/)
 
+## Information Exchange Group
+***WeChat/Weixin Group***
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210223101704475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwMDU0OTYx,size_16,color_FFFFFF,t_70#pic_center)
+
+
 ERD-ONLINE is an online design software which shares collabarative data warehouse.Local apps are not needed to instal for using this online data warehouse.This is an excellent alternative to desktop data modeling tools.It has the following characteristics:
 - **v1.0.0** Finished Version
 	 - Online Operation
