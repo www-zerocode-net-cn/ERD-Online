@@ -1,4 +1,4 @@
-import {Col, Layout, Menu, Row} from 'antd/lib/index';
+import {Col, Image, Layout, Menu, Row} from 'antd/lib/index';
 import {createFromIconfontCN, PieChartOutlined,} from '@ant-design/icons';
 import React from "react";
 
@@ -87,15 +87,23 @@ export default class ErdLayout extends React.Component {
                     </Sider>
                     <Layout className="site-layout">
                         <Header className="site-layout-background">
+                            <div style={{textAlign: "left", marginLeft: "50px", height: "5px"}}>
+                                <a href={"#/project"} target={"_blank"}>
+                                    <Image
+                                        preview={false}
+                                        src={"favicon.ico"}>
+                                    </Image>
+                                </a>
+                            </div>
                             <div style={{textAlign: "right"}}>
                                 <Divider type="vertical"/>
                                 <a href={"https://github.com/whaty/MARTIN-ERD"} target="_blank"
                                    title={"Github"}><GithubOutlined
                                     style={{margin: "10px"}}/></a>
                                 <Divider type="vertical"/>
-                                <a href={"https://gitee.com/MARTIN-88/erd-online"} target="_blank" title={"Gitee"}>
-                                    <MyIcon type="icon-gitee" style={{margin: "10px"}}/>
-                                </a>
+                                <a href='https://gitee.com/MARTIN-88/erd-online'><img
+                                    src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=dark'
+                                    alt='star'></img></a>
 
                                 <Divider type="vertical"/>
                                 <HeaderDropdown overlay={menu}>
