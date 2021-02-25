@@ -1,4 +1,4 @@
-import {Col, Image, Layout, Menu, Row} from 'antd/lib/index';
+import {Col, Image, Layout, Menu, notification, Row} from 'antd/lib/index';
 import {createFromIconfontCN, PieChartOutlined,} from '@ant-design/icons';
 import React from "react";
 
@@ -29,6 +29,34 @@ const MyIcon = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1485538_zhb6fnmux9a.js', // 在 iconfont.cn 上生成
 });
 export default class ErdLayout extends React.Component {
+    componentDidMount() {
+        notification.open({
+            key: 'wechat',
+            placement: 'bottomRight',
+            style: {width: '175px'},
+            duration: 10000,
+            message: '微信群',
+            description: (
+                <div>
+                    <Image
+                        width={128}
+                        src={`/qrcode.jpg`}
+                        placeholder={
+                            <Image
+                                preview={false}
+                                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
+                            />
+                        }
+                    />
+                </div>
+            ),
+        });
+    }
+
+    componentWillUnmount() {
+        notification.close('wechat');
+    }
+
     static defaultProps = {
         showSider: true
     }
