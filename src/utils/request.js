@@ -85,9 +85,9 @@ const errorHandler = error => {
  */
 const request = extend({
     // //本地
-    // prefix: 'http://erd-online/erd',
+    prefix: 'http://erd-online/erd',
     // //生产
-    prefix: 'https://erd.java2e.com/erd',
+    //prefix: 'https://erd.java2e.com/erd',
     errorHandler, // 默认错误处理
 });
 
