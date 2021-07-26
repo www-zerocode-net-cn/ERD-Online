@@ -82,6 +82,7 @@ ERD-ONLINE是一款在线协作数据仓库设计软件，无需本地安装应�
 
 ## 安装运行
 ### 启动服务端
+- 配套服务端代码：[https://gitee.com/MARTIN-88/erd-apis](https://gitee.com/MARTIN-88/erd-apis)
 - 下载项目
 ```shell script
 # git clone https://gitee.com/MARTIN-88/erd-online.git erd
