@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="22px" viewBox="0 0 32 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>导出</title>
+    <defs>
+        <filter color-interpolation-filters="auto" id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="精简模式" transform="translate(-1108.000000, -10.000000)">
+            <g id="编组-3" transform="translate(441.000000, 11.000000)">
+                <g id="导出" transform="translate(668.000000, 0.000000)">
+                    <rect id="矩形" stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" opacity="0.100000001" x="-0.25" y="-0.25" width="30.5" height="20.5" rx="2"></rect>
+                    <g filter="url(#filter-1)" id="编组" opacity="0.649999976">
+                        <g transform="translate(10.000000, 4.000000)">
+                            <path d="M8.8,3.6762169 L9.9,3.6762169 C10.5075132,3.6762169 11,4.1623062 11,4.76192774 L11,10.9142892 C11,11.5139107 10.5075132,12 9.9,12 L1.1,12 C0.492486775,12 0,11.5139107 0,10.9142892 L0,4.76192774 C0,4.1623062 0.492486775,3.6762169 1.1,3.6762169 L2.2,3.6762169 L2.2,4.76192774 L1.1,4.76192774 L1.1,10.9142892 L9.9,10.9142892 L9.9,4.76192774 L8.8,4.76192774 L8.8,3.6762169 Z M5.59716666,0 L8.1895,2.55865855 L7.41216666,3.32661801 L6.13983334,2.07117438 L6.13983334,7.24132939 L5.03983334,7.24132939 L5.03983334,2.08637433 L3.78216666,3.32697992 L3.00446666,2.55938236 L5.5968,0.000361914922 L5.59716666,0 Z" id="形状" fill="#000000" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

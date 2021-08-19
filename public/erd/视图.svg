@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>视图</title>
+    <g id="视图" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="16" height="16"></rect>
+        <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="2" y="2" width="12" height="12"></rect>
+        <g id="编组" transform="translate(2.000000, 3.000000)" fill="#000000" fill-rule="nonzero">
+            <path d="M1.14285714,0 L1.14285714,9.84210526 L12,9.84210526 L12,11 L1.71428571,11 C0.798911748,11 0.0450290557,10.2713711 0.00190476786,9.34498246 L0,9.26315789 L0,0 L1.14285714,0 Z M4,2.70175438 L4,8.5877193 L2.85714286,8.5877193 L2.85714286,2.70175438 L4,2.70175438 Z M9.33333334,5.11403509 L9.33333334,8.5877193 L8.1904762,8.5877193 L8.1904762,5.11403509 L9.33333334,5.11403509 Z M6.66666666,0.385964906 L6.66666666,8.5877193 L5.52380952,8.5877193 L5.52380952,0.385964906 L6.66666666,0.385964906 Z" id="形状"></path>
+        </g>
+    </g>
+</svg>

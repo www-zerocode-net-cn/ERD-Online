@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>首页</title>
+    <g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="16" height="16"></rect>
+        <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="2" y="2" width="11.9882927" height="11.9882927"></rect>
+        <g id="编组" transform="translate(2.000000, 2.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <path d="M6.57818181,0.170910073 L11.4956363,3.30273811 C11.80987,3.50292245 12,3.84951336 12,4.2218339 L12,10.9097998 C12,11.5117001 11.5115833,11.9996367 10.9090909,11.9996367 L7.09090908,11.9992734 L7.09090908,7.62902739 L4.72727272,7.62902739 L4.72727272,11.9992734 L1.0909091,12 C0.488416645,12 0,11.5120634 0,10.9101631 L0,4.12701809 C0,3.7498315 0.195126854,3.39943404 0.516000009,3.20065671 L5.4170909,0.163644488 C5.77346262,-0.0571427816 6.2249693,-0.0543183402 6.57854544,0.170910073 L6.57818181,0.170910073 Z" id="路径"></path>
+        </g>
+    </g>
+</svg>
