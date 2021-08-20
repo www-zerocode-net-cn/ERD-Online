@@ -30,6 +30,11 @@
             path: '/project/home',
             component: './project/home',
           },
+          {
+            name: 'new',
+            path: '/project/new',
+            component: './project/new',
+          },
         ],
       },
       {
