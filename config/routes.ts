@@ -35,6 +35,11 @@
             path: '/project/new',
             component: './project/new',
           },
+          {
+            name: 'design-table',
+            path: '/project/design/table',
+            component: './project/design/table',
+          },
         ],
       },
       {
