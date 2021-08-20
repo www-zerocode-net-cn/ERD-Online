@@ -12,8 +12,8 @@ yarn start
 
 - [登录页](http://localhost:8000/user/login) ：[http://localhost:8000/user/login](http://localhost:8000/user/login)
 - [项目管理页：http://localhost:8000/project/home](http://localhost:8000/project/home)
-- 表设计页： 待开发
-- 关系图设计页：待开发
+- [表设计页： http://localhost:8000/project/design/table](http://localhost:8000/project/design/table)
+- [关系图设计页：http://localhost:8000/project/design/table](http://localhost:8000/project/design/table)
 - 其余页：待开发
 
 ## 官方在线预览地址：
