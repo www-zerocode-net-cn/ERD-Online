@@ -40,6 +40,11 @@
             path: '/project/design/table',
             component: './project/design/table',
           },
+          {
+            name: 'design-code',
+            path: '/project/design/code',
+            component: './project/design/code',
+          },
         ],
       },
       {
