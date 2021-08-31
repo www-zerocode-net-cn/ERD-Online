@@ -1,0 +1,279 @@
+@background: #587AB3;
+@color: #FFFFFF;
+@table-border-color: #444;
+@table-header-background: #222C44;
+@table-header-color: #9DB5DB;
+@background-color-row-odd: #263856;
+@background-color-row-even: #222C44;
+@background-color-row-first: #263856;
+@current-highlight: #6e21b1;
+@text-color-row-odd: red;
+@text-color-row-even: red;
+@text-color-row-first: red;
+@cell-color: #FFFFFF;
+@cell-selected-color: #222;
+@ctx-background: #445E89;
+@ctx-background-hover: #3C5276;
+@scroll-track: #546284;
+@scroll-thumb: #575757;
+@scroll-thumb-hover: #575757;
+
+
+body {
+  background-color: @background;
+  color: @color;
+}
+
+#data-sheet {
+  border-top: thin solid @table-border-color;
+  border-bottom: thin solid @table-border-color;
+}
+
+
+#data-sheet .handsontable {
+  color: @color;
+}
+
+#data-sheet .handsontable .wtHolder {
+  background-color: @table-header-background;
+}
+
+
+#data-sheet .htCore tbody tr:nth-of-type(odd) > td {
+  background-color: @background-color-row-odd;
+
+  strong {
+    color: @text-color-row-odd;
+  }
+}
+
+#data-sheet .htCore tbody tr:nth-of-type(odd) > td.current.highlight {
+  background-color: @current-highlight;
+
+  strong {
+    color: @text-color-row-odd;
+  }
+;
+}
+
+#data-sheet .htCore tbody tr:nth-of-type(even) > td.current.highlight {
+  background-color: @current-highlight;
+
+  strong {
+    color: @text-color-row-even;
+  }
+}
+
+#data-sheet .htCore tbody tr:nth-of-type(even) > td {
+  background-color: @background-color-row-even;
+
+  strong {
+    color: @text-color-row-even;
+  }
+}
+#data-sheet .htCore tbody tr:nth-of-type(even) > td.current.highlight {
+  background-color: @current-highlight;
+
+  strong {
+    color: @text-color-row-even;
+  }
+}
+
+
+#data-sheet .htCore tbody tr:first-child > td {
+  background-color: @background-color-row-first;
+
+  strong {
+    color: @text-color-row-first;
+  }
+}
+
+
+/* All headers */
+#data-sheet .handsontable th {
+  background-color: @table-header-background;
+  color: @table-header-color;
+}
+
+/* Row headers */
+#data-sheet .ht_clone_left th {
+  background-color: @table-header-background;
+  color: @table-header-color;
+}
+
+/* Column headers */
+#data-sheet .ht_clone_top th {
+  background-color: @table-header-background;
+  color: @table-header-color;
+  font-weight: bold;
+  font-size: 15px;
+
+}
+
+/* Row headers */
+#data-sheet .ht_clone_top_left_corner th {
+  border-bottom: 1px solid @table-border-color;
+}
+
+#data-sheet .ht_clone_left th {
+  border-right: 1px solid @table-border-color;
+  border-left: 1px solid @table-border-color;
+}
+
+/* Column headers */
+#data-sheet .ht_clone_top th {
+  border-top: 1px solid @table-border-color;
+  border-right: 1px solid @table-border-color;
+  border-bottom: 1px solid @table-border-color;
+}
+
+#data-sheet .ht_clone_top_left_corner th {
+  border-right: 1px solid @table-border-color;
+}
+
+#data-sheet .handsontable .changeType {
+  background: inherit;
+  border-color: @table-border-color;
+}
+
+/* Borders */
+#data-sheet .handsontable th,
+#data-sheet .handsontable td {
+  border-right: 1px solid @table-border-color;
+  border-bottom: 1px solid @table-border-color;
+}
+
+#data-sheet .handsontable tr:first-child td,
+#data-sheet .handsontable tr:first-child th {
+  border-top: 1px solid @table-border-color;
+}
+
+#data-sheet .ht_master tr > td {
+  border-bottom: 1px solid @table-border-color;
+}
+
+/* Right */
+#data-sheet .ht_master tr > td {
+  border-right: 1px solid @table-border-color;
+}
+
+#data-sheet #data-sheet .handsontable .htNoFrame + td,
+#data-sheet .handsontable .htNoFrame + th,
+#data-sheet .handsontable.htRowHeaders thead tr th:nth-child(2),
+#data-sheet .handsontable td:first-of-type,
+#data-sheet .handsontable th:first-child,
+#data-sheet .handsontable th:nth-child(2) {
+  border-left: 1px solid @table-border-color;
+}
+
+#data-sheet .ht_clone_top_left_corner thead tr th:nth-last-child(2) {
+  border-right: 1px solid @table-border-color;
+}
+
+#data-sheet .handsontable th:last-child {
+  border-right: 1px solid @table-border-color;
+  border-bottom: 1px solid @table-border-color;
+}
+
+/* Selected cell */
+#data-sheet tr > td {
+  background-color: @cell-color;
+}
+
+
+/* Context menu */
+.htContextMenu tr,
+.htDropdownMenu tr,
+.htFiltersConditionsMenu tr {
+  background-color: @ctx-background;
+}
+
+.htContextMenu table tbody tr td,
+.htDropdownMenu table tbody tr td,
+.htFiltersConditionsMenu table tbody tr td {
+  background: @ctx-background;
+}
+
+.handsontable .htUIMultipleSelect .handsontable .htCore td:hover {
+  background-color: @ctx-background-hover;
+}
+
+.handsontable .htUISelect div:hover {
+  background-color: @ctx-background-hover;
+}
+
+/*下拉框背景色*/
+.htSelectEditor {
+  background-color: @ctx-background;
+}
+
+.handsontable.listbox td.htDimmed {
+  background-color: white;
+}
+
+#data-sheet .htCore tbody tr:first-child > td > strong {
+  color: red;
+}
+
+.htContextMenu table tbody tr td.current,
+.htContextMenu table tbody tr td.zeroclipboard-is-hover,
+.htDropdownMenu table tbody tr td.current,
+.htDropdownMenu table tbody tr td.zeroclipboard-is-hover,
+.htFiltersConditionsMenu table tbody tr td.current,
+.htFiltersConditionsMenu table tbody tr td.zeroclipboard-is-hover {
+  background-color: @ctx-background-hover;
+}
+
+
+.htContextMenu .handsontable table td.htCustomMenuRenderer,
+.htDropdownMenu .handsontable table td.htCustomMenuRenderer {
+  background-color: @ctx-background;
+}
+
+.handsontable .htUISelectCaption .handsontable .htUISelectCaption:hover {
+  background-color: @ctx-background;
+}
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: @scroll-track;
+}
+
+::-webkit-scrollbar-thumb {
+  background: @scroll-thumb;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: @scroll-thumb-hover;
+}
+
+.handsontable .htUISelectCaption {
+  background-color: @ctx-background;
+
+  :hover {
+    background-color: @ctx-background-hover;
+  }
+}
+
+.handsontable th, .handsontable td {
+  height: 30px;
+}
+
+.handsontable .htUIMultipleSelectSearch input {
+  background-color: @ctx-background;
+  color: @color;
+}
+
+
+element.style {
+}
+
+.handsontable .htFiltersMenuCondition .htUIInput input, .handsontable .htFiltersMenuValue .htUIMultipleSelectSearch input {
+  background-color: @ctx-background;
+  color: @color;
+}

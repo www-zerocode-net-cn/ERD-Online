@@ -14,4 +14,4 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({ overlayClassName: cls, 
   <Dropdown overlayClassName={classNames(styles.container, cls)} {...restProps} />
 );
 
-export default HeaderDropdown;
+export default React.memo(HeaderDropdown);

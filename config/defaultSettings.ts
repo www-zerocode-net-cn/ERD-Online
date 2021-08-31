@@ -4,10 +4,10 @@ const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
 } = {
-  "navTheme": "dark",
-  "headerTheme": "dark",
-  "primaryColor": "#FA541C",
-  "layout": "mix",
+  "navTheme": "light",
+  "headerTheme": "light",
+  "primaryColor": "#1890ff",
+  "layout": "side",
   "contentWidth": "Fluid",
   "fixedHeader": false,
   "fixSiderbar": true,
@@ -15,7 +15,7 @@ const Settings: LayoutSettings & {
   "pwa": false,
   "iconfontUrl": "//at.alicdn.com/t/font_2750460_b2lnxw12jxe.js",
   "menu": {
-    "locale": true
+    "locale": false
   },
   "headerHeight": 48,
   "splitMenus": true

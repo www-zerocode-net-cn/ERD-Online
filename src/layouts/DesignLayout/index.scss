@@ -1,0 +1,11 @@
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+
+
+.#{$ns}-tab {
+  outline: none;
+  color: #BFCCD6;
+  div {
+    color: #BFCCD6;
+  }
+}
+

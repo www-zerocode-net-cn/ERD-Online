@@ -15,8 +15,8 @@
   },
   {
     path: '/project',
-    component: '../layouts/ProjectLayout',
     layout: false,
+    component: '../layouts/ProjectLayout',
     routes: [
       {
         name: 'home',
@@ -53,10 +53,6 @@
       },
     ],
   },
-  {
-    component: './404',
-  },
-
   {
     path: '/',
     redirect: '/user/login',

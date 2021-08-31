@@ -1,10 +1,14 @@
-.projectList {
-  padding: 0 32px 32px;
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+
+.tableNameList {
+  padding: 0 10px 50px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
-  grid-gap: 32px 32px;
-  height: 100%;
-  margin-top: 2%;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(auto-fill, minmax(30px, 1fr));
+  height: 80%;
+  width: 70%;
+  margin-top: 1%;
+
 }
 
 .cardList {
@@ -72,19 +76,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .head{
+
+  .head {
     align-items: center;
   }
 }
 
-.model-template-list-wrapper{
+.model-template-list-wrapper {
   flex-grow: 1;
   display: block;
   overflow: auto;
   padding-bottom: 0;
 }
 
-.model-template-list-flex{
+.model-template-list-flex {
   padding: 0 10px 24px;
   display: flex;
   flex-direction: column;
@@ -97,6 +102,7 @@
   gap: 20px;
   padding: 20px;
   height: 100%;
+
   .item {
     width: 90%;
     height: 90%;
@@ -109,21 +115,51 @@
   }
 }
 
-.copyright{
-  display:flex;
+.copyright {
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 50px;
-  margin-top: -10% ;
+  margin-top: -10%;
 }
 
-.none-bottom-border{
+.none-bottom-border {
   border-bottom: none;
 }
 
-.none-top-border{
+.none-top-border {
   border: 0px solid #696565;
   border-top: none;
   border-top: none;
   border-left: none;
+}
+
+.tabs-height {
+  height: 110%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 4% auto;
+  margin: 0px 12px;
+}
+
+.tab-panel-height {
+  height: 100%;
+}
+
+.table-button-tool-group {
+  color: #BFCCD6;
+
+  button {
+    outline: none;
+    minWidth: 200
+  }
+}
+
+
+.none-button-outline {
+  outline: none;
+}
+.handsontable td.dark {
+  background: #30404d;
+  color: #f5f8fa;
 }

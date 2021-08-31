@@ -3,16 +3,16 @@ import {Left, Right} from "react-spaces";
 import "./index.less";
 import TemplateSquare from "@/pages/project/home/component/TemplateSquare";
 import ProjectList from "@/pages/project/home/component/ProjectList";
-import Footer from "@/components/Footer";
 
-export type HomeProps = {};
-const Home: React.FC<HomeProps> = (props) => {
+export type DesignProps = {};
+const Design: React.FC<DesignProps> = (props) => {
 
   return (
     <>
       <Left size={"85%"}>
+
         <ProjectList/>
-        <Footer/>
+        <a className="copyright">2021@ZEROCODE</a>
       </Left>
       <Right size="15%">
         <TemplateSquare/>
@@ -20,4 +20,4 @@ const Home: React.FC<HomeProps> = (props) => {
     </>
   );
 }
-export default React.memo(Home)
+export default React.memo(Design)

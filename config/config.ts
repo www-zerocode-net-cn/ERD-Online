@@ -1,12 +1,15 @@
 // https://umijs.org/config/
-import { defineConfig } from 'umi';
-import { join } from 'path';
+import {defineConfig} from 'umi';
+import {join} from 'path';
 
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
+const {REACT_APP_ENV} = process.env;
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const isEnvProduction = process.env.NODE_ENV === "production";
+const assetDir = "static";
 
 export default defineConfig({
   hash: true,
@@ -17,7 +20,7 @@ export default defineConfig({
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
     locale: true,
-    siderWidth: 208,
+    siderWidth: 240,
     ...defaultSettings,
   },
   // https://umijs.org/zh-CN/plugins/plugin-locale
@@ -65,8 +68,15 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
-  nodeModulesTransform: { type: 'none' },
+  nodeModulesTransform: {type: 'none'},
   mfsu: {},
   webpack5: {},
   exportStatic: {},
+  sass: {},
+  // 生产环境去除console日志打印
+  terserOptions: {
+    compress: {
+      drop_console: isEnvProduction,
+    },
+  },
 });
