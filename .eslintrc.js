@@ -5,4 +5,21 @@ module.exports = {
     page: true,
     REACT_APP_ENV: true,
   },
+  "rules": {
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "e", // for e.returnvalue
+          "ctx", // for Koa routing
+          "req", // for Express requests
+          "request", // for Express requests
+          "res", // for Express responses
+          "response", // for Express responses
+          "state" // for vuex state
+        ]
+      }
+    ]
+  }
 };

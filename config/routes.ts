@@ -54,6 +54,11 @@
     ],
   },
   {
+    name: 'test',
+    path: '/test',
+    component: './test'
+  },
+  {
     path: '/',
     redirect: '/user/login',
   },

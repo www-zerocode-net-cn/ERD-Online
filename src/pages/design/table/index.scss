@@ -1,14 +1,52 @@
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
+.#{$ns}-tab-panel {
+  margin-top: 0px;
+}
+
+.#{$ns}-button-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.#{$ns}-context-menu2{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.#{$ns}-tab-list {
+  overflow-x: auto;
+
+  .#{$ns}-tab {
+    width: 100px;
+    max-width: 200px;
+  }
+}
+
+.button-text-ellipsis {
+  display: block;
+  width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .tableNameList {
   padding: 0 10px 50px;
   display: grid;
   grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-template-rows: repeat(auto-fill, minmax(30px, 1fr));
   height: 80%;
   width: 70%;
   margin-top: 1%;
+}
 
+.no-table {
+  margin-top: -15%;
 }
 
 .cardList {
@@ -142,6 +180,16 @@
   margin: 0px 12px;
 }
 
+.tabs-table-height {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 4% auto;
+  margin: 0px 12px;
+  row-gap: 5px;
+
+}
+
 .tab-panel-height {
   height: 100%;
 }
@@ -158,8 +206,4 @@
 
 .none-button-outline {
   outline: none;
-}
-.handsontable td.dark {
-  background: #30404d;
-  color: #f5f8fa;
 }

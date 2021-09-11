@@ -1,84 +1,144 @@
 import React from 'react';
-import {Classes, Icon, InputGroup, Intent, Tab, Tabs, Tree, TreeNodeInfo} from "@blueprintjs/core";
-import {cloneDeep} from "lodash-es";
-import {Classes as Popover2Classes, ContextMenu2, Tooltip2} from "@blueprintjs/popover2";
+import {Classes, Icon, InputGroup, Menu, MenuItem, Tab, Tabs} from "@blueprintjs/core";
 import {Left} from "react-spaces";
 import './index.less'
 import classNames from "classnames";
+import {ContextMenu2} from "@blueprintjs/popover2";
+import PropTypes from 'prop-types';
+import {makeStyles} from '@material-ui/core/styles';
+import TreeView from '@material-ui/lab/TreeView';
+import TreeItem from '@material-ui/lab/TreeItem';
+import Typography from '@material-ui/core/Typography';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import {TreeItemProps} from "@material-ui/lab/TreeItem/TreeItem";
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
+import {IconName} from "@blueprintjs/icons";
+import {MaybeElement} from "@blueprintjs/core/src/common/index";
+import useTabStore from "@/store/tab/useTabStore";
+
+const useTreeItemStyles = makeStyles((theme) => ({
+  root: {
+    '&:hover > $content': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    '&:focus > $content, &$selected > $content': {
+      color: 'var(--tree-view-color)',
+    },
+    '&:focus > $content $label, &:hover > $content $label, &$selected > $content $label': {
+      backgroundColor: 'transparent',
+    },
+  },
+  content: {
+    borderTopRightRadius: theme.spacing(1),
+    borderBottomRightRadius: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    fontWeight: theme.typography.fontWeightMedium,
+    '$expanded > &': {
+      fontWeight: theme.typography.fontWeightRegular,
+    },
+  },
+  group: {
+    marginLeft: 0,
+    '& $content': {
+      paddingLeft: theme.spacing(2),
+    },
+  },
+  expanded: {},
+  selected: {},
+  label: {
+    fontWeight: 'inherit',
+    color: 'inherit',
+  },
+  labelRoot: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0.5, 0),
+  },
+  labelIcon: {
+    marginRight: theme.spacing(1),
+  },
+  labelText: {
+    fontWeight: 'inherit',
+    flexGrow: 1,
+    display: 'block',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+
+  },
+}));
+
+interface StyledTreeItemProps extends TreeItemProps {
+  bgColor?: string,
+  color?: string,
+  labelIcon: IconName | MaybeElement,
+  labelInfo?: number,
+  labelText: string,
+}
+
+const renderRightContext = <Menu>
+    <MenuItem icon="add" text="新增"/>
+    <MenuItem icon="edit" text="重命名"/>
+    <MenuItem icon="trash" text="删除"/>
+    <MenuItem icon="duplicate" text="复制"/>
+    <MenuItem icon="cut" text="剪切"/>
+    <MenuItem icon="clipboard" text="粘贴"/>
+  </Menu>
+;
+
+const StyledTreeItem = (props: StyledTreeItemProps) => {
+  const classes = useTreeItemStyles();
+  const {labelText, labelIcon, labelInfo, color, bgColor, ...other} = props;
+
+  return (
+    <ContextMenu2 content={renderRightContext}>
+      <TreeItem
+        label={
+          <div className={classes.labelRoot}>
+            <Icon icon={labelIcon} className={classes.labelIcon}/>
+            <Typography variant="body2" className={classes.labelText}>
+              {labelText}
+            </Typography>
+            <Typography variant="caption" color="inherit">
+              {labelInfo}
+            </Typography>
+          </div>
+        }
+        title={labelText}
+        classes={{
+          root: classes.root,
+          content: classes.content,
+          expanded: classes.expanded,
+          selected: classes.selected,
+          group: classes.group,
+          label: classes.label,
+        }}
+        {...other}
+      />
+    </ContextMenu2>
+  );
+}
+
+StyledTreeItem.propTypes = {
+  bgColor: PropTypes.string,
+  color: PropTypes.string,
+  labelIcon: PropTypes.elementType.isRequired,
+  labelInfo: PropTypes.number,
+  labelText: PropTypes.string.isRequired,
+};
+
 
 export type DesignLeftContentProps = {};
 
-type NodePath = number[];
-
-type TreeAction =
-  | { type: "SET_IS_EXPANDED"; payload: { path: NodePath; isExpanded: boolean } }
-  | { type: "DESELECT_ALL" }
-  | { type: "SET_IS_SELECTED"; payload: { path: NodePath; isSelected: boolean } };
-
-function forEachNode(nodes: TreeNodeInfo[] | undefined, callback: (node: TreeNodeInfo) => void) {
-  if (nodes === undefined) {
-    return;
-  }
-
-  for (const node of nodes) {
-    callback(node);
-    forEachNode(node.childNodes, callback);
-  }
-}
-
-function forNodeAtPath(nodes: TreeNodeInfo[], path: NodePath, callback: (node: TreeNodeInfo) => void) {
-  callback(Tree.nodeFromPath(path, nodes));
-}
-
-function treeExampleReducer(state: TreeNodeInfo[], action: TreeAction) {
-  switch (action.type) {
-    case "DESELECT_ALL":
-      const newState1 = cloneDeep(state);
-      forEachNode(newState1, node => (node.isSelected = false));
-      return newState1;
-    case "SET_IS_EXPANDED":
-      const newState2 = cloneDeep(state);
-      forNodeAtPath(newState2, action.payload.path, node => (node.isExpanded = action.payload.isExpanded));
-      return newState2;
-    case "SET_IS_SELECTED":
-      const newState3 = cloneDeep(state);
-      forNodeAtPath(newState3, action.payload.path, node => (node.isSelected = action.payload.isSelected));
-      return newState3;
-    default:
-      return state;
-  }
-}
-
 const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
-  const [nodes, dispatch] = React.useReducer(treeExampleReducer, INITIAL_STATE);
 
-  const handleNodeClick = React.useCallback(
-    (node: TreeNodeInfo, nodePath: NodePath, e: React.MouseEvent<HTMLElement>) => {
-      const originallySelected = node.isSelected;
-      if (!e.shiftKey) {
-        dispatch({type: "DESELECT_ALL"});
-      }
-      dispatch({
-        payload: {path: nodePath, isSelected: originallySelected == null ? true : !originallySelected},
-        type: "SET_IS_SELECTED",
-      });
-    },
-    [],
-  );
+  const {modules} = useProjectStore(state => ({modules: state.project?.projectJSON?.modules}), shallow);
+  console.log('modules139', modules)
+  const { tabDispatch} = useTabStore(state => ({tableTabs: state.tableTabs, tabDispatch: state.dispatch}));
 
-  const handleNodeCollapse = React.useCallback((_node: TreeNodeInfo, nodePath: NodePath) => {
-    dispatch({
-      payload: {path: nodePath, isExpanded: false},
-      type: "SET_IS_EXPANDED",
-    });
-  }, []);
 
-  const handleNodeExpand = React.useCallback((_node: TreeNodeInfo, nodePath: NodePath) => {
-    dispatch({
-      payload: {path: nodePath, isExpanded: true},
-      type: "SET_IS_EXPANDED",
-    });
-  }, []);
   return (
     <Left size="10%">
       <Tabs
@@ -97,89 +157,32 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
         leftIcon="search"
         placeholder=""
       />
-      <Tree
-        contents={nodes}
-        onNodeClick={handleNodeClick}
-        onNodeCollapse={handleNodeCollapse}
-        onNodeExpand={handleNodeExpand}
-        className={Classes.ELEVATION_0}
-      />
+      <TreeView
+        className="root"
+        defaultExpanded={['3']}
+        defaultCollapseIcon={<ArrowDropDownIcon/>}
+        defaultExpandIcon={<ArrowRightIcon/>}
+        defaultEndIcon={<div style={{width: 24}}/>}
+      >
+        {modules?.map((module: any) => {
+          return <StyledTreeItem key={module.name}
+                                 nodeId={module.name}
+                                 labelText={module.name}
+                                 labelIcon={"database"}
+                                 labelInfo={module?.entities?.length}
+                                 onClick={() => tabDispatch.setCurrentModule(module.name)}>
+            {module?.entities?.map((entity: any) => {
+              return <StyledTreeItem key={`${module.name}###${entity.title}`}
+                                     nodeId={`${module.name}###${entity.title}`} labelText={entity.title}
+                                     labelIcon={"th"} labelInfo={entity?.fields?.length}
+                                     onClick={() => tabDispatch.addTab({module:module.name, entity:entity.title})}/>
+            })}
+          </StyledTreeItem>;
+        })}
+
+      </TreeView>
     </Left>
   )
 };
-const contentSizing = {popoverProps: {popoverClassName: Popover2Classes.POPOVER2_CONTENT_SIZING}};
 
-/* tslint:disable:object-literal-sort-keys so childNodes can come last */
-const INITIAL_STATE: TreeNodeInfo[] = [
-  {
-    id: 0,
-    hasCaret: true,
-    icon: "folder-close",
-    label: (
-      <ContextMenu2 {...contentSizing} content={<div>Hello there!</div>}>
-        Folder 0
-      </ContextMenu2>
-    ),
-  },
-  {
-    id: 1,
-    icon: "folder-close",
-    isExpanded: true,
-    label: (
-      <ContextMenu2 {...contentSizing} content={<div>Hello there!</div>}>
-        <Tooltip2 content="I'm a folder <3" placement="right">
-          Folder 1
-        </Tooltip2>
-      </ContextMenu2>
-    ),
-    childNodes: [
-      {
-        id: 2,
-        icon: "document",
-        label: "Item 0",
-        secondaryLabel: (
-          <Tooltip2 content="An eye!">
-            <Icon icon="eye-open"/>
-          </Tooltip2>
-        ),
-      },
-      {
-        id: 3,
-        icon: <Icon icon="tag" intent={Intent.PRIMARY} className={Classes.TREE_NODE_ICON}/>,
-        label: "Organic meditation gluten-free, sriracha VHS drinking vinegar beard man.",
-      },
-      {
-        id: 4,
-        hasCaret: true,
-        icon: "folder-close",
-        label: (
-          <ContextMenu2 {...contentSizing} content={<div>Hello there!</div>}>
-            <Tooltip2 content="foo" placement="right">
-              Folder 2
-            </Tooltip2>
-          </ContextMenu2>
-        ),
-        childNodes: [
-          {id: 5, label: "No-Icon Item"},
-          {id: 6, icon: "tag", label: "Item 1"},
-          {
-            id: 7,
-            hasCaret: true,
-            icon: "folder-close",
-            label: (
-              <ContextMenu2 {...contentSizing} content={<div>Hello there!</div>}>
-                Folder 3
-              </ContextMenu2>
-            ),
-            childNodes: [
-              {id: 8, icon: "document", label: "Item 0"},
-              {id: 9, icon: "tag", label: "Item 1"},
-            ],
-          },
-        ],
-      },
-    ],
-  },
-
-];
-export default React.memo(DesignLeftContent);
+export default React.memo(DesignLeftContent)

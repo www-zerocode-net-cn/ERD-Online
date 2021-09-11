@@ -14,7 +14,7 @@ const TemplateSquare: React.FC<TemplateSquareProps> = (props) => {
   ];
   const visibleItemRenderer1 = ({text, ...restProps}: IBreadcrumbProps) => {
     // customize rendering of last breadcrumb
-    return <Card elevation={Elevation.TWO} className="item">
+    return <Card key={Math.random()} elevation={Elevation.TWO} className="item">
       <div className="projectImg"></div>
       <h5 className="bp3-heading name">H2 测试项目</h5>
     </Card>;

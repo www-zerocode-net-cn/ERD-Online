@@ -1,27 +1,29 @@
 import React from 'react';
-import {Icon, Tab, Tabs} from "@blueprintjs/core";
-import TableObjectList from "@/pages/design/table/component/TableObjectList";
+import {Divider, Tab, Tabs} from "@blueprintjs/core";
 import TableInfoEdit from "@/pages/design/table/component/TableInfoEdit";
+import CodeTab from "@/pages/design/table/component/CodeTab";
+import {ModuleEntity} from "@/store/tab/useTabStore";
+import {BreadcrumbsExample} from "@/pages/design/table/component/TableIndexEdit";
 
 
-export type TableTabProps = {};
+export type TableTabProps = {
+  moduleEntity: ModuleEntity
+};
 
 const TableTab: React.FC<TableTabProps> = (props) => {
+  console.log('TableTab13',TableTab)
   return (
     <>
+      <Divider/>
       <Tabs
-        id="navbar"
+        id="tableNav"
         animate={false}
         renderActiveTabPanelOnly={true}
+        className="tabs-table-height"
       >
-        <Tab id="object" title="对象" panel={<TableObjectList/>}></Tab>
-        <Tab id="table" title="数据表" panel={<TableInfoEdit/>}><Icon icon="small-cross"/></Tab>
-        <Tab id="domain" title="数据域" panel={<TableObjectList/>}><Icon icon="small-cross"/></Tab>
-        <Tab id="domain1" title="数据域"><Icon icon="small-cross"/></Tab>
-        <Tab id="domain2" title="数据域"><Icon icon="small-cross"/></Tab>
-        <Tab id="domain3" title="数据域"><Icon icon="small-cross"/></Tab>
-        <Tab id="domain4" title="数据域"><Icon icon="small-cross"/></Tab>
-        <Tab id="domain5" title="数据域"><Icon icon="small-cross"/></Tab>
+        <Tab id="field" title="字段" panel={<TableInfoEdit moduleEntity={props.moduleEntity}/>}></Tab>
+        <Tab id="index" title="索引" panel={<BreadcrumbsExample/>}></Tab>
+        <Tab id="code" title="代码信息" panel={<CodeTab/>}></Tab>
       </Tabs>
     </>
   );

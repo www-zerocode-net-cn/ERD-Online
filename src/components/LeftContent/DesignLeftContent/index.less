@@ -1,11 +1,33 @@
 .left-table-tab {
   margin: 10px;
+
   div {
     flex: 1 1 auto;
     text-align: center;
   }
 }
 
-.table-search-input{
-  margin: 10px ;
+.table-search-input {
+  margin: 10px;
+}
+
+root {
+  height: 264px;
+  flexGrow: 1;
+  maxWidth: 400px;
+}
+
+.tab-text-close{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div{
+    width: 80px;
+    max-width: 80px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
