@@ -12,7 +12,9 @@ import ConfigJsonSlice, {IConfigJsonSlice} from "./configJsonSlice";
 export type ProjectState = {
   project: any,
   fetch: () => Promise<void>;
-} & IProjectJsonSlice & IConfigJsonSlice;
+  dispatch: IProjectJsonSlice & IConfigJsonSlice
+};
+
 
 const useProjectStore = create<ProjectState>(
   (set) => ({
@@ -23,8 +25,10 @@ const useProjectStore = create<ProjectState>(
           set({project: data})
         })
     },
-    ...ProjectJsonSlice(set),
-    ...ConfigJsonSlice(set)
+    dispatch: {
+      ...ProjectJsonSlice(set),
+      ...ConfigJsonSlice(set),
+    }
   })
 );
 

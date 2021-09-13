@@ -1,5 +1,5 @@
 import {SetState} from "zustand";
-import {ProjectState} from "@/store/project/useStore";
+import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 
 export interface IConfigJsonSlice {
@@ -9,7 +9,7 @@ export interface IConfigJsonSlice {
 const ConfigJsonSlice = (set: SetState<ProjectState>) => ({
   setConfigJson: (value: any) => set(produce(state => {
     state.project.configJSON = value
-  }))
+  })),
 });
 
 
