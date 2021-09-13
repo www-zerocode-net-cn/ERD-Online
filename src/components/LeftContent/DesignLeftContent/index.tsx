@@ -53,6 +53,8 @@ const useTreeItemStyles = makeStyles((theme) => ({
   },
   labelRoot: {
     display: 'flex',
+    flex: 'auto',
+    width: '88%',
     alignItems: 'center',
     padding: theme.spacing(0.5, 0),
   },
@@ -65,8 +67,8 @@ const useTreeItemStyles = makeStyles((theme) => ({
     display: 'block',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
-
+    whiteSpace: 'nowrap',
+    width: '80px',
   },
 }));
 
@@ -136,7 +138,7 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
 
   const {modules} = useProjectStore(state => ({modules: state.project?.projectJSON?.modules}), shallow);
   console.log('modules139', modules)
-  const { tabDispatch} = useTabStore(state => ({tableTabs: state.tableTabs, tabDispatch: state.dispatch}));
+  const {tabDispatch} = useTabStore(state => ({tableTabs: state.tableTabs, tabDispatch: state.dispatch}));
 
 
   return (
@@ -175,7 +177,7 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
               return <StyledTreeItem key={`${module.name}###${entity.title}`}
                                      nodeId={`${module.name}###${entity.title}`} labelText={entity.title}
                                      labelIcon={"th"} labelInfo={entity?.fields?.length}
-                                     onClick={() => tabDispatch.addTab({module:module.name, entity:entity.title})}/>
+                                     onClick={() => tabDispatch.addTab({module: module.name, entity: entity.title})}/>
             })}
           </StyledTreeItem>;
         })}

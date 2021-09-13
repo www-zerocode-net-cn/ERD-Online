@@ -71,6 +71,7 @@ body {
     color: @text-color-row-even;
   }
 }
+
 #data-sheet .htCore tbody tr:nth-of-type(even) > td.current.highlight {
   background-color: @current-highlight;
 
@@ -276,4 +277,16 @@ element.style {
 .handsontable .htFiltersMenuCondition .htUIInput input, .handsontable .htFiltersMenuValue .htUIMultipleSelectSearch input {
   background-color: @ctx-background;
   color: @color;
+}
+
+.ht_clone_top {
+  z-index: 0;
+}
+
+.ht_clone_left {
+  z-index: 0;
+}
+
+.ht_clone_top_left_corner {
+  z-index: 0;
 }

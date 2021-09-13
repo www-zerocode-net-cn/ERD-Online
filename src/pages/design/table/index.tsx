@@ -6,17 +6,15 @@ import Footer from "@/components/Footer";
 import {Icon, Menu, MenuItem, Tab, Tabs} from "@blueprintjs/core";
 import TableObjectList from "@/pages/design/table/component/TableObjectList";
 import TableTab from "@/pages/design/table/component/TableTab";
-import useTabStore, {ModuleEntity} from "@/store/tab/useTabStore";
+import useTabStore, {defaultSelectTabId, ModuleEntity} from "@/store/tab/useTabStore";
 import {ContextMenu2} from "@blueprintjs/popover2";
-import shallow from "zustand/shallow";
 
 export type TableProps = {};
 const Table: React.FC<TableProps> = (props) => {
-  const {tableTabs, selectTabId, tabDispatch} = useTabStore(state => ({
-    tableTabs: state.tableTabs,
-    selectTabId: state.selectTabId,
-    tabDispatch: state.dispatch
-  }), shallow);
+  const tableTabs = useTabStore(state => state.tableTabs);
+  const selectTabId = useTabStore(state => state.selectTabId);
+  const tabDispatch = useTabStore(state => state.dispatch);
+
   console.log('tableTabs', tableTabs)
   console.log('selectTabId', selectTabId)
 
@@ -35,12 +33,18 @@ const Table: React.FC<TableProps> = (props) => {
     tabDispatch.removeRightTab(tab);
   }
 
+  const closeAll = (tab: ModuleEntity) => {
+    console.log('currentEntity 37', tab)
+    tabDispatch.removeAllTab(tab);
+  }
+
   const renderRightContent = (tab: ModuleEntity) => {
     return (
       <Menu>
         <MenuItem icon="small-cross" onClick={() => closeCurrent(tab)} text="关闭当前"/>
         <MenuItem icon="small-cross" onClick={() => closeLeft(tab)} text="关闭左边"/>
         <MenuItem icon="small-cross" onClick={() => closeRight(tab)} text="关闭右边"/>
+        <MenuItem icon="small-cross" onClick={() => closeAll(tab)} text="关闭全部"/>
 
       </Menu>
     );
@@ -57,14 +61,14 @@ const Table: React.FC<TableProps> = (props) => {
           id="globalNavbar"
           renderActiveTabPanelOnly={true}
           className="tabs-height"
-          defaultSelectedTabId={"all###object"}
+          defaultSelectedTabId={defaultSelectTabId}
           selectedTabId={selectTabId}
         >
-          <Tab id={"all###object"}
+          <Tab id={defaultSelectTabId}
                onClickCapture={() => tabDispatch.activeTab({module: "all", entity: "object"})}
                key={0}
                title={"对象"}
-               style={{width: "50px"}}
+               style={{width: "40px",textAlign:"center"}}
                panel={<TableObjectList/>}>
 
           </Tab>
@@ -74,12 +78,11 @@ const Table: React.FC<TableProps> = (props) => {
               console.log('tab75', tab)
               const selectedTabId = `${tab.module}###${tab.entity}`;
               return <Tab id={selectedTabId}
-                          key={selectTabId}
-                          onClickCapture={() => tabDispatch.activeTab(tab)}
+                          key={index}
                           panel={<TableTab moduleEntity={tab}/>}>
                 <ContextMenu2 content={() => renderRightContent(tab)}>
                   <div title={`${tab.entity}|${tab.module}`} className="tab-text-close">
-                    <div style={{textAlign: 'center'}}>{tab.entity}</div>
+                    <div style={{textAlign: 'center'}} onClick={() => tabDispatch.activeTab(tab)}>{tab.entity}</div>
                     <Icon style={{width: "20%"}} icon={"cross"} onClick={() => closeCurrent(tab)}/>
                   </div>
                 </ContextMenu2>
