@@ -1,7 +1,7 @@
 import React from 'react';
 import {HotTable} from "@handsontable/react";
 import 'handsontable/dist/handsontable.full.css';
-import './DarkTheme.less'
+import '../DarkTheme.less'
 import "handsontable/languages/zh-CN";
 import useProjectStore from "@/store/project/useProjectStore";
 import {ModuleEntity} from "@/store/tab/useTabStore";

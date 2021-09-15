@@ -1,9 +1,9 @@
 import React from 'react';
 import {Divider, Tab, Tabs} from "@blueprintjs/core";
-import TableInfoEdit from "@/pages/design/table/component/TableInfoEdit";
-import CodeTab from "@/pages/design/table/component/CodeTab";
+import TableInfoEdit from "@/pages/design/table/component/table/TableInfoEdit";
+import CodeTab from "@/pages/design/table/component/tab/CodeTab";
 import {ModuleEntity} from "@/store/tab/useTabStore";
-import {BreadcrumbsExample} from "@/pages/design/table/component/TableIndexEdit";
+import {BreadcrumbsExample} from "@/pages/design/table/component/table/TableIndexEdit";
 
 
 export type TableTabProps = {

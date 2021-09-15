@@ -1,6 +1,7 @@
 import {SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
+import EntitiesSlice from "@/store/project/entitiesSlice";
 
 
 export interface IModulesSlice {
@@ -19,6 +20,7 @@ const ModulesSlice = (set: SetState<ProjectState>) => ({
   updateModule: (index: number, payload: any) => set(produce(state => {
     state.project.projectJSON.modules[index] = payload
   })),
+  ...EntitiesSlice,
 });
 
 

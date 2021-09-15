@@ -10,7 +10,9 @@ const isEnvProduction = process.env.NODE_ENV === "production";
 
 export default defineConfig({
   hash: true,
-  antd: {},
+  antd: {
+    dark: true, // 开启暗色主题
+  },
   dva: {
     hmr: true,
   },
@@ -39,6 +41,9 @@ export default defineConfig({
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     'primary-color': defaultSettings.primaryColor,
+    'border-radius-base': '6px',
+    'modal-content-bg': '#1f2931',
+
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild

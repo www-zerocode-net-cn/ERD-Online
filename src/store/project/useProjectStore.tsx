@@ -2,6 +2,7 @@ import create from "zustand";
 
 import ProjectJsonSlice, {IProjectJsonSlice} from "./projectJsonSlice";
 import ConfigJsonSlice, {IConfigJsonSlice} from "./configJsonSlice";
+import produce from "immer";
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
 // 同名合并：interface 支持，type 不支持。
@@ -26,6 +27,9 @@ const useProjectStore = create<ProjectState>(
         })
     },
     dispatch: {
+      updateProjectName:(payload: any) => set(produce(state => {
+        state.project.projectName = payload;
+      })),
       ...ProjectJsonSlice(set),
       ...ConfigJsonSlice(set),
     }

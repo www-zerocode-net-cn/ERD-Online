@@ -47,6 +47,7 @@
     "not ie <= 10"
   ],
   "dependencies": {
+    "@ant-design/pro-form": "^1.40.0",
     "@ant-design/pro-layout": "^6.15.3",
     "@blueprintjs/core": "^3.49.0",
     "@blueprintjs/docs-theme": "^3.10.8",

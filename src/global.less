@@ -1,4 +1,6 @@
 @import '~antd/es/style/themes/default.less';
+@import '~antd/dist/antd.less';
+@import '~antd/dist/antd.dark.less';
 @import "~normalize.css";
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
@@ -74,3 +76,33 @@ ol {
   margin-bottom: -1px;
 }
 
+.ant-input{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #fff;
+  border: none;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 0 0 rgb(19 124 189 / 0%), 0 0 0 0 rgb(19 124 189 / 0%), inset 0 0 0 1px rgb(16 22 26 / 15%), inset 0 1px 1px rgb(16 22 26 / 20%);
+  box-shadow: 0 0 0 0 rgb(19 124 189 / 0%), 0 0 0 0 rgb(19 124 189 / 0%), inset 0 0 0 1px rgb(16 22 26 / 15%), inset 0 1px 1px rgb(16 22 26 / 20%);
+  color: #182026;
+  font-size: 14px;
+  font-weight: 400;
+  height: 30px;
+  line-height: 30px;
+  outline: none;
+  padding: 0 10px;
+  -webkit-transition: -webkit-box-shadow .1s cubic-bezier(.4,1,.75,.9);
+  transition: -webkit-box-shadow .1s cubic-bezier(.4,1,.75,.9);
+  transition: box-shadow .1s cubic-bezier(.4,1,.75,.9);
+  transition: box-shadow .1s cubic-bezier(.4,1,.75,.9), -webkit-box-shadow .1s cubic-bezier(.4,1,.75,.9);
+  transition: box-shadow .1s cubic-bezier(.4,1,.75,.9),-webkit-box-shadow .1s cubic-bezier(.4,1,.75,.9);
+  vertical-align: middle;
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.ant-modal-content{
+  border-radius: 6px;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Divider, Tab, Tabs} from "@blueprintjs/core";
-import DbTab from "@/pages/design/table/component/DbTab";
+import DbTab from "@/pages/design/table/component/tab/DbTab";
 
 
 export type CodeTabProps = {};

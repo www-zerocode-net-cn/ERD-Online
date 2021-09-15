@@ -4,8 +4,8 @@ import "./index.scss";
 import TemplateSquare from "@/pages/project/home/component/TemplateSquare";
 import Footer from "@/components/Footer";
 import {Icon, Menu, MenuItem, Tab, Tabs} from "@blueprintjs/core";
-import TableObjectList from "@/pages/design/table/component/TableObjectList";
-import TableTab from "@/pages/design/table/component/TableTab";
+import TableObjectList from "@/pages/design/table/component/table/TableObjectList";
+import TableTab from "@/pages/design/table/component/tab/TableTab";
 import useTabStore, {defaultSelectTabId, ModuleEntity} from "@/store/tab/useTabStore";
 import {ContextMenu2} from "@blueprintjs/popover2";
 
