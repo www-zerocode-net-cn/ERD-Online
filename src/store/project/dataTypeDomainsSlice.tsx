@@ -5,12 +5,12 @@ import produce from "immer";
 
 export interface IDataTypeDomainsSlice {
 
-  addDatatype: (payload: any) => void;
-  removeDatatype: (index: number) => void;
-  updateDatatype: (index: number, payload: any) => void;
-  addDatabase: (payload: any) => void;
-  removeDatabase: (index: number) => void;
-  updateDatabase: (index: number, payload: any) => void;
+  addDatatype: (dataTypeIndex: number, payload: any) => void;
+  removeDatatype: (dataTypeIndex: number) => void;
+  updateDatatype: (dataTypeIndex: number, payload: any) => void;
+  addDatabase: (dataTypeIndex: number,payload: any) => void;
+  removeDatabase: (dataTypeIndex: number) => void;
+  updateDatabase: (dataTypeIndex: number, payload: any) => void;
 };
 
 const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({

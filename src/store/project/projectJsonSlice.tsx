@@ -22,9 +22,9 @@ const ProjectJsonSlice = (set: SetState<ProjectState>) => ({
   setProfile: (value: any) => set(produce(state => {
     state.project.projectJSON = value
   })),
-  ...ModulesSlice,
-  ...DataTypeDomainsSlice,
-  ...ProfileSlice,
+  ...ModulesSlice(set),
+  ...DataTypeDomainsSlice(set),
+  ...ProfileSlice(set),
 });
 
 

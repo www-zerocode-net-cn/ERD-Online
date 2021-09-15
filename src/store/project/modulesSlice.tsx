@@ -20,7 +20,7 @@ const ModulesSlice = (set: SetState<ProjectState>) => ({
   updateModule: (index: number, payload: any) => set(produce(state => {
     state.project.projectJSON.modules[index] = payload
   })),
-  ...EntitiesSlice,
+  ...EntitiesSlice(set),
 });
 
 

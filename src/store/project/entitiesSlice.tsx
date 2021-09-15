@@ -4,9 +4,9 @@ import produce from "immer";
 
 
 export interface IEntitiesSlice {
-  addEntity: (payload: any) => void;
-  removeEntity: (index: number) => void;
-  updateEntity: (index: number, payload: any) => void;
+  addEntity: (moduleIndex: number,payload: any) => void;
+  removeEntity: (moduleIndex: number,index: number) => void;
+  updateEntity: (moduleIndex: number,index: number, payload: any) => void;
 };
 
 const EntitiesSlice = (set: SetState<ProjectState>) => ({

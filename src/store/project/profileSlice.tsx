@@ -4,16 +4,16 @@ import produce from "immer";
 
 
 export interface IProfileSlice {
-  addDefaultFields: (payload: any) => void;
-  removeDefaultFields: (index: number) => void;
-  updateDefaultFields: (index: number, payload: any) => void;
+  addDefaultFields: (defaultFieldsIndex: number,payload: any) => void;
+  removeDefaultFields: (defaultFieldsIndex: number) => void;
+  updateDefaultFields: (defaultFieldsIndex: number, payload: any) => void;
 
   updateDefaultFieldsType: (payload: any) => void;
   updateSqlConfig: (payload: any) => void;
 
-  addDbs: (payload: any) => void;
-  removeDbs: (index: number) => void;
-  updateDbs: (index: number, payload: any) => void;
+  addDbs: (defaultFieldsIndex: number,payload: any) => void;
+  removeDbs: (defaultFieldsIndex: number,index: number) => void;
+  updateDbs: (defaultFieldsIndex: number,index: number, payload: any) => void;
 
   updateWordTemplateConfig: (payload: any) => void;
 };

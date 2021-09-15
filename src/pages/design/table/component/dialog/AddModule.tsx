@@ -2,20 +2,26 @@ import React from 'react';
 import {Button} from "@blueprintjs/core";
 import {message} from "antd";
 import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
+import useProjectStore from "@/store/project/useProjectStore";
 
 export type AddModuleProps = {
   moduleEditable: boolean;
 };
 
 const AddModule: React.FC<AddModuleProps> = (props) => {
+  const projectDispatch = useProjectStore(state => state.dispatch);
 
-  const waitTime = (time: number = 100) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, time);
-    });
-  };
+  const emptyModule = {
+    "name": "",
+    "chnname": "",
+    "entities": [],
+    "graphCanvas": {
+      "nodes": [],
+      "edges": []
+    },
+    "associations": []
+  }
+
 
   return (<>
     <ModalForm
@@ -23,8 +29,12 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
         <Button icon="insert" text={"新建表"} small={true} disabled={props.moduleEditable}></Button>
       }
       onFinish={async (values: any) => {
-        await waitTime(1000);
-        console.log(values);
+        console.log(39, values);
+        projectDispatch.addModule({
+          ...emptyModule,
+          name: values.name,
+          chnname: values.chnname,
+        });
         message.success('提交成功');
       }}
       submitter={{
@@ -43,7 +53,7 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
     >
       <ProForm.Group>
         <ProFormText width="md"
-                     name="title"
+                     name="name"
                      label="表名"
                      placeholder="请输入表名"
                      formItemProps={{

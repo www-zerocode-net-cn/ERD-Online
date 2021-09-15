@@ -3,6 +3,10 @@ import create from "zustand";
 import ProjectJsonSlice, {IProjectJsonSlice} from "./projectJsonSlice";
 import ConfigJsonSlice, {IConfigJsonSlice} from "./configJsonSlice";
 import produce from "immer";
+import {IModulesSlice} from "@/store/project/modulesSlice";
+import {IDataTypeDomainsSlice} from "@/store/project/dataTypeDomainsSlice";
+import {IProfileSlice} from "@/store/project/profileSlice";
+import {IEntitiesSlice} from "@/store/project/entitiesSlice";
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
 // 同名合并：interface 支持，type 不支持。
@@ -13,7 +17,7 @@ import produce from "immer";
 export type ProjectState = {
   project: any,
   fetch: () => Promise<void>;
-  dispatch: IProjectJsonSlice & IConfigJsonSlice
+  dispatch: IProjectJsonSlice & IConfigJsonSlice & IModulesSlice & IDataTypeDomainsSlice & IProfileSlice & IEntitiesSlice
 };
 
 
@@ -27,7 +31,7 @@ const useProjectStore = create<ProjectState>(
         })
     },
     dispatch: {
-      updateProjectName:(payload: any) => set(produce(state => {
+      updateProjectName: (payload: any) => set(produce(state => {
         state.project.projectName = payload;
       })),
       ...ProjectJsonSlice(set),
