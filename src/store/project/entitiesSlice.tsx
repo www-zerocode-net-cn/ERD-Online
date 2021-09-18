@@ -10,7 +10,7 @@ export type IEntitiesSlice = {
 
 export interface IEntitiesDispatchSlice {
   addEntity: (moduleIndex: number, payload: any) => void;
-  renameEntity: (moduleIndex: number,entityIndex: number, payload: any) => void;
+  renameEntity: (moduleIndex: number, entityIndex: number, payload: any) => void;
   removeEntity: (moduleIndex: number, index: number) => void;
   updateEntity: (moduleIndex: number, index: number, payload: any) => void;
   setCurrentEntity: (moduleIndex: number, payload: any) => void,
@@ -32,17 +32,20 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
     }
   })),
   renameEntity: (moduleIndex: number, entityIndex: number, payload: any) => set(produce(state => {
+    console.log(35, moduleIndex, entityIndex, payload)
     state.project.projectJSON.modules[moduleIndex].entities[entityIndex].title = payload.title;
     state.project.projectJSON.modules[moduleIndex].entities[entityIndex].chnname = payload.chnname;
     message.success('修改成功');
   })),
   removeEntity: (moduleIndex: number, entityIndex: number) => set(produce(state => {
-    delete state.project.projectJSON.modules[moduleIndex].entities[entityIndex];
+    console.log(41, moduleIndex, entityIndex);
+    state.project.projectJSON.modules[moduleIndex].entities = state.project.projectJSON.modules[moduleIndex]?.entities?.filter((e: any, index: number) => index !== entityIndex) || [];
   })),
   updateEntity: (moduleIndex: number, entityIndex: number, payload: any) => set(produce(state => {
     state.project.projectJSON.modules[moduleIndex].entities[entityIndex] = payload
   })),
   setCurrentEntity: (moduleIndex: number, payload: any) => set(produce(state => {
+    console.log(47, moduleIndex, payload);
     state.currentEntity = payload
     state.currentEntityIndex = state.project.projectJSON.modules[moduleIndex]?.entities.findIndex((m: any) => m.title === payload);
   })),
