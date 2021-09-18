@@ -2,7 +2,9 @@ import {SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 
-export interface IConfigJsonSlice {
+export type IConfigJsonSlice={}
+
+export interface IConfigJsonDispatchSlice {
   setConfigJson: (value: any) => void;
 };
 

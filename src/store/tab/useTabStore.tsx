@@ -8,8 +8,6 @@ import produce from "immer";
 
 
 type actions = {
-  setCurrentModule: (payload: any) => void,
-  setCurrentEntity: (payload: any) => void,
   addTab: (payload: ModuleEntity) => void,
   activeTab: (payload: ModuleEntity) => void,
   removeTab: (payload: ModuleEntity) => void,
@@ -20,14 +18,12 @@ type actions = {
 }
 
 export type ModuleEntity = {
-  module: string;
-  entity: string;
+  module?: string;
+  entity?: string;
 }
 
 export type TabState = {
   selectTabId: string,
-  currentModule: string,
-  currentEntity: string,
   tableTabs: ModuleEntity[],
   dispatch: actions
 };
@@ -37,16 +33,8 @@ export const defaultSelectTabId = 'all###object';
 const useTabStore = create<TabState>(
   (set, get) => ({
     selectTabId: defaultSelectTabId,
-    currentModule: '',
-    currentEntity: '',
     tableTabs: [],
     dispatch: {
-      setCurrentModule: (payload: any) => set(produce(state => {
-        state.currentModule = payload
-      })),
-      setCurrentEntity: (payload: any) => set(produce(state => {
-        state.setCurrentEntity = payload
-      })),
       addTab: (payload: ModuleEntity) => set(produce(state => {
         if (!state.tableTabs.find((tab: ModuleEntity) => tab?.entity === payload.entity && tab?.module === payload.module)) {
           console.log('可以新增', payload)

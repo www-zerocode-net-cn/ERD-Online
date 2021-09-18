@@ -1,11 +1,10 @@
 import React from 'react';
-import {Button} from "@blueprintjs/core";
-import {message} from "antd";
+import {Alignment, Button} from "@blueprintjs/core";
 import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
 import useProjectStore from "@/store/project/useProjectStore";
 
 export type AddModuleProps = {
-  moduleEditable: boolean;
+  moduleDisable: boolean;
 };
 
 const AddModule: React.FC<AddModuleProps> = (props) => {
@@ -25,36 +24,29 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
 
   return (<>
     <ModalForm
+      title="新增模块"
       trigger={
-        <Button icon="insert" text={"新建表"} small={true} disabled={props.moduleEditable}></Button>
+        <Button icon="add"
+                text={"新增"}
+                minimal={true}
+                small={true}
+                fill={true}
+                alignText={Alignment.LEFT}
+                disabled={props.moduleDisable}></Button>
       }
       onFinish={async (values: any) => {
         console.log(39, values);
-        projectDispatch.addModule({
+        await projectDispatch.addModule({
           ...emptyModule,
           name: values.name,
           chnname: values.chnname,
         });
-        message.success('提交成功');
-      }}
-      submitter={{
-        // 完全自定义整个区域
-        // eslint-disable-next-line @typescript-eslint/no-shadow,
-        render: (props, doms) => {
-          console.log(props);
-          return [
-            <Button key="rest" icon="refresh" type="reset" onClick={() => props.form?.resetFields()}
-                    text="重置"></Button>,
-            <Button key="submit" type="submit" intent="primary" onClick={() => props.form?.submit?.()}
-                    text="提交"></Button>,
-          ];
-        },
       }}
     >
       <ProForm.Group>
         <ProFormText width="md"
                      name="name"
-                     label="表名"
+                     label="模块名"
                      placeholder="请输入表名"
                      formItemProps={{
                        rules: [
@@ -92,4 +84,4 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
   </>);
 }
 
-export default React.memo(AddModule);
+export default React.memo(AddModule)

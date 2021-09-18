@@ -17,6 +17,10 @@ import shallow from "zustand/shallow";
 import {IconName} from "@blueprintjs/icons";
 import {MaybeElement} from "@blueprintjs/core/src/common/index";
 import useTabStore from "@/store/tab/useTabStore";
+import AddEntity from "@/pages/design/table/component/dialog/entity/AddEntity";
+import AddModule from "@/pages/design/table/component/dialog/module/AddModule";
+import RenameEntity from "@/pages/design/table/component/dialog/entity/RenameEntity";
+import RenameModule from "@/pages/design/table/component/dialog/module/RenameModule";
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -73,73 +77,97 @@ const useTreeItemStyles = makeStyles((theme) => ({
 }));
 
 interface StyledTreeItemProps extends TreeItemProps {
+  type: string,
+  module: string,
   bgColor?: string,
   color?: string,
   labelIcon: IconName | MaybeElement,
   labelInfo?: number,
   labelText: string,
+  chnname: string,
 }
 
-const renderRightContext = <Menu>
-    <MenuItem icon="add" text="新增"/>
-    <MenuItem icon="edit" text="重命名"/>
-    <MenuItem icon="trash" text="删除"/>
-    <MenuItem icon="duplicate" text="复制"/>
-    <MenuItem icon="cut" text="剪切"/>
-    <MenuItem icon="clipboard" text="粘贴"/>
+const renderModuleRightContext = (payload: { name: string, chnname: string }) => <Menu>
+    <AddModule moduleDisable={false}/>
+    <RenameModule moduleDisable={false} renameInfo={payload}/>
+
+    <MenuItem icon="trash" text="删除模块"/>
+    <MenuItem icon="duplicate" text="复制模块"/>
+    <MenuItem icon="cut" text="剪切模块"/>
+    <MenuItem icon="clipboard" text="粘贴模块"/>
+  </Menu>
+;
+const renderEntityRightContext = (payload: { title: string, chnname: string }) => <Menu>
+    <AddEntity moduleDisable={false}/>
+    <RenameEntity moduleDisable={false} renameInfo={payload}/>
+    <MenuItem icon="remove" text="删除表"/>
+    <MenuItem icon="duplicate" text="复制表"/>
+    <MenuItem icon="cut" text="剪切表"/>
+    <MenuItem icon="clipboard" text="粘贴表"/>
   </Menu>
 ;
 
-const StyledTreeItem = (props: StyledTreeItemProps) => {
-  const classes = useTreeItemStyles();
-  const {labelText, labelIcon, labelInfo, color, bgColor, ...other} = props;
-
-  return (
-    <ContextMenu2 content={renderRightContext}>
-      <TreeItem
-        label={
-          <div className={classes.labelRoot}>
-            <Icon icon={labelIcon} className={classes.labelIcon}/>
-            <Typography variant="body2" className={classes.labelText}>
-              {labelText}
-            </Typography>
-            <Typography variant="caption" color="inherit">
-              {labelInfo}
-            </Typography>
-          </div>
-        }
-        title={labelText}
-        classes={{
-          root: classes.root,
-          content: classes.content,
-          expanded: classes.expanded,
-          selected: classes.selected,
-          group: classes.group,
-          label: classes.label,
-        }}
-        {...other}
-      />
-    </ContextMenu2>
-  );
-}
-
-StyledTreeItem.propTypes = {
-  bgColor: PropTypes.string,
-  color: PropTypes.string,
-  labelIcon: PropTypes.elementType.isRequired,
-  labelInfo: PropTypes.number,
-  labelText: PropTypes.string.isRequired,
-};
 
 
 export type DesignLeftContentProps = {};
 
 const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
 
-  const {modules} = useProjectStore(state => ({modules: state.project?.projectJSON?.modules}), shallow);
+  const {modules, projectDispatch} = useProjectStore(state => ({
+    modules: state.project?.projectJSON?.modules,
+    projectDispatch: state.dispatch
+  }), shallow);
   console.log('modules139', modules)
   const {tabDispatch} = useTabStore(state => ({tableTabs: state.tableTabs, tabDispatch: state.dispatch}));
 
+  const StyledTreeItem = (props: StyledTreeItemProps) => {
+    const classes = useTreeItemStyles();
+    const {type,module, labelText, chnname, labelIcon, labelInfo, color, bgColor, ...other} = props;
+
+    return (
+      <ContextMenu2
+        content={type === "module"
+          ? renderModuleRightContext({name: labelText, chnname})
+          : renderEntityRightContext({title: labelText, chnname})
+        }
+        onContextMenu={()=>projectDispatch.setCurrentModule(module)}
+      >
+        <TreeItem
+          label={
+            <div className={classes.labelRoot}>
+              <Icon icon={labelIcon} className={classes.labelIcon}/>
+              <Typography variant="body2" className={classes.labelText}>
+                {labelText}
+              </Typography>
+              <Typography variant="caption" color="inherit">
+                {labelInfo}
+              </Typography>
+            </div>
+          }
+          title={labelText}
+          classes={{
+            root: classes.root,
+            content: classes.content,
+            expanded: classes.expanded,
+            selected: classes.selected,
+            group: classes.group,
+            label: classes.label,
+          }}
+          {...other}
+        />
+      </ContextMenu2>
+    );
+  }
+  StyledTreeItem.propTypes = {
+    type: PropTypes.string,
+    module: PropTypes.string.isRequired,
+    bgColor: PropTypes.string,
+    color: PropTypes.string,
+    labelIcon: PropTypes.elementType.isRequired,
+    labelInfo: PropTypes.number,
+    labelText: PropTypes.string.isRequired,
+    chnname: PropTypes.string.isRequired,
+  };
 
   return (
     <Left size="10%">
@@ -168,14 +196,21 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
       >
         {modules?.map((module: any) => {
           return <StyledTreeItem key={module.name}
+                                 type="module"
+                                 module={module.name}
                                  nodeId={module.name}
                                  labelText={module.name}
+                                 chnname={module.chnname}
                                  labelIcon={"database"}
                                  labelInfo={module?.entities?.length}
-                                 onClick={() => tabDispatch.setCurrentModule(module.name)}>
+                                 onClick={() => projectDispatch.setCurrentModule(module.name)}>
             {module?.entities?.map((entity: any) => {
               return <StyledTreeItem key={`${module.name}###${entity.title}`}
-                                     nodeId={`${module.name}###${entity.title}`} labelText={entity.title}
+                                     type="entity"
+                                     module={module.name}
+                                     nodeId={`${module.name}###${entity.title}`}
+                                     labelText={entity.title}
+                                     chnname={entity.chnname}
                                      labelIcon={"th"} labelInfo={entity?.fields?.length}
                                      onClick={() => tabDispatch.addTab({module: module.name, entity: entity.title})}/>
             })}

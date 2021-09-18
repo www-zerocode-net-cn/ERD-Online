@@ -42,7 +42,7 @@ export default defineConfig({
   theme: {
     'primary-color': defaultSettings.primaryColor,
     'border-radius-base': '6px',
-    'modal-content-bg': '#1f2931',
+    'popover-background': '#1f2931',
 
   },
   // esbuild is father build tools

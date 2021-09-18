@@ -197,6 +197,12 @@
 
 .table-button-tool-group {
   color: #BFCCD6;
+  list-style-type: none;
+
+  li {
+    outline: none;
+    minWidth: 200
+  }
 
   button {
     outline: none;

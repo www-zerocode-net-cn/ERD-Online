@@ -5,8 +5,9 @@ import ModulesSlice from "@/store/project/modulesSlice";
 import DataTypeDomainsSlice from "@/store/project/dataTypeDomainsSlice";
 import ProfileSlice from "@/store/project/profileSlice";
 
+export type IProjectJsonSlice={}
 
-export interface IProjectJsonSlice {
+export interface IProjectJsonDispatchSlice {
   setModules: (value: any) => void;
   setDataTypeDomains: (value: any) => void;
   setProfile: (value: any) => void;

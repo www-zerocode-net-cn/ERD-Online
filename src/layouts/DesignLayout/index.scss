@@ -4,8 +4,14 @@
 .#{$ns}-tab {
   outline: none;
   color: #BFCCD6;
+
   div {
     color: #BFCCD6;
   }
 }
 
+.#{$ns}-button-group {
+  button {
+    outline: none;
+  }
+}

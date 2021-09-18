@@ -2,8 +2,9 @@ import {SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 
+export type IDataTypeDomainsSlice={}
 
-export interface IDataTypeDomainsSlice {
+export interface IDataTypeDomainsDispatchSlice {
 
   addDatatype: (dataTypeIndex: number, payload: any) => void;
   removeDatatype: (dataTypeIndex: number) => void;

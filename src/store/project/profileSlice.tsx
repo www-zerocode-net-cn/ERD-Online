@@ -2,8 +2,9 @@ import {SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 
+export type IProfileSlice={}
 
-export interface IProfileSlice {
+export interface IProfileDispatchSlice {
   addDefaultFields: (defaultFieldsIndex: number,payload: any) => void;
   removeDefaultFields: (defaultFieldsIndex: number) => void;
   updateDefaultFields: (defaultFieldsIndex: number, payload: any) => void;
