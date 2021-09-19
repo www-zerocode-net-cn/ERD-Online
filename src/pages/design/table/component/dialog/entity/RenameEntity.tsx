@@ -10,13 +10,9 @@ export type RenameEntityProps = {
 };
 
 const RenameEntity: React.FC<RenameEntityProps> = (props) => {
-  const {projectDispatch, currentModuleIndex, currentEntityIndex} = useProjectStore(state => ({
+  const {projectDispatch} = useProjectStore(state => ({
     projectDispatch: state.dispatch,
-    currentModuleIndex: state.currentModuleIndex || -1,
-    currentEntityIndex: state.currentEntityIndex || -1,
   }), shallow);
-
-  console.log('currentModuleIndex', 21, currentModuleIndex);
 
 
   return (<>
@@ -33,7 +29,7 @@ const RenameEntity: React.FC<RenameEntityProps> = (props) => {
       }
       onFinish={async (values: any) => {
         console.log(39, values);
-        await projectDispatch.renameEntity(currentModuleIndex, currentEntityIndex, {
+        await projectDispatch.renameEntity({
           title: values.title,
           chnname: values.chnname,
         });

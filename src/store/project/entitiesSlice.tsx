@@ -9,45 +9,58 @@ export type IEntitiesSlice = {
 }
 
 export interface IEntitiesDispatchSlice {
-  addEntity: (moduleIndex: number, payload: any) => void;
-  renameEntity: (moduleIndex: number, entityIndex: number, payload: any) => void;
-  removeEntity: (moduleIndex: number, index: number) => void;
-  updateEntity: (moduleIndex: number, index: number, payload: any) => void;
-  setCurrentEntity: (moduleIndex: number, payload: any) => void,
+  addEntity: (payload: any) => void;
+  renameEntity: (payload: any) => void;
+  removeEntity: () => void;
+  updateEntity: (payload: any) => void;
+  setCurrentEntity: (payload: any) => void,
+  setCurrentModuleAndEntity: (module: any, entity: any) => void,
 };
 
 const EntitiesSlice = (set: SetState<ProjectState>) => ({
   currentEntity: '',
   currentEntityIndex: -1,
-  addEntity: (moduleIndex: number, payload: any) => set(produce(state => {
-    console.log('moduleIndex', moduleIndex, 15, 'payload', payload);
-    console.log('addEntity', 16, state.project.projectJSON.modules[moduleIndex].entities)
-    const entityIndex = state.project.projectJSON.modules[moduleIndex].entities?.findIndex((e: any) => e.title === payload.title);
+  addEntity: (payload: any) => set(produce(state => {
+    const {currentModuleIndex} = state;
+    console.log('state.currentModuleIndex', currentModuleIndex, 15, 'payload', payload);
+    console.log('addEntity', 16, state.project.projectJSON.modules[currentModuleIndex].entities)
+    const entityIndex = state.project.projectJSON.modules[currentModuleIndex].entities?.findIndex((e: any) => e.title === payload.title);
     if (entityIndex === -1) {
-      state.project.projectJSON.modules[moduleIndex].entities.push(payload);
-      console.log('addEntity', 17, state.project.projectJSON.modules[moduleIndex].entities)
+      state.project.projectJSON.modules[currentModuleIndex].entities.push(payload);
+      console.log('addEntity', 17, state.project.projectJSON.modules[currentModuleIndex].entities)
       message.success('提交成功');
     } else {
       message.warn(`${payload.title}已经存在`);
     }
   })),
-  renameEntity: (moduleIndex: number, entityIndex: number, payload: any) => set(produce(state => {
-    console.log(35, moduleIndex, entityIndex, payload)
-    state.project.projectJSON.modules[moduleIndex].entities[entityIndex].title = payload.title;
-    state.project.projectJSON.modules[moduleIndex].entities[entityIndex].chnname = payload.chnname;
+  renameEntity: (payload: any) => set(produce(state => {
+    const {currentEntityIndex} = state;
+    console.log(35, state.currentModuleIndex, currentEntityIndex, payload)
+    state.project.projectJSON.modules[state.currentModuleIndex].entities[currentEntityIndex].title = payload.title;
+    state.project.projectJSON.modules[state.currentModuleIndex].entities[currentEntityIndex].chnname = payload.chnname;
     message.success('修改成功');
   })),
-  removeEntity: (moduleIndex: number, entityIndex: number) => set(produce(state => {
-    console.log(41, moduleIndex, entityIndex);
-    state.project.projectJSON.modules[moduleIndex].entities = state.project.projectJSON.modules[moduleIndex]?.entities?.filter((e: any, index: number) => index !== entityIndex) || [];
+  removeEntity: () => set(produce(state => {
+    const {currentModuleIndex} = state;
+    state.project.projectJSON.modules[currentModuleIndex].entities =
+      state.project.projectJSON.modules[currentModuleIndex]?.entities?.filter((e: any, index: number) => index !== state.currentEntityIndex) || [];
   })),
-  updateEntity: (moduleIndex: number, entityIndex: number, payload: any) => set(produce(state => {
-    state.project.projectJSON.modules[moduleIndex].entities[entityIndex] = payload
+  updateEntity: (payload: any) => set(produce(state => {
+    state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex] = payload
   })),
-  setCurrentEntity: (moduleIndex: number, payload: any) => set(produce(state => {
-    console.log(47, moduleIndex, payload);
+  setCurrentEntity: (payload: any) => set(produce(state => {
+    const {currentModuleIndex} = state;
+    console.log(47, currentModuleIndex, payload);
     state.currentEntity = payload
-    state.currentEntityIndex = state.project.projectJSON.modules[moduleIndex]?.entities.findIndex((m: any) => m.title === payload);
+    state.currentEntityIndex = state.project.projectJSON.modules[currentModuleIndex]?.entities.findIndex((m: any) => m.title === payload);
+  })),
+  setCurrentModuleAndEntity: (module: any, entity: any) => set(produce(state => {
+    console.log(54, module, entity);
+    state.currentModule = module;
+    const currentModuleIndex = state.project.projectJSON.modules?.findIndex((m: any) => m.name === module);
+    state.currentModuleIndex = currentModuleIndex;
+    state.currentEntity = entity;
+    state.currentEntityIndex = state.project.projectJSON.modules[currentModuleIndex]?.entities.findIndex((m: any) => m.title === entity);
   })),
 });
 

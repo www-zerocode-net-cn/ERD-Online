@@ -41,7 +41,7 @@ const AddEntity: React.FC<AddEntityProps> = (props) => {
       }
       onFinish={async (values: any) => {
         console.log(39, values);
-        await projectDispatch.addEntity(currentModuleIndex, {
+        await projectDispatch.addEntity({
           ...emptyEntity,
           title: values.title,
           chnname: values.chnname,

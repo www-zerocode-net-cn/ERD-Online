@@ -25,7 +25,7 @@ const RenameModule: React.FC<RenameModuleProps> = (props) => {
       }
       onFinish={async (values: any) => {
         console.log(39, values);
-        await projectDispatch.renameModule(1, {
+        await projectDispatch.renameModule({
           name: values.name,
           chnname: values.chnname,
         });
