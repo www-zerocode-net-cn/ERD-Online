@@ -60,7 +60,7 @@
   },
   {
     path: '/',
-    redirect: '/user/login',
+    redirect: '/design/table',
   },
   {
     component: './404',

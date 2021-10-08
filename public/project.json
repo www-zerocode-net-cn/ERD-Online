@@ -692,6 +692,16 @@
           "code": "vr",
           "fileShow": true,
           "defaultDatabase": true
+        },
+        {
+          "code": "vr1",
+          "fileShow": true,
+          "defaultDatabase": true
+        },
+        {
+          "code": "vr2",
+          "fileShow": true,
+          "defaultDatabase": true
         }
       ]
     },

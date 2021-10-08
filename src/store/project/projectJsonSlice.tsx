@@ -4,6 +4,7 @@ import produce from "immer";
 import ModulesSlice from "@/store/project/modulesSlice";
 import DataTypeDomainsSlice from "@/store/project/dataTypeDomainsSlice";
 import ProfileSlice from "@/store/project/profileSlice";
+import DatabaseDomainsSlice from "@/store/project/databaseDomainsSlice";
 
 export type IProjectJsonSlice={}
 
@@ -25,6 +26,7 @@ const ProjectJsonSlice = (set: SetState<ProjectState>) => ({
   })),
   ...ModulesSlice(set),
   ...DataTypeDomainsSlice(set),
+  ...DatabaseDomainsSlice(set),
   ...ProfileSlice(set),
 });
 

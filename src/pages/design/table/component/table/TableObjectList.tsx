@@ -4,10 +4,10 @@ import {Alignment} from "@blueprintjs/core/src/common/index";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import useTabStore from "@/store/tab/useTabStore";
-import AddEntity from "@/pages/design/table/component/dialog/entity/AddEntity";
+import AddEntity from "@/components/dialog/entity/AddEntity";
 import {Popconfirm} from "antd";
 import {ContextMenu2} from '@blueprintjs/popover2';
-import {renderEntityRightContext} from "@/components/LeftContent/DesignLeftContent";
+import {renderEntityRightContext} from "@/components/LeftContent/DesignLeftContent/component/DataTable";
 
 
 export type TableObjectListProps = {};
@@ -36,6 +36,7 @@ const TableObjectList: React.FC<TableObjectListProps> = (props) => {
     return <ContextMenu2
       content={renderEntityRightContext({title, chnname})}
       onContextMenu={() => projectDispatch.setCurrentEntity(title)}
+      key={title}
     >
       <Button small={true}
               key={title}

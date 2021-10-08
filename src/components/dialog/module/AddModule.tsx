@@ -27,7 +27,7 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
       title="新增模块"
       trigger={
         <Button icon="add"
-                text={"新增"}
+                text={"新增模块"}
                 minimal={true}
                 small={true}
                 fill={true}

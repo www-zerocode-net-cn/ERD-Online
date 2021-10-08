@@ -43,7 +43,7 @@ export default defineConfig({
     'primary-color': defaultSettings.primaryColor,
     'border-radius-base': '6px',
     'popover-background': '#1f2931',
-
+    'component-background': '#1f2931',
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild
@@ -67,6 +67,7 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
   sass: {},
+  mfsu: {},
   // 生产环境去除console日志打印
   terserOptions: {
     compress: {
