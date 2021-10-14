@@ -11,7 +11,7 @@ export type AddEntityProps = {
 const AddEntity: React.FC<AddEntityProps> = (props) => {
   const {projectDispatch, defaultField, currentModuleIndex} = useProjectStore(state => ({
     projectDispatch: state.dispatch,
-    defaultField: state.project.projectJSON.profile.defaultFields,
+    defaultField: state.project.projectJSON?.profile?.defaultFields,
     currentModuleIndex: state.currentModuleIndex || -1
   }), shallow);
 

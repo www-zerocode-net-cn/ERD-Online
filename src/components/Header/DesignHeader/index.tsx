@@ -3,11 +3,17 @@ import {Alignment, Button, ButtonGroup, Navbar, NavbarDivider} from "@blueprintj
 import {Left, Right, Top} from "react-spaces";
 import {Popover2} from "@blueprintjs/popover2";
 import {FileMenu} from "@/pages/project/home/component/FileMenu";
-
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
+import './index.less';
 
 export type DesignHeaderProps = {};
 
 const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
+  const {saved} = useProjectStore(state => ({
+    saved: state.saved,
+    projectDispatch: state.dispatch,
+  }), shallow);
   return (
     <Top size="5.5%">
       <Left size={"80%"}>
@@ -56,7 +62,7 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
             <NavbarDivider/>
             <Button className="bp3-minimal" icon="chat" title="聊天"/>
             <NavbarDivider/>
-            <Button className="bp3-minimal" icon="tick-circle" title="已保存"/>
+            <Button className="bp3-minimal" intent={saved ? "success" : "danger"} icon={saved ? "tick-circle" : "disable"} title={saved ? "已保存" : "未保存"}/>
           </Navbar.Group>
         </Navbar>
       </Right>

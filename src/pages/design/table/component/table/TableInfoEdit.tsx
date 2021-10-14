@@ -1,10 +1,16 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {HotTable} from "@handsontable/react";
 import 'handsontable/dist/handsontable.full.css';
 import '../DarkTheme.less'
 import "handsontable/languages/zh-CN";
 import useProjectStore from "@/store/project/useProjectStore";
 import {ModuleEntity} from "@/store/tab/useTabStore";
+import shallow from "zustand/shallow";
+// @ts-ignore
+import {CellChange, ChangeSource} from "handsontable";
+import _ from "lodash";
+import {message} from "antd";
+
 
 export type TableInfoEditProps = {
   moduleEntity: ModuleEntity
@@ -12,43 +18,79 @@ export type TableInfoEditProps = {
 
 
 const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
-  const modules = useProjectStore(state => state.project.projectJSON.modules);
-  console.log('modules', modules);
+
+  const {datatype, database, modules, projectDispatch} = useProjectStore(state => ({
+    modules: state.project?.projectJSON?.modules,
+    datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
+    database: state.project?.projectJSON?.dataTypeDomains?.database,
+    projectDispatch: state.dispatch,
+  }), shallow);
+  console.log('datatype', 115, datatype)
+  console.log('modules', 23, modules);
 
   const module = modules?.find((m: any) => m.name === props.moduleEntity?.module);
   console.log('module', module);
 
   const entity = module?.entities.find((e: any) => e.title === props.moduleEntity?.entity);
-  console.log('entity', entity)
+  console.log('entity', entity);
+
+  const allDataTypeName = datatype.map((t: any) => {
+    return t.name;
+  })
+
+  // 由于 zustand 冻结了所有属性，均不可直接编辑，所以需要做一次转换
+  const s = JSON.stringify(entity?.fields || [{}]);
+
+  const afterChange = (payload: any) => {
+    projectDispatch.updateEntity(payload);
+  }
+
+  const afterRowMove = (payload: any, startRow: number, endRow: number) => {
+    projectDispatch.moveField(payload, startRow, endRow);
+  }
+
+  const hotTableComponent = useRef(null);
+
+
+  // Empty validator
+  const emptyValidator = (value: any, callback: any) => {
+    if (!value || value.length === 0) {
+      console.log('false');
+      message.error("当前编辑项不允许为空");
+      callback(false);
+    } else {
+      console.log('true');
+      callback(true);
+    }
+  };
 
   const hotSettings = {
-    data: entity?.fields || [],
+    data: JSON.parse(s),
     columns: [
       {
         data: 'chnname',
-        type: 'text',
+        validator: emptyValidator
       },
       {
         data: 'name',
-        type: 'text'
+        validator: emptyValidator
+      },
+      {
+        data: 'typeName',
+        type: 'dropdown',
+        source: allDataTypeName,
+        allowInvalid: false,
+        allowEmpty: false
       },
       {
         data: 'type',
-        type: 'autocomplete', strict: true, filter: true,
-        visibleRows: 10,
-        trimDropdown: true,
-        allowInvalid: false,
-        allowEmpty: false,
-        source: ['整数', '大整数1', '大整数2', '大整数3', '大整数4', '大整数5', '金额1', '金额2', '金额3', '金额4'],
+        type: 'text',
+        readOnly: true
       },
       {
         data: 'dataType',
-        type: 'autocomplete', strict: true, filter: true,
-        visibleRows: 10,
-        trimDropdown: true,
-        allowInvalid: false,
-        allowEmpty: false,
-        source: ['整数', '大整数1', '大整数2', '大整数3', '大整数4', '大整数5', '金额1', '金额2', '金额3', '金额4'],
+        type: 'text',
+        readOnly: true
       },
       {
         data: 'remark',
@@ -57,6 +99,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
       {
         data: 'pk',
         type: 'checkbox',
+
       },
       {
         data: 'notNull',
@@ -68,7 +111,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
       },
       {
         data: 'defaultValue',
-        type: 'checkbox',
+        type: 'text',
       },
       {
         data: 'relationNoShow',
@@ -80,15 +123,13 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
         visibleRows: 10,
         trimDropdown: true,
         allowInvalid: false,
-        allowEmpty: false,
-        source: ['整数', '大整数1', '大整数2', '大整数3', '大整数4', '大整数5', '金额1', '金额2', '金额3', '金额4'],
+        source: ['Text', 'Number', 'Money', 'Select', 'Radio', 'CheckBox', 'Email', 'URL', 'DatePicker', 'TextArea', 'AddressPicker'],
       },
     ],
+    allowInvalid: false,
     allowRemoveColumn: false,
     stretchH: "all",
-    width: "100%",
-    height: "80%",
-    colWidths: 100,
+    height: 700,
     fixedRowsTop: 0,
     columnSorting: true,
     autoWrapRow: true,
@@ -99,6 +140,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
       '字段名',
       '逻辑名(英文名)',
       '类型',
+      '类型(code)',
       '数据库类型',
       '说明',
       '主键',
@@ -117,20 +159,69 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
     language: "zh-CN",
     licenseKey: 'non-commercial-and-evaluation',
     className: "htCenter htMiddle",
+    currentRowClassName: 'currentRow',
+    currentColClassName: 'currentCol',
     customBorders: false,
     contextMenu: true,
     allowInsertColumn: false,
-    editor: 'text',
+    minRows: 1
   };
   return (
     <HotTable
+      ref={hotTableComponent}
       id={"data-sheet"}
       // @ts-ignore
       settings={hotSettings}
+      beforeChange={(changes: CellChange[], source: ChangeSource) => {
+        if (changes) {
+          changes.forEach((c: CellChange) => {
+            const [row, prop, oldValue, newValue] = c;
+            // @ts-ignore
+            const {hotInstance} = hotTableComponent.current;
+            console.log(163, hotInstance.getDataAtRow(row));
+            if (prop === 'typeName' && oldValue !== newValue) {
+              const d = _.find(datatype, {'name': newValue});
+              const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
+              const path = `apply.${defaultDatabaseCode}.type`;
+              hotInstance.setDataAtRowProp(row, 'type', _.get(d, 'code'));
+              hotInstance.setDataAtRowProp(row, 'dataType', _.get(d, path));
+            }
+          });
+        }
+      }}
+      afterChange={(changes: CellChange[] | null, source: ChangeSource) => {
+        console.log(189, changes);
+        console.log(190, source);
+        if (changes) {
+        // @ts-ignore
+        const {hotInstance} = hotTableComponent.current;
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        const {_arrayMap} = hotInstance.getPlugin('manualRowMove').rowsMapper;
+        console.log(211, 'rowPositions', hotInstance.getPlugin('manualRowMove'));
+        console.log(211, '_arrayMap', _arrayMap);
+          const payload = hotSettings.data;
+          console.log(193, payload);
+          afterChange(payload);
+        }
+      }}
+      afterRowMove={(startRow: number, endRow: number) => {
+        console.log(198, startRow[0], endRow);
+        // @ts-ignore
+        const {hotInstance} = hotTableComponent.current;
+        const payload = hotSettings.data;
+        console.log(203, payload);
+        console.log(209, hotInstance);
+        afterRowMove(payload, startRow, endRow);
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        const {_arrayMap} = hotInstance.getPlugin('manualRowMove').rowsMapper;
+        console.log(211, 'rowPositions', hotInstance.getPlugin('manualRowMove'));
+        console.log(211, '_arrayMap', _arrayMap);
+      }
+      }
     >
 
     </HotTable>
   );
 }
 
-export default React.memo(TableInfoEdit);
+export default React.memo(TableInfoEdit)

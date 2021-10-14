@@ -67,7 +67,6 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
   sass: {},
-  mfsu: {},
   // 生产环境去除console日志打印
   terserOptions: {
     compress: {

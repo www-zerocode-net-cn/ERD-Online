@@ -13,6 +13,7 @@ export interface IEntitiesDispatchSlice {
   renameEntity: (payload: any) => void;
   removeEntity: () => void;
   updateEntity: (payload: any) => void;
+  moveField: (payload: any, startRow: number, endRow: number) => void;
   setCurrentEntity: (payload: any) => void,
   setCurrentModuleAndEntity: (module: any, entity: any) => void,
 };
@@ -46,7 +47,19 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
       state.project.projectJSON.modules[currentModuleIndex]?.entities?.filter((e: any, index: number) => index !== state.currentEntityIndex) || [];
   })),
   updateEntity: (payload: any) => set(produce(state => {
-    state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex] = payload
+    state.saved = false;
+    state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
+    state.saved = true;
+  })),
+  moveField: (payload: any, startRow: number, endRow: number) => set(produce(state => {
+    state.saved = false;
+    if (startRow < endRow) {
+      // eslint-disable-next-line no-param-reassign
+      endRow -= 1;
+    }
+    payload.splice(endRow, 0, payload.splice(startRow, 1)[0]);
+    state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
+    state.saved = true;
   })),
   setCurrentEntity: (payload: any) => set(produce(state => {
     const {currentModuleIndex} = state;

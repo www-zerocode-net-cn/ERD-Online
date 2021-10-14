@@ -1,13 +1,16 @@
 import create from "zustand";
 
-import ProjectJsonSlice, {IProjectJsonDispatchSlice, IProjectJsonSlice} from "./projectJsonSlice";
-import ConfigJsonSlice, {IConfigJsonDispatchSlice, IConfigJsonSlice} from "./configJsonSlice";
+import type {IProjectJsonDispatchSlice, IProjectJsonSlice} from "./projectJsonSlice";
+import ProjectJsonSlice from "./projectJsonSlice";
+import type {IConfigJsonDispatchSlice, IConfigJsonSlice} from "./configJsonSlice";
+import ConfigJsonSlice from "./configJsonSlice";
 import produce from "immer";
-import {IModulesDispatchSlice, IModulesSlice} from "@/store/project/modulesSlice";
-import {IDataTypeDomainsDispatchSlice, IDataTypeDomainsSlice} from "@/store/project/dataTypeDomainsSlice";
-import {IProfileDispatchSlice, IProfileSlice} from "@/store/project/profileSlice";
-import {IEntitiesDispatchSlice, IEntitiesSlice} from "@/store/project/entitiesSlice";
-import {IDatabaseDomainsDispatchSlice, IDatabaseDomainsSlice} from "@/store/project/databaseDomainsSlice";
+import type {IModulesDispatchSlice, IModulesSlice} from "@/store/project/modulesSlice";
+import type {IDataTypeDomainsDispatchSlice, IDataTypeDomainsSlice} from "@/store/project/dataTypeDomainsSlice";
+import type {IProfileDispatchSlice, IProfileSlice} from "@/store/project/profileSlice";
+import type {IEntitiesDispatchSlice, IEntitiesSlice} from "@/store/project/entitiesSlice";
+import type {IDatabaseDomainsDispatchSlice, IDatabaseDomainsSlice} from "@/store/project/databaseDomainsSlice";
+import _ from "lodash";
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
 // 同名合并：interface 支持，type 不支持。
@@ -18,6 +21,7 @@ import {IDatabaseDomainsDispatchSlice, IDatabaseDomainsSlice} from "@/store/proj
 export type ProjectState =
   {
     project: any,
+    saved: boolean;
     fetch: () => Promise<void>;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice & IEntitiesDispatchSlice
   }
@@ -33,10 +37,25 @@ export type ProjectState =
 const useProjectStore = create<ProjectState>(
   (set) => ({
     project: {},
+    saved: true,
     fetch: async () => {
       await fetch('http://localhost:8000/project.json')
         .then(res => res.json()).then(data => {
-          set({project: data})
+          const datatype = data.projectJSON.dataTypeDomains.datatype || [];
+          const database = data.projectJSON.dataTypeDomains.database || [];
+          const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
+          console.log(45, defaultDatabaseCode);
+          data.projectJSON?.modules?.forEach((m: any) => {
+            m?.entities?.forEach((e: any) => {
+              e?.fields?.forEach((f: any) => {
+                const d = _.find(datatype, {'code': f.type});
+                _.assign(f, {"typeName": d.name});
+                const path = `apply.${defaultDatabaseCode}.type`;
+                _.assign(f, {"dataType": _.get(d, path)});
+              });
+            });
+          });
+          set({project: data});
         })
     },
     dispatch: {
