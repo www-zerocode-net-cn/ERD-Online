@@ -65,7 +65,15 @@
                 "remark": "",
                 "chnname": "更新时间"
               }
+            ],
+            "indexs": [
+              {
+                "fields": ["REVISION"],
+                "isUnique": false,
+                "name": "idx_index"
+              }
             ]
+
           },
           {
             "title": "t_role",

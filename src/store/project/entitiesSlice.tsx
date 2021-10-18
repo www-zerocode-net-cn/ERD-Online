@@ -13,6 +13,8 @@ export interface IEntitiesDispatchSlice {
   renameEntity: (payload: any) => void;
   removeEntity: () => void;
   updateEntity: (payload: any) => void;
+  updateEntityFields: (payload: any) => void;
+  updateEntityIndexs: (payload: any) => void;
   moveField: (payload: any, startRow: number, endRow: number) => void;
   setCurrentEntity: (payload: any) => void,
   setCurrentModuleAndEntity: (module: any, entity: any) => void,
@@ -49,6 +51,16 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
   updateEntity: (payload: any) => set(produce(state => {
     state.saved = false;
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
+    state.saved = true;
+  })),
+  updateEntityFields: (payload: any) => set(produce(state => {
+    state.saved = false;
+    state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
+    state.saved = true;
+  })),
+  updateEntityIndexs: (payload: any) => set(produce(state => {
+    state.saved = false;
+    state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].indexs = payload;
     state.saved = true;
   })),
   moveField: (payload: any, startRow: number, endRow: number) => set(produce(state => {

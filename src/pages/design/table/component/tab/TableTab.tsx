@@ -3,7 +3,7 @@ import {Divider, Tab, Tabs} from "@blueprintjs/core";
 import TableInfoEdit from "@/pages/design/table/component/table/TableInfoEdit";
 import CodeTab from "@/pages/design/table/component/tab/CodeTab";
 import {ModuleEntity} from "@/store/tab/useTabStore";
-import {BreadcrumbsExample} from "@/pages/design/table/component/table/TableIndexEdit";
+import TableIndexEdit from "@/pages/design/table/component/table/TableIndexEdit";
 
 
 export type TableTabProps = {
@@ -11,7 +11,7 @@ export type TableTabProps = {
 };
 
 const TableTab: React.FC<TableTabProps> = (props) => {
-  console.log('TableTab13',TableTab)
+  console.log('TableTab13', TableTab)
   return (
     <>
       <Divider/>
@@ -22,7 +22,7 @@ const TableTab: React.FC<TableTabProps> = (props) => {
         className="tabs-table-height"
       >
         <Tab id="field" title="字段" panel={<TableInfoEdit moduleEntity={props.moduleEntity}/>}></Tab>
-        <Tab id="index" title="索引" panel={<BreadcrumbsExample/>}></Tab>
+        <Tab id="index" title="索引" panel={<TableIndexEdit moduleEntity={props.moduleEntity}/>}></Tab>
         <Tab id="code" title="代码信息" panel={<CodeTab/>}></Tab>
       </Tabs>
     </>

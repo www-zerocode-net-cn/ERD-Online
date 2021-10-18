@@ -42,11 +42,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
   const s = JSON.stringify(entity?.fields || [{}]);
 
   const afterChange = (payload: any) => {
-    projectDispatch.updateEntity(payload);
-  }
-
-  const afterRowMove = (payload: any, startRow: number, endRow: number) => {
-    projectDispatch.moveField(payload, startRow, endRow);
+    projectDispatch.updateEntityFields(payload);
   }
 
   const hotTableComponent = useRef(null);
@@ -137,9 +133,9 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
     manualColumnResize: true,
     rowHeaders: true,
     colHeaders: [
-      '字段名',
-      '逻辑名(英文名)',
-      '类型',
+      '字段名*',
+      '逻辑名(英文名)*',
+      '类型*',
       '类型(code)',
       '数据库类型',
       '说明',
@@ -192,13 +188,10 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
       afterChange={(changes: CellChange[] | null, source: ChangeSource) => {
         console.log(189, changes);
         console.log(190, source);
+        // // @ts-ignore
+        // const {hotInstance} = hotTableComponent.current;
+        // hotInstance.selectRows(2)
         if (changes) {
-        // @ts-ignore
-        const {hotInstance} = hotTableComponent.current;
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        const {_arrayMap} = hotInstance.getPlugin('manualRowMove').rowsMapper;
-        console.log(211, 'rowPositions', hotInstance.getPlugin('manualRowMove'));
-        console.log(211, '_arrayMap', _arrayMap);
           const payload = hotSettings.data;
           console.log(193, payload);
           afterChange(payload);
@@ -211,11 +204,24 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
         const payload = hotSettings.data;
         console.log(203, payload);
         console.log(209, hotInstance);
-        afterRowMove(payload, startRow, endRow);
+        const finalData: any[] = [];
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         const {_arrayMap} = hotInstance.getPlugin('manualRowMove').rowsMapper;
-        console.log(211, 'rowPositions', hotInstance.getPlugin('manualRowMove'));
-        console.log(211, '_arrayMap', _arrayMap);
+        // eslint-disable-next-line no-plusplus
+        for (let loop = 0; loop < hotSettings.data.length; loop++) {
+          const data = hotSettings.data[_arrayMap[loop]];
+          finalData.push(data);
+        }
+        // 延迟一会保存数据，避免页面渲染混乱
+        setTimeout(() => {
+          // eslint-disable-next-line no-underscore-dangle
+          hotInstance.getPlugin('manualRowMove').rowsMapper._arrayMap = _.sortBy(_arrayMap);
+          // eslint-disable-next-line no-underscore-dangle
+          console.log(218, 'rowPositions', hotInstance.getPlugin('manualRowMove').rowsMapper._arrayMap);
+          console.log(239, 'finalData', finalData);
+          afterChange(finalData);
+        }, 200);
+
       }
       }
     >
