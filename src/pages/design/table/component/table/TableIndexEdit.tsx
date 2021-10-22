@@ -20,20 +20,14 @@ export type TableIndexEditProps = {
 
 const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
 
-  const {datatype, database, modules, projectDispatch} = useProjectStore(state => ({
-    modules: state.project?.projectJSON?.modules,
+  // @ts-ignore
+  const {datatype, entity, projectDispatch} = useProjectStore(state => ({
+    entity: state.project?.projectJSON?.modules[state.currentModuleIndex || 0].entities[state.currentEntityIndex || 0],
     datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
     database: state.project?.projectJSON?.dataTypeDomains?.database,
     projectDispatch: state.dispatch,
   }), shallow);
   console.log('datatype', 115, datatype)
-  console.log('modules', 23, modules);
-
-  const module = modules?.find((m: any) => m.name === props.moduleEntity?.module);
-  console.log('module', module);
-
-  const entity = module?.entities.find((e: any) => e.title === props.moduleEntity?.entity);
-  console.log('entity', entity);
 
   const fields = entity?.fields.map((f: any, index: number) => {
     return {title: f.name, rank: index + 1};
@@ -78,9 +72,23 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
           console.log(72, 'cellProperties', cellProperties);
           if (!td.hasChildNodes()) {
             const newDIV = document.createElement('div');
-            const new_component = <FieldMultiSelect items={fields} initItems={value?.map((v: any) => {
-              return {title: v};
-            })}/>;
+            const new_component = <FieldMultiSelect
+              items={fields}
+              initItems={value?.map((v: any) => {
+                return {title: v};
+              })}
+              onSelectChange={(indexField: any) => {
+                // @ts-ignore
+                const {hotInstance} = hotTableComponent.current;
+                console.log(89, 'indexField', indexField);
+                console.log(90, 'hotInstance', hotInstance);
+                hotInstance.setDataAtRowProp(row, 'fields', indexField.map((f: any) => {
+                  return f.title
+                }) || []);
+              }}
+            />;
+            console.log(93, 'new_component', new_component);
+            console.log(94, 'newDIV', newDIV);
             ReactDOM.render(new_component, newDIV);
             td.appendChild(newDIV);
           }
@@ -129,23 +137,6 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
       id={"data-sheet"}
       // @ts-ignore
       settings={hotSettings}
-      beforeChange={(changes: CellChange[], source: ChangeSource) => {
-        if (changes) {
-          changes.forEach((c: CellChange) => {
-            const [row, prop, oldValue, newValue] = c;
-            // @ts-ignore
-            const {hotInstance} = hotTableComponent.current;
-            console.log(163, hotInstance.getDataAtRow(row));
-            if (prop === 'typeName' && oldValue !== newValue) {
-              const d = _.find(datatype, {'name': newValue});
-              const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
-              const path = `apply.${defaultDatabaseCode}.type`;
-              hotInstance.setDataAtRowProp(row, 'type', _.get(d, 'code'));
-              hotInstance.setDataAtRowProp(row, 'dataType', _.get(d, path));
-            }
-          });
-        }
-      }}
       afterChange={(changes: CellChange[] | null, source: ChangeSource) => {
         console.log(189, changes);
         console.log(190, source);
@@ -185,6 +176,9 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
 
       }
       }
+      afterRemoveRow={(index: number, amount: number) => {
+        projectDispatch.removeIndex(index);
+      }}
     >
 
     </HotTable>

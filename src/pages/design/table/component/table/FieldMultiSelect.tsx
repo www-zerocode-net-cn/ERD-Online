@@ -28,11 +28,12 @@ export interface IMultiSelectExampleState {
 export type FieldMultiSelectProps = {
   items: any[];
   initItems: any[];
-};
+  onSelectChange: (indexField: any) => void;
+}
 
 const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
 
-  const {items, initItems} = props;
+  const {items, initItems, onSelectChange} = props;
 
 
   const [state, setState] = useState<IMultiSelectExampleState>({
@@ -50,11 +51,11 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
   });
 
   const arrayContainsFilm = (films: IFilm[], filmToFind: IFilm): boolean => {
-    return films.some((film: IFilm) => film.title === filmToFind.title);
+    return films?.some((film: IFilm) => film.title === filmToFind.title);
   }
 
   const deleteFilmFromArray = (films: IFilm[], filmToDelete: IFilm) => {
-    return films.filter(film => film !== filmToDelete);
+    return films?.filter(film => film !== filmToDelete);
   }
 
 
@@ -84,10 +85,12 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
     );
 
     // Delete the item if the user manually created it.
+    const films1 = films?.filter((_film, i) => i !== index) || [];
+    onSelectChange(films1);
     setState({
       ...state,
       createdItems: nextCreatedItems,
-      films: films.filter((_film, i) => i !== index),
+      films: films1,
       items: nextItems,
     });
   }
@@ -97,7 +100,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
   };
 
   const getSelectedFilmIndex = (film: IFilm) => {
-    return state.films.findIndex((f: any) => f.title === film.title);
+    return state.films?.findIndex((f: any) => f.title === film.title);
   }
 
   const isFilmSelected = (film: IFilm) => {
@@ -122,11 +125,12 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
   }
 
   const selectFilms = (filmsToSelect: IFilm[]) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const {createdItems, films, items} = state;
 
     let nextCreatedItems = createdItems.slice();
-    let nextFilms = films.slice();
-    let nextItems = items.slice();
+    let nextFilms = films?.slice();
+    let nextItems = items?.slice();
 
     filmsToSelect.forEach(film => {
       const results = maybeAddCreatedFilmToArrays(nextItems, nextCreatedItems, film);
@@ -138,6 +142,8 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
       nextFilms = !arrayContainsFilm(nextFilms, film) ? [...nextFilms, film] : nextFilms;
     });
 
+    console.log(143, 'nextFilms', nextFilms);
+    onSelectChange(nextFilms);
     setState({
       ...state,
       createdItems: nextCreatedItems,
@@ -157,6 +163,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
     } else {
       deselectFilm(getSelectedFilmIndex(film));
     }
+
   };
 
   const handleFilmsPaste = (films: IFilm[]) => {
@@ -233,7 +240,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
 
 
   const initialContent = state.hasInitialContent ? (
-      <MenuItem disabled={true} text={`${items.length} items loaded.`}/>
+      <MenuItem disabled={true} text={`${items?.length} items loaded.`}/>
     ) : // explicit undefined (not null) for default behavior (show full list)
     undefined;
 
@@ -248,7 +255,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
 
 
   const clearButton =
-    films.length > 0 ? <Button icon="cross" minimal={true} onClick={handleClear}/> : undefined;
+    films?.length > 0 ? <Button icon="cross" minimal={true} onClick={handleClear}/> : undefined;
 
   const INTENTS = [Intent.NONE, Intent.PRIMARY, Intent.SUCCESS, Intent.DANGER, Intent.WARNING];
 

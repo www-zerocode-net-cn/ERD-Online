@@ -12,14 +12,12 @@ import {renderEntityRightContext} from "@/components/LeftContent/DesignLeftConte
 
 export type TableObjectListProps = {};
 const TableObjectList: React.FC<TableObjectListProps> = (props) => {
-  const {modules, currentModuleName, projectDispatch} = useProjectStore(state => ({
-    modules: state.project?.projectJSON?.modules,
+  const {currentModule, currentModuleName, projectDispatch} = useProjectStore(state => ({
+    currentModule: state.project?.projectJSON?.modules[state.currentModuleIndex || 0],
     currentModuleName: state.currentModule,
     projectDispatch: state.dispatch,
   }), shallow);
-  console.log('13', modules)
   const tabDispatch = useTabStore(state => state.dispatch);
-  const currentModule = modules?.find((m: any) => m.name === currentModuleName);
   /* const currentModuleIndex = modules?.findIndex((m: any) => m.name === currentModuleName); */
 
 
@@ -91,7 +89,7 @@ const TableObjectList: React.FC<TableObjectListProps> = (props) => {
         <NonIdealState
           icon={"info-sign"}
           title={"提示："}
-          description={`${currentModuleName||''} 这里空空如也`}
+          description={`${currentModuleName || ''} 这里空空如也`}
           className="no-table"
         />
       }

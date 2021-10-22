@@ -19,20 +19,13 @@ export type TableInfoEditProps = {
 
 const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
 
-  const {datatype, database, modules, projectDispatch} = useProjectStore(state => ({
-    modules: state.project?.projectJSON?.modules,
+  const {datatype, database, entity, projectDispatch} = useProjectStore(state => ({
+    entity: state.project?.projectJSON?.modules[state.currentModuleIndex || 0].entities[state.currentEntityIndex || 0],
     datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
     database: state.project?.projectJSON?.dataTypeDomains?.database,
     projectDispatch: state.dispatch,
   }), shallow);
   console.log('datatype', 115, datatype)
-  console.log('modules', 23, modules);
-
-  const module = modules?.find((m: any) => m.name === props.moduleEntity?.module);
-  console.log('module', module);
-
-  const entity = module?.entities.find((e: any) => e.title === props.moduleEntity?.entity);
-  console.log('entity', entity);
 
   const allDataTypeName = datatype.map((t: any) => {
     return t.name;

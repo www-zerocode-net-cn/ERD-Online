@@ -1,11 +1,22 @@
 import React from 'react';
 import {Divider, Tab, Tabs} from "@blueprintjs/core";
 import DbTab from "@/pages/design/table/component/tab/DbTab";
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
+import {ModuleEntity} from "@/store/tab/useTabStore";
 
 
-export type CodeTabProps = {};
+export type CodeTabProps = {
+  moduleEntity: ModuleEntity
+};
 
 const CodeTab: React.FC<CodeTabProps> = (props) => {
+  const {database} = useProjectStore(state => ({
+    database: state.project?.projectJSON?.dataTypeDomains?.database,
+    projectDispatch: state.dispatch,
+  }), shallow);
+  console.log('database', 15, database)
+
   return (
     <>
       <Divider/>
@@ -15,11 +26,9 @@ const CodeTab: React.FC<CodeTabProps> = (props) => {
         renderActiveTabPanelOnly={true}
         className="tabs-table-height"
       >
-        <Tab id="MYSQL" title="MYSQL" panel={<DbTab/>}></Tab>
-        <Tab id="ORACLE" title="ORACLE" panel={<DbTab/>}> </Tab>
-        <Tab id="SQLSERVER" title="SQLSERVER" panel={<DbTab/>}></Tab>
-        <Tab id="POSTGRESQL" title="POSTGRESQL" panel={<DbTab/>}></Tab>
-        <Tab id="JAVA" title="JAVA" panel={<DbTab/>}></Tab>
+        {database?.map((db: any) => {
+          return <Tab key={db.code} id={db.code} title={db.code} panel={<DbTab dbCode={db.code} moduleEntity={props.moduleEntity}/>}></Tab>
+        })}
       </Tabs>
     </>
   );

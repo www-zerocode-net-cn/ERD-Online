@@ -12,6 +12,7 @@ export interface IEntitiesDispatchSlice {
   addEntity: (payload: any) => void;
   renameEntity: (payload: any) => void;
   removeEntity: () => void;
+  removeIndex: (index: number) => void;
   updateEntity: (payload: any) => void;
   updateEntityFields: (payload: any) => void;
   updateEntityIndexs: (payload: any) => void;
@@ -42,6 +43,13 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
     state.project.projectJSON.modules[state.currentModuleIndex].entities[currentEntityIndex].title = payload.title;
     state.project.projectJSON.modules[state.currentModuleIndex].entities[currentEntityIndex].chnname = payload.chnname;
     message.success('修改成功');
+  })),
+  removeIndex: (index: number) => set(produce(state => {
+    const {currentModuleIndex,currentEntityIndex} = state;
+    console.log(49, state.currentModuleIndex, currentEntityIndex, index)
+    state.project.projectJSON.modules[currentModuleIndex].entities[currentEntityIndex].indexs =
+      state.project.projectJSON.modules[currentModuleIndex]?.entities[currentEntityIndex].indexs.filter((e: any, i: number) => i !== index) || [];
+    message.success('删除成功');
   })),
   removeEntity: () => set(produce(state => {
     const {currentModuleIndex} = state;

@@ -1,10 +1,16 @@
 import React from 'react';
 import {Divider, Tab, Tabs} from "@blueprintjs/core";
+import TableCodeShow from "@/pages/design/table/component/table/TableCodeShow";
+import {ModuleEntity} from "@/store/tab/useTabStore";
 
 
-export type DbTabProps = {};
+export type DbTabProps = {
+  dbCode: string;
+  moduleEntity: ModuleEntity
+};
 
 const DbTab: React.FC<DbTabProps> = (props) => {
+  const {dbCode, moduleEntity} = props;
   return (
     <>
       <Divider/>
@@ -14,14 +20,30 @@ const DbTab: React.FC<DbTabProps> = (props) => {
         renderActiveTabPanelOnly={true}
         className="tabs-table-height"
       >
-        <Tab id="CREATE_TABLE" title="新建表"></Tab>
-        <Tab id="DELETE_TABLE" title="删除表"> </Tab>
-        <Tab id="RECREATE_TABLE" title="重建表"></Tab>
-        <Tab id="ADD_FIELD" title="新增字段"></Tab>
-        <Tab id="DELETE_FIELD" title="删除字段"></Tab>
-        <Tab id="UPDATE_FIELD" title="修改字段"></Tab>
-        <Tab id="CREATE_INDEX" title="新建索引"></Tab>
-        <Tab id="DELETE_INDEX" title="删除索引"></Tab>
+        <Tab id="createTableTemplate" title="新建表"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="createTableTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="deleteTableTemplate" title="删除表"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="deleteTableTemplate"
+                                   moduleEntity={moduleEntity}/>}> </Tab>
+        <Tab id="rebuildTableTemplate" title="重建表"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="rebuildTableTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="createFieldTemplate" title="新增字段"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="createFieldTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="updateFieldTemplate" title="删除字段"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="updateFieldTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="deleteFieldTemplate" title="修改字段"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="deleteFieldTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="createIndexTemplate" title="新建索引"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="createIndexTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="deleteIndexTemplate" title="删除索引"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="deleteIndexTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
       </Tabs>
     </>
   );
