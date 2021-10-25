@@ -26,6 +26,7 @@ export interface IMultiSelectExampleState {
 }
 
 export type FieldMultiSelectProps = {
+  uni: string;
   items: any[];
   initItems: any[];
   onSelectChange: (indexField: any) => void;
@@ -33,22 +34,27 @@ export type FieldMultiSelectProps = {
 
 const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
 
-  const {items, initItems, onSelectChange} = props;
+  const {uni, items, initItems, onSelectChange} = props;
+
+  console.log(37, 'uni', uni);
+  console.log(38, 'items', items);
+  console.log(39, 'initItems', initItems);
 
 
   const [state, setState] = useState<IMultiSelectExampleState>({
     allowCreate: false,
     createdItems: [],
     fill: true,
-    films: initItems,
+    films: initItems || [{}],
     hasInitialContent: false,
     intent: true,
-    items,
+    items: items || [{}],
     openOnKeyDown: false,
     popoverMinimal: true,
     resetOnSelect: true,
     tagMinimal: false,
   });
+
 
   const arrayContainsFilm = (films: IFilm[], filmToFind: IFilm): boolean => {
     return films?.some((film: IFilm) => film.title === filmToFind.title);
@@ -81,7 +87,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
     const {createdItems: nextCreatedItems, items: nextItems} = maybeDeleteCreatedFilmFromArrays(
       state.items,
       state.createdItems,
-      film,
+      film || [{}],
     );
 
     // Delete the item if the user manually created it.
@@ -90,7 +96,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
     setState({
       ...state,
       createdItems: nextCreatedItems,
-      films: films1,
+      films: films1 || [{}],
       items: nextItems,
     });
   }
@@ -112,6 +118,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
   }
 
   const maybeAddCreatedFilmToArrays = (
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     items: IFilm[],
     createdItems: IFilm[],
     film: IFilm,
@@ -147,8 +154,8 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
     setState({
       ...state,
       createdItems: nextCreatedItems,
-      films: nextFilms,
-      items: nextItems,
+      films: nextFilms || [{}],
+      items: nextItems || [{}],
     });
   }
 
@@ -265,8 +272,10 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
     minimal: tagMinimal,
   });
 
+  console.log(280, 'state.films', uni, films);
   return (<>
     <FilmMultiSelect
+      key={uni}
       {...filmSelectProps}
       {...flags}
       createNewItemFromQuery={maybeCreateNewItemFromQuery}
@@ -277,7 +286,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
       itemsEqual={areFilmsEqual}
       // we may customize the default filmSelectProps.items by
       // adding newly created items to the list, so pass our own
-      items={state.items}
+      items={items}
       noResults={<MenuItem disabled={true} text="No results."/>}
       onItemSelect={handleFilmSelect}
       onItemsPaste={handleFilmsPaste}
@@ -288,7 +297,7 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
         rightElement: clearButton,
         tagProps: getTagProps,
       }}
-      selectedItems={state.films}
+      selectedItems={films}
     />
   </>);
 }

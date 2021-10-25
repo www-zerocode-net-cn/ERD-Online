@@ -5,7 +5,6 @@ import '../DarkTheme.less'
 import "handsontable/languages/zh-CN";
 import useProjectStore from "@/store/project/useProjectStore";
 import {ModuleEntity} from "@/store/tab/useTabStore";
-import shallow from "zustand/shallow";
 // @ts-ignore
 import {CellChange, ChangeSource, Core, GridSettings} from "handsontable";
 import _ from "lodash";
@@ -21,13 +20,12 @@ export type TableIndexEditProps = {
 const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
 
   // @ts-ignore
-  const {datatype, entity, projectDispatch} = useProjectStore(state => ({
+  const {entity, projectDispatch} = useProjectStore(state => ({
     entity: state.project?.projectJSON?.modules[state.currentModuleIndex || 0].entities[state.currentEntityIndex || 0],
-    datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
-    database: state.project?.projectJSON?.dataTypeDomains?.database,
     projectDispatch: state.dispatch,
-  }), shallow);
-  console.log('datatype', 115, datatype)
+  }));
+
+  console.log(32, 'entity', entity);
 
   const fields = entity?.fields.map((f: any, index: number) => {
     return {title: f.name, rank: index + 1};
@@ -55,6 +53,7 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
     }
   };
 
+
   const hotSettings = {
     data: JSON.parse(s),
     columns: [
@@ -68,30 +67,41 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
         readOnly: true,
         allowEmpty: false,
         renderer: (instance: Core, td: HTMLElement, row: number, col: number, prop: string | number, value: any, cellProperties: GridSettings) => {
+          console.log(73, td.childNodes.length);
+          // 渲染之前先移除原有的组件
+          while (td.firstChild) {
+            td.removeChild(td.firstChild);
+          }
           console.log(71, 'value', value);
           console.log(72, 'cellProperties', cellProperties);
-          if (!td.hasChildNodes()) {
-            const newDIV = document.createElement('div');
-            const new_component = <FieldMultiSelect
-              items={fields}
-              initItems={value?.map((v: any) => {
-                return {title: v};
-              })}
-              onSelectChange={(indexField: any) => {
-                // @ts-ignore
-                const {hotInstance} = hotTableComponent.current;
-                console.log(89, 'indexField', indexField);
-                console.log(90, 'hotInstance', hotInstance);
-                hotInstance.setDataAtRowProp(row, 'fields', indexField.map((f: any) => {
-                  return f.title
-                }) || []);
-              }}
-            />;
-            console.log(93, 'new_component', new_component);
-            console.log(94, 'newDIV', newDIV);
+          const newDIV = document.createElement('div');
+          const initItems = value?.map((v: any) => {
+            return {title: v};
+          });
+
+          console.log(80, 'initItems', initItems);
+          const new_component = <FieldMultiSelect
+            uni={`${row}-${col}`}
+            items={fields}
+            initItems={initItems}
+            onSelectChange={(indexField: any) => {
+              // @ts-ignore
+              const {hotInstance} = hotTableComponent.current;
+              console.log(89, 'indexField', indexField);
+              console.log(90, 'hotInstance', hotInstance);
+              hotInstance.setDataAtRowProp(row, 'fields', indexField.map((f: any) => {
+                return f.title
+              }) || []);
+            }}
+          />;
+          console.log(93, 'new_component', new_component);
+          console.log(94, 'newDIV', newDIV);
+          setTimeout(() => {
             ReactDOM.render(new_component, newDIV);
-            td.appendChild(newDIV);
-          }
+          }, 100)
+          td.appendChild(newDIV);
+
+          console.log(101, 'td', td);
           return td;
         }
       },
@@ -173,11 +183,13 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
           console.log(239, 'finalData', finalData);
           afterChange(finalData);
         }, 200);
-
       }
       }
+      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
       afterRemoveRow={(index: number, amount: number) => {
-        projectDispatch.removeIndex(index);
+        const payload = hotSettings.data;
+        console.log(186, payload);
+        afterChange(payload);
       }}
     >
 

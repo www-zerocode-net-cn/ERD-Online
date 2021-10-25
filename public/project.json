@@ -71,6 +71,11 @@
                 "fields": ["REVISION"],
                 "isUnique": false,
                 "name": "idx_index"
+              },
+              {
+                "fields": ["CREATED_BY"],
+                "isUnique": false,
+                "name": "idx_1"
               }
             ]
 
