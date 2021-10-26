@@ -8,12 +8,30 @@ import TableObjectList from "@/pages/design/table/component/table/TableObjectLis
 import TableTab from "@/pages/design/table/component/tab/TableTab";
 import useTabStore, {defaultSelectTabId, ModuleEntity} from "@/store/tab/useTabStore";
 import {ContextMenu2} from "@blueprintjs/popover2";
+import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
+import shallow from "zustand/shallow";
+import Version from "@/pages/design/version";
 
 export type TableProps = {};
 const Table: React.FC<TableProps> = (props) => {
   const tableTabs = useTabStore(state => state.tableTabs);
   const selectTabId = useTabStore(state => state.selectTabId);
   const tabDispatch = useTabStore(state => state.dispatch);
+  const {panel} = useShortcutStore(state => ({
+    panel: state.panel
+  }), shallow);
+
+  const rightContent = () => {
+    console.log(17, "panel", panel);
+    switch (panel) {
+      case PANEL.DEFAULT:
+        return <TemplateSquare/>;
+      case PANEL.VERSION:
+        return <Version/>;
+      default:
+        return <></>;
+    }
+  }
 
   console.log('tableTabs', tableTabs)
   console.log('selectTabId', selectTabId)
@@ -53,6 +71,7 @@ const Table: React.FC<TableProps> = (props) => {
   useEffect(() => {
     console.log('re-rending11')
   })
+
 
   return (
     <>
@@ -94,7 +113,7 @@ const Table: React.FC<TableProps> = (props) => {
         <Footer/>
       </Left>
       <Right size="15%">
-        <TemplateSquare/>
+        {rightContent()}
       </Right>
     </>
   );
