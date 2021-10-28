@@ -7,7 +7,7 @@ export type ProjectHeaderProps = {};
 
 const ProjectHeader: React.FC<ProjectHeaderProps> = (props) => {
   return (
-    <Top size="5.5%">
+    <Top size="50px">
       <Left size={"10%"}>
         <Navbar>
           <Navbar.Group align={Alignment.CENTER}>

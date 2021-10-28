@@ -58,7 +58,7 @@ const Version: React.FC<VersionProps> = (props) => {
         filterable={false}
         itemRenderer={renderFilm}
         fill={true}
-        noResults={<MenuItem disabled={true} text="No results."/>}
+        noResults={<MenuItem disabled={true} text="未配置数据库"/>}
       >
         <Button
           icon="database"

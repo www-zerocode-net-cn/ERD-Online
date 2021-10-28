@@ -27,7 +27,7 @@ const TemplateSquare: React.FC<TemplateSquareProps> = (props) => {
         rightIcon="share"
         minimal={true}
         target="_blank"
-        text={"模板广场"}
+        text={"资源社区"}
       />
     </div>
     <OverflowList

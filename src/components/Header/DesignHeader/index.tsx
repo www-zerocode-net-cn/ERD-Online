@@ -2,10 +2,10 @@ import React from 'react';
 import {Alignment, Button, ButtonGroup, Navbar, NavbarDivider} from "@blueprintjs/core";
 import {Left, Right, Top} from "react-spaces";
 import {Popover2} from "@blueprintjs/popover2";
-import {FileMenu} from "@/pages/project/home/component/FileMenu";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import './index.less';
+import {NavigationMenu, ProjectMenu} from '@/components/Menu';
 
 export type DesignHeaderProps = {};
 
@@ -15,39 +15,19 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
     projectDispatch: state.dispatch,
   }), shallow);
   return (
-    <Top size="5.5%">
+    <Top size="50px">
       <Left size={"80%"}>
         <Navbar>
           <Navbar.Group align={Alignment.CENTER}>
-            <Popover2 content={<FileMenu/>} placement={"bottom-start"}>
+            <Popover2 content={<NavigationMenu/>} placement={"bottom-start"}>
               <Button icon={"menu"}/>
             </Popover2>
             <NavbarDivider/>
             <ButtonGroup minimal={true}>
-              <Popover2 content={<FileMenu/>} placement={"bottom-start"}>
+              <Popover2 content={<ProjectMenu/>} placement={"bottom-start"}>
                 <Button rightIcon={"caret-down"} text={"项目"}/>
               </Popover2>
             </ButtonGroup>
-            <NavbarDivider/>
-            <ButtonGroup minimal={true}>
-              <Popover2 content={<FileMenu/>} placement={"bottom-start"}>
-                <Button rightIcon={"caret-down"} text={"版本"}/>
-              </Popover2>
-            </ButtonGroup>
-            <NavbarDivider/>
-            <ButtonGroup minimal={true}>
-              <Popover2 content={<FileMenu/>} placement={"bottom-start"}>
-                <Button rightIcon={"caret-down"} text={"导入"}/>
-              </Popover2>
-            </ButtonGroup>
-            <NavbarDivider/>
-            <ButtonGroup minimal={true}>
-              <Popover2 content={<FileMenu/>} placement={"bottom-start"}>
-                <Button rightIcon={"caret-down"} text={"导出"}/>
-              </Popover2>
-            </ButtonGroup>
-            <NavbarDivider/>
-            <Button className="bp3-minimal" rightIcon="cog" text="设置"/>
           </Navbar.Group>
         </Navbar>
       </Left>
@@ -62,7 +42,8 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
             <NavbarDivider/>
             <Button className="bp3-minimal" icon="chat" title="聊天"/>
             <NavbarDivider/>
-            <Button className="bp3-minimal" intent={saved ? "success" : "danger"} icon={saved ? "tick-circle" : "disable"} title={saved ? "已保存" : "未保存"}/>
+            <Button className="bp3-minimal" intent={saved ? "success" : "danger"}
+                    icon={saved ? "tick-circle" : "disable"} title={saved ? "已保存" : "未保存"}/>
           </Navbar.Group>
         </Navbar>
       </Right>

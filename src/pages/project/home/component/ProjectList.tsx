@@ -1,8 +1,7 @@
 import React from 'react';
 import {Button, ButtonGroup, Card, Elevation, IBreadcrumbProps, IconName, OverflowList} from "@blueprintjs/core";
 import {Popover2} from "@blueprintjs/popover2";
-import {FileMenu} from "@/pages/project/home/component/FileMenu";
-
+import {ProjectMenu} from "@/components/Menu";
 
 export type ProjectListProps = {};
 const BREADCRUMBS: IBreadcrumbProps[] = [
@@ -21,14 +20,14 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
     const vertical = false
     const rightIconName: IconName = vertical ? "caret-right" : "caret-down";
     return (
-      <Popover2 content={<FileMenu/>} placement={vertical ? "right-start" : "bottom-start"}>
+      <Popover2 content={<ProjectMenu/>} placement={vertical ? "right-start" : "bottom-start"}>
         <Button rightIcon={rightIconName} icon={iconName} text={text}/>
       </Popover2>
     );
   }
   const visibleItemRenderer = ({text, ...restProps}: IBreadcrumbProps) => {
     // customize rendering of last breadcrumb
-    return <a><Card elevation={Elevation.TWO} className="cardList">
+    return <a onClick={()=>{window.location.href='/design/table'}} key={Math.random()}><Card elevation={Elevation.TWO} className="cardList">
       <div className="projectImg"></div>
       <h5 className="bp3-heading name">H2 测试项目</h5>
       <p className="time">2021:08:26 10:00</p>
