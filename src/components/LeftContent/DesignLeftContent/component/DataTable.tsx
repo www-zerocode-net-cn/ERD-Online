@@ -16,11 +16,11 @@ import RenameModule from "@/components/dialog/module/RenameModule";
 import RemoveModule from "@/components/dialog/module/RemoveModule";
 
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
-import { Typography} from '@mui/material';
+import {Typography} from '@mui/material';
 import {TreeView} from '@mui/lab';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { makeStyles } from "@mui/styles";
+import {makeStyles} from "@mui/styles";
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
   root: {
@@ -35,8 +35,7 @@ export const useTreeItemStyles = makeStyles((theme: any) => ({
     },
   },
   content: {
-    '$expanded > &': {
-    },
+    '$expanded > &': {},
   },
   group: {
     marginLeft: '5px',

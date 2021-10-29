@@ -1,7 +1,9 @@
 import React from "react";
 import {Icon, Menu, MenuDivider, MenuItem, Props} from "@blueprintjs/core";
 import {createFromIconfontCN} from "@ant-design/icons";
-import { history } from 'umi';
+import {history} from 'umi';
+import AddVersion from "@/components/dialog/version/AddVersion";
+import SyncConfig from "@/components/dialog/version/SyncConfig";
 
 
 const MyIcon = createFromIconfontCN({
@@ -16,8 +18,8 @@ export interface IFileMenuProps extends Props {
 
 export const VersionMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <Menu className={props.className}>
-    <MenuItem key="artifact" text="新增版本" icon="add-to-artifact" {...props} />
-    <MenuItem key="refresh" text="同步配置" icon="refresh" {...props} />
+    <AddVersion/>
+    <SyncConfig/>
     <MenuItem key="selection" text="初始化基线" icon="selection" {...props} />
     <MenuItem key="undo" text="重建基线" icon="undo" {...props} />
   </Menu>
@@ -25,8 +27,8 @@ export const VersionMenu: React.FunctionComponent<IFileMenuProps> = props => (
 
 export const ImportMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <Menu className={props.className}>
-    <MenuItem key="line" text="数据库逆向解析" icon={<MyIcon type="icon-line-height"/>}  {...props} />
-    <MenuItem key="line" text="解析PDM文件" icon={<MyIcon type="icon-PDM"/>} {...props} />
+    <MenuItem key="reverse" text="数据库逆向解析" icon={<MyIcon type="icon-line-height"/>}  {...props} />
+    <MenuItem key="pdm" text="解析PDM文件" icon={<MyIcon type="icon-PDM"/>} {...props} />
     <MenuItem key="other_win" text="解析ERWin文件" icon={<MyIcon type="icon-other_win"/>} {...props} />
     <MenuItem key="pdman" text="解析PdMan文件" icon={<MyIcon type="icon-other_win"/>} {...props} />
   </Menu>
@@ -49,7 +51,7 @@ export const SystemMenu: React.FunctionComponent<IFileMenuProps> = props => (
 
 export const HelpMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <Menu className={props.className}>
-    <MenuItem key="db" text="教程" icon="video"  {...props} />
+    <MenuItem key="video" text="教程" icon="video"  {...props} />
     <MenuItem key="default" text="快捷键" icon="key-command" {...props} />
   </Menu>
 );
@@ -58,10 +60,10 @@ export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
   const {className} = props;
   return (
     <Menu className={className}>
-      <MenuItem text="版本" icon="history"><VersionMenu className={className}/></MenuItem>
-      <MenuItem text="导入" icon="import"><ImportMenu className={className}/></MenuItem>
-      <MenuItem text="导出" icon="export"><ExportMenu className={className}/></MenuItem>
-      <MenuItem text="设置" icon="cog"><SystemMenu className={className}/></MenuItem>
+      <MenuItem key="history" text="版本" icon="history"><VersionMenu className={className}/></MenuItem>
+      <MenuItem key="import" text="导入" icon="import"><ImportMenu className={className}/></MenuItem>
+      <MenuItem key="export" text="导出" icon="export"><ExportMenu className={className}/></MenuItem>
+      <MenuItem key="cog" text="设置" icon="cog"><SystemMenu className={className}/></MenuItem>
     </Menu>
   );
 };
@@ -70,7 +72,9 @@ export const NavigationMenu: React.FunctionComponent<IFileMenuProps> = props => 
   const {className} = props;
   return (
     <Menu className={className}>
-      <MenuItem text="返回工作台" icon="chevron-left" onClick={()=>{history.push('/project/home')}}></MenuItem>
+      <MenuItem text="返回工作台" icon="chevron-left" onClick={() => {
+        history.push('/project/home')
+      }}></MenuItem>
       <MenuDivider/>
       <MenuItem text="资源社区" icon="globe-network" labelElement={<Icon icon="share"/>}></MenuItem>
       <MenuDivider/>
