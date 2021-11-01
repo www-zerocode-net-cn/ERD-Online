@@ -8,7 +8,7 @@ export type SyncConfigProps = {};
 const SyncConfig: React.FC<SyncConfigProps> = (props) => {
   return (<>
     <ModalForm
-      title="同步配置（配置成功后，后续的同步的操作都使用该配置）"
+      title={<span>同步配置<span style={{color: "red"}}>（配置成功后，后续的同步的操作都使用该配置）</span></span>}
       trigger={
         <Button
           key="refresh"
@@ -27,13 +27,13 @@ const SyncConfig: React.FC<SyncConfigProps> = (props) => {
           label="数据表升级方式"
           options={[
             {
+              label: '字段增量',
+              value: 'increment',
+            },
+            {
               label: '重建数据表',
               value: 'rebuild',
             },
-            {
-              label: '字段增量',
-              value: 'increment',
-            }
           ]}
         />
       </ProForm.Group>

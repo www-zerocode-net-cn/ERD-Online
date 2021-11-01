@@ -3,17 +3,17 @@ import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
 import {Alignment, Button} from "@blueprintjs/core";
 
 
-export type RebuildVersionProps = {};
+export type InitVersionProps = {};
 
-const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
+const InitVersion: React.FC<InitVersionProps> = (props) => {
   return (<>
     <ModalForm
-      title={<span>重建基线<span style={{color: "red"}}>（重建基线将会清除当前项目的所有版本信息，该操作不可逆）</span></span>}
+      title="初始化基线"
       trigger={
         <Button
-          key="undo"
-          icon="undo"
-          text="重建基线"
+          key="selection"
+          icon="selection"
+          text="初始化基线"
           minimal={true}
           small={true}
           fill={true}
@@ -60,4 +60,4 @@ const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
   </>);
 }
 
-export default React.memo(RebuildVersion)
+export default React.memo(InitVersion)

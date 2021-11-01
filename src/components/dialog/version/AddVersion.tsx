@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import ProForm, {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
+import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
 import {Alignment, Button} from "@blueprintjs/core";
 
 
@@ -17,7 +17,6 @@ const AddVersion: React.FC<AddVersionProps> = (props) => {
   return (<>
     <ModalForm
       title="新增版本"
-      layout="horizontal"
       trigger={
         <Button
           key="artifact"
@@ -29,47 +28,44 @@ const AddVersion: React.FC<AddVersionProps> = (props) => {
           alignText={Alignment.LEFT}></Button>
       }
     >
-      <ProForm.Group>
-        <ProFormText
-          width="md"
-          name="version"
-          label="版本号"
-          placeholder="请输入版本号"
-          formItemProps={{
-            rules: [
-              {
-                required: true,
-                message: '不能为空',
-              },
-              {
-                max: 100,
-                message: '不能大于 100 个字符',
-              },
-            ],
-          }}
-        />
-        <ProFormTextArea
-          width="md"
-          name="versionDesc"
-          label="版本描述"
-          placeholder="请输入版本描述"
-          formItemProps={{
-            rules: [
-              {
-                required: true,
-                message: '不能为空',
-              },
-              {
-                max: 100,
-                message: '不能大于 100 个字符',
-              },
-            ],
-          }}
-        />
-      </ProForm.Group>
+      <ProFormText
+        width="md"
+        name="version"
+        label="版本号"
+        placeholder="请输入版本号"
+        formItemProps={{
+          rules: [
+            {
+              required: true,
+              message: '不能为空',
+            },
+            {
+              max: 100,
+              message: '不能大于 100 个字符',
+            },
+          ],
+        }}
+      />
+      <ProFormTextArea
+        width="md"
+        name="versionDesc"
+        label="版本描述"
+        placeholder="请输入版本描述"
+        formItemProps={{
+          rules: [
+            {
+              required: true,
+              message: '不能为空',
+            },
+            {
+              max: 100,
+              message: '不能大于 100 个字符',
+            },
+          ],
+        }}
+      />
     </ModalForm>
-  </>)
-    ;
-}
+  </>);
+};
 
 export default React.memo(AddVersion)
