@@ -1,5 +1,5 @@
 import React from "react";
-import {Icon, Menu, MenuDivider, MenuItem, Props} from "@blueprintjs/core";
+import {Button, ButtonGroup, Icon, Menu, MenuDivider, MenuItem, Props} from "@blueprintjs/core";
 import {createFromIconfontCN} from "@ant-design/icons";
 import {history} from 'umi';
 import AddVersion from "@/components/dialog/version/AddVersion";
@@ -14,6 +14,9 @@ import ExportFile from "@/components/dialog/export/ExportFile";
 import ExportDDL from "@/components/dialog/export/ExportDDL";
 import ExportJson from "@/components/dialog/export/ExportJson";
 import DatabaseSetUp from "@/components/dialog/setup/DatabaseSetUp";
+import {Popover2} from "@blueprintjs/popover2";
+import {IconName} from "@blueprintjs/icons";
+import {MaybeElement} from "@blueprintjs/core/src/common/props";
 
 
 export const MyIcon = createFromIconfontCN({
@@ -27,12 +30,12 @@ export interface IFileMenuProps extends Props {
 
 
 export const VersionMenu: React.FunctionComponent<IFileMenuProps> = props => (
-  <Menu className={props.className}>
-    <AddVersion />
+  <>
+    <AddVersion/>
     <SyncConfig/>
     <InitVersion/>
     <RebuildVersion/>
-  </Menu>
+  </>
 );
 
 
@@ -53,7 +56,7 @@ export const ExportMenu: React.FunctionComponent<IFileMenuProps> = props => (
   </Menu>
 );
 
-export const SystemMenu: React.FunctionComponent<IFileMenuProps> = props => (
+export const SetUpMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <Menu className={props.className}>
     <DatabaseSetUp/>
     <MenuItem key="db" text="数据库设置" icon="database"  {...props} />
@@ -68,22 +71,34 @@ export const HelpMenu: React.FunctionComponent<IFileMenuProps> = props => (
   </Menu>
 );
 
-export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
-  const {className} = props;
+const renderButton = (icon: IconName | MaybeElement, text: string, content: string | JSX.Element) => {
   return (
-    // <Popover2
-    //   captureDismiss={false}
-    //   content={<VersionMenu className={Classes.POPOVER_DISMISS_OVERRIDE}/>}
-    //   position="right"
-    // >
-    //   <Button text="版本" icon="history"/>
-    // </Popover2>
-    <Menu className={className}>
-      <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history"><VersionMenu className={className}/></MenuItem>
-      <MenuItem key="import" text="导入" icon="import"><ImportMenu className={className}/></MenuItem>
-      <MenuItem key="export" text="导出" icon="export"><ExportMenu className={className}/></MenuItem>
-      <MenuItem key="cog" text="设置" icon="cog"><SystemMenu className={className}/></MenuItem>
-    </Menu>
+    <Popover2
+      autoFocus={false}
+      enforceFocus={false}
+      hasBackdrop={true}
+      content={content}
+      position="right"
+    >
+      <Button rightIcon="caret-right" icon={icon} text={text}/>
+    </Popover2>
+  );
+}
+
+export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
+  return (
+    1 === 1 ? <Menu>
+        <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history"><VersionMenu/></MenuItem>
+        <MenuItem key="import" shouldDismissPopover={false} text="导入" icon="import"><ImportMenu/></MenuItem>
+        <MenuItem key="export" shouldDismissPopover={false} text="导出" icon="export"><ExportMenu/></MenuItem>
+        <MenuItem key="cog" shouldDismissPopover={false} text="设置" icon="cog"><SetUpMenu/></MenuItem>
+      </Menu>
+      : <ButtonGroup vertical={true}>
+        {renderButton("history", "版本", <VersionMenu/>)}
+        {renderButton("import", "导入", <ImportMenu/>)}
+        {renderButton("export", "导出", <ExportMenu/>)}
+        {renderButton("cog", "设置", <SetUpMenu/>)}
+      </ButtonGroup>
   );
 };
 

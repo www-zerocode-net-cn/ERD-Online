@@ -5,8 +5,7 @@ import {Popover2} from "@blueprintjs/popover2";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import './index.less';
-import {NavigationMenu, ProjectMenu, VersionMenu} from '@/components/Menu';
-import {Popover2InteractionKind} from "@blueprintjs/popover2/src/popover2";
+import {NavigationMenu, ProjectMenu} from '@/components/Menu';
 
 export type DesignHeaderProps = {};
 
@@ -20,27 +19,23 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
       <Left size={"80%"}>
         <Navbar>
           <Navbar.Group align={Alignment.CENTER}>
-            <Popover2 interactionKind={Popover2InteractionKind.HOVER} content={<NavigationMenu/>}
+            <Popover2 autoFocus={false}
+                      enforceFocus={false}
+                      hasBackdrop={true}
+                      content={<NavigationMenu/>}
                       placement={"bottom-start"}>
               <Button icon={"menu"}/>
             </Popover2>
             <NavbarDivider/>
             <ButtonGroup minimal={true}>
               <Popover2
+                autoFocus={false}
+                enforceFocus={false}
+                hasBackdrop={true}
                 content={<ProjectMenu/>}
                 placement={"bottom-start"}
               >
                 <Button rightIcon={"caret-down"} text={"项目"}/>
-              </Popover2>
-            </ButtonGroup>
-            <NavbarDivider/>
-            <ButtonGroup minimal={true}>
-              <Popover2
-                content={<VersionMenu/>}
-                interactionKind={Popover2InteractionKind.CLICK}
-                placement={"bottom-start"}
-              >
-                <Button rightIcon={"caret-down"} text={"版本"}/>
               </Popover2>
             </ButtonGroup>
           </Navbar.Group>
