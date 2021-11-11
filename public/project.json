@@ -116,6 +116,2141 @@
             ]
           },
           {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
+            "title": "t_role",
+            "fields": [
+              {
+                "name": "REVISION",
+                "type": "Integer",
+                "remark": "",
+                "chnname": "乐观锁"
+              },
+              {
+                "name": "CREATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "创建人"
+              },
+              {
+                "name": "CREATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "创建时间"
+              },
+              {
+                "name": "UPDATED_BY",
+                "type": "IdOrKey",
+                "remark": "",
+                "chnname": "更新人"
+              },
+              {
+                "name": "UPDATED_TIME",
+                "type": "DateTime",
+                "remark": "",
+                "chnname": "更新时间"
+              }
+            ]
+          },
+          {
             "title": "t_user_role",
             "fields": [
               {
