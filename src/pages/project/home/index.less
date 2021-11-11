@@ -3,7 +3,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
   grid-gap: 32px 32px;
-  height: 100%;
   margin-top: 2%;
 }
 
@@ -32,6 +31,11 @@
   -webkit-user-select: none;
   background-color: hsl(0, 0%, 90%);
   transition: background-color 300ms;
+}
+
+.cardContent {
+  background-color: #3b4e5d;
+  color: #FFFFFF;
 }
 
 .cardList .name {
@@ -126,4 +130,10 @@
   border-top: none;
   border-top: none;
   border-left: none;
+}
+
+.pagination{
+  display: flex;
+  justify-content: center;
+  align-items: end;
 }

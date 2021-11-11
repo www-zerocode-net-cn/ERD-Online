@@ -1,5 +1,5 @@
 import React from "react";
-import {Fill, Fixed, Right} from "react-spaces";
+import {Fill, Fixed} from "react-spaces";
 import DesignHeader from "@/components/Header/DesignHeader";
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
 import './index.scss'
@@ -22,9 +22,9 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
       <DesignHeader/>
       <Fill>
         <DesignLeftContent/>
-        <Right size="90%">
+        <Fill>
           {children}
-        </Right>
+        </Fill>
       </Fill>
     </Fixed>
   )

@@ -1,15 +1,22 @@
-import React from 'react';
-import ProForm, {ModalForm, ProFormRadio, ProFormSelect, ProFormText} from "@ant-design/pro-form";
+import React, {useState} from 'react';
+import ProForm, {
+  ModalForm,
+  ProFormFieldSet,
+  ProFormGroup,
+  ProFormList,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText
+} from "@ant-design/pro-form";
 import {Alignment, Button} from "@blueprintjs/core";
 import _ from "lodash";
 import {Button as MuiButton, Grid} from "@mui/material";
-
 
 export type DatabaseSetUpProps = {};
 
 
 const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
-
+  const [position] = useState<'bottom' | 'top'>('bottom');
   return (<>
       <ModalForm
         title={<span>数据库连接配置</span>}
@@ -39,54 +46,65 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
       >
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ProFormRadio.Group
-              name="radio-vertical"
-              layout="vertical"
-              options={[
-                {
-                  label: <ProForm.Group>
+            <ProForm
+              onFinish={async (values: any) => {
+                console.log('Received values of form:', values);
+              }}
+              submitter={false}
+            >
+              <ProFormList
+                name="users"
+                label={<span>当前数据库版本使用的数据库为【】</span>}
+                creatorButtonProps={{
+                  position,
+                  creatorButtonText:"新增一个数据库"
+                }}
+                creatorRecord={{
+                  name: 'test',
+                }}
+                initialValue={[
+                  {
+                    name: '1111',
+                    nickName: '1111',
+                    age: 111,
+                    birth: '2021-02-18',
+                    sex: 'man',
+                    addr: ["true", "123", "chapter"],
+                  },
+                ]}
+                copyIconProps={false}
+              >
+                <ProFormGroup>
+                  <ProFormFieldSet
+                    name="addr"
+                    transform={(value: any) => ({radio: value[0], name: value[1], select: value[2]})}
+                  >
+                    <ProFormRadio name="radio"/>
+                    <ProFormSelect
+                      options={[
+                        {
+                          value: 'chapter',
+                          label: '盖章',
+                        },
+                      ]}
+                      name="select"
+                    />
                     <ProFormText
-                      width={100}
                       name="name"
-                      placeholder="请输入数据库名称"
-                      formItemProps={{
-                        rules: [
-                          {
-                            required: true,
-                            message: '不能为空',
-                          },
-                          {
-                            max: 100,
-                            message: '不能大于 100 个字符',
-                          },
-                        ],
+                      fieldProps={{
+                        size: "small",
                       }}
-                    /> <ProFormSelect
-                    name="db"
-                    width={100}
-                    rules={[{required: true}]}
-                    fieldProps={{
-                      labelInValue: true,
-                    }}
-                    request={async () => [
-                      {label: '全大写', value: 'UPPERCASE'},
-                      {label: '全小写', value: 'LOWCASE'},
-                      {label: '不处理', value: 'DEFAULT'},
-                    ]}
-                  />
-                  </ProForm.Group>,
-                  value: 'a',
-                },
-                {
-                  label: 'item 2',
-                  value: 'b',
-                },
-                {
-                  label: 'item 3',
-                  value: 'c',
-                },
-              ]}
-            />
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    />
+
+                  </ProFormFieldSet>
+                </ProFormGroup>
+              </ProFormList>
+            </ProForm>
           </Grid>
           <Grid item xs={6}>
             <ProFormText

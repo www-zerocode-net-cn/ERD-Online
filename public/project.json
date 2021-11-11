@@ -624,6 +624,426 @@
           }
         },
         {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
+          "name": "日期时间",
+          "code": "DateTime",
+          "apply": {
+            "JAVA": {
+              "type": "Date"
+            },
+            "MYSQL": {
+              "type": "DATETIME"
+            },
+            "ORACLE": {
+              "type": "DATE"
+            },
+            "SQLServer": {
+              "type": "DATE"
+            },
+            "PostgreSQL": {
+              "type": "DATE"
+            }
+          }
+        },
+        {
           "name": "单字符",
           "code": "Char",
           "apply": {

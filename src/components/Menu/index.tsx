@@ -17,6 +17,7 @@ import DatabaseSetUp from "@/components/dialog/setup/DatabaseSetUp";
 import {Popover2} from "@blueprintjs/popover2";
 import {IconName} from "@blueprintjs/icons";
 import {MaybeElement} from "@blueprintjs/core/src/common/props";
+import DefaultSetUp from "@/components/dialog/setup/DefaultSetUp";
 
 
 export const MyIcon = createFromIconfontCN({
@@ -59,8 +60,7 @@ export const ExportMenu: React.FunctionComponent<IFileMenuProps> = props => (
 export const SetUpMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <Menu className={props.className}>
     <DatabaseSetUp/>
-    <MenuItem key="db" text="数据库设置" icon="database"  {...props} />
-    <MenuItem key="default" text="默认配置设置" icon="code-block" {...props} />
+    <DefaultSetUp/>
   </Menu>
 );
 
@@ -87,7 +87,7 @@ const renderButton = (icon: IconName | MaybeElement, text: string, content: stri
 
 export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
   return (
-    1 === 1 ? <Menu>
+    false ? <Menu>
         <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history"><VersionMenu/></MenuItem>
         <MenuItem key="import" shouldDismissPopover={false} text="导入" icon="import"><ImportMenu/></MenuItem>
         <MenuItem key="export" shouldDismissPopover={false} text="导出" icon="export"><ExportMenu/></MenuItem>

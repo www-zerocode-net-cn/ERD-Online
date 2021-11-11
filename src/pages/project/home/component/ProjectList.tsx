@@ -1,21 +1,55 @@
-import React from 'react';
-import {Button, ButtonGroup, Card, Elevation, IBreadcrumbProps, IconName, OverflowList} from "@blueprintjs/core";
+import React, {useEffect, useState} from 'react';
+import {Button, ButtonGroup, IconName, OverflowList} from "@blueprintjs/core";
 import {Popover2} from "@blueprintjs/popover2";
 import {ProjectMenu} from "@/components/Menu";
+import {notification, Pagination} from 'antd';
+import {Fixed} from "react-spaces";
+import {Card, CardActionArea, CardContent, CardMedia, Typography} from '@mui/material';
+import request from "@/utils/request";
+import * as cache from "@/utils/cache";
 
-export type ProjectListProps = {};
-const BREADCRUMBS: IBreadcrumbProps[] = [
-  {href: "/users", icon: "folder-close", text: "Users"},
-  {href: "/users", icon: "folder-close", text: "Users"},
-  {href: "/users", icon: "folder-close", text: "Users"},
-  {href: "/users", icon: "folder-close", text: "Users"},
-  {href: "/users", icon: "folder-close", text: "Users"},
-  {href: "/users", icon: "folder-close", text: "Users"},
-  {href: "/users", icon: "folder-close", text: "Users"},
-  {href: "/users", icon: "folder-close", text: "Users"},
+export type ProjectListProps = {
+  page: number;
+  limit: number;
+  total: number;
+  projects: any;
+};
 
-];
+
 const ProjectList: React.FC<ProjectListProps> = (props) => {
+  const [state, setState] = useState<ProjectListProps>({
+    page: 1,
+    limit: 8,
+    total: 0,
+    projects: []
+  });
+
+  useEffect(() => {
+    request.get('/ncnb/project/page', {
+        params: {
+          page: state.page,
+          limit: state.limit
+        }
+      }
+    ).then(res => {
+      if (res) {
+        if (res.data) {
+          console.log(44, 'projects', res);
+          setState({
+              ...state,
+              total: res.data.total,
+              projects: res.data.records
+            }
+          );
+        } else {
+          notification.error({
+            message: '获取项目信息失败',
+          });
+        }
+      }
+    });
+  }, [state.page]);
+
   const renderButton = (text: string, iconName: IconName) => {
     const vertical = false
     const rightIconName: IconName = vertical ? "caret-right" : "caret-down";
@@ -25,13 +59,30 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
       </Popover2>
     );
   }
-  const visibleItemRenderer = ({text, ...restProps}: IBreadcrumbProps) => {
+  const visibleItemRenderer = ({id, projectName, description, ...restProps}: any) => {
     // customize rendering of last breadcrumb
-    return <a onClick={()=>{window.location.href='/design/table'}} key={Math.random()}><Card elevation={Elevation.TWO} className="cardList">
-      <div className="projectImg"></div>
-      <h5 className="bp3-heading name">H2 测试项目</h5>
-      <p className="time">2021:08:26 10:00</p>
-    </Card></a>;
+    return <Card sx={{maxWidth: 345}} onClick={() => {
+      cache.setItem("projectId", id);
+      window.location.href = '/design/table';
+    }}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          height="140"
+          image="/erd/img_7.png"
+          alt="green iguana"
+        />
+        <CardContent className="cardContent">
+          <Typography gutterBottom variant="h6" component="div">
+            {projectName || ' '}
+          </Typography>
+          <Typography variant="inherit">
+            {description || ' '}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+
+    </Card>;
   };
   return (<>
       <div className="body-header-tool">
@@ -48,12 +99,30 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
           </div>
         </div>
       </div>
-      <OverflowList
-        tagName="div"
-        className="projectList"
-        items={BREADCRUMBS}
-        visibleItemRenderer={visibleItemRenderer}
-      />
+      < Fixed width={"100%"} height={"100%"}>
+
+        <OverflowList
+          tagName="div"
+          className="projectList"
+          items={state.projects}
+          visibleItemRenderer={visibleItemRenderer}
+        />
+        <Pagination
+          className="pagination"
+          total={state.total}
+          defaultPageSize={state.limit}
+          defaultCurrent={state.page}
+          showSizeChanger={false}
+          onShowSizeChange={(current: number, size: number) => {
+            setState({
+              ...state,
+              page: current,
+              limit: size
+            })
+          }}
+        />
+      </Fixed>
+
     </>
   )
 };

@@ -11,6 +11,9 @@ import type {IProfileDispatchSlice, IProfileSlice} from "@/store/project/profile
 import type {IEntitiesDispatchSlice, IEntitiesSlice} from "@/store/project/entitiesSlice";
 import type {IDatabaseDomainsDispatchSlice, IDatabaseDomainsSlice} from "@/store/project/databaseDomainsSlice";
 import _ from "lodash";
+import request from "@/utils/request";
+import * as cache from "@/utils/cache";
+
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
 // 同名合并：interface 支持，type 不支持。
@@ -39,6 +42,25 @@ const useProjectStore = create<ProjectState>(
     project: {},
     saved: true,
     fetch: async () => {
+      // const projectId = cache.getItem('projectId');
+      // await request.get(`/ncnb/project/info/${projectId}`).then((res) => {
+      //   console.log(45, res);
+      //   const datatype = res.data.projectJSON.dataTypeDomains.datatype || [];
+      //   const database = res.data.projectJSON.dataTypeDomains.database || [];
+      //   const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
+      //   console.log(45, defaultDatabaseCode);
+      //   res.data.projectJSON?.modules?.forEach((m: any) => {
+      //     m?.entities?.forEach((e: any) => {
+      //       e?.fields?.forEach((f: any) => {
+      //         const d = _.find(datatype, {'code': f.type});
+      //         _.assign(f, {"typeName": d.name});
+      //         const path = `apply.${defaultDatabaseCode}.type`;
+      //         _.assign(f, {"dataType": _.get(d, path)});
+      //       });
+      //     });
+      //   });
+      //   set({project: res.data});
+      // });
       await fetch('http://localhost:8000/project.json')
         .then(res => res.json()).then(data => {
           const datatype = data.projectJSON.dataTypeDomains.datatype || [];
