@@ -60,7 +60,7 @@
   },
   {
     path: '/',
-    redirect: '/design/table',
+    redirect: '/project/home',
   },
   {
     component: './404',
