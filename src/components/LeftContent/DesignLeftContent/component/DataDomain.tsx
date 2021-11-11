@@ -30,6 +30,7 @@ interface StyledTreeItemProps extends TreeItemProps {
   labelInfo?: number,
   labelText: string,
   chnname: string,
+  haveRightMenu: boolean,
 }
 
 
@@ -66,7 +67,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
 
   const StyledTreeItem = (prop: StyledTreeItemProps) => {
     const classes = useTreeItemStyles();
-    const {type, code, labelText, chnname, labelIcon, labelInfo, color, bgColor, ...other} = prop;
+    const {type, code, labelText, chnname, labelIcon, labelInfo, color, bgColor, haveRightMenu, ...other} = prop;
 
     const renderDataTypeRightContext = () => <Menu>
         <AddDataType moduleDisable={false}/>
@@ -100,7 +101,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
 
     return (
       <ContextMenu2
-        content={renderContext()}
+        content={haveRightMenu ? renderContext() : undefined}
         onContextMenu={() => activeDataTypeOrDatabase(type, code)}
       >
         <TreeItem
@@ -141,6 +142,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
   };
 
   return (<div>
+
     <TreeView
       defaultExpanded={['dataType']}
       defaultCollapseIcon={<ArrowDropDownIcon/>}
@@ -155,8 +157,9 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
                       chnname="dataType"
                       labelIcon={"array"}
                       labelInfo={datatype.length || 0}
+                      haveRightMenu={false}
       >
-        <Top size="50%" scrollable={true} style={{marginTop: "80px"}}>
+        <Top size="50%" scrollable={true}>
           {datatype?.map((type: any) => {
             return <StyledTreeItem key={type.name}
                                    type="dataType"
@@ -165,6 +168,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
                                    labelText={type.name}
                                    chnname={type.chnname}
                                    labelIcon={"dot"}
+                                   haveRightMenu={true}
                                    onClick={() => {
                                      activeDataTypeOrDatabase("dataType", type.code);
                                      activeDataTypePanel();
@@ -189,6 +193,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
                        labelIcon={"array"}
                        className="left-tree"
                        labelInfo={database.length || 0}
+                       haveRightMenu={false}
       >
         {database?.map((db: any) => {
           return <StyledTreeItem key={db.code}
@@ -198,6 +203,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
                                  labelText={db.code}
                                  chnname={db.chnname}
                                  labelIcon={"database"}
+                                 haveRightMenu={true}
                                  onClick={() => {
                                    activeDataTypeOrDatabase("database", db.code);
                                    activeDatabasePanel();
@@ -209,7 +215,8 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
     </Fill>
     <RenameDataType onRef={dataTypeRef}/>
     <RenameDatabase onRef={databaseRef}/>
-  </div>);
+  </div>)
+    ;
 }
 
 export default React.memo(DataDomain);

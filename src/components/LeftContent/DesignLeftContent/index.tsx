@@ -23,7 +23,7 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
             className="left-table-tab"
           >
             <Tab id="table" title="数据表" panel={<DataTable/>}></Tab>
-            <Tab id="domain" title="数据域" panel={<DataDomain/>}/>
+            <Tab id="domain" title="数据域" panel={<DataDomain />}/>
           </Tabs>
         </Fill>
       </LeftResizable>

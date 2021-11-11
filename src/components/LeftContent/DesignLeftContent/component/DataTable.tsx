@@ -21,6 +21,7 @@ import {TreeView} from '@mui/lab';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {makeStyles} from "@mui/styles";
+import {Top} from "react-spaces";
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
   root: {
@@ -178,44 +179,45 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   }
 
   return (<>
-    <InputGroup
-      className={classNames(Classes.ROUND, "table-search-input")}
-      asyncControl={true}
-      leftIcon="search"
-      placeholder=""
-    />
-    <TreeView
-      className="root"
-      defaultExpanded={['3']}
-      defaultCollapseIcon={<ArrowDropDownIcon/>}
-      defaultExpandIcon={<ArrowRightIcon/>}
-      defaultEndIcon={<div style={{width: 24}}/>}
-    >
-      {modules?.map((module: any) => {
-        return <StyledTreeItem key={module.name}
-                               type="module"
-                               module={module.name}
-                               nodeId={module.name}
-                               labelText={module.name}
-                               chnname={module.chnname}
-                               labelIcon={"database"}
-                               labelInfo={module?.entities?.length}
-                               className="left-tree"
-                               onClick={() => projectDispatch.setCurrentModule(module.name)}>
-          {module?.entities?.map((entity: any) => {
-            return <StyledTreeItem key={`${module.name}###${entity.title}`}
-                                   type="entity"
-                                   module={module.name}
-                                   nodeId={`${module.name}###${entity.title}`}
-                                   labelText={entity.title}
-                                   chnname={entity.chnname}
-                                   labelIcon={"th"} labelInfo={entity?.fields?.length}
-                                   onClick={() => activeEntity(module, entity)}/>
-          })}
-        </StyledTreeItem>;
-      })}
+    <Top size="100%" scrollable={true}>
+      <InputGroup
+        className={classNames(Classes.ROUND, "table-search-input")}
+        asyncControl={true}
+        leftIcon="search"
+        placeholder=""
+      />
+      <TreeView
+        className="root"
+        defaultExpanded={['3']}
+        defaultCollapseIcon={<ArrowDropDownIcon/>}
+        defaultExpandIcon={<ArrowRightIcon/>}
+        defaultEndIcon={<div style={{width: 24}}/>}
+      >
+        {modules?.map((module: any) => {
+          return <StyledTreeItem key={module.name}
+                                 type="module"
+                                 module={module.name}
+                                 nodeId={module.name}
+                                 labelText={module.name}
+                                 chnname={module.chnname}
+                                 labelIcon={"database"}
+                                 labelInfo={module?.entities?.length}
+                                 onClick={() => projectDispatch.setCurrentModule(module.name)}>
+            {module?.entities?.map((entity: any) => {
+              return <StyledTreeItem key={`${module.name}###${entity.title}`}
+                                     type="entity"
+                                     module={module.name}
+                                     nodeId={`${module.name}###${entity.title}`}
+                                     labelText={entity.title}
+                                     chnname={entity.chnname}
+                                     labelIcon={"th"} labelInfo={entity?.fields?.length}
+                                     onClick={() => activeEntity(module, entity)}/>
+            })}
+          </StyledTreeItem>;
+        })}
 
-    </TreeView>
+      </TreeView>
+    </Top>
   </>);
 }
 
