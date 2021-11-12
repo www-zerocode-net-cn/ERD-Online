@@ -1,11 +1,16 @@
 import React from 'react';
 import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
 import {Alignment, Button} from "@blueprintjs/core";
+import useVersionStore from "@/store/version/useVersionStore";
+import shallow from "zustand/shallow";
 
 
 export type RebuildVersionProps = {};
 
 const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
+  const {init} = useVersionStore(state => ({
+    init: state.init,
+  }), shallow);
   return (<>
     <ModalForm
       title={<span>重建基线<span style={{color: "red"}}>（重建基线将会清除当前项目的所有版本信息，该操作不可逆）</span></span>}
@@ -17,6 +22,7 @@ const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
           minimal={true}
           small={true}
           fill={true}
+          disabled={init}
           alignText={Alignment.LEFT}></Button>
       }
     >

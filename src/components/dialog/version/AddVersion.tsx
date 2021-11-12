@@ -1,11 +1,17 @@
 import React, {useEffect} from 'react';
 import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
 import {Alignment, Button} from "@blueprintjs/core";
+import useVersionStore from "@/store/version/useVersionStore";
+import shallow from "zustand/shallow";
 
 
 export type AddVersionProps = {};
 
 const AddVersion: React.FC<AddVersionProps> = (props) => {
+  const {init} = useVersionStore(state => ({
+    init: state.init,
+  }), shallow);
+
   useEffect(() => {
     console.log("kaishi");
     return () => {
@@ -25,7 +31,9 @@ const AddVersion: React.FC<AddVersionProps> = (props) => {
           minimal={true}
           small={true}
           fill={true}
-          alignText={Alignment.LEFT}></Button>
+          alignText={Alignment.LEFT}
+          disabled={init}
+        ></Button>
       }
     >
       <ProFormText

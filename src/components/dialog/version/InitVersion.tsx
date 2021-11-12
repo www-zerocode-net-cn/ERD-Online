@@ -1,11 +1,16 @@
 import React from 'react';
 import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
 import {Alignment, Button} from "@blueprintjs/core";
+import useVersionStore from "@/store/version/useVersionStore";
+import shallow from "zustand/shallow";
 
 
 export type InitVersionProps = {};
 
 const InitVersion: React.FC<InitVersionProps> = (props) => {
+  const {init} = useVersionStore(state => ({
+    init: state.init,
+  }), shallow);
   return (<>
     <ModalForm
       title="初始化基线"
@@ -17,6 +22,7 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
           minimal={true}
           small={true}
           fill={true}
+          disabled={!init}
           alignText={Alignment.LEFT}></Button>
       }
     >
