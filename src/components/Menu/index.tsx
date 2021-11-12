@@ -18,6 +18,7 @@ import {Popover2} from "@blueprintjs/popover2";
 import {IconName} from "@blueprintjs/icons";
 import {MaybeElement} from "@blueprintjs/core/src/common/props";
 import DefaultSetUp from "@/components/dialog/setup/DefaultSetUp";
+import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
 
 
 export const MyIcon = createFromIconfontCN({
@@ -71,7 +72,14 @@ export const HelpMenu: React.FunctionComponent<IFileMenuProps> = props => (
   </Menu>
 );
 
-const renderButton = (icon: IconName | MaybeElement, text: string, content: string | JSX.Element) => {
+
+const shortcutState = useShortcutStore.getState();
+
+const setShortcut = (shortcut: string) => {
+  shortcutState.dispatch.setPanel(shortcut)
+}
+
+const renderButton = (icon: IconName | MaybeElement, text: string, content: string | JSX.Element, shortcut?: string) => {
   return (
     <Popover2
       autoFocus={false}
@@ -80,22 +88,26 @@ const renderButton = (icon: IconName | MaybeElement, text: string, content: stri
       content={content}
       position="right"
     >
-      <Button rightIcon="caret-right" icon={icon} text={text}/>
+      <Button rightIcon="caret-right" icon={icon} text={text} onClick={() => {
+        if (shortcut) {
+          setShortcut(shortcut)
+        }
+      }}/>
     </Popover2>
   );
 }
 
 export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
   return (
-    false ? <Menu>
-        <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history"><VersionMenu/></MenuItem>
-        <MenuItem key="import" shouldDismissPopover={false} text="导入" icon="import"><ImportMenu/></MenuItem>
+    true ? <Menu>
+        <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history" onMouseOver={()=>setShortcut(PANEL.VERSION)}><VersionMenu/></MenuItem>
+        <MenuItem key="import" shouldDismissPopover={false} text="导入" icon="import" onMouseOver={()=>setShortcut(PANEL.DEFAULT)}><ImportMenu/></MenuItem>
         <MenuItem key="export" shouldDismissPopover={false} text="导出" icon="export"><ExportMenu/></MenuItem>
         <MenuItem key="cog" shouldDismissPopover={false} text="设置" icon="cog"><SetUpMenu/></MenuItem>
       </Menu>
       : <ButtonGroup vertical={true}>
-        {renderButton("history", "版本", <VersionMenu/>)}
-        {renderButton("import", "导入", <ImportMenu/>)}
+        {renderButton("history", "版本", <VersionMenu/>, PANEL.VERSION)}
+        {renderButton("import", "导入", <ImportMenu/>, PANEL.DEFAULT)}
         {renderButton("export", "导出", <ExportMenu/>)}
         {renderButton("cog", "设置", <SetUpMenu/>)}
       </ButtonGroup>
