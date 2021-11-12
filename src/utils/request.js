@@ -99,7 +99,7 @@ const request = extend({
 
 request.interceptors.request.use((url, options) => {
     if (url.indexOf('/oauth/token') < 0) {
-        const authorization = '874853c4-839d-417d-975f-4442014155e3';
+        const authorization = '297f26d7-bb53-4f0f-bdcc-b7d5ec4f303f';
         if (authorization) {
             options.headers = {
                 ...options.headers,

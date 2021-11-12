@@ -7,13 +7,17 @@ import {
   TimelineOppositeContent,
   TimelineSeparator
 } from '@mui/lab';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Divider} from "@mui/material";
-import {Button, Intent, MenuItem} from "@blueprintjs/core";
+import {Button, Intent, MenuItem, NonIdealState} from "@blueprintjs/core";
 import {ItemRenderer, Select} from "@blueprintjs/select";
-import {Bottom} from "react-spaces";
+import shallow from "zustand/shallow";
+import useVersionStore from "@/store/version/useVersionStore";
+import {Top} from 'react-spaces';
+import './index.less';
 
-export type VersionProps = {};
+export type VersionProps = {
+};
 
 export type IDatabase = {
   title: string;
@@ -23,6 +27,16 @@ export type IDatabase = {
 const DatabaseSelect = Select.ofType<IDatabase>();
 
 const Version: React.FC<VersionProps> = (props) => {
+  const {versions, fetch} = useVersionStore(state => ({
+    versions: state.versions,
+    fetch: state.fetch
+  }), shallow);
+  console.log('versions', 38, versions);
+  // fetch();
+  useEffect(() => {
+    fetch();
+  }, []);
+
   const handleItemSelect = React.useCallback((db: IDatabase) => {
     console.log(db);
   }, []);
@@ -45,7 +59,7 @@ const Version: React.FC<VersionProps> = (props) => {
 
   const [items] = React.useState<IDatabase[]>([]);
   const [film] = React.useState<IDatabase>();
-  return (<>
+  return (<div>
       <div className="model-template-tool">
         <h5 className="bp3-heading head">历史版本</h5>
         <Button className="bp3-minimal" icon="warning-sign" intent={Intent.WARNING} title="当前内容与上一版本内容无变化"/>
@@ -68,301 +82,33 @@ const Version: React.FC<VersionProps> = (props) => {
           text={film ? `${film.title} (${film.year})` : "(请选择数据库)"}
         />
       </DatabaseSelect>
-      <Bottom size="100%" scrollable={true} style={{marginTop: "100px"}}>
-        <Timeline position="left">
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              09:30 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="warning"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Eat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.secondary">
-              10:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Code</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              12:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Sleep</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent color="text.primary">
-              9:00 am
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="success"/>
-              <TimelineConnector/>
-            </TimelineSeparator>
-            <TimelineContent>Repeat1</TimelineContent>
-          </TimelineItem>
-        </Timeline>
-      </Bottom>
-    </>
+      <div className="version-list" >
+        <Top size="100%" scrollable={true}>
+          <Timeline position="left">
+            {versions && versions.length > 0 ?
+              versions.map((v: any) => {
+                return <TimelineItem>
+                  <TimelineOppositeContent color="text.primary">
+                    {v.VERSION}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot variant="outlined" color="warning"/>
+                    <TimelineConnector/>
+                  </TimelineSeparator>
+                  <TimelineContent>Eat</TimelineContent>
+                </TimelineItem>
+              }) :
+              <NonIdealState
+                icon={"info-sign"}
+                title={"提示："}
+                description={'未创建版本'}
+              />
+
+            }
+          </Timeline>
+        </Top>
+      </div>
+    </div>
   );
 }
 

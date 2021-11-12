@@ -11,8 +11,8 @@ import type {IProfileDispatchSlice, IProfileSlice} from "@/store/project/profile
 import type {IEntitiesDispatchSlice, IEntitiesSlice} from "@/store/project/entitiesSlice";
 import type {IDatabaseDomainsDispatchSlice, IDatabaseDomainsSlice} from "@/store/project/databaseDomainsSlice";
 import _ from "lodash";
-import request from "@/utils/request";
 import * as cache from "@/utils/cache";
+import request from "@/utils/request";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -36,58 +36,83 @@ export type ProjectState =
   & IProfileSlice
   & IEntitiesSlice;
 
+// Log every time state is changed
+// @ts-ignore
+export const sync = config => (set, get, api) => config(args => {
+  console.log(42, "applying", args)
+  console.log(43, "last", get())
+  set(args)
+  console.log(44, "new state", get())
+}, get, api)
+
+// Turn the set method into an immer proxy
+// @ts-ignore
+export const immer = config => (set, get, api) => config((partial, replace) => {
+  console.log(51, "partial", partial)
+  console.log(52, "replace", replace)
+  const nextState = typeof partial === 'function'
+    ? produce(partial)
+    : partial
+  return set(nextState, replace)
+}, get, api)
+
 
 const useProjectStore = create<ProjectState>(
-  (set) => ({
-    project: {},
-    saved: true,
-    fetch: async () => {
-      // const projectId = cache.getItem('projectId');
-      // await request.get(`/ncnb/project/info/${projectId}`).then((res) => {
-      //   console.log(45, res);
-      //   const datatype = res.data.projectJSON.dataTypeDomains.datatype || [];
-      //   const database = res.data.projectJSON.dataTypeDomains.database || [];
-      //   const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
-      //   console.log(45, defaultDatabaseCode);
-      //   res.data.projectJSON?.modules?.forEach((m: any) => {
-      //     m?.entities?.forEach((e: any) => {
-      //       e?.fields?.forEach((f: any) => {
-      //         const d = _.find(datatype, {'code': f.type});
-      //         _.assign(f, {"typeName": d.name});
-      //         const path = `apply.${defaultDatabaseCode}.type`;
-      //         _.assign(f, {"dataType": _.get(d, path)});
-      //       });
-      //     });
-      //   });
-      //   set({project: res.data});
-      // });
-      await fetch('http://localhost:8000/project.json')
-        .then(res => res.json()).then(data => {
-          const datatype = data.projectJSON.dataTypeDomains.datatype || [];
-          const database = data.projectJSON.dataTypeDomains.database || [];
-          const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
-          console.log(45, defaultDatabaseCode);
-          data.projectJSON?.modules?.forEach((m: any) => {
-            m?.entities?.forEach((e: any) => {
-              e?.fields?.forEach((f: any) => {
-                const d = _.find(datatype, {'code': f.type});
-                _.assign(f, {"typeName": d.name});
-                const path = `apply.${defaultDatabaseCode}.type`;
-                _.assign(f, {"dataType": _.get(d, path)});
+  sync(
+    immer(
+// @ts-ignore
+      (set) => ({
+        project: {},
+        saved: true,
+        fetch: async () => {
+          const projectId = cache.getItem('projectId');
+          await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {
+            console.log(45, res);
+            const datatype = res.data?.projectJSON?.dataTypeDomains?.datatype || [];
+            const database = res.data?.projectJSON?.dataTypeDomains?.database || [];
+            const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
+            console.log(45, defaultDatabaseCode);
+            res.data?.projectJSON?.modules?.forEach((m: any) => {
+              m?.entities?.forEach((e: any) => {
+                e?.fields?.forEach((f: any) => {
+                  const d = _.find(datatype, {'code': f.type});
+                  _.assign(f, {"typeName": d.name});
+                  const path = `apply.${defaultDatabaseCode}.type`;
+                  _.assign(f, {"dataType": _.get(d, path)});
+                });
               });
             });
+            set({project: res.data});
           });
-          set({project: data});
-        })
-    },
-    dispatch: {
-      updateProjectName: (payload: any) => set(produce(state => {
-        state.project.projectName = payload;
-      })),
-      ...ProjectJsonSlice(set),
-      ...ConfigJsonSlice(set),
-    }
-  })
+          // await fetch('http://localhost:8000/project.json')
+          //   .then(res => res.json()).then(data => {
+          //     const datatype = data.projectJSON.dataTypeDomains.datatype || [];
+          //     const database = data.projectJSON.dataTypeDomains.database || [];
+          //     const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
+          //     console.log(45, defaultDatabaseCode);
+          //     data.projectJSON?.modules?.forEach((m: any) => {
+          //       m?.entities?.forEach((e: any) => {
+          //         e?.fields?.forEach((f: any) => {
+          //           const d = _.find(datatype, {'code': f.type});
+          //           _.assign(f, {"typeName": d.name});
+          //           const path = `apply.${defaultDatabaseCode}.type`;
+          //           _.assign(f, {"dataType": _.get(d, path)});
+          //         });
+          //       });
+          //     });
+          //     set({project: data});
+          //   })
+        },
+        dispatch: {
+          updateProjectName: (payload: any) => set((state: any) => {
+            // @ts-ignore
+            state.project.projectName = payload;
+          }),
+          ...ProjectJsonSlice(set),
+          ...ConfigJsonSlice(set),
+        }
+      })
+    )
+  )
 );
-
 export default useProjectStore;

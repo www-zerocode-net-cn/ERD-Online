@@ -15,7 +15,7 @@ export const PANEL = {DEFAULT: "DEFAULT", VERSION: "VERSION"};
 
 const useShortcutStore = create<ShortcutState>(
   (set) => ({
-    panel: PANEL.VERSION,
+    panel: PANEL.DEFAULT,
     dispatch: {
       setPanel: (panel: string) => set(produce(state => {
         state.panel = panel;

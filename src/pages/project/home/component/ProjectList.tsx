@@ -9,10 +9,10 @@ import request from "@/utils/request";
 import * as cache from "@/utils/cache";
 
 export type ProjectListProps = {
-  page: number;
-  limit: number;
-  total: number;
-  projects: any;
+  page?: number;
+  limit?: number;
+  total?: number;
+  projects?: any;
 };
 
 
