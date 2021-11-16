@@ -16,7 +16,10 @@ export type IVersionSlice = {
   compareIndexs: (currentTable: any, checkTable: any) => any;
   compareIndex: (currentIndex: any, checkIndex: any, table: any) => any;
   compareStringArray: (currentFields: any, checkFields: any, title: any, name: any) => any;
-
+  setState: (value: any) => void;
+  getCurrentDB: () => any;
+  getCurrentDBData: () => any;
+  dropVersionTable: () => void;
 }
 
 export type VersionState =
@@ -26,6 +29,7 @@ export type VersionState =
     versions: any;
     dbVersion: string;
     changes: any,
+    dbs: any,
     synchronous: any;
     fetch: () => Promise<void>;
     dispatch: IVersionSlice;
@@ -40,6 +44,7 @@ const useVersionStore = create<VersionState>(
     versions: [],
     dbVersion: '',
     changes: [],
+    dbs: _.get(projectState.project, 'projectJSON.profile.dbs') || [],
     synchronous: {},
     fetch: async () => {
       await Save.hisProjectLoad().then(res => {
@@ -254,12 +259,12 @@ const useVersionStore = create<VersionState>(
         set({
           versionData: true,
         });
-        const dbData = _.get(projectState.project, 'projectJSON.profile.dbs')?.filter((d: any) => d.defaultDB)[0];
+        const dbData = get().dispatch.getCurrentDBData();
         if (!dbData) {
           set({
             dbVersion: '',
           });
-          message.warn('获取数据库版本信息失败,无法获取到数据库信息,请切换尝试数据库！',5);
+          message.warn('获取数据库版本信息失败,无法获取到数据库信息,请切换尝试数据库！', 5);
           set({
             versionData: false,
           });
@@ -293,7 +298,7 @@ const useVersionStore = create<VersionState>(
             init: false,
           });
         } else {
-          message.warn('当前项目不存在基线版本，请先初始化基线',5);
+          message.warn('当前项目不存在基线版本，请先初始化基线', 5);
           set({
             init: true,
           });
@@ -312,7 +317,46 @@ const useVersionStore = create<VersionState>(
             ['id', 'version', 'versionDesc', 'changes', 'versionDate', 'projectJSON', 'baseVersion']))
             .sort((a: any, b: any) => compareStringVersion(b.version, a.version)),
         });
-      }
+      },
+      setState: (value: any) => {
+        _.assign(get(), value);
+      },
+      getCurrentDB: () => {
+        const db = get().dispatch.getCurrentDBData();
+        if (db) {
+          return db.name;
+        }
+        return '';
+      },
+      getCurrentDBData: () => {
+        return get().dbs?.filter((d: any) => d.defaultDB)[0];
+      },
+      dropVersionTable: () => {
+        const dbData = get().dispatch.getCurrentDBData();
+        if (!dbData) {
+          get().dispatch.setState({
+            dbVersion: '',
+          });
+          message.error('无法获取到数据库信息，请切换尝试数据库');
+        } else {
+          const dbConfig = _.omit(dbData.properties, ['driver_class_name']);
+          Save.rebaseline({
+            ...dbConfig,
+            driverClassName: dbData.properties['driver_class_name'], // eslint-disable-line
+            version: 'v0.0.0',
+            versionDesc: '基线版本，新建版本时请勿低于该版本',
+          }).then((res) => {
+            if (res && res.code === 200) {
+              message.success('初始化数据表成功');
+              get().dispatch.getDBVersion();
+            } else {
+              message.error('初始化数据表失败');
+            }
+          }).catch((err) => {
+            message.error(`初始化数据表失败：${err.message}`);
+          });
+        }
+      },
     }
   })
 );

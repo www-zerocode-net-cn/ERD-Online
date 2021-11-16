@@ -18,6 +18,10 @@ import {Popover2} from "@blueprintjs/popover2";
 import {IconName} from "@blueprintjs/icons";
 import {MaybeElement} from "@blueprintjs/core/src/common/props";
 import DefaultSetUp from "@/components/dialog/setup/DefaultSetUp";
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SyncIcon from '@mui/icons-material/Sync';
 import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
 
 
@@ -39,6 +43,7 @@ export const VersionMenu: React.FunctionComponent<IFileMenuProps> = props => (
     <RebuildVersion/>
   </>
 );
+
 
 
 export const ImportMenu: React.FunctionComponent<IFileMenuProps> = props => (
@@ -131,4 +136,20 @@ export const NavigationMenu: React.FunctionComponent<IFileMenuProps> = props => 
   );
 };
 
+export const VersionHandle: React.FunctionComponent<IFileMenuProps> = props => {
+  return (
+    true ? <Menu>
+        <MenuItem key="compare" shouldDismissPopover={false} text="任意版本比较" icon={<CompareArrowsIcon/>} ></MenuItem>
+        <MenuItem key="editor" shouldDismissPopover={false} text="编辑版本" icon={<EditIcon/>} ></MenuItem>
+        <MenuItem key="delete" shouldDismissPopover={false} text="删除版本" icon={<DeleteIcon/>}></MenuItem>
+        <MenuItem key="sync" shouldDismissPopover={false} text="同步到数据库" icon={<SyncIcon/>}></MenuItem>
+      </Menu>
+      : <ButtonGroup vertical={true}>
+        {renderButton("history", "版本", <VersionMenu/>, PANEL.VERSION)}
+        {renderButton("import", "导入", <ImportMenu/>, PANEL.DEFAULT)}
+        {renderButton("export", "导出", <ExportMenu/>)}
+        {renderButton("cog", "设置", <SetUpMenu/>)}
+      </ButtonGroup>
+  );
+}
 

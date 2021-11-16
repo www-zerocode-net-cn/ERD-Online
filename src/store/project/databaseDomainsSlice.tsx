@@ -54,6 +54,7 @@ const DatabaseDomainsSlice = (set: SetState<ProjectState>) => ({
         };
       })
     }
+    // _.set(state.project, `projectJSON.dataTypeDomains.database[${state.currentDatabaseIndex}]`, payload);
     state.project.projectJSON.dataTypeDomains.database[state.currentDatabaseIndex] = payload;
     message.success('修改成功');
   })),

@@ -8,16 +8,23 @@ import {
   TimelineSeparator
 } from '@mui/lab';
 import React, {useEffect} from 'react';
-import {Divider} from "@mui/material";
-import {Button, Intent, MenuItem, NonIdealState} from "@blueprintjs/core";
+import {Divider, Typography} from "@mui/material";
+import {Button, MenuItem, NonIdealState} from "@blueprintjs/core";
 import {ItemRenderer, Select} from "@blueprintjs/select";
 import shallow from "zustand/shallow";
 import useVersionStore from "@/store/version/useVersionStore";
 import {Top} from 'react-spaces';
 import './index.less';
+import SyncDisabledIcon from '@mui/icons-material/SyncDisabled';
+import SyncIcon from '@mui/icons-material/Sync';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import {compareStringVersion} from "@/utils/string";
+import {Popover2} from "@blueprintjs/popover2";
+import {VersionHandle} from "@/components/Menu";
 
-export type VersionProps = {
-};
+
+export type VersionProps = {};
 
 export type IDatabase = {
   title: string;
@@ -27,10 +34,16 @@ export type IDatabase = {
 const DatabaseSelect = Select.ofType<IDatabase>();
 
 const Version: React.FC<VersionProps> = (props) => {
-  const {versions, fetch} = useVersionStore(state => ({
+  const {dbs, synchronous, dbVersion, changes, versions, fetch, versionDispatch} = useVersionStore(state => ({
+    dbs: state.dbs,
+    synchronous: state.synchronous,
+    dbVersion: state.dbVersion,
+    changes: state.changes,
     versions: state.versions,
-    fetch: state.fetch
+    fetch: state.fetch,
+    versionDispatch: state.dispatch,
   }), shallow);
+  console.log('dbs', 37, dbs);
   console.log('versions', 38, versions);
   // fetch();
   useEffect(() => {
@@ -57,19 +70,20 @@ const Version: React.FC<VersionProps> = (props) => {
     );
   };
 
-  const [items] = React.useState<IDatabase[]>([]);
-  const [film] = React.useState<IDatabase>();
+  const currentDB = versionDispatch.getCurrentDB();
   return (<div>
       <div className="model-template-tool">
         <h5 className="bp3-heading head">历史版本</h5>
-        <Button className="bp3-minimal" icon="warning-sign" intent={Intent.WARNING} title="当前内容与上一版本内容无变化"/>
-        <Button className="bp3-minimal" icon="notifications-updated" intent={Intent.SUCCESS}
-                title="当前内容与上一版本内容无变化"/>
+        {changes.length > 0 ?
+          <WarningAmberIcon titleAccess="当前内容与上一版本的内容有变化，但未保存版本！"/>
+          :
+          <SyncIcon titleAccess="当前内容与上一版本内容无变化"/>
+        }
       </div>
       <Divider/>
       <DatabaseSelect
         onItemSelect={handleItemSelect}
-        items={items}
+        items={dbs}
         filterable={false}
         itemRenderer={renderFilm}
         fill={true}
@@ -79,23 +93,47 @@ const Version: React.FC<VersionProps> = (props) => {
           icon="database"
           rightIcon="caret-down"
           fill={true}
-          text={film ? `${film.title} (${film.year})` : "(请选择数据库)"}
+          text={currentDB !== '' ? currentDB : "(请选择数据库)"}
         />
       </DatabaseSelect>
-      <div className="version-list" >
+      <div className="version-list">
         <Top size="100%" scrollable={true}>
-          <Timeline position="left">
+          <Timeline position="alternate">
             {versions && versions.length > 0 ?
               versions.map((v: any) => {
-                return <TimelineItem>
-                  <TimelineOppositeContent color="text.primary">
-                    {v.VERSION}
+                return <TimelineItem key={v.version}>
+                  <TimelineOppositeContent sx={{m: 'auto 0'}}
+                                           variant="body2">
+                    {v.versionDate}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <TimelineDot variant="outlined" color="warning"/>
+                    <TimelineConnector/>
+                    {
+                      // eslint-disable-next-line no-nested-ternary
+                      compareStringVersion(v.version, dbVersion) <= 0 ?
+                        <TimelineDot color="info"><SyncIcon titleAccess="已同步"/></TimelineDot>
+                        :
+                        synchronous[v.version] ?
+                          <TimelineDot color="secondary"><SyncAltIcon titleAccess="正在同步"/></TimelineDot> :
+                          <TimelineDot color="error"><SyncDisabledIcon titleAccess="未同步"/></TimelineDot>
+
+                    }
                     <TimelineConnector/>
                   </TimelineSeparator>
-                  <TimelineContent>Eat</TimelineContent>
+                  <TimelineContent sx={{py: '12px', px: 2}}>
+                    <Typography variant="h6" component="span">
+                      <Popover2
+                        autoFocus={false}
+                        enforceFocus={false}
+                        hasBackdrop={true}
+                        content={<VersionHandle/>}
+                        placement={"bottom-start"}
+                      >
+                        <a>{v.version}</a>
+                      </Popover2>
+                    </Typography>
+                    <Typography variant="body2">{v.versionDesc}</Typography>
+                  </TimelineContent>
                 </TimelineItem>
               }) :
               <NonIdealState
