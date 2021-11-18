@@ -18,11 +18,11 @@ import {Popover2} from "@blueprintjs/popover2";
 import {IconName} from "@blueprintjs/icons";
 import {MaybeElement} from "@blueprintjs/core/src/common/props";
 import DefaultSetUp from "@/components/dialog/setup/DefaultSetUp";
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SyncIcon from '@mui/icons-material/Sync';
 import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
+import CompareVersion from "@/components/dialog/version/CompareVersion";
+import RenameVersion from "@/components/dialog/version/RenameVersion";
+import RemoveVersion from "@/components/dialog/version/RemoveVersion";
+import SyncVersion from "@/components/dialog/version/SyncVersion";
 
 
 export const MyIcon = createFromIconfontCN({
@@ -43,7 +43,6 @@ export const VersionMenu: React.FunctionComponent<IFileMenuProps> = props => (
     <RebuildVersion/>
   </>
 );
-
 
 
 export const ImportMenu: React.FunctionComponent<IFileMenuProps> = props => (
@@ -105,8 +104,10 @@ const renderButton = (icon: IconName | MaybeElement, text: string, content: stri
 export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
   return (
     true ? <Menu>
-        <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history" onMouseOver={()=>setShortcut(PANEL.VERSION)}><VersionMenu/></MenuItem>
-        <MenuItem key="import" shouldDismissPopover={false} text="导入" icon="import" onMouseOver={()=>setShortcut(PANEL.DEFAULT)}><ImportMenu/></MenuItem>
+        <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history"
+                  onMouseOver={() => setShortcut(PANEL.VERSION)}><VersionMenu/></MenuItem>
+        <MenuItem key="import" shouldDismissPopover={false} text="导入" icon="import"
+                  onMouseOver={() => setShortcut(PANEL.DEFAULT)}><ImportMenu/></MenuItem>
         <MenuItem key="export" shouldDismissPopover={false} text="导出" icon="export"><ExportMenu/></MenuItem>
         <MenuItem key="cog" shouldDismissPopover={false} text="设置" icon="cog"><SetUpMenu/></MenuItem>
       </Menu>
@@ -139,10 +140,10 @@ export const NavigationMenu: React.FunctionComponent<IFileMenuProps> = props => 
 export const VersionHandle: React.FunctionComponent<IFileMenuProps> = props => {
   return (
     true ? <Menu>
-        <MenuItem key="compare" shouldDismissPopover={false} text="任意版本比较" icon={<CompareArrowsIcon/>} ></MenuItem>
-        <MenuItem key="editor" shouldDismissPopover={false} text="编辑版本" icon={<EditIcon/>} ></MenuItem>
-        <MenuItem key="delete" shouldDismissPopover={false} text="删除版本" icon={<DeleteIcon/>}></MenuItem>
-        <MenuItem key="sync" shouldDismissPopover={false} text="同步到数据库" icon={<SyncIcon/>}></MenuItem>
+        <CompareVersion/>
+        <RenameVersion/>
+        <RemoveVersion/>
+        <SyncVersion/>
       </Menu>
       : <ButtonGroup vertical={true}>
         {renderButton("history", "版本", <VersionMenu/>, PANEL.VERSION)}

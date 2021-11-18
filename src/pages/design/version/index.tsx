@@ -19,6 +19,7 @@ import SyncDisabledIcon from '@mui/icons-material/SyncDisabled';
 import SyncIcon from '@mui/icons-material/Sync';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import {compareStringVersion} from "@/utils/string";
 import {Popover2} from "@blueprintjs/popover2";
 import {VersionHandle} from "@/components/Menu";
@@ -98,9 +99,9 @@ const Version: React.FC<VersionProps> = (props) => {
       </DatabaseSelect>
       <div className="version-list">
         <Top size="100%" scrollable={true}>
-          <Timeline position="alternate">
+          <Timeline position="left">
             {versions && versions.length > 0 ?
-              versions.map((v: any) => {
+              versions.map((v: any, index: number) => {
                 return <TimelineItem key={v.version}>
                   <TimelineOppositeContent sx={{m: 'auto 0'}}
                                            variant="body2">
@@ -129,7 +130,15 @@ const Version: React.FC<VersionProps> = (props) => {
                         content={<VersionHandle/>}
                         placement={"bottom-start"}
                       >
-                        <a>{v.version}</a>
+                        <a onMouseOver={() => {
+                          versionDispatch.setCurrentVersion(v,index)
+                        }}>
+                          {v.version}
+                          {
+                            compareStringVersion(v.version, dbVersion) === 0 ?
+                              <BookmarkBorderIcon titleAccess="当前数据库版本"/> : ''
+                          }
+                        </a>
                       </Popover2>
                     </Typography>
                     <Typography variant="body2">{v.versionDesc}</Typography>

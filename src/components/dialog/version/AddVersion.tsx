@@ -8,9 +8,11 @@ import shallow from "zustand/shallow";
 export type AddVersionProps = {};
 
 const AddVersion: React.FC<AddVersionProps> = (props) => {
-  const {init} = useVersionStore(state => ({
+  const {init, versionDispatch} = useVersionStore(state => ({
     init: state.init,
+    versionDispatch: state.dispatch,
   }), shallow);
+
 
   useEffect(() => {
     console.log("kaishi");
@@ -23,6 +25,15 @@ const AddVersion: React.FC<AddVersionProps> = (props) => {
   return (<>
     <ModalForm
       title="新增版本"
+      onFinish={async (values: any) => {
+        console.log(29, values);
+        const tempValue = {
+          version: values.version,
+          versionDesc: values.versionDesc,
+        };
+        versionDispatch.saveNewVersion(tempValue);
+        return true;
+      }}
       trigger={
         <Button
           key="artifact"

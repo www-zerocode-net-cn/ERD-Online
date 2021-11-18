@@ -8,12 +8,22 @@ import shallow from "zustand/shallow";
 export type RebuildVersionProps = {};
 
 const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
-  const {init} = useVersionStore(state => ({
+  const {init, versionDispatch} = useVersionStore(state => ({
     init: state.init,
+    versionDispatch: state.dispatch,
   }), shallow);
   return (<>
     <ModalForm
       title={<span>重建基线<span style={{color: "red"}}>（重建基线将会清除当前项目的所有版本信息，该操作不可逆）</span></span>}
+      onFinish={async (values: any) => {
+        console.log(29, values);
+        const tempValue = {
+          version: values.version,
+          versionDesc: values.versionDesc,
+        };
+        versionDispatch.rebuild(tempValue);
+        return true;
+      }}
       trigger={
         <Button
           key="undo"
@@ -23,7 +33,8 @@ const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
           small={true}
           fill={true}
           disabled={init}
-          alignText={Alignment.LEFT}></Button>
+          alignText={Alignment.LEFT}
+        ></Button>
       }
     >
       <ProFormText

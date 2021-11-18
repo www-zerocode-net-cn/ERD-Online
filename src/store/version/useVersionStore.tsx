@@ -1,9 +1,11 @@
 import create from "zustand";
 import _ from "lodash";
-import {message} from "antd";
+import {message, Modal} from "antd";
 import {compareStringVersion} from "@/utils/string";
 import useProjectStore from "@/store/project/useProjectStore";
 import * as Save from '@/utils/save';
+import {getAllDataSQL, getCodeByChanges} from "@/utils/json2code";
+import moment from "moment";
 
 export type IVersionSlice = {
   checkBaseVersion: (versions: any) => void;
@@ -20,14 +22,36 @@ export type IVersionSlice = {
   getCurrentDB: () => any;
   getCurrentDBData: () => any;
   dropVersionTable: () => void;
+  setCurrentVersion: (currentVersion: any, index: number) => void;
+  getOptName: (opt: any) => any;
+  getTypeName: (type: any) => any;
+  constructorMessage: (changes: any) => any;
+  showChanges: () => void;
+  setChanges: (changes: any) => void;
+  checkVersionCount: (version: any) => any;
+  execSQL: (data: any, version: any, updateDBVersion: any, cb: any, onlyUpdateDBVersion: any) => void;
+  generateSQL: (dbData: any, version: any, data: any, updateVersion: any, cb?: any, onlyUpdateVersion?: any) => void;
+  getCMD: (updateVersion: any, onlyUpdateVersion: any) => any;
+  connectJDBC: (param: any, opt: any, cb: any) => void;
+  updateVersionData: (newVersion: any, oldVersion: any, status: any) => void;
+  readDb: (status: any, version: any, lastVersion: any, changes: any, initVersion: any, updateVersion: any) => void;
+  saveNewVersion: (version: any) => void;
+  rebuild: (tempValue: any) => void;
+  initBase: (tempValue: any, msg?: string) => void;
+  initSave: (version: any, msg: any) => void;
 }
+
 
 export type VersionState =
   {
     init: boolean;
+    currentVersion: any;
+    currentVersionIndex: number | undefined;
     versionData: boolean;
     versions: any;
-    dbVersion: string;
+    messages: any;
+    data: any;
+    dbVersion: string | undefined;
     changes: any,
     dbs: any,
     synchronous: any;
@@ -40,9 +64,13 @@ const projectState = useProjectStore.getState();
 const useVersionStore = create<VersionState>(
   (set, get) => ({
     init: true,
+    currentVersion: {},
+    currentVersionIndex: undefined,
     versionData: true,
     versions: [],
-    dbVersion: '',
+    messages: [],
+    data: undefined,
+    dbVersion: undefined,
     changes: [],
     dbs: _.get(projectState.project, 'projectJSON.profile.dbs') || [],
     synchronous: {},
@@ -334,9 +362,9 @@ const useVersionStore = create<VersionState>(
       dropVersionTable: () => {
         const dbData = get().dispatch.getCurrentDBData();
         if (!dbData) {
-          get().dispatch.setState({
+          set({
             dbVersion: '',
-          });
+          })
           message.error('无法获取到数据库信息，请切换尝试数据库');
         } else {
           const dbConfig = _.omit(dbData.properties, ['driver_class_name']);
@@ -357,6 +385,417 @@ const useVersionStore = create<VersionState>(
           });
         }
       },
+      setCurrentVersion: (currentVersion, currentVersionIndex) => {
+        set({
+          currentVersion,
+          currentVersionIndex
+        });
+      },
+      getOptName: (opt) => {
+        let optName = '';
+        switch (opt) {
+          case 'update':
+            optName = '更新';
+            break;
+          case 'add':
+            optName = '新增';
+            break;
+          case 'delete':
+            optName = '删除';
+            break;
+          default:
+            optName = '未知操作';
+            break;
+        }
+        return optName;
+      },
+      getTypeName: (type) => {
+        let optName = '';
+        switch (type) {
+          case 'entity':
+            optName = '表';
+            break;
+          case 'index':
+            optName = '索引';
+            break;
+          case 'field':
+            optName = '属性';
+            break;
+          default:
+            optName = '未知类型';
+            break;
+        }
+        return optName;
+      },
+      constructorMessage: (changes) => {
+        return changes.map((c: any) => {
+          let tempMsg = `${get().dispatch.getOptName(c.opt)}
+      ${get().dispatch.getTypeName(c.type)}【${c.name}】`;
+          if (c.changeData) {
+            tempMsg = `${tempMsg}【${c.changeData}】`;
+          }
+          return {
+            ...c,
+            message: tempMsg,
+          };
+        });
+      },
+      showChanges: () => {
+        const dataSource = _.get(projectState.project, "projectJSON");
+        const {changes, init, dbVersion: defaultDB, currentVersion, currentVersionIndex, versions} = get();
+        const lastVersion = currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion;
+        let tempChanges = [...changes];
+        const configData = _.get(projectState.project, 'configJSON');
+        const tempValue = {
+          upgradeType: 'rebuild',
+          ...(configData.synchronous || {}),
+        };
+        if (tempValue.upgradeType === 'rebuild') {
+          // 如果是重建数据表则不需要字段更新的脚本
+          // 1.提取所有字段以及索引所在的数据表
+          const entities: any = [];
+          // 2.暂存新增和删除的数据表
+          const tempEntitiesUpdate: any = [];
+          tempChanges.forEach((c) => {
+            if (c.type === 'entity') {
+              tempEntitiesUpdate.push(c);
+            } else {
+              entities.push(c.name.split('.')[0]);
+            }
+          });
+          tempChanges = [...new Set(entities)].map((e) => {
+            // 构造版本变化数据
+            return {
+              type: 'entity',
+              name: e,
+              opt: 'update',
+            };
+          }).concat(tempEntitiesUpdate);
+        } else {
+          // todo 暂时取消数据表的中文名以及其他变化时所生成的更新数据
+          tempChanges = tempChanges.filter(c => !(c.type === 'entity' && c.opt === 'update'));
+        }
+
+        const messages = get().dispatch.constructorMessage(changes);
+        set({
+            messages
+          }
+        );
+        const dbData = get().dispatch.getCurrentDBData();
+        const code = _.get(dbData, 'type', defaultDB);
+        let data = '';
+        if (init) {
+          data = getAllDataSQL({
+            ...dataSource,
+            modules: dataSource.modules || [],
+          }, code);
+        } else {
+          data = currentVersion.baseVersion ?
+            getAllDataSQL({
+              ...dataSource,
+              modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
+            }, code) :
+            getCodeByChanges({
+              ...dataSource,
+              modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
+            }, tempChanges, code, {
+              modules: (lastVersion && lastVersion.modules) || [],
+            });
+        }
+        set({
+          data
+        })
+      },
+      setChanges: (changes) => {
+        set({
+          changes
+        })
+      },
+      checkVersionCount: (version) => {
+        const {dbVersion, versions} = get();
+        // 1.获取所有当前比数据库版本高的版本
+        let lowVersions = [];
+        if (!dbVersion) {
+          lowVersions = versions;
+        } else {
+          lowVersions = versions.filter((v: any) => compareStringVersion(v.version, dbVersion) > 0);
+        }
+        return lowVersions
+          .filter((v: any) => v.version !== version.version)
+          .some((v: any) => compareStringVersion(v.version, version.version) <= 0);
+      },
+      execSQL: (data, version, updateDBVersion, cb, onlyUpdateDBVersion) => {
+        const dbData = get().dispatch.getCurrentDBData();
+        if (!dbData) {
+          set({
+            dbVersion: '',
+          });
+          message.error('无法获取到数据库信息，请切换尝试数据库');
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          cb && cb();
+        } else {
+          get().dispatch.generateSQL(dbData, version, data, updateDBVersion, cb, onlyUpdateDBVersion);
+        }
+      },
+      generateSQL: (dbData, version, data, updateVersion, cb, onlyUpdateVersion) => {
+        // 判断是否是标记为同步还是同步
+        const cmd = get().dispatch.getCMD(updateVersion, onlyUpdateVersion);
+        // 获取外层目录
+        const dataSource = _.get(projectState.project, 'projectJSON');
+        if (dbData) {
+          const sqlParam = {
+            version: undefined,
+            versionDesc: undefined,
+            sql: undefined,
+            separator: undefined
+          };
+          if (updateVersion) {
+            sqlParam.versionDesc = version.versionDesc;
+            sqlParam.version = version.version;
+          }
+          if (!onlyUpdateVersion) {
+            const separator = _.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/');
+            sqlParam.sql = data;
+            sqlParam.separator = separator;
+          }
+          const dbConfig = _.omit(dbData.properties, ['driver_class_name']);
+
+          get().dispatch.connectJDBC({
+            ...dbConfig,
+            driverClassName: dbData.properties['driver_class_name'], // eslint-disable-line
+            ...sqlParam,
+            showModal: true,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          }, cmd, (result: any) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            cb && cb();
+            set({
+              synchronous: {
+                [version.version]: false,
+              },
+            });
+            // @ts-ignore
+          }, cmd);
+        }
+      },
+      getCMD: (updateVersion, onlyUpdateVersion) => {
+        // 一共有三种情况
+        // 1.预同步 执行SQL但是不更新版本号
+        // 2.同步 执行SQL同时更新版本号
+        // 3.标记为同步 只更新版本号
+        let cmd = 'dbsync';
+        if (onlyUpdateVersion) {
+          cmd = 'updateVersion';
+        } else if (updateVersion) {
+          cmd = 'dbsync';
+        } else {
+          cmd = 'sqlexec';
+        }
+        return cmd;
+      },
+      connectJDBC: (param, opt, cb) => {
+        Save[opt](param).then((res: any) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          cb && cb(res);
+        }).catch((err: any) => {
+          message.error(`同步失败:${err.message}`);
+        });
+      },
+      updateVersionData: (newVersion, oldVersion, status) => {
+        if (status === 'update') {
+          Save.hisProjectSave(newVersion).then(() => {
+            message.success('版本信息更新成功');
+          }).catch((err) => {
+            message.error(`版本信息更新失败${err.message}`);
+          }).finally(() => {
+            set({
+              versions: get().versions.map((v: any, vIndex: any) => {
+                if (vIndex === get().currentVersionIndex) {
+                  return newVersion;
+                }
+                return v;
+              }),
+            })
+          });
+        } else {
+          // 删除原来的
+          Save.hisProjectDelete(newVersion.id).then(() => {
+            message.success('版本信息删除成功');
+            const tempVersions = get().versions.filter((v: any) => v.id !== newVersion.id);
+            set({
+              changes: get().dispatch.calcChanges(tempVersions),
+              versions: tempVersions,
+            });
+            get().dispatch.checkBaseVersion(tempVersions);
+          }).catch((err) => {
+            message.error(`版本信息删除失败${err.message}`);
+          });
+        }
+      },
+      readDb: (status, version, lastVersion, changes = [], initVersion, updateVersion) => {
+        if (!status) {
+          const dbData = get().dispatch.getCurrentDBData();
+          if (!dbData) {
+            message.error('无法获取到数据库信息，请尝试切换数据库，并检查是否已经配置数据库信息！');
+          } else {
+            let flag = false;
+            if (!initVersion) {
+              flag = get().dispatch.checkVersionCount(version);
+            }
+            if (flag) {
+              message.error('当前操作的版本之前还有版本尚未同步，请不要跨版本操作!');
+            } else {
+              Modal.confirm({
+                title: '同步确认',
+                content: '数据即将同步到数据库，同步后不可撤销，确定同步吗？',
+                onOk: (m) => {
+                  _.set(get().synchronous, `${version.version}`, true);
+                  const configData = _.get(projectState.project, "configJSON");
+                  let tempValue = {
+                    upgradeType: _.omit(configData.synchronous || {}, ['readDBType']) || 'rebuild',
+                  };
+                  let data = '';
+                  // 判断是否为初始版本，如果为初始版本则需要生成全量脚本
+                  if (initVersion) {
+                    data = getAllDataSQL({
+                      ..._.get(projectState.project, "projectJSON"),
+                      modules: version.projectJSON.modules,
+                    }, _.get(dbData, 'type', get().dbVersion));
+                  } else {
+                    let tempChanges = [...changes];
+                    // @ts-ignore
+                    if (tempValue.upgradeType === 'rebuild') {
+                      // 如果是重建数据表则不需要字段更新的脚本
+                      // 1.提取所有字段以及索引所在的数据表
+                      let entities: any = [];
+                      // 2.暂存新增和删除的数据表
+                      const tempEntitiesUpdate: any = [];
+                      tempChanges.forEach((c) => {
+                        if (c.type === 'entity') {
+                          tempEntitiesUpdate.push(c);
+                        } else {
+                          entities.push(c.name.split('.')[0]);
+                        }
+                      });
+                      tempChanges = [...new Set(entities)].map((e) => {
+                        // 构造版本变化数据
+                        return {
+                          type: 'entity',
+                          name: e,
+                          opt: 'update',
+                        };
+                      }).concat(tempEntitiesUpdate);
+                    } else {
+                      // todo 暂时取消数据表的中文名以及其他变化时所生成的更新数据
+                      tempChanges = tempChanges.filter(c => !(c.type === 'entity' && c.opt === 'update'));
+                    }
+                    data = getCodeByChanges({
+                        ..._.get(projectState.project, "projectJSON"),
+                        modules: version.projectJSON.modules,
+                      }, tempChanges,
+                      _.get(dbData, 'type', get().dbVersion), lastVersion.projectJSON);
+                  }
+                  get().dispatch.generateSQL(dbData, version, data, updateVersion);
+                }
+              });
+            }
+          }
+        }
+      },
+      saveNewVersion: (tempValue: any) => {
+        const changes = get().dispatch.calcChanges(get().versions);
+
+        if (!tempValue.version || !tempValue.versionDesc) {
+          message.error('版本号和版本描述不能为空');
+        } else if (get().versions.map((v: any) => v.version).includes(tempValue.version)) {
+          message.error('该版本号已经存在了');
+        } else if (get().versions[0] && compareStringVersion(tempValue.version, get().versions[0].version) <= 0) {
+          message.error('新版本不能小于或等于已经存在的版本');
+        } else {
+          const version = {
+            projectJSON: {
+              modules: projectState.project?.projectJSON?.modules || [],
+            },
+            baseVersion: false,
+            version: tempValue.version,
+            versionDesc: tempValue.versionDesc,
+            changes,
+            versionDate: moment().format('YYYY/M/D H:m:s'),
+          };
+          Save.hisProjectSave(version).then((res) => {
+            if (res && res.code === 200) {
+              get().dispatch.getVersionMessage(res.data);
+              set({
+                changes: [],
+                versions: res.data,
+              });
+              message.success('当前版本保存成功');
+            } else {
+              message.error('当前版本保存失败');
+            }
+          }).catch((err) => {
+            message.error(`当前版本保存失败:${err.message}`);
+          });
+        }
+      },
+      rebuild: (tempValue) => {
+        Modal.confirm({
+          title: '重建基线',
+          content: '重建基线将会清除当前项目的所有版本信息，该操作不可逆，是否继续？',
+          onOk: () => {
+            // 重新初始化
+            // 先删除所有的版本信息
+            get().dispatch.initBase(tempValue, '重建基线成功');
+          }
+        });
+      },
+      initBase: (tempValue, msg) => {
+        if (!tempValue.version || !tempValue.versionDesc) {
+          message.error('版本号和版本描述不能为空');
+        } else {
+          // 基线文件只需要存储modules信息
+          const version = {
+            projectJSON: {
+              modules: projectState?.project?.projectJSON?.modules || [],
+            },
+            baseVersion: true,
+            version: tempValue.version,
+            versionDesc: tempValue.versionDesc,
+            changes: [],
+            versionDate: moment().format('YYYY/M/D H:m:s'),
+          };
+          if (msg) {
+            Save.hisProjectDeleteAll().then(() => {
+              get().dispatch.initSave(version, msg);
+            }).catch((err) => {
+              message.error(`重建基线失败:${err.message}`);
+            });
+          } else {
+            get().dispatch.initSave(version, msg);
+          }
+        }
+      },
+      initSave: (version, msg) => {
+        Save.hisProjectSave(version).then((res) => {
+          if (res) {
+            message.success(msg || '初始化基线成功');
+            get().dispatch.getVersionMessage(res.data, true);
+            set({
+              changes: [],
+              init: false,
+              versions: res.data,
+            });
+            // 更新版本表
+            get().dispatch.dropVersionTable();
+          } else {
+            message.error('操作失败！');
+          }
+        }).catch((err) => {
+          message.error(`操作失败！ ${err.message}`);
+        });
+      }
+
+
     }
   })
 );
