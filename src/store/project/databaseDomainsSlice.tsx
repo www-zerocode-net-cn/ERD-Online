@@ -2,6 +2,7 @@ import {SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import {message} from "antd";
+import _ from 'lodash';
 
 export type IDatabaseDomainsSlice = {
   currentDatabase?: string;
@@ -14,7 +15,7 @@ export interface IDatabaseDomainsDispatchSlice {
   removeDatabase: () => void;
   updateDatabase: (payload: any) => void;
   setCurrentDatabase: (payload: any) => void,
-};
+}
 
 const DatabaseDomainsSlice = (set: SetState<ProjectState>) => ({
   addDatabase: (payload: any) => set(produce(state => {
@@ -62,6 +63,7 @@ const DatabaseDomainsSlice = (set: SetState<ProjectState>) => ({
     state.currentDatabase = payload
     state.currentDatabaseIndex = state.project.projectJSON.dataTypeDomains?.database?.findIndex((m: any) => m.code === payload);
   })),
+
 });
 
 

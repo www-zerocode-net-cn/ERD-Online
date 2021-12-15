@@ -15,7 +15,7 @@ export interface IDataTypeDomainsDispatchSlice {
   removeDatatype: () => void;
   updateDatatype: (payload: any) => void;
   setCurrentDatatype: (payload: any) => void,
-};
+}
 
 const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({
   addDatatype: (payload: any) => set(produce(state => {

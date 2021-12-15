@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import ProForm, {
+import React, {useEffect, useRef} from 'react';
+import {
   ModalForm,
-  ProFormFieldSet,
   ProFormGroup,
+  ProFormInstance,
   ProFormList,
   ProFormRadio,
   ProFormSelect,
@@ -11,14 +11,97 @@ import ProForm, {
 import {Alignment, Button} from "@blueprintjs/core";
 import _ from "lodash";
 import {Button as MuiButton, Grid} from "@mui/material";
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
+import {uuid} from '@/utils/uuid';
+import {DeleteOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button as AntButton, Popconfirm} from 'antd';
 
 export type DatabaseSetUpProps = {};
 
 
 const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
-  const [position] = useState<'bottom' | 'top'>('bottom');
+  const {projectDispatch, currentDbKey, tempDBs, database} = useProjectStore(state => ({
+    projectDispatch: state.dispatch,
+    currentDbKey: state.currentDbKey,
+    tempDBs: state.project.projectJSON?.profile?.dbs || [],
+    database: state.project.projectJSON?.dataTypeDomains?.database || [],
+  }), shallow);
+
+
+  console.log(36, 'tempDBs', tempDBs);
+
+
+  const url = {
+    mysql: {
+      url: 'jdbc:mysql://IP地址:端口号/数据库名?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC',
+      driver_class_name: 'com.mysql.jdbc.Driver',
+    },
+    oracle: {
+      url: 'jdbc:oracle:thin:@IP地址:端口号/数据库名',
+      driver_class_name: 'oracle.jdbc.driver.OracleDriver',
+    },
+    sqlserver: {
+      url: 'jdbc:sqlserver://IP地址:端口号;DatabaseName=数据库名',
+      driver_class_name: 'com.microsoft.sqlserver.jdbc.SQLServerDriver',
+    },
+    postgresql: {
+      url: 'jdbc:postgresql://IP地址:端口号/数据库名',
+      driver_class_name: 'org.postgresql.Driver',
+    },
+  };
+
+  const defaultDatabase = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code || 'MYSQL';
+
+  const dbName = defaultDatabase.toLocaleLowerCase();
+  const defaultDBData = url[dbName] || {};
+
+  const getDefaultDbs = (db: any) => {
+    db = db ? db : tempDBs;
+    return db.filter((d: any) => d.defaultDB)[0];
+  }
+
+  const defaultDbs = getDefaultDbs(null);
+  console.log(57, defaultDbs);
+  const defaultData = defaultDbs || tempDBs[0];
+  console.log(60, defaultData);
+
+  console.log(60, defaultDatabase);
+
+  // const [state] = useState({
+  //   driver_class_name: defaultDbs ? defaultDbs.properties.driver_class_name : defaultDBSelected.driver_class_name,
+  //   url: defaultDbs ? defaultDbs.properties.url : defaultDBSelected.url,
+  //   username: defaultDbs ? defaultDbs.properties.username : '',
+  //   password: defaultDbs ? defaultDbs.properties.password : ''
+  // });
+
+  // Ant Form 有个臭毛病，form只会加载一次，state变化不会重新加载，用此解决
+  const formRef = useRef<ProFormInstance<any>>();
+  useEffect(() => {
+    console.log('清除form');
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    formRef && formRef.current?.resetFields();
+  }, [currentDbKey, tempDBs]);
+
+
+  const getData = () => {
+    return tempDBs.filter((d: any) => d.defaultDB)[0];
+  };
+
+  const defaultDB = getData();
+
+  const databaseSelect = database.map((d: any) => {
+    return {
+      label: d.code,
+      value: d.code,
+    }
+  });
+
+
   return (<>
       <ModalForm
+        formRef={formRef}
         title={<span>数据库连接配置</span>}
         trigger={
           <Button
@@ -30,6 +113,10 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
             fill={true}
             alignText={Alignment.LEFT}></Button>
         }
+        initialValues={{
+          ...defaultDbs?.properties,
+          dbs: tempDBs
+        }}
         // 完全自定义整个区域
         submitter={{
           // 完全自定义整个区域
@@ -39,72 +126,100 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
             return _.concat([], [
               <MuiButton variant="outlined" color="warning" key="rest"
                          onClick={() => props.form?.resetFields()}>重置</MuiButton>,
-              <MuiButton variant="contained" key="submit" onClick={() => props.form?.submit?.()}> 确定 </MuiButton>,
+              <MuiButton variant="contained" key="submit" onClick={() => {
+                props.form?.submit?.();
+                const fieldsValue = props.form?.getFieldsValue();
+                console.log(163, fieldsValue);
+
+              }}> 确定 </MuiButton>,
             ]);
           },
         }}
       >
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ProForm
-              onFinish={async (values: any) => {
-                console.log('Received values of form:', values);
-              }}
-              submitter={false}
+            <ProFormList
+              name="dbs"
+              creatorButtonProps={false}
+              label={
+                <span>{defaultDB ? ` 当前使用的数据库为【${defaultDB.name}】` : tempDBs.length > 0 ? ' 当前未选择默认数据库' : '当前未创建数据库'}</span>}
+              itemRender={
+                ({listDom, action}, {record}) => {
+                  console.log(147, 'record', record);
+                  return (
+                    <ProFormGroup size={8}>
+                      <ProFormRadio
+                        name="defaultDB"
+                        fieldProps={{
+                          onChange: () => {
+                            projectDispatch.setDefaultDb(record.key)
+                          }
+                        }}/>
+                      <ProFormSelect
+                        options={databaseSelect || []}
+                        name="select"
+                        fieldProps={{
+                          disabled: !record.defaultDB,
+                          onChange: (value: any, option: any) => {
+                            console.log(166, value, option);
+                            projectDispatch.updateDbs('select', value);
+                            projectDispatch.updateDbs('properties', {
+                              driver_class_name: url[value.toLowerCase()].driver_class_name,
+                              url: url[value.toLowerCase()].url,
+                              username: '',
+                              password: ''
+                            });
+                          }
+                        }}
+                      />
+                      <ProFormText
+                        name="name"
+                        fieldProps={{
+                          size: "small",
+                          disabled: !record.defaultDB,
+                          onBlur: (e) => {
+                            console.log(182, e.target.value);
+                            projectDispatch.updateDbs('name', e.target.value);
+                          }
+                        }}
+                        rules={[
+                          {
+                            required: true,
+                          },
+                        ]}
+                      />
+                      <Popconfirm
+                        title={record.defaultDB ? "是否要删除默认数据库，删除之后，系统将不存在默认数据库" : "是否删除该数据库"}
+                        onConfirm={() => projectDispatch.removeDbs(record.key)}
+                        okText="是"
+                        cancelText="否"
+                      >
+                        <a><DeleteOutlined title={"删除"}/></a>
+                      </Popconfirm>
+                    </ProFormGroup>
+                  );
+                }
+              }
+              copyIconProps={false}
             >
-              <ProFormList
-                name="users"
-                label={<span>当前数据库版本使用的数据库为【】</span>}
-                creatorButtonProps={{
-                  position,
-                  creatorButtonText:"新增一个数据库"
-                }}
-                creatorRecord={{
-                  name: 'test',
-                }}
-                initialValue={[
-                  {
-                    name: '1111',
-                    nickName: '1111',
-                    age: 111,
-                    birth: '2021-02-18',
-                    sex: 'man',
-                    addr: ["true", "123", "chapter"],
-                  },
-                ]}
-                copyIconProps={false}
-              >
-                <ProFormGroup>
-                  <ProFormFieldSet
-                    name="addr"
-                    transform={(value: any) => ({radio: value[0], name: value[1], select: value[2]})}
-                  >
-                    <ProFormRadio name="radio"/>
-                    <ProFormSelect
-                      options={[
-                        {
-                          value: 'chapter',
-                          label: '盖章',
-                        },
-                      ]}
-                      name="select"
-                    />
-                    <ProFormText
-                      name="name"
-                      fieldProps={{
-                        size: "small",
-                      }}
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                    />
+              <></>
+            </ProFormList>
+            <AntButton type="dashed" block icon={<PlusOutlined/>}
+                       onClick={() => {
+                         projectDispatch.addDbs({
+                           name: '',
+                           select: defaultDatabase,
+                           key: uuid(),
+                           defaultDB: tempDBs.findIndex((db: any) => db.defaultDB) === -1,
+                           properties: {
+                             driver_class_name: defaultDBData.driver_class_name,
+                             url: defaultDBData.url,
+                             password: '',
+                             username: ''
+                           }
+                         });
+                       }}>新增数据库</AntButton>
 
-                  </ProFormFieldSet>
-                </ProFormGroup>
-              </ProFormList>
-            </ProForm>
           </Grid>
           <Grid item xs={6}>
             <ProFormText
@@ -112,6 +227,15 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
               name="driver_class_name"
               label="driver_class_name"
               placeholder="driver_class_name"
+              fieldProps={{
+                onBlur: (e) => {
+                  console.log(225, e.target.value);
+                  projectDispatch.updateDbs('properties', {
+                    ...defaultDbs.properties,
+                    driver_class_name: e.target.value
+                  });
+                }
+              }}
               formItemProps={{
                 rules: [
                   {
@@ -123,6 +247,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                     message: '不能大于 200 个字符',
                   },
                 ],
+
               }}
             />
             <ProFormText
@@ -130,6 +255,15 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
               name="url"
               label="url"
               placeholder="请输入url"
+              fieldProps={{
+                onBlur: (e) => {
+                  console.log(254, e.target.value);
+                  projectDispatch.updateDbs('properties', {
+                    ...defaultDbs.properties,
+                    url: e.target.value
+                  });
+                }
+              }}
               formItemProps={{
                 rules: [
                   {
@@ -148,6 +282,15 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
               name="username"
               label="username"
               placeholder="请输入username"
+              fieldProps={{
+                onBlur: (e) => {
+                  console.log(281, e.target.value);
+                  projectDispatch.updateDbs('properties', {
+                    ...defaultDbs.properties,
+                    username: e.target.value
+                  });
+                }
+              }}
               formItemProps={{
                 rules: [
                   {
@@ -166,6 +309,15 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
               name="password"
               label="password"
               placeholder="请输入password"
+              fieldProps={{
+                onBlur: (e) => {
+                  console.log(308, e.target.value);
+                  projectDispatch.updateDbs('properties', {
+                    ...defaultDbs.properties,
+                    password: e.target.value
+                  });
+                }
+              }}
               formItemProps={{
                 rules: [
                   {
@@ -181,6 +333,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
             />
           </Grid>
         </Grid>
+
       </ModalForm>
 
 

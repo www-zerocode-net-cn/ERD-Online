@@ -103,7 +103,7 @@ const renderButton = (icon: IconName | MaybeElement, text: string, content: stri
 
 export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
   return (
-    true ? <Menu>
+    false ? <Menu>
         <MenuItem key="history" shouldDismissPopover={false} text="版本" icon="history"
                   onMouseOver={() => setShortcut(PANEL.VERSION)}><VersionMenu/></MenuItem>
         <MenuItem key="import" shouldDismissPopover={false} text="导入" icon="import"
