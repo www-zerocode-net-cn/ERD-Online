@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ModalForm,
   ProFormGroup,
@@ -15,7 +15,8 @@ import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {uuid} from '@/utils/uuid';
 import {DeleteOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button as AntButton, Popconfirm} from 'antd';
+import {Button as AntButton, message, Popconfirm} from 'antd';
+import * as Save from '@/utils/save';
 
 export type DatabaseSetUpProps = {};
 
@@ -68,12 +69,37 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
 
   console.log(60, defaultDatabase);
 
-  // const [state] = useState({
-  //   driver_class_name: defaultDbs ? defaultDbs.properties.driver_class_name : defaultDBSelected.driver_class_name,
-  //   url: defaultDbs ? defaultDbs.properties.url : defaultDBSelected.url,
-  //   username: defaultDbs ? defaultDbs.properties.username : '',
-  //   password: defaultDbs ? defaultDbs.properties.password : ''
-  // });
+  const [state, setState] = useState({
+    loading: false
+  });
+
+  const connectJDBC = () => {
+    const newVar = formRef && formRef.current?.validateFields();
+    console.log(78, newVar);
+    newVar?.then(() => {
+      const {properties} = defaultData;
+      console.log(78, 'properties', properties);
+      setState({
+        loading: true,
+      });
+      Save.ping({
+        ...properties
+      }).then((res: any) => {
+        if (res.code !== 200) {
+          message.error('连接失败');
+        } else {
+          message.success('连接成功');
+        }
+      }).catch((err) => {
+        message.error('连接失败！');
+      }).finally(() => {
+        setState({
+          loading: false,
+        });
+      });
+    });
+
+  };
 
   // Ant Form 有个臭毛病，form只会加载一次，state变化不会重新加载，用此解决
   const formRef = useRef<ProFormInstance<any>>();
@@ -124,13 +150,10 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
             console.log(props);
             // @ts-ignore
             return _.concat([], [
-              <MuiButton variant="outlined" color="warning" key="rest"
-                         onClick={() => props.form?.resetFields()}>重置</MuiButton>,
+              <MuiButton disabled={!defaultData} variant="outlined" color="warning" key="rest"
+                         onClick={() => connectJDBC()}>{state.loading ? "正在连接" : "测试"}</MuiButton>,
               <MuiButton variant="contained" key="submit" onClick={() => {
-                props.form?.submit?.();
-                const fieldsValue = props.form?.getFieldsValue();
-                console.log(163, fieldsValue);
-
+                message.success("保存成功！");
               }}> 确定 </MuiButton>,
             ]);
           },
@@ -243,8 +266,8 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                     message: '不能为空',
                   },
                   {
-                    max: 200,
-                    message: '不能大于 200 个字符',
+                    max: 300,
+                    message: '不能大于 300 个字符',
                   },
                 ],
 
@@ -271,8 +294,8 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                     message: '不能为空',
                   },
                   {
-                    max: 100,
-                    message: '不能大于 100 个字符',
+                    max: 300,
+                    message: '不能大于 300 个字符',
                   },
                 ],
               }}
