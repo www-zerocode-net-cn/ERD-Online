@@ -35,7 +35,7 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
   const s = JSON.stringify(entity?.indexs || [{}]);
 
   const afterChange = (payload: any) => {
-    projectDispatch.updateEntityIndexs(payload);
+    projectDispatch.updateEntityIndex(payload);
   }
 
   const hotTableComponent = useRef(null);

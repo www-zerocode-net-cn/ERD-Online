@@ -2,6 +2,7 @@ import {SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import {message} from "antd";
+import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
 
 export type IEntitiesSlice = {
   currentEntity?: string;
@@ -15,11 +16,13 @@ export interface IEntitiesDispatchSlice {
   removeIndex: (index: number) => void;
   updateEntity: (payload: any) => void;
   updateEntityFields: (payload: any) => void;
-  updateEntityIndexs: (payload: any) => void;
+  updateEntityIndex: (payload: any) => void;
   moveField: (payload: any, startRow: number, endRow: number) => void;
   setCurrentEntity: (payload: any) => void,
   setCurrentModuleAndEntity: (module: any, entity: any) => void,
 };
+
+const shortcutState = useShortcutStore.getState();
 
 const EntitiesSlice = (set: SetState<ProjectState>) => ({
   currentEntity: '',
@@ -57,35 +60,28 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
       state.project.projectJSON.modules[currentModuleIndex]?.entities?.filter((e: any, index: number) => index !== state.currentEntityIndex) || [];
   })),
   updateEntity: (payload: any) => set(produce(state => {
-    state.saved = false;
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
-    state.saved = true;
   })),
   updateEntityFields: (payload: any) => set(produce(state => {
-    state.saved = false;
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
-    state.saved = true;
   })),
-  updateEntityIndexs: (payload: any) => set(produce(state => {
-    state.saved = false;
+  updateEntityIndex: (payload: any) => set(produce(state => {
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].indexs = payload;
-    state.saved = true;
   })),
   moveField: (payload: any, startRow: number, endRow: number) => set(produce(state => {
-    state.saved = false;
     if (startRow < endRow) {
       // eslint-disable-next-line no-param-reassign
       endRow -= 1;
     }
     payload.splice(endRow, 0, payload.splice(startRow, 1)[0]);
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
-    state.saved = true;
   })),
   setCurrentEntity: (payload: any) => set(produce(state => {
     const {currentModuleIndex} = state;
     console.log(47, currentModuleIndex, payload);
     state.currentEntity = payload
     state.currentEntityIndex = state.project.projectJSON.modules[currentModuleIndex]?.entities.findIndex((m: any) => m.title === payload);
+    shortcutState.dispatch.setPanel(PANEL.DEFAULT);
   })),
   setCurrentModuleAndEntity: (module: any, entity: any) => set(produce(state => {
     console.log(54, module, entity);
@@ -94,6 +90,7 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
     state.currentModuleIndex = currentModuleIndex;
     state.currentEntity = entity;
     state.currentEntityIndex = state.project.projectJSON.modules[currentModuleIndex]?.entities.findIndex((m: any) => m.title === entity);
+    shortcutState.dispatch.setPanel(PANEL.DEFAULT);
   })),
 });
 

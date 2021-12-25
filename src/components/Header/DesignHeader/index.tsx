@@ -2,17 +2,16 @@ import React from 'react';
 import {Alignment, Button, ButtonGroup, Navbar, NavbarDivider} from "@blueprintjs/core";
 import {Left, Right, Top} from "react-spaces";
 import {Popover2} from "@blueprintjs/popover2";
-import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import './index.less';
 import {NavigationMenu, ProjectMenu} from '@/components/Menu';
+import useGlobalStore from "@/store/global/globalStore";
 
 export type DesignHeaderProps = {};
 
 const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
-  const {saved} = useProjectStore(state => ({
+  const {saved} = useGlobalStore(state => ({
     saved: state.saved,
-    projectDispatch: state.dispatch,
   }), shallow);
   return (
     <Top size="50px">

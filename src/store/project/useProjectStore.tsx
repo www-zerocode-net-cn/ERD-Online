@@ -15,6 +15,7 @@ import * as cache from "@/utils/cache";
 import request from "@/utils/request";
 import * as Save from '@/utils/save';
 import {uuid} from '@/utils/uuid';
+import useGlobalStore from "@/store/global/globalStore";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -26,7 +27,6 @@ import {uuid} from '@/utils/uuid';
 export type ProjectState =
   {
     project: any,
-    saved: boolean;
     fetch: () => Promise<void>;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice & IEntitiesDispatchSlice
   }
@@ -38,6 +38,8 @@ export type ProjectState =
   & IProfileSlice
   & IEntitiesSlice;
 
+const globalState = useGlobalStore.getState();
+
 // Log every time state is changed
 // @ts-ignore
 export const sync = config => (set, get, api) => config(args => {
@@ -45,7 +47,9 @@ export const sync = config => (set, get, api) => config(args => {
   console.log(43, "last", get())
   set(args)
   console.log(44, "new state", get())
+  globalState.dispatch.setSaved(false);
   Save.saveProject(get().project);
+  globalState.dispatch.setSaved(true);
 }, get, api)
 
 // Turn the set method into an immer proxy
@@ -66,7 +70,6 @@ const useProjectStore = create<ProjectState>(
 // @ts-ignore
       (set) => ({
         project: {},
-        saved: true,
         fetch: async () => {
           const projectId = cache.getItem('projectId');
           await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {

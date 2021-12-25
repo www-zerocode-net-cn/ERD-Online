@@ -2,6 +2,8 @@ import {SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import _ from "lodash";
+import * as Save from '@/utils/save';
+import {message} from "antd";
 
 export type IProfileSlice = {
   currentDbKey?: string;
@@ -47,8 +49,21 @@ const ProfileSlice = (set: SetState<ProjectState>) => ({
     state.project.projectJSON.profile.dbs.push(payload);
   })),
   removeDbs: (key: string) => set(produce(state => {
-    state.project.projectJSON.profile.dbs = state.project.projectJSON?.profile?.dbs?.filter((db: any) => db.key !== key);
-    console.log(56, state.project.projectJSON?.profile?.dbs);
+    Save.checkdbversion(key).then((res: any) => {
+      if (res && res.code === 200) {
+        if (res.data === 0) {
+          state.project.projectJSON.profile.dbs = state.project.projectJSON?.profile?.dbs?.filter((db: any) => db.key !== key);
+          console.log(56, state.project.projectJSON?.profile?.dbs);
+          message.success('删除成功');
+        } else {
+          message.warn("当前数据源存在已同步版本，不允许删除！")
+        }
+      } else {
+        message.error('删除失败');
+      }
+    }).catch(() => {
+      message.error('删除失败');
+    });
   })),
   updateDbs: (key: string, payload: any) => set(produce(state => {
     state.project.projectJSON.profile.dbs = state.project.projectJSON?.profile?.dbs?.map((db: any) => {

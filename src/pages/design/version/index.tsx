@@ -82,7 +82,7 @@ const Version: React.FC<VersionProps> = (props) => {
         {changes.length > 0 ?
           <span title={"当前内容与上一版本的内容有变化，但未保存同步版本！"}><WarningAmberIcon color={"warning"}/></span>
           :
-          <span title={"当前内容与上一版本内容无变化"}><SyncIcon color={"info"}/></span>
+          <span title={"当前内容与上一版本内容无变化"}><SyncIcon color={"success"}/></span>
         }
       </div>
       <Divider/>
@@ -141,7 +141,7 @@ const Version: React.FC<VersionProps> = (props) => {
                           {v.version}
                           {
                             compareStringVersion(v.version, dbVersion) === 0 ?
-                              <span title={`当前数据库版本[${v.version}]`}><BookmarkBorderIcon/></span> : ''
+                              <span title={`当前数据源最新同步版本[${v.version}]`}><BookmarkBorderIcon/></span> : ''
                           }
                         </a>
                       </Popover2>
