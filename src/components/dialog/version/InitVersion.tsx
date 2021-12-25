@@ -11,7 +11,7 @@ import {message} from "antd";
 export type InitVersionProps = {};
 
 const InitVersion: React.FC<InitVersionProps> = (props) => {
-  const {init,versionDispatch} = useVersionStore(state => ({
+  const {init, versionDispatch} = useVersionStore(state => ({
     init: state.init,
     versionDispatch: state.dispatch
 
@@ -41,6 +41,7 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
           projectJSON: {
             modules: projectJSON.modules || [],
           },
+          dbKey: versionDispatch.getCurrentDBData().key || '',
           baseVersion: true,
           version: values.version,
           versionDesc: values.versionDesc,
@@ -48,7 +49,7 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
           versionDate: moment().format('YYYY/M/D H:m:s'),
         };
         Save.hisProjectSave(version).then((res) => {
-          if (res) {
+          if (res.code === 200) {
             message.success('初始化基线成功');
             versionDispatch.getVersionMessage(res.data, true);
             versionDispatch.setState({

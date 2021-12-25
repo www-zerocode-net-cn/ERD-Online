@@ -39,6 +39,9 @@ export type IVersionSlice = {
   rebuild: (tempValue: any) => void;
   initBase: (tempValue: any, msg?: string) => void;
   initSave: (version: any, msg: any) => void;
+  initDbs: (dbs: any) => void;
+  dbChange: (db: any) => void;
+
 }
 
 
@@ -59,7 +62,7 @@ export type VersionState =
     dispatch: IVersionSlice;
   }
 
-const projectState = useProjectStore.getState();
+let projectState = useProjectStore.getState();
 
 const useVersionStore = create<VersionState>(
   (set, get) => ({
@@ -72,9 +75,13 @@ const useVersionStore = create<VersionState>(
     data: undefined,
     dbVersion: undefined,
     changes: [],
-    dbs: _.get(projectState.project, 'projectJSON.profile.dbs') || [],
+    dbs: [],
     synchronous: {},
     fetch: async () => {
+      //显示的调用一下
+      projectState = useProjectStore.getState();
+      console.log(79, 'projectState.project.projectJSON?.profile?.dbs', projectState)
+      get().dispatch.initDbs(projectState.project.projectJSON?.profile?.dbs);
       await Save.hisProjectLoad().then(res => {
         if (res) {
           const versions = res.data;
@@ -91,6 +98,7 @@ const useVersionStore = create<VersionState>(
           }
         }
       });
+
     },
     dispatch: {
       compareStringArray: (currentFields, checkFields, title, name) => {
@@ -200,7 +208,8 @@ const useVersionStore = create<VersionState>(
         }, []);
       },
       calcChanges: (data: any) => {
-        const dataSource = projectState.project;
+        debugger
+        const dataSource = projectState.project.projectJSON;
         const changes: any = [];
         const checkVersion = data.sort((a: any, b: any) => compareStringVersion(b.version, a.version))[0];
         if (checkVersion) {
@@ -288,6 +297,7 @@ const useVersionStore = create<VersionState>(
           versionData: true,
         });
         const dbData = get().dispatch.getCurrentDBData();
+        console.log(297, 'dbData', dbData);
         if (!dbData) {
           set({
             dbVersion: '',
@@ -297,10 +307,9 @@ const useVersionStore = create<VersionState>(
             versionData: false,
           });
         } else {
-          const dbConfig = _.omit(dbData.properties, ['driver_class_name']);
           Save.dbversion({
-            ...dbConfig,
-            driverClassName: dbData.properties['driver_class_name'], // eslint-disable-line
+            ...dbData.properties,
+            dbKey: dbData.key
           }).then((res: any) => {
             if (res && res.code === 200) {
               message.success('数据库版本信息获取成功');
@@ -357,6 +366,7 @@ const useVersionStore = create<VersionState>(
         return '';
       },
       getCurrentDBData: () => {
+        console.log(366, 'dbs', get().dbs);
         return get().dbs?.filter((d: any) => d.defaultDB)[0];
       },
       dropVersionTable: () => {
@@ -367,10 +377,9 @@ const useVersionStore = create<VersionState>(
           })
           message.error('无法获取到数据库信息，请切换尝试数据库');
         } else {
-          const dbConfig = _.omit(dbData.properties, ['driver_class_name']);
           Save.rebaseline({
-            ...dbConfig,
-            driverClassName: dbData.properties['driver_class_name'], // eslint-disable-line
+            ...dbData,
+            dbKey: dbData.key,
             version: 'v0.0.0',
             versionDesc: '基线版本，新建版本时请勿低于该版本',
           }).then((res) => {
@@ -558,12 +567,11 @@ const useVersionStore = create<VersionState>(
             sqlParam.sql = data;
             sqlParam.separator = separator;
           }
-          const dbConfig = _.omit(dbData.properties, ['driver_class_name']);
 
           get().dispatch.connectJDBC({
-            ...dbConfig,
-            driverClassName: dbData.properties['driver_class_name'], // eslint-disable-line
+            ...dbData.properties,
             ...sqlParam,
+            dbKey: dbData.key,
             showModal: true,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
           }, cmd, (result: any) => {
@@ -596,15 +604,24 @@ const useVersionStore = create<VersionState>(
       connectJDBC: (param, opt, cb) => {
         Save[opt](param).then((res: any) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          cb && cb(res);
+          if (res.code === 200) {
+            cb && cb(res);
+          } else {
+            message.error(`同步失败`);
+          }
         }).catch((err: any) => {
           message.error(`同步失败:${err.message}`);
         });
       },
       updateVersionData: (newVersion, oldVersion, status) => {
         if (status === 'update') {
-          Save.hisProjectSave(newVersion).then(() => {
-            message.success('版本信息更新成功');
+          const dbData = get().dispatch.getCurrentDBData();
+          Save.hisProjectSave({...newVersion, dbKey: dbData.key}).then((res) => {
+            if (res.code === 200) {
+              message.success('版本信息更新成功');
+            } else {
+              message.error('版本信息更新失败');
+            }
           }).catch((err) => {
             message.error(`版本信息更新失败${err.message}`);
           }).finally(() => {
@@ -619,14 +636,16 @@ const useVersionStore = create<VersionState>(
           });
         } else {
           // 删除原来的
-          Save.hisProjectDelete(newVersion.id).then(() => {
-            message.success('版本信息删除成功');
-            const tempVersions = get().versions.filter((v: any) => v.id !== newVersion.id);
-            set({
-              changes: get().dispatch.calcChanges(tempVersions),
-              versions: tempVersions,
-            });
-            get().dispatch.checkBaseVersion(tempVersions);
+          Save.hisProjectDelete(newVersion.id).then((res) => {
+            if (res.code === 200) {
+              message.success('版本信息删除成功');
+              const tempVersions = get().versions.filter((v: any) => v.id !== newVersion.id);
+              set({
+                changes: get().dispatch.calcChanges(tempVersions),
+                versions: tempVersions,
+              });
+              get().dispatch.checkBaseVersion(tempVersions);
+            }
           }).catch((err) => {
             message.error(`版本信息删除失败${err.message}`);
           });
@@ -652,7 +671,7 @@ const useVersionStore = create<VersionState>(
                   _.set(get().synchronous, `${version.version}`, true);
                   const configData = _.get(projectState.project, "configJSON");
                   let tempValue = {
-                    upgradeType: _.omit(configData.synchronous || {}, ['readDBType']) || 'rebuild',
+                    upgradeType: _.omit(configData?.synchronous || {}, ['readDBType']) || 'rebuild',
                   };
                   let data = '';
                   // 判断是否为初始版本，如果为初始版本则需要生成全量脚本
@@ -712,10 +731,12 @@ const useVersionStore = create<VersionState>(
         } else if (get().versions[0] && compareStringVersion(tempValue.version, get().versions[0].version) <= 0) {
           message.error('新版本不能小于或等于已经存在的版本');
         } else {
+          const dbData = get().dispatch.getCurrentDBData();
           const version = {
             projectJSON: {
               modules: projectState.project?.projectJSON?.modules || [],
             },
+            dbKey: dbData.key,
             baseVersion: false,
             version: tempValue.version,
             versionDesc: tempValue.versionDesc,
@@ -727,7 +748,6 @@ const useVersionStore = create<VersionState>(
               get().dispatch.getVersionMessage(res.data);
               set({
                 changes: [],
-                versions: res.data,
               });
               message.success('当前版本保存成功');
             } else {
@@ -753,11 +773,13 @@ const useVersionStore = create<VersionState>(
         if (!tempValue.version || !tempValue.versionDesc) {
           message.error('版本号和版本描述不能为空');
         } else {
+          const dbData = get().dispatch.getCurrentDBData();
           // 基线文件只需要存储modules信息
           const version = {
             projectJSON: {
               modules: projectState?.project?.projectJSON?.modules || [],
             },
+            dbKey: dbData.key,
             baseVersion: true,
             version: tempValue.version,
             versionDesc: tempValue.versionDesc,
@@ -765,8 +787,12 @@ const useVersionStore = create<VersionState>(
             versionDate: moment().format('YYYY/M/D H:m:s'),
           };
           if (msg) {
-            Save.hisProjectDeleteAll().then(() => {
-              get().dispatch.initSave(version, msg);
+            Save.hisProjectDeleteAll().then((res) => {
+              if (res.code === 200) {
+                get().dispatch.initSave(version, msg);
+              } else {
+                message.error(`重建基线失败`);
+              }
             }).catch((err) => {
               message.error(`重建基线失败:${err.message}`);
             });
@@ -793,6 +819,28 @@ const useVersionStore = create<VersionState>(
         }).catch((err) => {
           message.error(`操作失败！ ${err.message}`);
         });
+      },
+      initDbs: (dbs) => {
+        set({
+          dbs: dbs || []
+        });
+      },
+      dbChange: (d) => {
+        set({
+          dbs: get().dbs.map((db: any) => {
+            if (db.name === d.name) {
+              return {
+                ...db,
+                defaultDB: true,
+              };
+            }
+            return {
+              ...db,
+              defaultDB: false,
+            };
+          }),
+        });
+        get().dispatch.getDBVersion();
       }
 
 

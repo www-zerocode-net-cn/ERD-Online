@@ -75,7 +75,7 @@ const Table: React.FC<TableProps> = (props) => {
 
   return (
     <>
-      <Left size={"85%"}>
+      <Left size={"80%"}>
         <Tabs
           id="globalNavbar"
           renderActiveTabPanelOnly={true}
@@ -112,7 +112,7 @@ const Table: React.FC<TableProps> = (props) => {
         </Tabs>
         <Footer/>
       </Left>
-      <Right size="15%">
+      <Right size="20%">
         {rightContent()}
       </Right>
     </>

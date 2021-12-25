@@ -27,12 +27,9 @@ import {VersionHandle} from "@/components/Menu";
 
 export type VersionProps = {};
 
-export type IDatabase = {
-  title: string;
-  year: number;
-};
+export type IDatabase = any;
 
-const DatabaseSelect = Select.ofType<IDatabase>();
+const DatabaseSelect = Select.ofType<any>();
 
 const Version: React.FC<VersionProps> = (props) => {
   const {dbs, synchronous, dbVersion, changes, versions, fetch, versionDispatch} = useVersionStore(state => ({
@@ -44,28 +41,35 @@ const Version: React.FC<VersionProps> = (props) => {
     fetch: state.fetch,
     versionDispatch: state.dispatch,
   }), shallow);
+
+
   console.log('dbs', 37, dbs);
   console.log('versions', 38, versions);
+  console.log('changes', 48, changes);
   // fetch();
   useEffect(() => {
     fetch();
   }, []);
 
   const handleItemSelect = React.useCallback((db: IDatabase) => {
-    console.log(db);
+    console.log(57, db);
+    versionDispatch.dbChange(db);
   }, []);
   // NOTE: not using Films.itemRenderer here so we can set icons.
-  const renderFilm: ItemRenderer<IDatabase> = (film, {modifiers, handleClick}) => {
+  const renderDb: ItemRenderer<IDatabase> = (db: any, {modifiers, handleClick}) => {
+    console.log(59, db);
     if (!modifiers.matchesPredicate) {
       return null;
     }
     return (
       <MenuItem
-        active={modifiers.active}
-        icon={"tick"}
-        label={film?.year?.toString()}
+        key={db.key}
+        active={db.defaultDB}
+        // @ts-ignore
+        icon={db.defaultDB ? "tick" : ""}
+        label={db?.select}
         onClick={handleClick}
-        text={film?.title}
+        text={db?.name}
         shouldDismissPopover={false}
       />
     );
@@ -76,17 +80,18 @@ const Version: React.FC<VersionProps> = (props) => {
       <div className="model-template-tool">
         <h5 className="bp3-heading head">历史版本</h5>
         {changes.length > 0 ?
-          <WarningAmberIcon titleAccess="当前内容与上一版本的内容有变化，但未保存版本！"/>
+          <span title={"当前内容与上一版本的内容有变化，但未保存同步版本！"}><WarningAmberIcon color={"warning"}/></span>
           :
-          <SyncIcon titleAccess="当前内容与上一版本内容无变化"/>
+          <span title={"当前内容与上一版本内容无变化"}><SyncIcon color={"info"}/></span>
         }
       </div>
       <Divider/>
       <DatabaseSelect
         onItemSelect={handleItemSelect}
+        // @ts-ignore
         items={dbs}
         filterable={false}
-        itemRenderer={renderFilm}
+        itemRenderer={renderDb}
         fill={true}
         noResults={<MenuItem disabled={true} text="未配置数据库"/>}
       >
@@ -112,11 +117,11 @@ const Version: React.FC<VersionProps> = (props) => {
                     {
                       // eslint-disable-next-line no-nested-ternary
                       compareStringVersion(v.version, dbVersion) <= 0 ?
-                        <TimelineDot color="info"><SyncIcon titleAccess="已同步"/></TimelineDot>
+                        <TimelineDot color="info" title="已同步"><SyncIcon/></TimelineDot>
                         :
                         synchronous[v.version] ?
-                          <TimelineDot color="secondary"><SyncAltIcon titleAccess="正在同步"/></TimelineDot> :
-                          <TimelineDot color="error"><SyncDisabledIcon titleAccess="未同步"/></TimelineDot>
+                          <TimelineDot color="secondary" title="正在同步"><SyncAltIcon/></TimelineDot> :
+                          <TimelineDot color="error" title="未同步"><SyncDisabledIcon/></TimelineDot>
 
                     }
                     <TimelineConnector/>
@@ -131,12 +136,12 @@ const Version: React.FC<VersionProps> = (props) => {
                         placement={"bottom-start"}
                       >
                         <a onMouseOver={() => {
-                          versionDispatch.setCurrentVersion(v,index)
+                          versionDispatch.setCurrentVersion(v, index)
                         }}>
                           {v.version}
                           {
                             compareStringVersion(v.version, dbVersion) === 0 ?
-                              <BookmarkBorderIcon titleAccess="当前数据库版本"/> : ''
+                              <span title={`当前数据库版本[${v.version}]`}><BookmarkBorderIcon/></span> : ''
                           }
                         </a>
                       </Popover2>

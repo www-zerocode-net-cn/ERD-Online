@@ -9,11 +9,11 @@ const Code: React.FC<CodeProps> = (props) => {
 
   return (
     <>
-      <Left size={"85%"}>
+      <Left size={"80%"}>
         <ProjectList/>
         <a className="copyright">2021@ZEROCODE</a>
       </Left>
-      <Right size="15%">
+      <Right size="20%">
         <TemplateSquare/>
       </Right>
     </>

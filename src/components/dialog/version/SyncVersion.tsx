@@ -34,7 +34,7 @@ const SyncVersion: React.FC<SyncVersionProps> = (props) => {
                   currentVersion,
                   currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion, currentVersion.changes,
                   currentVersionIndex === (versions.length - 1), true)
-              }}></MenuItem>
+              }}/>
 
   </>);
 }
