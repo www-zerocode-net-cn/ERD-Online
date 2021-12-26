@@ -58,7 +58,7 @@ export type VersionState =
     changes: any,
     dbs: any,
     synchronous: any;
-    fetch: () => Promise<void>;
+    fetch: (db: any) => Promise<void>;
     dispatch: IVersionSlice;
   }
 
@@ -77,12 +77,14 @@ const useVersionStore = create<VersionState>(
     changes: [],
     dbs: [],
     synchronous: {},
-    fetch: async () => {
+    fetch: async (db: any) => {
       //显示的调用一下
       projectState = useProjectStore.getState();
       console.log(79, 'projectState.project.projectJSON?.profile?.dbs', projectState)
-      get().dispatch.initDbs(projectState.project.projectJSON?.profile?.dbs);
-      await Save.hisProjectLoad().then(res => {
+      if (!db) {
+        get().dispatch.initDbs(projectState.project.projectJSON?.profile?.dbs);
+      }
+      await Save.hisProjectLoad(db ? db : get().dispatch.getCurrentDBData()).then(res => {
         if (res) {
           const versions = res.data;
           if (versions) {
@@ -208,7 +210,6 @@ const useVersionStore = create<VersionState>(
         }, []);
       },
       calcChanges: (data: any) => {
-        debugger
         const dataSource = projectState.project.projectJSON;
         const changes: any = [];
         const checkVersion = data.sort((a: any, b: any) => compareStringVersion(b.version, a.version))[0];
@@ -787,7 +788,7 @@ const useVersionStore = create<VersionState>(
             versionDate: moment().format('YYYY/M/D H:m:s'),
           };
           if (msg) {
-            Save.hisProjectDeleteAll().then((res) => {
+            Save.hisProjectDeleteAll(dbData.key).then((res) => {
               if (res.code === 200) {
                 get().dispatch.initSave(version, msg);
               } else {
@@ -841,6 +842,7 @@ const useVersionStore = create<VersionState>(
           }),
         });
         get().dispatch.getDBVersion();
+        get().fetch(d);
       }
 
 

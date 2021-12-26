@@ -48,7 +48,7 @@ const Version: React.FC<VersionProps> = (props) => {
   console.log('changes', 48, changes);
   // fetch();
   useEffect(() => {
-    fetch();
+    fetch(null);
   }, []);
 
   const handleItemSelect = React.useCallback((db: IDatabase) => {

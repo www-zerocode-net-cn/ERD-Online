@@ -8,9 +8,8 @@ import {ModuleEntity} from "@/store/tab/useTabStore";
 // @ts-ignore
 import {CellChange, ChangeSource, Core, GridSettings} from "handsontable";
 import _ from "lodash";
-import {message} from "antd";
+import {message, Select, Tag} from "antd";
 import ReactDOM from 'react-dom';
-import FieldMultiSelect from "@/pages/design/table/component/table/FieldMultiSelect";
 
 export type TableIndexEditProps = {
   moduleEntity: ModuleEntity
@@ -28,7 +27,7 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
   console.log(32, 'entity', entity);
 
   const fields = entity?.fields.map((f: any, index: number) => {
-    return {title: f.name, rank: index + 1};
+    return {value: f.name};
   });
 
   // 由于 zustand 冻结了所有属性，均不可直接编辑，所以需要做一次转换
@@ -54,6 +53,24 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
   };
 
 
+  const tagRender = (props: any) => {
+    const {label, closable, onClose} = props;
+    const onPreventMouseDown = (event: any) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    return (
+      <Tag
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{marginRight: 3}}
+      >
+        {label}
+      </Tag>
+    );
+  }
+
   const hotSettings = {
     data: JSON.parse(s),
     columns: [
@@ -67,38 +84,39 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
         readOnly: true,
         allowEmpty: false,
         renderer: (instance: Core, td: HTMLElement, row: number, col: number, prop: string | number, value: any, cellProperties: GridSettings) => {
-          console.log(73, td.childNodes.length);
           // 渲染之前先移除原有的组件
           while (td.firstChild) {
             td.removeChild(td.firstChild);
           }
+          const indexId = `index-${row}-${col}`;
           console.log(71, 'value', value);
           console.log(72, 'cellProperties', cellProperties);
           const newDIV = document.createElement('div');
-          const initItems = value?.map((v: any) => {
-            return {title: v};
-          });
+          newDIV.id = indexId;
 
-          console.log(80, 'initItems', initItems);
-          const new_component = <FieldMultiSelect
-            uni={`${row}-${col}`}
-            items={fields}
-            initItems={initItems}
-            onSelectChange={(indexField: any) => {
+          const new_component = <Select
+            key={`${row}-${col}`}
+            mode="multiple"
+            showArrow
+            tagRender={tagRender}
+            defaultValue={value}
+            style={{width: '100%'}}
+            options={fields}
+            onChange={(value: any, option: any) => {
+              console.log(130, value)
+              console.log(131, option)
               // @ts-ignore
               const {hotInstance} = hotTableComponent.current;
-              console.log(89, 'indexField', indexField);
               console.log(90, 'hotInstance', hotInstance);
-              hotInstance.setDataAtRowProp(row, 'fields', indexField.map((f: any) => {
-                return f.title
-              }) || []);
+              console.log(111, '_.concat(value)', _.compact(value));
+              hotInstance.setDataAtRowProp(row, 'fields', _.compact(value) || []);
             }}
           />;
           console.log(93, 'new_component', new_component);
           console.log(94, 'newDIV', newDIV);
           setTimeout(() => {
             ReactDOM.render(new_component, newDIV);
-          }, 100)
+          }, 100);
           td.appendChild(newDIV);
 
           console.log(101, 'td', td);

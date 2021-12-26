@@ -1,4 +1,4 @@
-import {Button, Intent, MenuItem, TagProps} from '@blueprintjs/core';
+import {Intent, MenuItem, TagProps} from '@blueprintjs/core';
 import {ItemPredicate, ItemRenderer, MultiSelect} from '@blueprintjs/select';
 import React, {useState} from 'react';
 
@@ -258,11 +258,11 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
 
   const renderTag = (film: IFilm) => film.title;
 
-  const handleClear = () => setState({...state, films: []});
-
-
-  const clearButton =
-    films?.length > 0 ? <Button icon="cross" minimal={true} onClick={handleClear}/> : undefined;
+  // const handleClear = () => setState({...state, films: []});
+  //
+  //
+  // const clearButton =
+  //   films?.length > 0 ? <Button icon="cross" minimal={true} onClick={handleClear}/> : undefined;
 
   const INTENTS = [Intent.NONE, Intent.PRIMARY, Intent.SUCCESS, Intent.DANGER, Intent.WARNING];
 
@@ -294,7 +294,6 @@ const FieldMultiSelect: React.FC<FieldMultiSelectProps> = (props) => {
       tagRenderer={renderTag}
       tagInputProps={{
         onRemove: handleTagRemove,
-        rightElement: clearButton,
         tagProps: getTagProps,
       }}
       selectedItems={films}

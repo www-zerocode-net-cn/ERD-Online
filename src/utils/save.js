@@ -117,9 +117,15 @@ export const hisProjectSave = (data) => {
   });
 };
 
-export const hisProjectLoad = () => {
+export const hisProjectLoad = (data) => {
+  console.log(121, data);
   const projectId = cache.getItem('projectId');
-  return request.get(`/ncnb/hisProject/load/${projectId}`);
+  return request.post('/ncnb/hisProject/load', {
+    data: {
+      dbKey: data?.key,
+      projectId,
+    }
+  });
 };
 
 
@@ -132,8 +138,13 @@ export const hisProjectDelete = (id) => {
   return request.post(`/ncnb/hisProject/delete/${id}`);
 };
 
-export const hisProjectDeleteAll = () => {
+export const hisProjectDeleteAll = (dbKey) => {
   const projectId = cache.getItem('projectId');
-  return request.post(`/ncnb/hisProject/deleteAll/${projectId}`);
+  return request.post('/ncnb/hisProject/deleteAll', {
+    data: {
+      dbKey,
+      projectId,
+    }
+  });
 };
 
