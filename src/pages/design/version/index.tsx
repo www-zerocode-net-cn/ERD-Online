@@ -93,13 +93,13 @@ const Version: React.FC<VersionProps> = (props) => {
         filterable={false}
         itemRenderer={renderDb}
         fill={true}
-        noResults={<MenuItem disabled={true} text="未配置数据库"/>}
+        noResults={<MenuItem disabled={true} text="未配置数据源"/>}
       >
         <Button
           icon="database"
           rightIcon="caret-down"
           fill={true}
-          text={currentDB !== '' ? currentDB : "(请选择数据库)"}
+          text={currentDB !== '' ? currentDB : "(请选择数据源)"}
         />
       </DatabaseSelect>
       <div className="version-list">

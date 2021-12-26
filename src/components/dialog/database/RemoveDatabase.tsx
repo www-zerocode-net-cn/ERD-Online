@@ -15,11 +15,11 @@ const RemoveDatabase: React.FC<RemoveDatabaseProps> = (props) => {
 
 
   return (<>
-    <Popconfirm placement="right" title="删除数据库"
+    <Popconfirm placement="right" title="删除数据源"
                 onConfirm={() => projectDispatch.removeDatabase()} okText="是"
                 cancelText="否">
       <Button icon="remove"
-              text={"删除数据库"}
+              text={"删除数据源"}
               minimal={true}
               small={true}
               disabled={props.disable}

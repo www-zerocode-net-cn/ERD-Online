@@ -78,7 +78,7 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
     >
       <StepsForm.StepForm
         name="database"
-        title="选择数据库"
+        title="选择数据源"
         onFinish={async () => {
           console.log(formRef.current?.getFieldsValue());
           await waitTime(2000);
@@ -87,7 +87,7 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
       >
         <ProFormSelect
           name="db"
-          label="数据库："
+          label="数据源："
           width="md"
           rules={[{required: true}]}
           fieldProps={{

@@ -130,7 +130,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
       '逻辑名(英文名)*',
       '类型*',
       '类型(code)',
-      '数据库类型',
+      '数据源类型',
       '说明',
       '主键',
       '非空',

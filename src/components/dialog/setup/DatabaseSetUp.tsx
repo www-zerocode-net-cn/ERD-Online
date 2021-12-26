@@ -128,12 +128,12 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
   return (<>
       <ModalForm
         formRef={formRef}
-        title={<span>数据库连接配置</span>}
+        title={<span>数据源连接配置</span>}
         trigger={
           <Button
             key="db"
             icon="database"
-            text="数据库设置"
+            text="数据源设置"
             minimal={true}
             small={true}
             fill={true}
@@ -165,7 +165,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
               name="dbs"
               creatorButtonProps={false}
               label={
-                <span>{defaultDB ? ` 当前使用的数据库为【${defaultDB.name}】` : tempDBs.length > 0 ? ' 当前未选择默认数据库' : '当前未创建数据库'}</span>}
+                <span>{defaultDB ? ` 当前使用的数据源为【${defaultDB.name}】` : tempDBs.length > 0 ? ' 当前未选择默认数据源' : '当前未创建数据源'}</span>}
               itemRender={
                 ({listDom, action}, {record}) => {
                   console.log(147, 'record', record);
@@ -212,7 +212,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                         ]}
                       />
                       <Popconfirm
-                        title={record.defaultDB ? "是否要删除默认数据库，删除之后，系统将不存在默认数据库" : "是否删除该数据库"}
+                        title={record.defaultDB ? "是否要删除默认数据源，删除之后，系统将不存在默认数据源" : "是否删除该数据源"}
                         onConfirm={() => projectDispatch.removeDbs(record.key)}
                         okText="是"
                         cancelText="否"
@@ -241,7 +241,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                              username: ''
                            }
                          });
-                       }}>新增数据库</AntButton>
+                       }}>新增数据源</AntButton>
 
           </Grid>
           <Grid item xs={6}>

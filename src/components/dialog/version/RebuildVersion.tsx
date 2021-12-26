@@ -41,7 +41,7 @@ const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
         width="md"
         name="version"
         label="版本号"
-        placeholder="例如：v1.0.0【请勿低于系统默认的数据库版本v0.0.0】"
+        placeholder="例如：v1.0.0【请勿低于系统默认的数据源版本v0.0.0】"
         formItemProps={{
           rules: [
             {

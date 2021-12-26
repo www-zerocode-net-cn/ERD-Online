@@ -27,12 +27,12 @@ const ReverseDatabase: React.FC<DatabaseReverseProps> = (props) => {
 
   return (<>
     <ModalForm
-      title={<span>解析已有数据库<span style={{color: "red"}}>（暂时不支持索引解析生成）</span></span>}
+      title={<span>解析已有数据源<span style={{color: "red"}}>（暂时不支持索引解析生成）</span></span>}
       trigger={
         <Button
           key="reverse"
           icon={<MyIcon type="icon-line-height"/>}
-          text="数据库逆向解析"
+          text="数据源逆向解析"
           minimal={true}
           small={true}
           fill={true}
@@ -54,7 +54,7 @@ const ReverseDatabase: React.FC<DatabaseReverseProps> = (props) => {
       >
         <StepsForm.StepForm
           name="database"
-          title="选择数据库"
+          title="选择数据源"
           onFinish={async () => {
             console.log(formRef.current?.getFieldsValue());
             await waitTime(2000);
@@ -63,7 +63,7 @@ const ReverseDatabase: React.FC<DatabaseReverseProps> = (props) => {
         >
           <ProFormSelect
             name="db"
-            label="请选择需要解析的数据库："
+            label="请选择需要解析的数据源："
             width="md"
             rules={[{required: true}]}
             fieldProps={{
@@ -92,7 +92,7 @@ const ReverseDatabase: React.FC<DatabaseReverseProps> = (props) => {
         </StepsForm.StepForm>
         <StepsForm.StepForm
           name="db1"
-          title="获取数据库信息"
+          title="获取数据源信息"
           onFinish={async () => {
             console.log(formRef.current?.getFieldsValue());
             return true;

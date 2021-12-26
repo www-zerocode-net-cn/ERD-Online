@@ -119,7 +119,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
 
             <Button
               loading={state.synchronous}
-              title='会更新数据库中的版本号'
+              title='会更新数据源中的版本号'
               style={{
                 display: (currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
               }}
@@ -129,7 +129,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
             </Button>,
             <Button
               loading={state.flagSynchronous}
-              title='更新数据库的版本号，不会执行差异化的SQL'
+              title='更新数据源的版本号，不会执行差异化的SQL'
               style={{
                 display: (currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
               }}
@@ -139,7 +139,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
             </Button>,
             <Button
               loading={state.again}
-              title='不会更新数据库中的版本号'
+              title='不会更新数据源中的版本号'
               style={{
                 display: (currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) <= 0) ? '' : 'none',
                 marginLeft: 10,

@@ -26,7 +26,7 @@ const SyncVersion: React.FC<SyncVersionProps> = (props) => {
   }), shallow);
 
   return (<>
-    <MenuItem key="sync" shouldDismissPopover={false} text="同步到数据库" icon={<SyncIcon/>}
+    <MenuItem key="sync" shouldDismissPopover={false} text="同步到数据源" icon={<SyncIcon/>}
               disabled={compareStringVersion(currentVersion.version, dbVersion) <= 0 ? true : !!synchronous[currentVersion.version]}
               onClick={() => {
                 versionDispatch.readDb(

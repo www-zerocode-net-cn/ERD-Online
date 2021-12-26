@@ -40,11 +40,11 @@ const AddDatabase: React.FC<AddDatabaseProps> = (props) => {
 
   return (<>
     <ModalForm
-      title="新增数据库"
+      title="新增数据源"
       layout="horizontal"
       trigger={
         <Button icon="add"
-                text={"新增数据库"}
+                text={"新增数据源"}
                 minimal={true}
                 small={true}
                 fill={true}
@@ -65,8 +65,8 @@ const AddDatabase: React.FC<AddDatabaseProps> = (props) => {
       <ProFormText
         width="md"
         name="code"
-        label="数据库名称"
-        placeholder="请输入数据库名称"
+        label="数据源名称"
+        placeholder="请输入数据源名称"
         formItemProps={{
           rules: [
             {
@@ -84,13 +84,13 @@ const AddDatabase: React.FC<AddDatabaseProps> = (props) => {
       <ProForm.Group>
         <ProFormCheckbox
           name="defaultDatabase"
-          label="设为默认数据库"
-          tooltip="勾选此项，将会在数据表和关系图中显示默认数据库的数据类型"
+          label="设为默认数据源"
+          tooltip="勾选此项，将会在数据表和关系图中显示默认数据源的数据类型"
         />
         <ProFormCheckbox
           name="fileShow"
           label="生成至文档"
-          tooltip="勾选此项，将会在生成的文档中显示该数据库所对应的字段类型"
+          tooltip="勾选此项，将会在生成的文档中显示该数据源所对应的字段类型"
         />
       </ProForm.Group>
       <Divider>模板配置</Divider>

@@ -35,7 +35,7 @@ const DatabaseDomainsSlice = (set: SetState<ProjectState>) => ({
       state.project.projectJSON.dataTypeDomains.database.push(payload);
       message.success('提交成功');
     } else {
-      message.error(`数据库[${payload.name}]已经存在`);
+      message.error(`数据源[${payload.name}]已经存在`);
     }
   })),
   removeDatabase: () => set(produce(state => {

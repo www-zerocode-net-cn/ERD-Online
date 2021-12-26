@@ -126,7 +126,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
           }}
         />
       </ProForm.Group>
-      <Divider>数据库类型</Divider>
+      <Divider>数据源类型</Divider>
       <ProForm.Group>
         {database.map((d: any) => {
           return <ProFormText

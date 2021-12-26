@@ -303,7 +303,7 @@ const useVersionStore = create<VersionState>(
           set({
             dbVersion: '',
           });
-          message.warn('获取数据库版本信息失败,无法获取到数据库信息,请切换尝试数据库！', 5);
+          message.warn('获取数据源版本信息失败,无法获取到数据源信息,请切换尝试数据源！', 5);
           set({
             versionData: false,
           });
@@ -313,15 +313,15 @@ const useVersionStore = create<VersionState>(
             dbKey: dbData.key
           }).then((res: any) => {
             if (res && res.code === 200) {
-              message.success('数据库版本信息获取成功');
+              message.success('数据源版本信息获取成功');
             } else {
-              message.error('数据库版本信息获取失败');
+              message.error('数据源版本信息获取失败');
             }
             set({
               dbVersion: res.code !== 200 ? '' : res.data,
             });
           }).catch(() => {
-            message.error('数据库版本信息获取失败');
+            message.error('数据源版本信息获取失败');
           }).finally(() => {
             set({
               versionData: false,
@@ -376,7 +376,7 @@ const useVersionStore = create<VersionState>(
           set({
             dbVersion: '',
           })
-          message.error('无法获取到数据库信息，请切换尝试数据库');
+          message.error('无法获取到数据源信息，请切换尝试数据源');
         } else {
           Save.rebaseline({
             ...dbData,
@@ -523,7 +523,7 @@ const useVersionStore = create<VersionState>(
       },
       checkVersionCount: (version) => {
         const {dbVersion, versions} = get();
-        // 1.获取所有当前比数据库版本高的版本
+        // 1.获取所有当前比数据源版本高的版本
         let lowVersions = [];
         if (!dbVersion) {
           lowVersions = versions;
@@ -540,7 +540,7 @@ const useVersionStore = create<VersionState>(
           set({
             dbVersion: '',
           });
-          message.error('无法获取到数据库信息，请切换尝试数据库');
+          message.error('无法获取到数据源信息，请切换尝试数据源');
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           cb && cb();
         } else {
@@ -656,7 +656,7 @@ const useVersionStore = create<VersionState>(
         if (!status) {
           const dbData = get().dispatch.getCurrentDBData();
           if (!dbData) {
-            message.error('无法获取到数据库信息，请尝试切换数据库，并检查是否已经配置数据库信息！');
+            message.error('无法获取到数据源信息，请尝试切换数据源，并检查是否已经配置数据源信息！');
           } else {
             let flag = false;
             if (!initVersion) {
@@ -667,7 +667,7 @@ const useVersionStore = create<VersionState>(
             } else {
               Modal.confirm({
                 title: '同步确认',
-                content: '数据即将同步到数据库，同步后不可撤销，确定同步吗？',
+                content: '数据即将同步到数据源，同步后不可撤销，确定同步吗？',
                 onOk: (m) => {
                   _.set(get().synchronous, `${version.version}`, true);
                   const configData = _.get(projectState.project, "configJSON");

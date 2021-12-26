@@ -82,13 +82,13 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
     ;
     const renderDatabaseRightContext = () => <Menu>
         <AddDatabase moduleDisable={false}/>
-        <MenuItem icon="edit" text="修改数据库" onClick={() => {
+        <MenuItem icon="edit" text="修改数据源" onClick={() => {
           activeDatabasePanel();
         }}/>
         <RemoveDatabase disable={false}/>
-        <MenuItem icon="duplicate" text="复制数据库"/>
-        <MenuItem icon="cut" text="剪切数据库"/>
-        <MenuItem icon="clipboard" text="粘贴数据库"/>
+        <MenuItem icon="duplicate" text="复制数据源"/>
+        <MenuItem icon="cut" text="剪切数据源"/>
+        <MenuItem icon="clipboard" text="粘贴数据源"/>
       </Menu>
     ;
 
@@ -188,7 +188,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
                        type="database"
                        code="###menu###"
                        nodeId="database"
-                       labelText="数据库"
+                       labelText="数据源"
                        chnname="database"
                        labelIcon={"array"}
                        className="left-tree"
