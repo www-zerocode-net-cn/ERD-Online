@@ -65,6 +65,10 @@ const RenameVersion: React.FC<RenameVersionProps> = (props) => {
               message: '不能为空',
             },
             {
+              pattern: new RegExp(/^([1-9]\d|[1-9])(\.([1-9]\d|\d)){2}$/),
+              message: '版本号格式不对,版本需满足正则：/^([1-9]\\d|[1-9])(\\.([1-9]\\d|\\d)){2}$/，正确示例：1.0.1',
+            },
+            {
               max: 100,
               message: '不能大于 100 个字符',
             },

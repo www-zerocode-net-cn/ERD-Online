@@ -16,9 +16,10 @@ import useVersionStore from "@/store/version/useVersionStore";
 import {Top} from 'react-spaces';
 import './index.less';
 import SyncDisabledIcon from '@mui/icons-material/SyncDisabled';
-import SyncIcon from '@mui/icons-material/Sync';
+import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import ReportIcon from '@mui/icons-material/Report';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import {compareStringVersion} from "@/utils/string";
 import {Popover2} from "@blueprintjs/popover2";
@@ -80,9 +81,9 @@ const Version: React.FC<VersionProps> = (props) => {
       <div className="model-template-tool">
         <h5 className="bp3-heading head">历史版本</h5>
         {changes.length > 0 ?
-          <span title={"当前内容与上一版本的内容有变化，但未保存同步版本！"}><WarningAmberIcon color={"warning"}/></span>
+          <span title={"当前内容与上一版本的内容有变化，但未保存同步版本！"}><ReportIcon color={"warning"}/></span>
           :
-          <span title={"当前内容与上一版本内容无变化"}><SyncIcon color={"success"}/></span>
+          <span title={"当前内容与上一版本内容无变化"}><AssignmentTurnedInIcon/></span>
         }
       </div>
       <Divider/>
@@ -117,7 +118,7 @@ const Version: React.FC<VersionProps> = (props) => {
                     {
                       // eslint-disable-next-line no-nested-ternary
                       compareStringVersion(v.version, dbVersion) <= 0 ?
-                        <TimelineDot color="info" title="已同步"><SyncIcon/></TimelineDot>
+                        <TimelineDot color="info" title="已同步"><CloudSyncIcon/></TimelineDot>
                         :
                         synchronous[v.version] ?
                           <TimelineDot color="secondary" title="正在同步"><SyncAltIcon/></TimelineDot> :

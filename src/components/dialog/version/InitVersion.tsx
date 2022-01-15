@@ -72,12 +72,16 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
         width="md"
         name="version"
         label="版本号"
-        placeholder="例如：v1.0.0【请勿低于系统默认的数据源版本v0.0.0】"
+        placeholder="例如：1.0.0【请勿低于系统默认的数据源版本0.0.0】"
         formItemProps={{
           rules: [
             {
               required: true,
               message: '不能为空',
+            },
+            {
+              pattern: new RegExp(/^([1-9]\d|[1-9])(\.([1-9]\d|\d)){2}$/),
+              message: '版本号格式不对,版本需满足正则：/^([1-9]\\d|[1-9])(\\.([1-9]\\d|\\d)){2}$/，正确示例：1.0.1',
             },
             {
               max: 100,

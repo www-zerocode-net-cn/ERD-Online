@@ -7,6 +7,15 @@ import * as Save from '@/utils/save';
 import {getAllDataSQL, getCodeByChanges} from "@/utils/json2code";
 import moment from "moment";
 
+export const SHOW_CHANGE_TYPE = {
+  // 默认为最新版本变化
+  DEFAULT: "lastVersion",
+  // 计算当前选中
+  CURRENT: "currentVersion",
+  // 多版本差异比较
+  MULTI: "multiVersionCompare",
+}
+
 export type IVersionSlice = {
   checkBaseVersion: (versions: any) => void;
   getVersionMessage: (versionData: any, only?: boolean) => void;
@@ -26,7 +35,7 @@ export type IVersionSlice = {
   getOptName: (opt: any) => any;
   getTypeName: (type: any) => any;
   constructorMessage: (changes: any) => any;
-  showChanges: () => void;
+  showChanges: (type: string, change: any, currentVersion: any, lastVersion: any) => void;
   setChanges: (changes: any) => void;
   checkVersionCount: (version: any) => any;
   execSQL: (data: any, version: any, updateDBVersion: any, cb: any, onlyUpdateDBVersion: any) => void;
@@ -336,7 +345,7 @@ const useVersionStore = create<VersionState>(
             init: false,
           });
         } else {
-          message.warn('当前项目不存在基线版本，请先初始化基线', 5);
+          message.warn('当前数据源不存在基线版本，请先初始化基线', 5);
           set({
             init: true,
           });
@@ -381,7 +390,7 @@ const useVersionStore = create<VersionState>(
           Save.rebaseline({
             ...dbData,
             dbKey: dbData.key,
-            version: 'v0.0.0',
+            version: '0.0.0',
             versionDesc: '基线版本，新建版本时请勿低于该版本',
           }).then((res) => {
             if (res && res.code === 200) {
@@ -398,7 +407,7 @@ const useVersionStore = create<VersionState>(
       setCurrentVersion: (currentVersion, currentVersionIndex) => {
         set({
           currentVersion,
-          currentVersionIndex
+          currentVersionIndex,
         });
       },
       getOptName: (opt) => {
@@ -438,6 +447,7 @@ const useVersionStore = create<VersionState>(
         return optName;
       },
       constructorMessage: (changes) => {
+        debugger
         return changes.map((c: any) => {
           let tempMsg = `${get().dispatch.getOptName(c.opt)}
       ${get().dispatch.getTypeName(c.type)}【${c.name}】`;
@@ -450,15 +460,28 @@ const useVersionStore = create<VersionState>(
           };
         });
       },
-      showChanges: () => {
+      showChanges: (type: string, change: any, currentVersion: any, lastVersion: any) => {
+        debugger
         const dataSource = _.get(projectState.project, "projectJSON");
-        const {changes, init, dbVersion: defaultDB, currentVersion, currentVersionIndex, versions} = get();
-        const lastVersion = currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion;
-        let tempChanges = [...changes];
+        const {changes, init, dbVersion: defaultDB, currentVersionIndex, versions} = get();
+        if (!currentVersion || !lastVersion) {
+          currentVersion = get().currentVersion;
+          lastVersion = currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion;
+        }
+        console.log(471, currentVersion);
+        console.log(472, lastVersion);
+        let tempChanges;
+        if (type === SHOW_CHANGE_TYPE.CURRENT) {
+          tempChanges = [...currentVersion?.changes];
+        } else if (type === SHOW_CHANGE_TYPE.MULTI) {
+          tempChanges = [...change];
+        } else {
+          tempChanges = [...changes];
+        }
         const configData = _.get(projectState.project, 'configJSON');
         const tempValue = {
           upgradeType: 'rebuild',
-          ...(configData.synchronous || {}),
+          ...(configData?.synchronous || {}),
         };
         if (tempValue.upgradeType === 'rebuild') {
           // 如果是重建数据表则不需要字段更新的脚本
@@ -485,8 +508,14 @@ const useVersionStore = create<VersionState>(
           // todo 暂时取消数据表的中文名以及其他变化时所生成的更新数据
           tempChanges = tempChanges.filter(c => !(c.type === 'entity' && c.opt === 'update'));
         }
-
-        const messages = get().dispatch.constructorMessage(changes);
+        let messages;
+        if (type === SHOW_CHANGE_TYPE.CURRENT) {
+          messages = get().dispatch.constructorMessage(currentVersion?.changes || []);
+        } else if (type === SHOW_CHANGE_TYPE.MULTI) {
+          messages = get().dispatch.constructorMessage(change || []);
+        } else {
+          messages = get().dispatch.constructorMessage(changes || []);
+        }
         set({
             messages
           }
@@ -494,6 +523,7 @@ const useVersionStore = create<VersionState>(
         const dbData = get().dispatch.getCurrentDBData();
         const code = _.get(dbData, 'type', defaultDB);
         let data = '';
+        debugger
         if (init) {
           data = getAllDataSQL({
             ...dataSource,
@@ -509,7 +539,7 @@ const useVersionStore = create<VersionState>(
               ...dataSource,
               modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
             }, tempChanges, code, {
-              modules: (lastVersion && lastVersion.modules) || [],
+              modules: lastVersion.projectJSON ? lastVersion.projectJSON.modules : lastVersion.modules,
             });
         }
         set({
@@ -545,6 +575,7 @@ const useVersionStore = create<VersionState>(
           cb && cb();
         } else {
           get().dispatch.generateSQL(dbData, version, data, updateDBVersion, cb, onlyUpdateDBVersion);
+          get().fetch(null);
         }
       },
       generateSQL: (dbData, version, data, updateVersion, cb, onlyUpdateVersion) => {
@@ -607,8 +638,9 @@ const useVersionStore = create<VersionState>(
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           if (res.code === 200) {
             cb && cb(res);
+            message.success(`同步成功`);
           } else {
-            message.error(`同步失败`);
+            message.error(`同步失败：${res.msg}`);
           }
         }).catch((err: any) => {
           message.error(`同步失败:${err.message}`);
@@ -651,6 +683,7 @@ const useVersionStore = create<VersionState>(
             message.error(`版本信息删除失败${err.message}`);
           });
         }
+        get().fetch(null);
       },
       readDb: (status, version, lastVersion, changes = [], initVersion, updateVersion) => {
         if (!status) {
@@ -667,9 +700,11 @@ const useVersionStore = create<VersionState>(
             } else {
               Modal.confirm({
                 title: '同步确认',
-                content: '数据即将同步到数据源，同步后不可撤销，确定同步吗？',
+                content: '元数据即将同步到数据源，同步后不可撤销，确定同步吗？',
                 onOk: (m) => {
                   _.set(get().synchronous, `${version.version}`, true);
+                  console.log(673, m);
+                  m && m();
                   const configData = _.get(projectState.project, "configJSON");
                   let tempValue = {
                     upgradeType: _.omit(configData?.synchronous || {}, ['readDBType']) || 'rebuild',
@@ -716,6 +751,7 @@ const useVersionStore = create<VersionState>(
                       _.get(dbData, 'type', get().dbVersion), lastVersion.projectJSON);
                   }
                   get().dispatch.generateSQL(dbData, version, data, updateVersion);
+                  get().fetch(null);
                 }
               });
             }
@@ -841,7 +877,6 @@ const useVersionStore = create<VersionState>(
             };
           }),
         });
-        get().dispatch.getDBVersion();
         get().fetch(d);
       }
 

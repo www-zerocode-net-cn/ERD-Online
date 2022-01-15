@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ProForm, {ModalForm} from "@ant-design/pro-form";
 import {MenuItem} from "@blueprintjs/core";
 import {Divider, Grid} from "@mui/material";
+import DetailsIcon from '@mui/icons-material/Details';
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import {ProFormSelect} from "@ant-design/pro-form/es";
 import {compareStringVersion} from '@/utils/string';
-import useVersionStore from "@/store/version/useVersionStore";
+import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import CodeEditor from "@/components/CodeEditor";
 import {Button, message} from "antd";
@@ -13,7 +14,11 @@ import {checkVersionData} from "@/utils/dbversionutils";
 import moment from "moment";
 import * as File from '@/utils/file';
 
-export type CompareVersionProps = {};
+export const CompareVersionType = {DETAIL: "detail", COMPARE: "compare"}
+
+export type CompareVersionProps = {
+  type: string;
+};
 
 const CompareVersion: React.FC<CompareVersionProps> = (props) => {
   const {currentVersion, dbVersion, messages, data, versions, versionDispatch} = useVersionStore(state => ({
@@ -40,18 +45,17 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
     flagSynchronous: false,
   });
 
+  useEffect(() => {
+    compare();
+  }, [state.initVersion, state.incrementVersion]);
+
+
   const versionSelect = versions.map((v: any) => {
     return {label: v.version, value: v.version}
   })
 
-  const onVersionChange = (value: any, version: string) => {
-    setState({
-      ...state,
-      [version]: value,
-    });
-  };
 
-  const onCheck = () => {
+  const compare = () => {
     if (!state.initVersion || !state.incrementVersion) {
       message.warn('请选择你要比较的两个版本');
     }
@@ -61,6 +65,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
       // 读取两个版本下的数据信息
       let incrementVersionData = {};
       let initVersionData = {};
+      debugger
       versions.forEach((v: any) => {
         if (v.version === state.initVersion) {
           initVersionData = {modules: v.projectJSON.modules};
@@ -70,13 +75,21 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         }
       });
       const changes = checkVersionData(incrementVersionData, initVersionData);
-      versionDispatch.setChanges(changes);
+      versionDispatch.showChanges(SHOW_CHANGE_TYPE.MULTI, changes, incrementVersionData, initVersionData);
       setState({
         ...state,
         incrementVersionData
       });
     }
   };
+
+  const onVersionChange = (value: any, version: string) => {
+    setState({
+      ...state,
+      [version]: value,
+    });
+  };
+
 
   const onSave = () => {
     File.save(data, `${moment().format('YYYY-MM-D-h-mm-ss')}.sql`);
@@ -90,48 +103,53 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         ...state,
         [tempType]: true,
       });
-      versionDispatch.execSQL( data, currentVersion, updateDBVersion, () => {
+      try {
+        versionDispatch.execSQL(data, currentVersion, updateDBVersion, null, type === 'flagSynchronous');
+      } finally {
         setState({
           ...state,
           [tempType]: false,
         });
-      }, type === 'flagSynchronous');
+      }
     } else {
       message.error('当前操作的版本之前还有版本尚未同步，请不要跨版本操作!');
     }
   };
 
+
+  const isDetail = props.type === CompareVersionType.DETAIL;
+  const isCompare = props.type === CompareVersionType.COMPARE;
   return (<>
     <ModalForm
-      title="任意版本比较"
+      title={isDetail ? "版本变更详情" : "任意版本比较"}
       layout="horizontal"
       trigger={
-        <MenuItem key="compare" shouldDismissPopover={false} text="任意版本比较" icon={<CompareArrowsIcon/>}></MenuItem>
+        <MenuItem key="compare" shouldDismissPopover={false}
+                  text={isDetail ? "版本变更详情" : "任意版本比较"} icon={isDetail ? <DetailsIcon/> : <CompareArrowsIcon/>}
+                  onClick={() => isDetail ? versionDispatch.showChanges(SHOW_CHANGE_TYPE.CURRENT, null, null, null) : compare()}></MenuItem>
       }
       submitter={{
         // 完全自定义整个区域
         render: (props, doms) => {
           console.log(props);
           return [
-            <Button color="primary" key="check"
-                    onClick={() => onCheck()}>比较</Button>,
-            <Button  key="save" onClick={onSave}>导出到文件</Button>,
+            <Button key="save" onClick={onSave}>导出到文件</Button>,
 
             <Button
               loading={state.synchronous}
               title='会更新数据源中的版本号'
               style={{
-                display: (currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
+                display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
               }}
               onClick={() => execSQL(true, 'synchronous')}
             >
-              {state.synchronous ? '正在同步' : '同步'}
+              {state.synchronous ? '正在同步' : '同步到数据源'}
             </Button>,
             <Button
               loading={state.flagSynchronous}
               title='更新数据源的版本号，不会执行差异化的SQL'
               style={{
-                display: (currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
+                display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
               }}
               onClick={() => execSQL(true, 'flagSynchronous')}
             >
@@ -141,7 +159,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
               loading={state.again}
               title='不会更新数据源中的版本号'
               style={{
-                display: (currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) <= 0) ? '' : 'none',
+                display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) <= 0) ? '' : 'none',
                 marginLeft: 10,
               }}
               onClick={() => execSQL(false, 'again')}
@@ -151,7 +169,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         },
       }}
     >
-      <ProForm.Group>
+      <ProForm.Group style={{display: isCompare ? '' : 'none'}}>
         <ProFormSelect
           fieldProps={{
             onChange: (value: any) => {
@@ -179,23 +197,23 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
       </ProForm.Group>
       <Divider></Divider>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           变化信息
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           {
             currentVersion ? `变化脚本(${compareStringVersion(currentVersion.version, dbVersion) <= 0 ?
               '已同步' : '未同步'})` : '变化脚本'
           }
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4} style={{height: '450px', overflowY: "auto"}}>
           {
             messages.length > 0 ?
-              messages.map((m: any, index: number) => (<div key={m.message}>{`${index + 1}:${m.message}`}</div>)) :
+              messages.map((m: any, index: number) => (<div key={m.message}>{`${index + 1}: ${m.message}`}</div>)) :
               `${data ? '当前脚本为全量脚本' : '当前版本无变化'}`
           }
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <CodeEditor
             mode='mysql'
             height={`${tempHeight * 0.5}px`}

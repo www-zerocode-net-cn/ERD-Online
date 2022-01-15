@@ -19,7 +19,7 @@ import {IconName} from "@blueprintjs/icons";
 import {MaybeElement} from "@blueprintjs/core/src/common/props";
 import DefaultSetUp from "@/components/dialog/setup/DefaultSetUp";
 import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
-import CompareVersion from "@/components/dialog/version/CompareVersion";
+import CompareVersion, {CompareVersionType} from "@/components/dialog/version/CompareVersion";
 import RenameVersion from "@/components/dialog/version/RenameVersion";
 import RemoveVersion from "@/components/dialog/version/RemoveVersion";
 import SyncVersion from "@/components/dialog/version/SyncVersion";
@@ -140,7 +140,8 @@ export const NavigationMenu: React.FunctionComponent<IFileMenuProps> = props => 
 export const VersionHandle: React.FunctionComponent<IFileMenuProps> = props => {
   return (
     true ? <Menu>
-        <CompareVersion/>
+        <CompareVersion type={CompareVersionType.DETAIL}/>
+        <CompareVersion type={CompareVersionType.COMPARE}/>
         <RenameVersion/>
         <RemoveVersion/>
         <SyncVersion/>
