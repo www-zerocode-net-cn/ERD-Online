@@ -1,4 +1,4 @@
-import {SetState} from "zustand";
+import {GetState, SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import _ from 'lodash';
@@ -11,7 +11,7 @@ export interface IConfigJsonDispatchSlice {
   setUpgradeType: (value: any) => void;
 };
 
-const ConfigJsonSlice = (set: SetState<ProjectState>) => ({
+const ConfigJsonSlice = (set: SetState<ProjectState>,get:GetState<ProjectState>) => ({
   setConfigJson: (value: any) => set(produce(state => {
     state.project.configJSON = value
   })),

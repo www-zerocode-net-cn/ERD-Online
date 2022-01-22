@@ -68,7 +68,7 @@ const useProjectStore = create<ProjectState>(
   sync(
     immer(
 // @ts-ignore
-      (set) => ({
+      (set,get) => ({
         project: {},
         fetch: async () => {
           const projectId = cache.getItem('projectId');
@@ -123,8 +123,8 @@ const useProjectStore = create<ProjectState>(
             // @ts-ignore
             state.project.projectName = payload;
           }),
-          ...ProjectJsonSlice(set),
-          ...ConfigJsonSlice(set),
+          ...ProjectJsonSlice(set,get),
+          ...ConfigJsonSlice(set,get),
         }
       })
     )

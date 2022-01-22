@@ -1,4 +1,4 @@
-import {SetState} from "zustand";
+import {GetState, SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import ModulesSlice from "@/store/project/modulesSlice";
@@ -19,7 +19,7 @@ export interface IProjectJsonDispatchSlice {
 
 const globalState = useGlobalStore.getState();
 
-const ProjectJsonSlice = (set: SetState<ProjectState>) => ({
+const ProjectJsonSlice = (set: SetState<ProjectState>,get:GetState<ProjectState>) => ({
   setModules: (value: any) => set(produce(state => {
     state.project.projectJSON = value
   })),
@@ -35,7 +35,7 @@ const ProjectJsonSlice = (set: SetState<ProjectState>) => ({
   ...ModulesSlice(set),
   ...DataTypeDomainsSlice(set),
   ...DatabaseDomainsSlice(set),
-  ...ProfileSlice(set),
+  ...ProfileSlice(set,get),
 });
 
 
