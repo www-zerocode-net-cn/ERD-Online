@@ -1,5 +1,6 @@
 import create from "zustand";
 import produce from "immer";
+import useProjectStore from "@/store/project/useProjectStore";
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
 // 同名合并：interface 支持，type 不支持。
@@ -45,6 +46,9 @@ const useTabStore = create<TabState>(
       })),
       activeTab: (payload: ModuleEntity) => set(produce(state => {
         state.selectTabId = `${payload.module}###${payload.entity}`;
+        const projectDispatch = useProjectStore.getState().dispatch;
+        projectDispatch.setCurrentModule(payload.module);
+        projectDispatch.setCurrentEntity(payload.entity);
         console.log('state.selectTabId', state.selectTabId)
       })),
       removeTab: (payload: ModuleEntity) => set(produce(state => {
