@@ -13,6 +13,7 @@ import {Button, message} from "antd";
 import {checkVersionData} from "@/utils/dbversionutils";
 import moment from "moment";
 import * as File from '@/utils/file';
+import _ from 'lodash';
 
 export const CompareVersionType = {DETAIL: "detail", COMPARE: "compare"}
 
@@ -31,6 +32,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
   }), shallow);
 
   console.log(25, 'versions', versions);
+  console.log(34, 'data', data);
 
   const height = document.body.clientHeight;
   const tempHeight = height - 25;
@@ -65,7 +67,6 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
       // 读取两个版本下的数据信息
       let incrementVersionData = {};
       let initVersionData = {};
-      debugger
       versions.forEach((v: any) => {
         if (v.version === state.initVersion) {
           initVersionData = {modules: v.projectJSON.modules};
@@ -209,7 +210,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         <Grid item xs={4} style={{height: '450px', overflowY: "auto"}}>
           {
             messages.length > 0 ?
-              messages.map((m: any, index: number) => (<div key={m.message}>{`${index + 1}: ${m.message}`}</div>)) :
+              _.sortBy(messages,['opt','type']).map((m: any, index: number) => (<div key={m.message}>{`${index + 1}: ${m.message}`}</div>)) :
               `${data ? '当前脚本为全量脚本' : '当前版本无变化'}`
           }
         </Grid>
