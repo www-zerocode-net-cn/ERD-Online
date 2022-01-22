@@ -86,7 +86,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
         ...properties
       }).then((res: any) => {
         if (res.code !== 200) {
-          message.error('连接失败');
+          message.error('连接失败:' + res.msg);
         } else {
           message.success('连接成功');
         }
