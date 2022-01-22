@@ -136,6 +136,13 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     state.profileSliceState = profileSlice;
   })),
   dbReverseParse: (db: any, dataFormat: string) => set(produce(state => {
+    if (!dataFormat) {
+      dataFormat = 'DEFAULT';
+    }
+    if (!db) {
+      message.error('未选中或配置数据源');
+      return;
+    }
     const dbConfig = _.omit(db.properties, ['driver_class_name']);
     Save.dbReverseParse({
       ...dbConfig,
