@@ -248,44 +248,8 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
     }
   });
 
-  // 1.生成实体的sql
-  templateResult += changes
-    .filter(c => c.type === 'entity')
-    .map((c) => {
-      if (c.opt === 'add') {
-        const change = c.name;
-        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
-        return getTemplateString(getTemplate('createTableTemplate'), {
-          module: {name: dataTable.name},
-          entity: dataTable,
-          separator
-        });
-      } else if (c.opt === 'update') {
-        // 重建数据表
-        const change = c.name;
-        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
-        const oldDataTable = oldEntities.filter(t => t.title === change)[0] || {};
-        return getTemplateString(getTemplate('rebuildTableTemplate'), {
-          module: {name: dataTable.name},
-          oldEntity: oldDataTable,
-          newEntity: dataTable,
-          separator
-        });
-      } else {
-        const change = c.name;
-        return getTemplateString(getTemplate('deleteTableTemplate'), {
-          entity: {
-            title: change
-          },
-          separator
-        });
-      }
-    }).join('');
-
-  templateResult +='\r\n';
-
   // 将不同类型的模板组装到一起生成一个sql文件
-  // 2.生成属性的sql
+  // 1.生成属性的sql
   templateResult += changes
     .filter(c => c.type === 'field')
     .map((c) => {
@@ -337,9 +301,9 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
       }
     }).join('');
 
-  templateResult +='\r\n';
+  templateResult += '\r\n';
 
-  console.log(304, templateResult);
+  console.log(304, 'filed', templateResult);
 
   // 2.生成索引的sql
   templateResult += changes
@@ -380,6 +344,42 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
         index,
         separator
       });
+    }).join('');
+
+  templateResult += '\r\n';
+
+  // 3.生成实体的sql
+  templateResult += changes
+    .filter(c => c.type === 'entity')
+    .map((c) => {
+      if (c.opt === 'add') {
+        const change = c.name;
+        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
+        return getTemplateString(getTemplate('createTableTemplate'), {
+          module: {name: dataTable.name},
+          entity: dataTable,
+          separator
+        });
+      } else if (c.opt === 'update') {
+        // 重建数据表
+        const change = c.name;
+        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
+        const oldDataTable = oldEntities.filter(t => t.title === change)[0] || {};
+        return getTemplateString(getTemplate('rebuildTableTemplate'), {
+          module: {name: dataTable.name},
+          oldEntity: oldDataTable,
+          newEntity: dataTable,
+          separator
+        });
+      } else {
+        const change = c.name;
+        return getTemplateString(getTemplate('deleteTableTemplate'), {
+          entity: {
+            title: change
+          },
+          separator
+        });
+      }
     }).join('');
 
   console.log(383, templateResult);
