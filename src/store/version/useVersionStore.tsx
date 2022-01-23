@@ -450,9 +450,9 @@ const useVersionStore = create<VersionState>(
         constructorMessage: (changes: any) => {
           return changes.map((c: any) => {
             let tempMsg = `${get().dispatch.getOptName(c.opt)}
-      ${get().dispatch.getTypeName(c.type)}【${c.name}】`;
+      ${get().dispatch.getTypeName(c.type)}「${c.name}」`;
             if (c.changeData) {
-              tempMsg = `${tempMsg}【${c.changeData}】`;
+              tempMsg = `${tempMsg}「${c.changeData}」`;
             }
             return {
               ...c,

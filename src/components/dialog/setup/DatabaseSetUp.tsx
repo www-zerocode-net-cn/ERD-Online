@@ -165,7 +165,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
               name="dbs"
               creatorButtonProps={false}
               label={
-                <span>{defaultDB ? ` 当前使用的数据源为【${defaultDB.name}】` : tempDBs.length > 0 ? ' 当前未选择默认数据源' : '当前未创建数据源'}</span>}
+                <span>{defaultDB ? ` 当前使用的数据源为「${defaultDB.name}」` : tempDBs.length > 0 ? ' 当前未选择默认数据源' : '当前未创建数据源'}</span>}
               itemRender={
                 ({listDom, action}, {record}) => {
                   console.log(147, 'record', record);
