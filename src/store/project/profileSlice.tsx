@@ -143,6 +143,14 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       message.error('未选中或配置数据源');
       return;
     }
+    get().dispatch.setProfileSliceState({
+      loading: true,
+      flag: true,
+      status: true,
+      data: {},
+      exists: [],
+      keys: [],
+    });
     const dbConfig = _.omit(db.properties, ['driver_class_name']);
     Save.dbReverseParse({
       ...dbConfig,
@@ -150,21 +158,29 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       flag: dataFormat,
     }).then((res) => {
       if (res && res.code === 200) {
-        state.profileSliceState = {
-          ...state.profileSliceState,
+        console.log(153, 'data', res.data);
+        get().dispatch.setProfileSliceState({
+          ...get().profileSliceState,
           data: res.data || res,
           exists: get().dispatch.checkField(res.data || res),
           status: 'SUCCESS',
           flag: false,
-        };
+        });
       } else {
-        state.profileSliceState.status = 'FAILED';
-        message.error('数据库解析失败:' + res.data || res);
+        get().dispatch.setProfileSliceState({
+          ...get().profileSliceState,
+          status: 'FAILED'
+        });
+        message.error('数据库解析失败:' + res || res.msg);
       }
     }).catch((err) => {
       message.error('数据库解析失败:' + err.message);
     }).finally(() => {
-      state.profileSliceState.flag = false;
+      get().dispatch.setProfileSliceState({
+        ...get().profileSliceState,
+        flag: false,
+        loading: false
+      });
     });
   })),
   checkField: (data: any) => {
