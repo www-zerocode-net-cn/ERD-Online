@@ -4,12 +4,20 @@ import {MyIcon} from "@/components/Menu";
 import {ModalForm} from '@ant-design/pro-form';
 import {InboxOutlined} from '@mui/icons-material';
 import Dragger from "antd/es/upload/Dragger";
-import {message} from "antd";
+import {message, Modal} from "antd";
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
+import _ from "lodash";
 
 
 export type ReversePdManProps = {};
 
 const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
+  const {projectDispatch, projectJSON} = useProjectStore(state => ({
+    projectDispatch: state.dispatch,
+    projectJSON: state.project.projectJSON || {},
+  }), shallow);
+
   const prop = {
     multiple: false,
     maxCount: 1,
@@ -20,56 +28,58 @@ const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
         return false;
       }
 
-      return new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = () => {
-          // @ts-ignore
-          let pdmanJson = JSON.parse(reader.result.toString());
-          let pdmanJsonModules = pdmanJson['modules'];
-          if (!pdmanJsonModules) {
-            message.error('您导入的是非法的PDMan文件!');
-            return false;
-          }
-          if (!(pdmanJsonModules instanceof Array)) {
-            message.error('您导入的是非法的PDMan文件!');
-            return false;
-          }
-          if (pdmanJsonModules.length <= 0) {
-            message.success('您尚未在PDMan新建模块，无需导入，可直接在本系统新建模块!');
-          }
-          console.log(41, 'pdmanJsonModules', pdmanJsonModules);
-          // @ts-ignore
-          const {dataSource, saveProject} = {};
-          let resultMsg = '';
-          let resultModules: any = [];
-          pdmanJsonModules.forEach(module => {
-            let hasMulti = (dataSource.modules || []).some((module2:any) => module.name === module2.name);
-            (dataSource.modules || []).forEach((module1:any) => {
-              if (module.name === module1.name) {
-                resultMsg = resultMsg + "[" + module.name + "]已经在本系统中存在存在，将跳过导入；\n\r"
-              } else {
-                if (!hasMulti) {
-                  resultModules.push(module);
-                }
-              }
-            })
-          });
-          saveProject({
-            ...dataSource,
-            modules: (dataSource.modules || []).concat(resultModules),
-            dataTypeDomains: pdmanJson['dataTypeDomains'],
-            profile: pdmanJson['profile'],
-          }, () => {
-            if (resultMsg != '') {
-              message.success({resultMsg});
-            } else {
-              message.success({title: 'PdMan文件导入成功！'});
-            }
-          });
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        // @ts-ignore
+        let pdmanJson = JSON.parse(reader.result.toString());
+        let pdmanJsonModules = pdmanJson['modules'];
+        if (!pdmanJsonModules) {
+          message.error('您导入的是非法的PDMan文件!');
           return false;
-        };
-      });
+        }
+        if (!(pdmanJsonModules instanceof Array)) {
+          message.error('您导入的是非法的PDMan文件!');
+          return false;
+        }
+        if (pdmanJsonModules.length <= 0) {
+          message.warn('您尚未在PDMan新建模块，无需导入，可直接在本系统新建模块!');
+          return false;
+        }
+        console.log(41, 'pdmanJsonModules', pdmanJsonModules);
+        // @ts-ignore
+        const dataSource = projectJSON;
+        let resultMsg: any = [];
+        let resultModules: any = [];
+        pdmanJsonModules.forEach(module => {
+          let hasMulti = (dataSource.modules || []).some((module1: any) => module.name === module1.name);
+          if (!hasMulti) {
+            resultModules.push(module);
+          } else {
+            resultMsg.push("[" + module.name + "]已经在本系统中存在，已跳过导入");
+          }
+        });
+
+        projectDispatch.setProjectJson({
+          modules: (dataSource.modules || []).concat(resultModules),
+          dataTypeDomains: _.merge(dataSource.dataTypeDomains, pdmanJson['dataTypeDomains']),
+          profile: _.merge(dataSource.profile, pdmanJson['profile']),
+        });
+        if (resultMsg != '') {
+          Modal.warning({
+            title: '重要提示',
+            content: <>{resultMsg.map((m: any) => {
+              return <p>{m}</p>
+            })}</>,
+            okText: null,
+            cancelText: null,
+          });
+        } else {
+          message.success('PdMan文件导入成功！');
+        }
+        return true;
+      };
+      return true;
     },
   };
 
@@ -89,6 +99,7 @@ const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
       }
 
     >
+
       <Dragger {...prop}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined/>
@@ -101,6 +112,6 @@ const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
 
     </ModalForm>
   </>);
-}
+};
 
 export default React.memo(ReversePdMan)

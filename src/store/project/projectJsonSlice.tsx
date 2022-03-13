@@ -11,6 +11,7 @@ import {State} from "zustand/vanilla";
 export type IProjectJsonSlice = {}
 
 export interface IProjectJsonDispatchSlice {
+  setProjectJson: (value: any) => void;
   setModules: (value: any) => void;
   setDataTypeDomains: (value: any) => void;
   setProfile: (value: any) => void;
@@ -20,6 +21,9 @@ export interface IProjectJsonDispatchSlice {
 const globalState = useGlobalStore.getState();
 
 const ProjectJsonSlice = (set: SetState<ProjectState>,get:GetState<ProjectState>) => ({
+  setProjectJson: (value: any) => set(produce(state => {
+    state.project.projectJSON = value
+  })),
   setModules: (value: any) => set(produce(state => {
     state.project.projectJSON = value
   })),
