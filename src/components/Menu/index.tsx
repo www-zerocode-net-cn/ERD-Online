@@ -6,9 +6,7 @@ import AddVersion from "@/components/dialog/version/AddVersion";
 import SyncConfig from "@/components/dialog/version/SyncConfig";
 import InitVersion from "@/components/dialog/version/InitVersion";
 import RebuildVersion from "@/components/dialog/version/RebuildVersion";
-import ReversePDM from "@/components/dialog/import/ReversePDM";
 import ReverseDatabase from "../dialog/import/ReverseDatabase";
-import ReverseERWin from "@/components/dialog/import/ReverseERWin";
 import ReversePdMan from "@/components/dialog/import/ReversePdMan";
 import ExportFile from "@/components/dialog/export/ExportFile";
 import ExportDDL from "@/components/dialog/export/ExportDDL";
@@ -48,8 +46,8 @@ export const VersionMenu: React.FunctionComponent<IFileMenuProps> = props => (
 export const ImportMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <Menu className={props.className}>
     <ReverseDatabase/>
-    <ReversePDM/>
-    <ReverseERWin/>
+    {/*<ReversePDM/>*/}
+    {/*<ReverseERWin/>*/}
     <ReversePdMan/>
   </Menu>
 );

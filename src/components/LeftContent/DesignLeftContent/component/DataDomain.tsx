@@ -163,9 +163,9 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
           {datatype?.map((type: any) => {
             return <StyledTreeItem key={type.name}
                                    type="dataType"
-                                   code={type.code}
+                                   code={type.code||''}
                                    nodeId={type.name}
-                                   labelText={type.name}
+                                   labelText={type.name||''}
                                    chnname={type.chnname}
                                    labelIcon={"dot"}
                                    haveRightMenu={true}

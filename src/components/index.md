@@ -70,10 +70,10 @@ export default () => {
       placeholder="站内搜索"
       defaultValue="umi ui"
       options={[
-        { label: 'Ant Design Pro', value: 'Ant Design Pro' },
+        { label: 'ERD Online Pro', value: 'ERD Online Pro' },
         {
-          label: 'Ant Design',
-          value: 'Ant Design',
+          label: 'ERD Online',
+          value: 'ERD Online',
         },
         {
           label: 'Pro Table',
@@ -238,8 +238,8 @@ RightContent 是以上几个组件的组合，同时新增了 plugins 的 `Selec
     options={[
       { label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui' },
       {
-        label: <a href="next.ant.design">Ant Design</a>,
-        value: 'Ant Design',
+        label: <a href="next.ant.design">ERD Online</a>,
+        value: 'ERD Online',
       },
       {
         label: <a href="https://protable.ant.design/">Pro Table</a>,

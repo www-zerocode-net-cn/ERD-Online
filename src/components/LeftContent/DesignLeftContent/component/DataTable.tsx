@@ -185,7 +185,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
       leftIcon="search"
       placeholder=""
     />
-    <Bottom size="90%" scrollable={true}>
+    <Bottom size="90%" scrollable={true} style={{marginTop:'10px'}}>
       <TreeView
         className="root"
         defaultExpanded={['3']}
