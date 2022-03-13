@@ -15,6 +15,7 @@ export interface IModulesDispatchSlice {
   removeModule: () => void;
   updateModule: (payload: any) => void;
   setCurrentModule: (payload: any) => void,
+  updateAllModules: (payload: any) => void,
 };
 
 
@@ -49,6 +50,9 @@ const ModulesSlice = (set: SetState<ProjectState>) => ({
   setCurrentModule: (payload: any) => set(produce(state => {
     state.currentModule = payload
     state.currentModuleIndex = state.project.projectJSON.modules?.findIndex((m: any) => m.name === payload);
+  })),
+  updateAllModules: (payload: any) => set(produce(state => {
+    state.project.projectJSON.modules = payload;
   })),
   ...EntitiesSlice(set),
 });

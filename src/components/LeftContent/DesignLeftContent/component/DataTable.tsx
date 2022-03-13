@@ -21,7 +21,7 @@ import {TreeView} from '@mui/lab';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {makeStyles} from "@mui/styles";
-import {Top} from "react-spaces";
+import {Bottom} from "react-spaces";
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
   root: {
@@ -179,13 +179,13 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   }
 
   return (<>
-    <Top size="100%" scrollable={true}>
-      <InputGroup
-        className={classNames(Classes.ROUND, "table-search-input")}
-        asyncControl={true}
-        leftIcon="search"
-        placeholder=""
-      />
+    <InputGroup
+      className={classNames(Classes.ROUND, "table-search-input")}
+      asyncControl={true}
+      leftIcon="search"
+      placeholder=""
+    />
+    <Bottom size="90%" scrollable={true}>
       <TreeView
         className="root"
         defaultExpanded={['3']}
@@ -217,7 +217,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
         })}
 
       </TreeView>
-    </Top>
+    </Bottom>
   </>);
 }
 

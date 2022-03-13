@@ -20,7 +20,7 @@ export type TableInfoEditProps = {
 const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
 
   const {datatype, database, entity, projectDispatch} = useProjectStore(state => ({
-    entity: state.project?.projectJSON?.modules[state.currentModuleIndex || 0].entities[state.currentEntityIndex || 0],
+    entity: state.project?.projectJSON?.modules[state.currentModuleIndex || 0]?.entities[state.currentEntityIndex || 0],
     datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
     database: state.project?.projectJSON?.dataTypeDomains?.database,
     projectDispatch: state.dispatch,

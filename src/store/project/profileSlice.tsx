@@ -3,7 +3,7 @@ import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import _ from "lodash";
 import * as Save from '@/utils/save';
-import {message} from "antd";
+import {message, Modal} from "antd";
 
 export type IProfileSlice = {
   currentDbKey?: string;
@@ -33,6 +33,9 @@ export interface IProfileDispatchSlice {
   dbReverseParse: (db: any, dataFormat: string) => void;
   checkField: (data: any) => any;
   getAllTable: (dataSource: any) => any;
+  saveSelectedRowKeys: (selectedRowKeys: any) => void;
+  getSelectedEntity: () => boolean;
+  importReverseTable: () => void;
 }
 
 
@@ -204,6 +207,125 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       return a.concat((b.entities || []).map((entity: any) => entity.title));
     }, []);
   },
+  saveSelectedRowKeys: (selectedRowKeys: any) => {
+    get().dispatch.setProfileSliceState({
+      ...get().profileSliceState,
+      keys: selectedRowKeys.map((k: any) => {
+        return get().profileSliceState?.data?.module?.entities?.filter((e: any) => e.title === k)[0];
+      }).filter((k: any) => !!k)
+    });
+  },
+  getSelectedEntity: () => {
+    const keys = get().profileSliceState?.keys || [];
+    console.log(221, keys);
+    if (keys.length === 0) {
+      message.warn('未选中要导入数据表');
+      return false;
+    }
+    let isClose = false;
+    if (keys?.some((k: any) => get().profileSliceState.exists.includes(k.title))) {
+      Modal.confirm({
+        title: '温馨提示',
+        content: '勾选的数据表中包含模型中已经存在的数据表，继续操作将会覆盖模型中的数据，是否继续？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          isClose = true;
+          get().dispatch.importReverseTable();
+        }
+      });
+    } else {
+      get().dispatch.importReverseTable();
+      isClose = true;
+    }
+    return isClose;
+  },
+  importReverseTable: () => {
+    const dataSource = get().project?.projectJSON;
+    const {data, keys} = get().profileSliceState;
+    const dbType = _.get(data, 'dbType', 'MYSQL');
+    const module = _.get(data, 'module', {});
+    const datatypeObj = _.get(data, 'dataTypeMap', {});
+    let currentDataTypes = _.get(dataSource, 'dataTypeDomains.datatype', []);
+    const database = _.get(dataSource, 'dataTypeDomains.database', []);
+    if (!database.some((d: any) => d.code === dbType)) {
+      database.push({
+        code: dbType
+      });
+    }
+    const currentDataTypeCodes = currentDataTypes.map((t: any) => t.code);
+    const dataTypes = Object.keys(datatypeObj)
+      .map(d => ({
+        name: datatypeObj[d].name,
+        code: datatypeObj[d].code,
+        apply: {
+          [dbType]: {
+            type: datatypeObj[d].type
+          }
+        }
+      })).filter(d => !currentDataTypeCodes.includes(d.code));
+    currentDataTypes = currentDataTypes.map((c: any) => {
+      if (datatypeObj[c.code]) {
+        return {
+          ...c,
+          apply: {
+            ...(c.apply || {}),
+            [dbType]: {
+              type: datatypeObj[c.code].type
+            }
+          }
+        }
+      }
+      return c;
+    });
+    let tempKeys = [...keys];
+    let tempData = {...dataSource};
+    // 1.循环所有已知的数据表
+    let modules = (tempData.modules || []).map((m: any) => ({
+      ...m,
+      entities: (m.entities || []).map((e: any) => {
+        // 执行覆盖操作
+        const dbEntity = keys.filter((k: any) => k.title === e.title)[0];
+        if (dbEntity) {
+          tempKeys = tempKeys.filter(t => t.title !== dbEntity.title);
+        }
+        return dbEntity || e;
+      })
+    }));
+    if (modules.map((m: any) => m.name).includes(module.code)) {
+      // 如果该模块已经存在了
+      modules = modules.map((m: any) => {
+        if (m.name === module.code) {
+          return {
+            ...m,
+            entities: (m.entities || []).concat(tempKeys),
+          };
+        }
+        return m;
+      })
+    } else {
+      modules.push({
+        name: module.code,
+        chnname: module.name,
+        entities: tempKeys
+      });
+    }
+    tempData = {
+      ...tempData,
+      modules,
+      dataTypeDomains: {
+        ...(dataSource.dataTypeDomains || {}),
+        datatype: currentDataTypes.concat(dataTypes),
+        database,
+      },
+    };
+    console.log(311, 'moudles', modules);
+    console.log(312, 'dataTypes', dataTypes);
+    get().dispatch.updateAllModules(modules);
+    get().dispatch.updateAllDataTypes(currentDataTypes.concat(dataTypes));
+    console.log(313, tempData);
+    message.success('操作成功！')
+  }
 });
 
 

@@ -15,6 +15,7 @@ export interface IDataTypeDomainsDispatchSlice {
   removeDatatype: () => void;
   updateDatatype: (payload: any) => void;
   setCurrentDatatype: (payload: any) => void,
+  updateAllDataTypes: (payload: any) => void,
 }
 
 const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({
@@ -53,6 +54,9 @@ const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({
   setCurrentDatatype: (payload: any) => set(produce(state => {
     state.currentDataType = payload
     state.currentDataTypeIndex = state.project.projectJSON.dataTypeDomains?.datatype?.findIndex((m: any) => m.code === payload);
+  })),
+  updateAllDataTypes: (payload: any) => set(produce(state => {
+    state.project.projectJSON.dataTypeDomains.datatype = payload;
   })),
 });
 
