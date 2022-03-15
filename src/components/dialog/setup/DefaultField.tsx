@@ -11,8 +11,7 @@ import _ from "lodash";
 export type DefaultFieldProps = {};
 
 const DefaultField: React.FC<DefaultFieldProps> = (props) => {
-  const {datatype, database, entity, projectDispatch} = useProjectStore(state => ({
-    entity: state.project?.projectJSON?.modules[state.currentModuleIndex || 0].entities[state.currentEntityIndex || 0],
+  const {datatype, database, projectDispatch} = useProjectStore(state => ({
     datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
     database: state.project?.projectJSON?.dataTypeDomains?.database,
     projectDispatch: state.dispatch,
@@ -23,11 +22,13 @@ const DefaultField: React.FC<DefaultFieldProps> = (props) => {
     return t.name;
   })
 
-  // 由于 zustand 冻结了所有属性，均不可直接编辑，所以需要做一次转换
-  const s = JSON.stringify(entity?.fields || [{}]);
+  const defaultJson = projectDispatch.getDefaultFields();
+
+  console.log(29, 'defaultJson', defaultJson);
 
   const afterChange = (payload: any) => {
-    projectDispatch.updateEntityFields(payload);
+    console.log(32, 'updateDefaultFields', payload);
+    projectDispatch.updateDefaultFields(payload);
   }
 
   const hotTableComponent = useRef(null);
@@ -46,7 +47,7 @@ const DefaultField: React.FC<DefaultFieldProps> = (props) => {
   };
 
   const hotSettings = {
-    data: JSON.parse(s),
+    data: defaultJson || [],
     columns: [
       {
         data: 'chnname',

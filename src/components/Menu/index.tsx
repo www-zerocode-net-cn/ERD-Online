@@ -8,7 +8,7 @@ import InitVersion from "@/components/dialog/version/InitVersion";
 import RebuildVersion from "@/components/dialog/version/RebuildVersion";
 import ReverseDatabase from "../dialog/import/ReverseDatabase";
 import ReversePdMan from "@/components/dialog/import/ReversePdMan";
-import ExportFile from "@/components/dialog/export/ExportFile";
+import ExportHTML from "@/components/dialog/export/ExportHTML";
 import ExportDDL from "@/components/dialog/export/ExportDDL";
 import ExportJson from "@/components/dialog/export/ExportJson";
 import DatabaseSetUp from "@/components/dialog/setup/DatabaseSetUp";
@@ -21,6 +21,8 @@ import CompareVersion, {CompareVersionType} from "@/components/dialog/version/Co
 import RenameVersion from "@/components/dialog/version/RenameVersion";
 import RemoveVersion from "@/components/dialog/version/RemoveVersion";
 import SyncVersion from "@/components/dialog/version/SyncVersion";
+import ExportWord from "@/components/dialog/export/ExportWord";
+import ExportMarkdown from "@/components/dialog/export/ExportMarkdown";
 
 
 export const MyIcon = createFromIconfontCN({
@@ -54,7 +56,9 @@ export const ImportMenu: React.FunctionComponent<IFileMenuProps> = props => (
 
 export const ExportMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <Menu className={props.className}>
-    <ExportFile/>
+    <ExportHTML/>
+    <ExportWord/>
+    <ExportMarkdown/>
     <ExportDDL/>
     <ExportJson/>
   </Menu>

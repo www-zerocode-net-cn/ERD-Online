@@ -7,6 +7,7 @@ import ProfileSlice from "@/store/project/profileSlice";
 import DatabaseDomainsSlice from "@/store/project/databaseDomainsSlice";
 import useGlobalStore from "@/store/global/globalStore";
 import {State} from "zustand/vanilla";
+import ExportSlice from "@/store/project/exportSlice";
 
 export type IProjectJsonSlice = {}
 
@@ -38,8 +39,9 @@ const ProjectJsonSlice = (set: SetState<ProjectState>,get:GetState<ProjectState>
   },
   ...ModulesSlice(set),
   ...DataTypeDomainsSlice(set),
-  ...DatabaseDomainsSlice(set),
+  ...DatabaseDomainsSlice(set,get),
   ...ProfileSlice(set,get),
+  ...ExportSlice(set,get),
 });
 
 

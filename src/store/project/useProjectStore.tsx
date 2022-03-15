@@ -18,6 +18,7 @@ import {uuid} from '@/utils/uuid';
 import * as Save from '@/utils/save';
 import useGlobalStore from "@/store/global/globalStore";
 import produce from "immer";
+import {IExportDispatchSlice, IExportSlice} from "@/store/project/exportSlice";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -30,7 +31,9 @@ export type ProjectState =
   {
     project: any,
     fetch: () => Promise<void>;
-    dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice & IEntitiesDispatchSlice
+    dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice
+      & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice
+      & IEntitiesDispatchSlice & IExportDispatchSlice
   }
   & IProjectJsonSlice
   & IConfigJsonSlice
@@ -38,6 +41,7 @@ export type ProjectState =
   & IDataTypeDomainsSlice
   & IDatabaseDomainsSlice
   & IProfileSlice
+  & IExportSlice
   & IEntitiesSlice;
 
 // Turn the set method into an immer proxy

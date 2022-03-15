@@ -13,7 +13,7 @@ export type IProfileSlice = {
 export interface IProfileDispatchSlice {
   addDefaultFields: (defaultFieldsIndex: number, payload: any) => void;
   removeDefaultFields: (defaultFieldsIndex: number) => void;
-  updateDefaultFields: (defaultFieldsIndex: number, payload: any) => void;
+  updateDefaultFields: (payload: any) => void;
 
   updateDefaultFieldsType: (payload: any) => void;
   updateSqlConfig: (payload: any) => void;
@@ -36,6 +36,7 @@ export interface IProfileDispatchSlice {
   saveSelectedRowKeys: (selectedRowKeys: any) => void;
   getSelectedEntity: () => boolean;
   importReverseTable: () => void;
+  getDefaultFields: () => any;
 }
 
 
@@ -46,8 +47,8 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   removeDefaultFields: (defaultFieldsIndex: number) => set(produce(state => {
     delete state.project.projectJSON.profile.defaultFields[defaultFieldsIndex];
   })),
-  updateDefaultFields: (defaultFieldsIndex: number, payload: any) => set(produce(state => {
-    state.project.projectJSON.profile.defaultFields[defaultFieldsIndex] = payload;
+  updateDefaultFields: (payload: any) => set(produce(state => {
+    state.project.projectJSON.profile.defaultFields = payload;
   })),
 
   updateDefaultFieldsType: (payload: any) => set(produce(state => {
@@ -325,6 +326,24 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     get().dispatch.updateAllDataTypes(currentDataTypes.concat(dataTypes));
     console.log(313, tempData);
     message.success('操作成功！')
+  },
+  getDefaultFields: () => {
+    const defaultDatabaseCode = get().dispatch.getDefaultDatabaseCode();
+    console.log(30, 'defaultDatabaseCode', defaultDatabaseCode);
+    const defaultFields = get().project?.projectJSON?.profile?.defaultFields || [];
+    const datatype = get().project?.projectJSON?.dataTypeDomains?.datatype || [];
+    return defaultFields.map((d: any) => {
+      const defaultField = _.find(datatype, ['code', d.type]);
+      if (defaultField) {
+        console.log(31, 'defaultField', defaultField);
+        return {
+          ...d,
+          dataType: defaultDatabaseCode ? _.get(defaultField, `apply.${defaultDatabaseCode}.type`) : '',
+          typeName: defaultField.name || ''
+        };
+      }
+    });
+
   }
 });
 

@@ -38,17 +38,21 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
           <DefaultField/>
         </ProCard.TabPane>
         <ProCard.TabPane key="tab2" tab="默认配置">
+          <ProFormText.Password
+            width="md"
+            label="ERD秘钥"
+            extra='仅用于ERD导入导出加密解密'
+            name="erdPassword"
+            placeholder="默认随机生成"
+          />
           <ProFormText
             width="md"
             name="code"
             label="SQL分隔符"
+            extra='分隔每条往数据库执行的SQL'
             placeholder="默认为/*SQL@Run*/"
             formItemProps={{
               rules: [
-                {
-                  required: true,
-                  message: '不能为空',
-                },
                 {
                   max: 100,
                   message: '不能大于 100 个字符',

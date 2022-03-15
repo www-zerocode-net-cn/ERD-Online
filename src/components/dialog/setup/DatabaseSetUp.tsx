@@ -327,7 +327,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                 ],
               }}
             />
-            <ProFormText
+            <ProFormText.Password
               width="md"
               name="password"
               label="password"

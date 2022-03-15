@@ -5,24 +5,23 @@ import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 
 
-export type ExportJsonProps = {};
+export type ExportFileProps = {};
 
-const ExportJson: React.FC<ExportJsonProps> = (props) => {
+const ExportHTML: React.FC<ExportFileProps> = (props) => {
   const {projectDispatch} = useProjectStore(state => ({
     projectDispatch: state.dispatch,
   }), shallow);
   return (<>
     <Button
-      key="JSON"
-      icon={<MyIcon type="icon-JSON"/>}
-      text="导出ERD"
+      key="HTML"
+      icon={<MyIcon type="icon-HTML"/>}
+      text="导出HTML"
       minimal={true}
       small={true}
       fill={true}
-      onClick={()=>projectDispatch.exportFile('JSON')}
-      alignText={Alignment.LEFT}
-    ></Button>
+      onClick={()=>projectDispatch.exportFile('Html')}
+      alignText={Alignment.LEFT}></Button>
   </>);
 }
 
-export default React.memo(ExportJson)
+export default React.memo(ExportHTML)

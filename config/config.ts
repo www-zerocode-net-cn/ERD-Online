@@ -67,6 +67,12 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
   sass: {},
+  mfsu: {},
+  headScripts: [
+    { src: '/js/html2canvas.min.js', defer: true },
+    { src: '/js/g6.min.js', defer: true },
+    { src: '/js/g6-plugins.min.js', defer: true },
+  ],
   // 生产环境去除console日志打印
   terserOptions: {
     compress: {
