@@ -8,6 +8,7 @@ import DatabaseDomainsSlice from "@/store/project/databaseDomainsSlice";
 import useGlobalStore from "@/store/global/globalStore";
 import {State} from "zustand/vanilla";
 import ExportSlice from "@/store/project/exportSlice";
+import * as CryptoJS from 'crypto-js';
 
 export type IProjectJsonSlice = {}
 
@@ -17,11 +18,13 @@ export interface IProjectJsonDispatchSlice {
   setDataTypeDomains: (value: any) => void;
   setProfile: (value: any) => void;
   getGlobalStore: () => State;
+  encrypt: (type: string, origin: string) => string;
+  decrypt: (type: string, secret: string) => string;
 };
 
 const globalState = useGlobalStore.getState();
 
-const ProjectJsonSlice = (set: SetState<ProjectState>,get:GetState<ProjectState>) => ({
+const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
   setProjectJson: (value: any) => set(produce(state => {
     state.project.projectJSON = value
   })),
@@ -37,11 +40,40 @@ const ProjectJsonSlice = (set: SetState<ProjectState>,get:GetState<ProjectState>
   getGlobalStore: () => {
     return globalState;
   },
+  encrypt: (type: string, origin: string) => {
+    const erdPassword = get().project?.projectJSON?.profile?.erdPassword || 'erd123';
+    const secretKey = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(erdPassword).toString());
+    const iv = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(secretKey).toString().substr(0, 16));
+    if (type === 'AES') {
+      const src = CryptoJS.enc.Utf8.parse(origin);
+      const result = CryptoJS.AES.encrypt(src, secretKey, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      });
+      return result.toString();
+    }
+    return "";
+  },
+  decrypt: (type: string, secret: string) => {
+    if (type === 'AES') {
+      const erdPassword = get().project?.projectJSON?.profile?.erdPassword || 'erd123';
+      const secretKey = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(erdPassword).toString());
+      const iv = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(secretKey).toString().substr(0, 16));
+      const decrypted = CryptoJS.AES.decrypt(secret, secretKey, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      });
+      return CryptoJS.enc.Utf8.stringify(decrypted);
+    }
+    return "";
+  },
   ...ModulesSlice(set),
   ...DataTypeDomainsSlice(set),
-  ...DatabaseDomainsSlice(set,get),
-  ...ProfileSlice(set,get),
-  ...ExportSlice(set,get),
+  ...DatabaseDomainsSlice(set, get),
+  ...ProfileSlice(set, get),
+  ...ExportSlice(set, get),
 });
 
 

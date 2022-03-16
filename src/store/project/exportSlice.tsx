@@ -55,6 +55,8 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
           return a;
         }, {});
         const projectId = cache.getItem('projectId');
+        const defaultDatabase = get().dispatch.getCurrentDBData();
+        console.log(59, defaultDatabase);
         request.post('/ncnb/doc/gendocx', {
           method: 'POST',
           responseType: 'blob',
@@ -62,7 +64,8 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
             imgs: tempImages,
             projectId,
             type,
-            doctpl: _.get(dataSource, 'profile.wordTemplateConfig', "")
+            doctpl: _.get(dataSource, 'profile.wordTemplateConfig', ""),
+            dbKey: defaultDatabase.key || ''
           }
         }).then((res) => {
           if (res) {
@@ -106,7 +109,9 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
           }),
         },
       };
-      File.save(JSON.stringify(tempDataSource, null, 2), `${project}.erd.json`);
+      const originERDJson = JSON.stringify(tempDataSource, null, 2);
+      const secret = get().dispatch.encrypt("AES", originERDJson);
+      File.save(secret, `${project}.erd.json`);
     }
     // else if (type === 'SQL') {
     //   const database = _.get(dataSource, 'dataTypeDomains.database', []);
@@ -150,7 +155,7 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
     if (allTable.length > 50) {
       Modal.warning({
         title: '导出提示',
-        content: `当前导出的数据表较多， 共【${allTable.length}】张表，请耐心等待！`,
+        content: `当前导出的数据表较多， 共【${allTable.length}】张表，请耐心等待！导出完毕之前请勿关闭此窗口！`,
         okText: null,
         cancelText: null,
       });

@@ -49,7 +49,7 @@ const ModulesSlice = (set: SetState<ProjectState>) => ({
   })),
   setCurrentModule: (payload: any) => set(produce(state => {
     state.currentModule = payload
-    state.currentModuleIndex = state.project.projectJSON.modules?.findIndex((m: any) => m.name === payload);
+    state.currentModuleIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m?.name === payload);
   })),
   updateAllModules: (payload: any) => set(produce(state => {
     state.project.projectJSON.modules = payload;

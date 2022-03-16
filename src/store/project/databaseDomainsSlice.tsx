@@ -66,7 +66,7 @@ const DatabaseDomainsSlice = (set: SetState<ProjectState>, get: GetState<Project
     state.currentDatabaseIndex = state.project.projectJSON.dataTypeDomains?.database?.findIndex((m: any) => m.code === payload);
   })),
   getDefaultDatabase: () => {
-    const database = get().project.projectJSON.dataTypeDomains.database;
+    const database = get().project?.projectJSON?.dataTypeDomains?.database;
     console.log(69, 'get().project.projectJSON.dataTypeDomains.database', database);
     return _.find(database, {'defaultDatabase': true});
   },

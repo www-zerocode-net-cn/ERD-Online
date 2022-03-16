@@ -4,12 +4,23 @@ import {ModalForm, ProFormFieldSet, ProFormSwitch, ProFormText, ProFormUploadBut
 import ProCard from "@ant-design/pro-card";
 import "./index.less";
 import DefaultField from "@/components/dialog/setup/DefaultField";
+import * as cache from "@/utils/cache";
+import {Button as AntButton, message} from "antd";
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
 
 
 export type DefaultSetUpProps = {};
 
 const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
   const [tab, setTab] = useState('tab1');
+  const projectId = cache.getItem('projectId');
+
+  const {projectDispatch, profile} = useProjectStore(state => ({
+    projectDispatch: state.dispatch,
+    profile: state.project?.projectJSON?.profile
+  }), shallow);
+
 
   return (<>
     <ModalForm
@@ -24,6 +35,13 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
           fill={true}
           alignText={Alignment.LEFT}></Button>
       }
+      initialValues={profile}
+      onFinish={async (values: any) => {
+
+        console.log(35, values);
+        await projectDispatch.updateProfile(values);
+        return true;
+      }}
     >
       <ProCard
         tabs={{
@@ -47,7 +65,7 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
           />
           <ProFormText
             width="md"
-            name="code"
+            name="sqlConfig"
             label="SQL分隔符"
             extra='分隔每条往数据库执行的SQL'
             placeholder="默认为/*SQL@Run*/"
@@ -66,10 +84,30 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
           >
             <ProFormUploadButton
               max={1}
-              name="upload"
-              action="upload.do"
+              name="wordTemplateConfig"
+              fieldProps={{
+                name: 'file',
+                headers: {
+                  Authorization: 'Bearer 1'
+                },
+                onChange: (e) => {
+                  if (e.file.status == 'done') { //上传完成时
+                    console.log(83, 'e.file', e);
+                    if (e.file.response.code == 200) {
+                      projectDispatch.updateWordTemplateConfig(e.file.response.data);
+                    } else {
+                      message.error(e.file.response.msg ?? '上传失败')
+                    }
+                  } else if (e.file.status == 'error') { //上传错误时
+                    message.error('上传失败')
+                  }
+                  //status状态：'error' | 'success' | 'done' | 'uploading' | 'removed';
+                },
+              }}
+              action={`http://localhost:9502/ncnb/doc/uploadWordTemplate/${projectId}`}
+
             />
-            <Button text="下载模板" outlined={true} intent="primary"/>
+            <AntButton title='下载模板' onClick={() => projectDispatch.downloadWordTemplate()}>下载模板</AntButton>
           </ProFormFieldSet>
           <ProFormSwitch
             name="operationMode"

@@ -173,8 +173,8 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   };
 
   const activeEntity = (module: any, entity: any) => {
-    tabDispatch.addTab({module: module.name, entity: entity.title});
-    projectDispatch.setCurrentModule(module.name);
+    tabDispatch.addTab({module: module?.name, entity: entity.title});
+    projectDispatch.setCurrentModule(module?.name);
     projectDispatch.setCurrentEntity(entity.title);
   }
 
@@ -194,22 +194,22 @@ const DataTable: React.FC<DataTableProps> = (props) => {
         defaultEndIcon={<div style={{width: 24}}/>}
       >
         {modules?.map((module: any) => {
-          return <StyledTreeItem key={module.name}
+          return <StyledTreeItem key={module?.name}
                                  type="module"
-                                 module={module.name}
-                                 nodeId={module.name}
-                                 labelText={module.name}
-                                 chnname={module.chnname}
+                                 module={module?.name}
+                                 nodeId={module?.name}
+                                 labelText={module?.name}
+                                 chnname={module?.chnname}
                                  labelIcon={"database"}
                                  labelInfo={module?.entities?.length}
-                                 onClick={() => projectDispatch.setCurrentModule(module.name)}>
+                                 onClick={() => projectDispatch.setCurrentModule(module?.name)}>
             {module?.entities?.map((entity: any) => {
-              return <StyledTreeItem key={`${module.name}###${entity.title}`}
+              return <StyledTreeItem key={`${module?.name}###${entity.title}`}
                                      type="entity"
-                                     module={module.name}
-                                     nodeId={`${module.name}###${entity.title}`}
+                                     module={module?.name}
+                                     nodeId={`${module?.name}###${entity.title}`}
                                      labelText={entity.title}
-                                     chnname={entity.chnname}
+                                     chnname={entity?.chnname}
                                      labelIcon={"th"} labelInfo={entity?.fields?.length}
                                      onClick={() => activeEntity(module, entity)}/>
             })}

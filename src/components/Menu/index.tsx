@@ -23,6 +23,7 @@ import RemoveVersion from "@/components/dialog/version/RemoveVersion";
 import SyncVersion from "@/components/dialog/version/SyncVersion";
 import ExportWord from "@/components/dialog/export/ExportWord";
 import ExportMarkdown from "@/components/dialog/export/ExportMarkdown";
+import ReverseERD from "@/components/dialog/import/ReverseERD";
 
 
 export const MyIcon = createFromIconfontCN({
@@ -51,6 +52,7 @@ export const ImportMenu: React.FunctionComponent<IFileMenuProps> = props => (
     {/*<ReversePDM/>*/}
     {/*<ReverseERWin/>*/}
     <ReversePdMan/>
+    <ReverseERD/>
   </Menu>
 );
 

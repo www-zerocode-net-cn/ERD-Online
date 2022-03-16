@@ -19,6 +19,7 @@ import * as Save from '@/utils/save';
 import useGlobalStore from "@/store/global/globalStore";
 import produce from "immer";
 import {IExportDispatchSlice, IExportSlice} from "@/store/project/exportSlice";
+import {message} from "antd";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -64,30 +65,34 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
           const projectId = cache.getItem('projectId');
           await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {
             console.log(45, res);
-            const data = res.data;
-            const datatype = data?.projectJSON?.dataTypeDomains?.datatype || [];
-            const database = data?.projectJSON?.dataTypeDomains?.database || [];
-            const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
-            console.log(45, defaultDatabaseCode);
-            data?.projectJSON?.modules?.forEach((m: any) => {
-              m?.entities?.forEach((e: any) => {
-                e?.fields?.forEach((f: any) => {
-                  const d = _.find(datatype, {'code': f?.type});
-                  _.assign(f, {"typeName": d?.name});
-                  const path = `apply.${defaultDatabaseCode}.type`;
-                  _.assign(f, {"dataType": _.get(d, path)});
+            const data = res?.data;
+            if (data) {
+              const datatype = data?.projectJSON?.dataTypeDomains?.datatype || [];
+              const database = data?.projectJSON?.dataTypeDomains?.database || [];
+              const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
+              console.log(45, defaultDatabaseCode);
+              data?.projectJSON?.modules?.forEach((m: any) => {
+                m?.entities?.forEach((e: any) => {
+                  e?.fields?.forEach((f: any) => {
+                    const d = _.find(datatype, {'code': f?.type});
+                    _.assign(f, {"typeName": d?.name});
+                    const path = `apply.${defaultDatabaseCode}.type`;
+                    _.assign(f, {"dataType": _.get(d, path)});
+                  });
                 });
               });
-            });
 
-            //解决导入dbs没有key的问题
-            data?.projectJSON?.profile?.dbs?.forEach((d: any) => {
-              if (d && !d.key) {
-                _.assign(d, {"key": uuid()});
+              //解决导入dbs没有key的问题
+              data?.projectJSON?.profile?.dbs?.forEach((d: any) => {
+                if (d && !d.key) {
+                  _.assign(d, {"key": uuid()});
 
-              }
-            });
-            set({project: data});
+                }
+              });
+              set({project: data});
+            }else {
+              message.error('获取项目信息失败');
+            }
           });
         },
         dispatch: {
@@ -106,8 +111,8 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
 const globalState = useGlobalStore.getState();
 // @ts-ignore
 useProjectStore.subscribe(state => state.project, (project, previousProject) => {
-  console.log(136, project);
-  console.log(137, previousProject);
+  console.log(109, project);
+  console.log(110, previousProject);
   globalState.dispatch.setSaved(false);
   Save.saveProject(project);
   globalState.dispatch.setSaved(true);

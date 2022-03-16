@@ -4,6 +4,8 @@ import produce from "immer";
 import _ from "lodash";
 import * as Save from '@/utils/save';
 import {message, Modal} from "antd";
+import request from "@/utils/request";
+import {saveByBlob} from "@/utils/file";
 
 export type IProfileSlice = {
   currentDbKey?: string;
@@ -26,6 +28,8 @@ export interface IProfileDispatchSlice {
   setDefaultDb: (payload: string) => void;
 
   updateWordTemplateConfig: (payload: any) => void;
+  updateProfile: (payload: any) => void;
+
 
   getCurrentDBName: () => any;
   getCurrentDBData: () => any;
@@ -37,6 +41,7 @@ export interface IProfileDispatchSlice {
   getSelectedEntity: () => boolean;
   importReverseTable: () => void;
   getDefaultFields: () => any;
+  downloadWordTemplate: () => any;
 }
 
 
@@ -122,6 +127,13 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
 
   updateWordTemplateConfig: (payload: any) => set(produce(state => {
     state.project.projectJSON.profile.wordTemplateConfig = payload;
+  })),
+  updateProfile: (payload: any) => set(produce(state => {
+    console.log(131, payload);
+    const profile = _.assign(state.project.projectJSON.profile, payload);
+    console.log(133, profile);
+    state.project.projectJSON.profile = profile;
+    message.success('设置成功');
   })),
   getCurrentDBName: () => {
     const db = get().dispatch.getCurrentDBData();
@@ -344,6 +356,27 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       }
     });
 
+  },
+  downloadWordTemplate: () => {
+    // 获取word的目录
+    const doctpl = get().project?.projectJSON?.profile.wordTemplateConfig;
+    console.log(29, 'doctpl', doctpl)
+    if (!doctpl) {
+      message.error('下载模板出错!无法获取模板位置');
+    }
+    request('/ncnb/doc/downloadWordTemplate', {
+      method: 'GET',
+      responseType: 'blob',
+      params: {
+        doctpl: doctpl
+      }
+    }).then((res) => {
+      if (res) {
+        saveByBlob(res, 'template.docx');
+      }
+    }).catch((err) => {
+      message.error(`下载模板出错!出错原因：${err.message}！`);
+    });
   }
 });
 
