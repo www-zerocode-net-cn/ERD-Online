@@ -65,6 +65,7 @@
     "@umijs/route-utils": "^1.0.36",
     "ace-builds": "^1.4.12",
     "classnames": "^2.2.6",
+    "crypto-js": "^4.1.1",
     "dot": "^1.1.2",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -88,6 +89,7 @@
     "zustand": "^3.6.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/express": "^4.17.0",
     "@types/history": "^4.7.2",
     "@types/jest": "^26.0.0",
