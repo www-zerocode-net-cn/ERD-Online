@@ -104,7 +104,7 @@ const Version: React.FC<VersionProps> = (props) => {
         />
       </DatabaseSelect>
       <div className="version-list">
-        <Top size="100%" scrollable={true}>
+        <Top size="90%" scrollable={true}>
           <Timeline position="left">
             {versions && versions.length > 0 ?
               versions.map((v: any, index: number) => {
