@@ -47,10 +47,11 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "@ant-design/pro-card": "^1.16.2",
-    "@ant-design/pro-form": "^1.40.0",
-    "@ant-design/pro-layout": "^6.15.3",
-    "@ant-design/pro-table": "^2.56.6",
+    "antd": "^4.18.7",
+    "@ant-design/pro-card": "^1.18.39",
+    "@ant-design/pro-form": "^1.58.1",
+    "@ant-design/pro-layout": "^6.34.3",
+    "@ant-design/pro-table": "^2.67.1",
     "@blueprintjs/core": "^3.49.0",
     "@blueprintjs/docs-theme": "^3.10.8",
     "@blueprintjs/popover2": "^0.11.3",
