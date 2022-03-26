@@ -4,29 +4,34 @@ import {MyIcon} from "@/components/Menu";
 import {
   ModalForm,
   ProFormCheckbox,
+  ProFormDependency,
   ProFormInstance,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
+  ProFormTreeSelect,
   StepsForm
 } from "@ant-design/pro-form";
 import CodeEditor from "@/components/CodeEditor";
-import {Button as MuiButton} from "@mui/material";
-import {message} from "antd";
+import {Button as AntButton} from "antd";
 import _ from 'lodash';
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
+import {RadioChangeEvent} from "antd/lib/radio/interface";
 
 
 export type ExportDDLProps = {};
 
 const ExportDDL: React.FC<ExportDDLProps> = (props) => {
+  const {projectDispatch, dbs, data} = useProjectStore(state => ({
+    data: state.exportSliceState?.data || '',
+    projectDispatch: state.dispatch,
+    dbs: state.project.projectJSON?.profile?.dbs || [],
+  }), shallow);
 
-  const waitTime = (time: number = 100) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, time);
-    });
-  };
+
+  projectDispatch.setExportData();
+
   const formRef = useRef<ProFormInstance>();
   return (<>
 
@@ -34,12 +39,33 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
     <StepsForm
       formRef={formRef}
       onFinish={async () => {
-        await waitTime(1000);
-        message.success('提交成功');
+        projectDispatch.exportSQL();
       }}
+
       formProps={{
         validateMessages: {
           required: '此项为必填项',
+        },
+      }}
+      submitter={{
+        render: (props) => {
+          if (props.step === 0) {
+            return (
+              <AntButton type="primary" onClick={() => props.onSubmit?.()}>
+                下一步
+              </AntButton>
+            );
+          }
+
+
+          return [
+            <AntButton key="gotoTwo" onClick={() => props.onPre?.()}>
+              上一步
+            </AntButton>,
+            <AntButton type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
+              导出
+            </AntButton>,
+          ];
         },
       }}
       stepsFormRender={(dom, submitter) => {
@@ -61,13 +87,9 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
               // 完全自定义整个区域
               render: (props, doms) => {
                 console.log(props);
-                console.log('submitter', submitter);
+                console.log('submitter69', submitter);
                 // @ts-ignore
-                return _.concat(submitter, [
-                  <MuiButton variant="outlined" color="warning" key="rest"
-                             onClick={() => props.form?.resetFields()}>重置</MuiButton>,
-                  <MuiButton variant="contained" key="submit" onClick={() => props.form?.submit?.()}> 确定 </MuiButton>,
-                ]);
+                return _.concat(submitter, []);
               },
             }}
           >
@@ -78,43 +100,64 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
     >
       <StepsForm.StepForm
         name="database"
-        title="选择数据源"
+        title="选择数据源及导出的表"
         onFinish={async () => {
           console.log(formRef.current?.getFieldsValue());
-          await waitTime(2000);
           return true;
         }}
       >
         <ProFormSelect
-          name="db"
-          label="数据源："
+          name="currentDB"
+          label="数据源"
           width="md"
           rules={[{required: true}]}
+          initialValue={projectDispatch.getCurrentDBName()}
+          request={async () => dbs.map((db: any) => {
+            return {label: db.name, value: db.key}
+          })}
           fieldProps={{
-            labelInValue: true,
+            onChange: (value: any, option: any) => {
+              console.log(108, value);
+              console.log(109, option);
+              projectDispatch.onDBChange(value);
+            }
           }}
-          request={async () => [
-            {label: '全大写', value: 'UPPERCASE'},
-            {label: '全小写', value: 'LOWCASE'},
-            {label: '不处理', value: 'DEFAULT'},
-          ]}
         />
-        <ProFormText
-          width="md"
+        <ProFormTreeSelect
           name="name"
           label="导出数据表"
-          placeholder="请输入导出数据表"
-          formItemProps={{
-            rules: [
-              {
-                required: true,
-                message: '不能为空',
-              },
-              {
-                max: 100,
-                message: '不能大于 100 个字符',
-              },
-            ],
+          width="md"
+          placeholder="点击选择要导出的表"
+          allowClear
+          rules={[{required: true}]}
+          request={async () => {
+            const initAllKeys = projectDispatch.initAllKeys();
+            console.log(115, initAllKeys);
+            return initAllKeys || [];
+          }}
+          // tree-select args
+          fieldProps={{
+            filterTreeNode: true,
+            labelInValue: true,
+            multiple: true,
+            showArrow: true,
+            maxTagCount: 10,
+            treeCheckable: true,
+            dropdownStyle: {maxHeight: 400, overflow: 'auto'},
+            treeNodeFilterProp: 'title',
+            fieldNames: {
+              label: 'title',
+            },
+            onChange: (value: any, labelList: any, extra: any) => {
+              console.log(187, value);
+              const selectTable = value.map((m: any) => {
+                return m.label;
+              });
+              projectDispatch.onSelectTableChange(selectTable);
+              //`${d.name}/${c.title}`
+              console.log(188, labelList);
+              console.log(189, extra);
+            }
           }}
         />
       </StepsForm.StepForm>
@@ -127,37 +170,75 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
         }}
       >
         <ProFormRadio.Group
-          name="export"
+          key="exportType"
+          name="exportType"
           label="导出内容"
+          initialValue="all"
           options={[
-            {
-              label: '自定义',
-              value: 'customer',
-            },
             {
               label: '全部',
               value: 'all',
             },
+            {
+              label: '自定义',
+              value: 'customer',
+            },
           ]}
+          fieldProps={{
+            onChange: (e: RadioChangeEvent) => {
+              console.log(174, e);
+              projectDispatch.onExportTypeChange(e.target.value);
+            }
+          }}
         />
-        <ProFormCheckbox.Group
-          name="checkbox-group"
-          label="自定义导出内容"
-          options={['deleteTable', 'createTable', 'createIndex', 'updateComment']}
-        />
+        <ProFormDependency name={['exportType']}>
+          {({exportType}) => {
+            console.log(173, exportType);
+            if (exportType === 'customer') {
+              return (
+                <ProFormCheckbox.Group
+                  key="customer"
+                  name="customer"
+                  label="自定义导出内容"
+                  options={[{
+                    label: '删表语句',
+                    value: 'deleteTable',
+                  }, {
+                    label: '建表语句',
+                    value: 'createTable',
+                  }, {
+                    label: '建索引语句',
+                    value: 'createIndex',
+                  }, {
+                    label: '表注释语句',
+                    value: 'updateComment',
+                  },
+                  ]}
+                  fieldProps={{
+                    onChange: (checkedValue: any) => {
+                      console.log(197, checkedValue);
+                      projectDispatch.onCustomTypeChange(checkedValue);
+                    }
+                  }}
+                />
+              );
+            }
+            return <></>;
+          }}
+        </ProFormDependency>
+
         <ProFormText
           label="预览"
         >
           <CodeEditor
             mode='mysql'
-            // @ts-ignore
-            value=""
+            value={data}
           />
         </ProFormText>
       </StepsForm.StepForm>
 
     </StepsForm>
   </>);
-}
+};
 
 export default React.memo(ExportDDL)

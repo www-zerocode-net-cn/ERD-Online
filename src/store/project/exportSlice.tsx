@@ -8,16 +8,33 @@ import * as cache from "@/utils/cache";
 import request from "@/utils/request";
 import _ from 'lodash';
 import {generateHtml} from "@/utils/generatehtml";
+import {getAllDataSQLByFilter} from "@/utils/json2code";
+import produce from "immer";
+import moment from "moment";
 
-export type IExportSlice = {}
+export type IExportSlice = {
+  exportSliceState?: any;
+}
 
 export interface IExportDispatchSlice {
+  setExportSliceState: (exportSlice: any) => void;
   exportFile: (type: string) => void;
   showExportMessage: () => void;
+  onDBChange: (defaultDb: string) => void;
+  onCustomTypeChange: (customType: any) => void;
+  onExportTypeChange: (exportType: string) => void;
+  initAllKeys: () => any;
+  onSelectTableChange: (selectTable: []) => any;
+  setExportData: () => any;
+  getExportData: () => any;
+  exportSQL: () => any;
 }
 
 
 const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
+  setExportSliceState: (exportSlice: any) => set(produce(state => {
+    state.exportSliceState = exportSlice;
+  })),
   exportFile: (type: string) => {
     const {projectJSON: dataSource, projectName: project} = get().project;
     const columnOrder = [
@@ -33,7 +50,6 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
       {code: 'relationNoShow', value: '关系图', com: 'Icon', relationNoShow: true},
       {code: 'uiHint', value: 'UI建议', com: 'Select', relationNoShow: true},
     ];
-    debugger;
     if (type === 'Markdown') {
       get().dispatch.showExportMessage();
       saveImage(dataSource, columnOrder, (images: any) => {
@@ -160,7 +176,106 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
         cancelText: null,
       });
     }
+  },
+  onDBChange: (defaultDb: string) => {
+    get().dispatch.setExportSliceState({
+      ...get().exportSliceState,
+      defaultDb: defaultDb
+    });
+  },
+  onExportTypeChange: (exportType: string) => {
+    const allType = ['deleteTable', 'createTable', 'createIndex', 'updateComment'];
+    let customType = get().exportSliceState?.customType;
+    console.log(186, customType);
+    // 如果是自定义的，之前选中过，按之前的算；没选中过，给个空的
+    if (exportType === 'customer') {
+      customType = [];
+    } else {
+      customType = allType;
+    }
+    console.log(196, customType);
+
+    get().dispatch.setExportSliceState({
+      ...get().exportSliceState,
+      exportType: exportType,
+      customType: customType
+    });
+    get().dispatch.setExportData();
+  },
+  onCustomTypeChange: (customType: string) => {
+    get().dispatch.setExportSliceState({
+      ...get().exportSliceState,
+      customType: customType
+    });
+    get().dispatch.setExportData();
+
+  },
+  initAllKeys: () => {
+    const modules = get().project?.projectJSON?.modules;
+    return (modules || []).map((m: any, i: number) => {
+      return {
+        title: `${m.name}-${m.chnname || ''}`,
+        value: i,
+        children: m.entities.map((e: any, j: number) => {
+          return {
+            title: `${e.title}`,
+            value: `${i}-${j}`,
+          }
+        })
+      }
+    });
+    // return (modules || []).reduce((a: any, b: any) => {
+    //   return (a.concat(b.entities.map((c: any) => ({...c, key: `${b.name}/${c.title}`}))));
+    // }, (modules || []).map((d: any) => ({key: d.name}))).map((k: any) => k.key);
+  },
+  onSelectTableChange: (selectTable: []) => {
+    get().dispatch.setExportSliceState({
+      ...get().exportSliceState,
+      selectTable: selectTable
+    });
+    get().dispatch.setExportData();
+  },
+  setExportData: () => {
+    const {projectJSON: dataSource} = get().project;
+    const {defaultDb, selectTable, customType} = get()?.exportSliceState || {};
+    let tempDataSource = {...dataSource};
+    console.log(212, selectTable);
+    if (selectTable) {
+      tempDataSource = {
+        ...tempDataSource,
+        modules: (tempDataSource.modules || []).map((m: any) => {
+          return {
+            ...m,
+            entities: (m.entities || []).filter((e: any) => selectTable.includes(e.title)),
+          };
+        }),
+      };
+    }
+    // @ts-ignore
+    const data = getAllDataSQLByFilter(tempDataSource,
+      defaultDb || get()?.dispatch.getCurrentDBName(),
+      customType || ['deleteTable', 'createTable', 'createIndex', 'updateComment']);
+    console.log(213, data);
+    get().dispatch.setExportSliceState({
+      ...get().exportSliceState,
+      data: data
+    });
+    console.log(214, get());
+
+  },
+  getExportData: () => {
+    return get().exportSliceState?.data || '';
+  },
+  exportSQL: () => {
+    const data = get().exportSliceState?.data;
+    if (data) {
+      File.save(data, `${moment().format('YYYY-MM-D-h-mm-ss')}.sql`);
+      message.success('导出成功');
+    }else {
+      message.warn('暂时无法导出');
+    }
   }
+
 });
 
 
