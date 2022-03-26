@@ -212,7 +212,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                         ]}
                       />
                       <Popconfirm
-                        title={record.defaultDB ? "是否要删除默认数据源，删除之后，系统将不存在默认数据源" : "是否删除该数据源"}
+                        title={record.defaultDB ? "是否要删除默认数据源？删除之后，系统将不存在默认数据源,且该数据源下所有版本将同时删除！" : "是否删除该数据源？删除之后，该数据源下所有版本将同时删除！"}
                         onConfirm={() => projectDispatch.removeDbs(record.key)}
                         okText="是"
                         cancelText="否"
