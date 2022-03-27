@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, ButtonGroup, IconName, OverflowList} from "@blueprintjs/core";
 import {Popover2} from "@blueprintjs/popover2";
-import {ProjectMenu} from "@/components/Menu";
+import {ProjectSortMenu} from "@/components/Menu";
 import {notification, Pagination} from 'antd';
 import {Fixed} from "react-spaces";
 import {Card, CardActionArea, CardContent, CardMedia, Typography} from '@mui/material';
@@ -50,11 +50,12 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
     });
   }, [state.page]);
 
-  const renderButton = (text: string, iconName: IconName) => {
+  const renderButton = (type: string, text: string, iconName: IconName) => {
     const vertical = false
     const rightIconName: IconName = vertical ? "caret-right" : "caret-down";
     return (
-      <Popover2 content={<ProjectMenu/>} placement={vertical ? "right-start" : "bottom-start"}>
+      <Popover2 content={<ProjectSortMenu/>}
+                placement={vertical ? "right-start" : "bottom-start"}>
         <Button rightIcon={rightIconName} icon={iconName} text={text}/>
       </Popover2>
     );
@@ -87,14 +88,13 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
   return (<>
       <div className="body-header-tool">
         <div>
-          <ButtonGroup minimal={true} fill={true} style={{minWidth: 120}}>
-            {renderButton("File", "document")}
-          </ButtonGroup>
+          <Button icon={"plus"} text={'新增'}/>
+
         </div>
         <div>
           <div>
             <ButtonGroup style={{minWidth: 120}}>
-              {renderButton("新增", "plus")}
+              {renderButton('sort', "排序", "sort")}
             </ButtonGroup>
           </div>
         </div>

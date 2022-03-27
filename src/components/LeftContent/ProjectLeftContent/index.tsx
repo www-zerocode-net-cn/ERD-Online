@@ -8,7 +8,7 @@ export type ProjectLeftContentProps = {};
 
 const ProjectLeftContent: React.FC<ProjectLeftContentProps> = (props) => {
   return (
-    <Left size="10%">
+    <Left size="12%">
       <Menu className={classNames(Classes.ELEVATION_4)}>
         <MenuItem icon="time" text="最近"/>
         <MenuItem icon="document" text="项目模型"/>

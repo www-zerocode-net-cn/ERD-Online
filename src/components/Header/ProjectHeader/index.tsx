@@ -8,12 +8,12 @@ export type ProjectHeaderProps = {};
 const ProjectHeader: React.FC<ProjectHeaderProps> = (props) => {
   return (
     <Top size="50px">
-      <Left size={"10%"}>
+      <Left size={"12%"}>
         <Navbar>
           <Navbar.Group align={Alignment.CENTER}>
             <img src={"/favicon.ico"}/>
             <NavbarDivider/>
-            <Navbar.Heading>ZERO CODE</Navbar.Heading>
+            <Navbar.Heading>ERD Online</Navbar.Heading>
           </Navbar.Group>
         </Navbar>
       </Left>

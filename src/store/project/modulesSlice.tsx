@@ -24,7 +24,7 @@ const ModulesSlice = (set: SetState<ProjectState>) => ({
   currentModuleIndex: -1,
   addModule: (payload: any) => set(produce(state => {
     const moduleName = payload.name;
-    const findIndex = state.project.projectJSON.modules.findIndex((m: any) => m.name === moduleName);
+    const findIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m.name === moduleName);
     if (findIndex === -1) {
       state.project.projectJSON.modules.push(payload);
       message.success('提交成功');

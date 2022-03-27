@@ -124,6 +124,27 @@ export const ProjectMenu: React.FunctionComponent<IFileMenuProps> = props => {
   );
 };
 
+
+export const ProjectSortMenu: React.FunctionComponent<IFileMenuProps> = props => {
+  return (
+    <Menu>
+      <MenuItem text="创建时间" icon="time"/>
+      <MenuItem text="最近修改" icon="updated"/>
+    </Menu>
+  );
+};
+
+export const ProjectFilterMenu: React.FunctionComponent<IFileMenuProps> = props => {
+  return (
+    <Menu>
+      <MenuItem key="history" shouldDismissPopover={false} text="过滤1" icon="history"
+                onMouseOver={() => setShortcut(PANEL.VERSION)}></MenuItem>
+      <MenuItem key="import" shouldDismissPopover={false} text="过滤2" icon="import"
+                onMouseOver={() => setShortcut(PANEL.DEFAULT)}></MenuItem>
+    </Menu>
+  );
+};
+
 export const NavigationMenu: React.FunctionComponent<IFileMenuProps> = props => {
   const {className} = props;
   return (

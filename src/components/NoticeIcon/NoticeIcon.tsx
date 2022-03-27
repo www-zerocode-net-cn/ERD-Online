@@ -104,6 +104,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
   }
 
   return (
+  // @ts-ignore
     <HeaderDropdown
       placement="bottomRight"
       overlay={notificationBox}

@@ -17,7 +17,7 @@ const ProjectLayout: React.FC<ProjectLayoutProps> = (props) => {
       <ProjectHeader/>
       <Fill>
         <ProjectLeftContent/>
-        <Right size="90%">
+        <Right size="88%">
           {children}
         </Right>
       </Fill>

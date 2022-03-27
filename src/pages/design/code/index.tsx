@@ -11,7 +11,7 @@ const Code: React.FC<CodeProps> = (props) => {
     <>
       <Left size={"80%"}>
         <ProjectList/>
-        <a className="copyright">2021@ZEROCODE</a>
+        <a className="copyright">2021@ERD Online</a>
       </Left>
       <Right size="20%">
         <TemplateSquare/>
