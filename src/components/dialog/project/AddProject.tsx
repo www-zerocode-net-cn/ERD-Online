@@ -29,12 +29,13 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
       }
       onFinish={async (values: any) => {
         console.log(39, values);
-        await projectDispatch.addProject({
+        projectDispatch.addProject({
           ...emptyProject,
           projectName: values.projectName,
           description: values.description,
+        }).then(() => {
+          props.fetchProjects();
         });
-        props.fetchProjects();
         return true;
       }}
     >
