@@ -1,20 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {Button, ButtonGroup, IconName, Menu, MenuItem, OverflowList} from "@blueprintjs/core";
 import {Popover2} from "@blueprintjs/popover2";
-import {ProjectSortMenu} from "@/components/Menu";
 import {message, Pagination} from 'antd';
 import {Fixed} from "react-spaces";
 import {Card, CardActionArea, CardContent, CardMedia, Typography} from '@mui/material';
-import request from "@/utils/request";
 import * as cache from "@/utils/cache";
 import AddProject from "@/components/dialog/project/AddProject";
+import {pageProject} from "@/utils/save";
 
 export type ProjectListProps = {
   page?: number;
   limit?: number;
   total?: number;
   projects?: any;
-  orders?: any;
+  order?: any;
 };
 
 
@@ -24,18 +23,11 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
     limit: 8,
     total: 0,
     projects: [],
-    orders: []
+    order: "createTime"
   });
 
-  const fetchProjects = () => {
-    request.get('/ncnb/project/page', {
-        params: {
-          page: state.page,
-          limit: state.limit,
-          orders: state.orders
-        }
-      }
-    ).then(res => {
+  const fetchProjects = (params: any) => {
+    pageProject(params || state).then(res => {
       if (res) {
         if (res.data) {
           console.log(44, 'projects', res);
@@ -54,16 +46,29 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
   }
 
   useEffect(() => {
-    fetchProjects();
-  }, [state.page, state.orders]);
+    fetchProjects(state);
+  }, [state.page, state.order]);
+
+  const orderByCreateTime = () => {
+    setState({
+      ...state,
+      order: 'createTime'
+    })
+  }
+  const orderByUpdateTime = () => {
+    setState({
+      ...state,
+      order: 'updateTime'
+    })
+  }
 
   const renderButton = (type: string, text: string, iconName: IconName) => {
     const vertical = false
     const rightIconName: IconName = vertical ? "caret-right" : "caret-down";
     const projectSortMenu = (
       <Menu>
-        <MenuItem text="创建时间" icon="time" />
-        <MenuItem text="最近修改" icon="updated"/>
+        <MenuItem text="创建时间" icon="time" onClick={() => orderByCreateTime()}/>
+        <MenuItem text="最近修改" icon="updated" onClick={() => orderByUpdateTime()}/>
       </Menu>
     );
     return (
@@ -101,7 +106,7 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
   return (<>
       <div className="body-header-tool">
         <div>
-          <AddProject fetchProjects={() => fetchProjects()}/>
+          <AddProject fetchProjects={() => fetchProjects(null)}/>
         </div>
         <div>
           <div>

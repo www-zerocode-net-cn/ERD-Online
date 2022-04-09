@@ -14,8 +14,8 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
     saved: state.saved,
   }), shallow);
   return (
-    <Top size="50px">
-      <Left size={"80%"}>
+    <Top size="50px" style={{background:"#404854"}}>
+      <Left size={"15%"}>
         <Navbar>
           <Navbar.Group align={Alignment.CENTER}>
             <Popover2 autoFocus={false}
