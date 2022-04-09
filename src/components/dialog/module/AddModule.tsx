@@ -46,7 +46,7 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
       <ProForm.Group>
         <ProFormText width="md"
                      name="name"
-                     label="模块名"
+                     label="模块名「英文名」"
                      placeholder="请输入模块名"
                      formItemProps={{
                        rules: [

@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Button, ButtonGroup, IconName, OverflowList} from "@blueprintjs/core";
+import {Button, ButtonGroup, IconName, Menu, MenuItem, OverflowList} from "@blueprintjs/core";
 import {Popover2} from "@blueprintjs/popover2";
 import {ProjectSortMenu} from "@/components/Menu";
-import {notification, Pagination} from 'antd';
+import {message, Pagination} from 'antd';
 import {Fixed} from "react-spaces";
 import {Card, CardActionArea, CardContent, CardMedia, Typography} from '@mui/material';
 import request from "@/utils/request";
 import * as cache from "@/utils/cache";
+import AddProject from "@/components/dialog/project/AddProject";
 
 export type ProjectListProps = {
   page?: number;
   limit?: number;
   total?: number;
   projects?: any;
+  orders?: any;
 };
 
 
@@ -21,14 +23,16 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
     page: 1,
     limit: 8,
     total: 0,
-    projects: []
+    projects: [],
+    orders: []
   });
 
-  useEffect(() => {
+  const fetchProjects = () => {
     request.get('/ncnb/project/page', {
         params: {
           page: state.page,
-          limit: state.limit
+          limit: state.limit,
+          orders: state.orders
         }
       }
     ).then(res => {
@@ -42,19 +46,28 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
             }
           );
         } else {
-          notification.error({
-            message: '获取项目信息失败',
-          });
+          message.error('获取项目信息失败');
         }
       }
     });
-  }, [state.page]);
+
+  }
+
+  useEffect(() => {
+    fetchProjects();
+  }, [state.page, state.orders]);
 
   const renderButton = (type: string, text: string, iconName: IconName) => {
     const vertical = false
     const rightIconName: IconName = vertical ? "caret-right" : "caret-down";
+    const projectSortMenu = (
+      <Menu>
+        <MenuItem text="创建时间" icon="time" />
+        <MenuItem text="最近修改" icon="updated"/>
+      </Menu>
+    );
     return (
-      <Popover2 content={<ProjectSortMenu/>}
+      <Popover2 content={projectSortMenu}
                 placement={vertical ? "right-start" : "bottom-start"}>
         <Button rightIcon={rightIconName} icon={iconName} text={text}/>
       </Popover2>
@@ -88,8 +101,7 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
   return (<>
       <div className="body-header-tool">
         <div>
-          <Button icon={"plus"} text={'新增'}/>
-
+          <AddProject fetchProjects={() => fetchProjects()}/>
         </div>
         <div>
           <div>
@@ -99,7 +111,7 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
           </div>
         </div>
       </div>
-      < Fixed width={"100%"} height={"100%"}>
+      < Fixed width={"100%"} height={"100%"} scrollable={true}>
 
         <OverflowList
           tagName="div"
@@ -110,15 +122,15 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
         <Pagination
           className="pagination"
           total={state.total}
-          defaultPageSize={state.limit}
-          defaultCurrent={state.page}
+          current={state.page}
+          pageSize={state.limit}
           showSizeChanger={false}
-          onShowSizeChange={(current: number, size: number) => {
+          onChange={(page: number, pageSize: number) => {
             setState({
               ...state,
-              page: current,
-              limit: size
-            })
+              page: page,
+              limit: pageSize
+            });
           }}
         />
       </Fixed>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Classes, Icon, InputGroup, Menu, MenuItem} from "@blueprintjs/core";
+import {Classes, Icon, InputGroup, Menu, MenuItem, NonIdealState} from "@blueprintjs/core";
 import classNames from "classnames";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
@@ -185,7 +185,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
       leftIcon="search"
       placeholder=""
     />
-    <Bottom size="90%" scrollable={true} style={{marginTop:'10px'}}>
+    <Bottom size="90%" scrollable={true} style={{marginTop: '10px'}}>
       <TreeView
         className="root"
         defaultExpanded={['3']}
@@ -193,28 +193,35 @@ const DataTable: React.FC<DataTableProps> = (props) => {
         defaultExpandIcon={<ArrowRightIcon/>}
         defaultEndIcon={<div style={{width: 24}}/>}
       >
-        {modules?.map((module: any) => {
-          return <StyledTreeItem key={module?.name}
-                                 type="module"
-                                 module={module?.name}
-                                 nodeId={module?.name}
-                                 labelText={module?.name}
-                                 chnname={module?.chnname}
-                                 labelIcon={"database"}
-                                 labelInfo={module?.entities?.length}
-                                 onClick={() => projectDispatch.setCurrentModule(module?.name)}>
-            {module?.entities?.map((entity: any) => {
-              return <StyledTreeItem key={`${module?.name}###${entity.title}`}
-                                     type="entity"
-                                     module={module?.name}
-                                     nodeId={`${module?.name}###${entity.title}`}
-                                     labelText={entity.title}
-                                     chnname={entity?.chnname}
-                                     labelIcon={"th"} labelInfo={entity?.fields?.length}
-                                     onClick={() => activeEntity(module, entity)}/>
-            })}
-          </StyledTreeItem>;
-        })}
+        {modules && modules.length > 0 ? modules.map((module: any) => {
+            return <StyledTreeItem key={module?.name}
+                                   type="module"
+                                   module={module?.name}
+                                   nodeId={module?.name}
+                                   labelText={module?.name}
+                                   chnname={module?.chnname}
+                                   labelIcon={"database"}
+                                   labelInfo={module?.entities?.length}
+                                   onClick={() => projectDispatch.setCurrentModule(module?.name)}>
+              {module?.entities?.map((entity: any) => {
+                return <StyledTreeItem key={`${module?.name}###${entity.title}`}
+                                       type="entity"
+                                       module={module?.name}
+                                       nodeId={`${module?.name}###${entity.title}`}
+                                       labelText={entity.title}
+                                       chnname={entity?.chnname}
+                                       labelIcon={"th"} labelInfo={entity?.fields?.length}
+                                       onClick={() => activeEntity(module, entity)}/>
+              })}
+            </StyledTreeItem>;
+          })
+          :
+          <NonIdealState
+            icon={"info-sign"}
+            title={"提示："}
+            description={<>未创建模块,点击下方按钮新增一个吧！<a><AddModule moduleDisable={false}/></a></>}
+          />
+        }
 
       </TreeView>
     </Bottom>

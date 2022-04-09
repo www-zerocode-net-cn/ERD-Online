@@ -50,7 +50,7 @@ const AddEntity: React.FC<AddEntityProps> = (props) => {
       <ProForm.Group>
         <ProFormText width="md"
                      name="title"
-                     label="表名"
+                     label="表名「英文名」"
                      placeholder="请输入表名"
                      formItemProps={{
                        rules: [

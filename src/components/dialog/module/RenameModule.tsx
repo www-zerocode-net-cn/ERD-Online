@@ -35,7 +35,7 @@ const RenameModule: React.FC<RenameModuleProps> = (props) => {
       <ProForm.Group>
         <ProFormText width="md"
                      name="name"
-                     label="模块名"
+                     label="模块名「英文名」"
                      placeholder="请输入表名"
                      formItemProps={{
                        rules: [

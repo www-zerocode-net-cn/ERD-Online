@@ -14,9 +14,20 @@ const updateFieldName = (data) => {
   }, {});
 };
 
+// 新增项目
+export const addProject = (data) => {
+  return request.post('/ncnb/project/add', {data: data});
+};
+
 // 保存项目
 export const saveProject = (data) => {
-  return request.post('/ncnb/project/save', {data: data});
+  const id = cache.getItem('projectId');
+  return request.post('/ncnb/project/save', {
+    data: {
+      ...data,
+      id
+    }
+  });
 };
 
 // 连接数据库

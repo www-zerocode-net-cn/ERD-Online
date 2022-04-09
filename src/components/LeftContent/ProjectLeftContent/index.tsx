@@ -11,7 +11,7 @@ const ProjectLeftContent: React.FC<ProjectLeftContentProps> = (props) => {
     <Left size="12%">
       <Menu className={classNames(Classes.ELEVATION_4)}>
         <MenuItem icon="time" text="最近"/>
-        <MenuItem icon="document" text="项目模型"/>
+        <MenuItem selected={true} icon="document" text="项目模型" />
       </Menu>
       <Menu className={Classes.ELEVATION_1}>
         <MenuDivider title="团队"/>
