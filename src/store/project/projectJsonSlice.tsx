@@ -15,7 +15,7 @@ import {message} from "antd";
 export type IProjectJsonSlice = {}
 
 export interface IProjectJsonDispatchSlice {
-  addProject: (project: any) => void;
+  addProject: (project: any) => Promise<any>;
   setProjectJson: (value: any) => void;
   setModules: (value: any) => void;
   setDataTypeDomains: (value: any) => void;
@@ -29,7 +29,7 @@ const globalState = useGlobalStore.getState();
 
 const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
   addProject: (project: any) => {
-    request.post('/ncnb/project/add', {
+    return request.post('/ncnb/project/add', {
       data: project
     }).then(res => {
       if (res && res.code === 200) {
