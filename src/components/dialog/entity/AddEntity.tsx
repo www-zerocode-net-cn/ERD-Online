@@ -9,7 +9,7 @@ export type AddEntityProps = {
 };
 
 const AddEntity: React.FC<AddEntityProps> = (props) => {
-  const {projectDispatch,  currentModuleIndex} = useProjectStore(state => ({
+  const {projectDispatch, currentModuleIndex} = useProjectStore(state => ({
     projectDispatch: state.dispatch,
     currentModuleIndex: state.currentModuleIndex || -1
   }), shallow);
@@ -45,6 +45,7 @@ const AddEntity: React.FC<AddEntityProps> = (props) => {
           title: values.title,
           chnname: values.chnname,
         });
+        return true
       }}
     >
       <ProForm.Group>

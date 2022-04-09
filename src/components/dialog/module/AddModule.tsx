@@ -41,6 +41,7 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
           name: values.name,
           chnname: values.chnname,
         });
+        return true;
       }}
     >
       <ProForm.Group>

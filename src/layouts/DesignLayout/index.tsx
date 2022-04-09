@@ -18,7 +18,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
 
 
   return (
-    < Fixed width={"100%"} height={"100%"} className="bp3-dark dark-theme">
+    < Fixed width={"100%"} height={"100%"} className="bp4-dark dark-theme">
       <DesignHeader/>
       <Fill>
         <DesignLeftContent/>

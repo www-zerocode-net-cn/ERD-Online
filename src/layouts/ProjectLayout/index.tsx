@@ -13,7 +13,7 @@ const ProjectLayout: React.FC<ProjectLayoutProps> = (props) => {
   const {children} = props;
 
   return (
-    < Fixed width={"100%"} height={"100%"} className="bp3-dark dark-theme">
+    < Fixed width={"100%"} height={"100%"} className="bp4-dark dark-theme">
       <ProjectHeader/>
       <Fill>
         <ProjectLeftContent/>

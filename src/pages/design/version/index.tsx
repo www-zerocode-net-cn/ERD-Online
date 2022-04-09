@@ -79,7 +79,7 @@ const Version: React.FC<VersionProps> = (props) => {
   const currentDB = versionDispatch.getCurrentDB();
   return (<div>
       <div className="model-template-tool">
-        <h5 className="bp3-heading head">历史版本</h5>
+        <h5 className="bp4-heading head">历史版本</h5>
         {changes.length > 0 ?
           <span title={"当前内容与上一版本的内容有变化，但未保存同步版本！"}><ReportIcon color={"warning"}/></span>
           :

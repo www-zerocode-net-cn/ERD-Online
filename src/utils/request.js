@@ -147,7 +147,6 @@ request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
   if (data) {
     const {code, msg} = data;
-    debugger
     if (code !== 200) {
       const errorText = msg || codeMessage[code];
       if (code === 401) {

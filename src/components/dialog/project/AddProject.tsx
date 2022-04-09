@@ -35,6 +35,7 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
           description: values.description,
         });
         props.fetchProjects();
+        return true;
       }}
     >
       <ProForm.Group>
