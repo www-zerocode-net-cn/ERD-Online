@@ -1,6 +1,7 @@
 import * as cache from './cache';
 
 import request from "../utils/request";
+import {message} from "antd";
 
 const updateFieldName = (data) => {
   // 将带下划线的属性转化为驼峰
@@ -17,6 +18,17 @@ const updateFieldName = (data) => {
 // 新增项目
 export const addProject = (data) => {
   return request.post('/ncnb/project/add', {data: data});
+};
+
+// 查询项目
+export const pageProject = (params) => {
+  return request.get('/ncnb/project/page', {
+    params: {
+      page: params.page,
+      limit: params.limit,
+      order: params.order
+    }
+  });
 };
 
 // 保存项目
