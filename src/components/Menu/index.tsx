@@ -38,7 +38,7 @@ export interface IFileMenuProps extends Props {
 
 export const VersionMenu: React.FunctionComponent<IFileMenuProps> = props => (
   <>
-    <AddVersion/>
+    <AddVersion trigger="bp"/>
     <SyncConfig/>
     <InitVersion/>
     <RebuildVersion/>

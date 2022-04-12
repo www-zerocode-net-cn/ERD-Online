@@ -11,11 +11,14 @@ import {message} from "antd";
 export type InitVersionProps = {};
 
 const InitVersion: React.FC<InitVersionProps> = (props) => {
-  const {init, versionDispatch} = useVersionStore(state => ({
+  const {hasDB, init, versionDispatch} = useVersionStore(state => ({
+    hasDB: state.hasDB,
     init: state.init,
     versionDispatch: state.dispatch
 
   }), shallow);
+
+  console.log(21, hasDB, init);
   const {projectJSON} = useProjectStore(state => ({
     projectJSON: state.project?.projectJSON,
 
@@ -31,17 +34,22 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
           minimal={true}
           small={true}
           fill={true}
-          disabled={!init}
+          disabled={!hasDB || !init}
           alignText={Alignment.LEFT}></Button>
       }
       onFinish={async (values: any) => {
         console.log(32, 'setUpgradeType', values);
         // 基线文件只需要存储modules信息
+        const currentDBData = versionDispatch.getCurrentDBData();
+        if (!currentDBData) {
+          message.warn("未配置数据库源，请先配置数据源！");
+          return false;
+        }
         const version = {
           projectJSON: {
             modules: projectJSON.modules || [],
           },
-          dbKey: versionDispatch.getCurrentDBData().key || '',
+          dbKey: currentDBData.key || '',
           baseVersion: true,
           version: values.version,
           versionDesc: values.versionDesc,

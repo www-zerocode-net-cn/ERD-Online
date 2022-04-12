@@ -53,7 +53,7 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     return globalState;
   },
   encrypt: (type: string, origin: string) => {
-    const erdPassword = get().project?.projectJSON?.profile?.erdPassword || 'erd123';
+    const erdPassword = get().project?.projectJSON?.profile?.erdPassword || 'ERDOnline';
     const secretKey = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(erdPassword).toString());
     const iv = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(secretKey).toString().substr(0, 16));
     if (type === 'AES') {
@@ -69,7 +69,7 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
   },
   decrypt: (type: string, secret: string) => {
     if (type === 'AES') {
-      const erdPassword = get().project?.projectJSON?.profile?.erdPassword || 'erd123';
+      const erdPassword = get().project?.projectJSON?.profile?.erdPassword || 'ERDOnline';
       const secretKey = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(erdPassword).toString());
       const iv = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(secretKey).toString().substr(0, 16));
       const decrypted = CryptoJS.AES.decrypt(secret, secretKey, {

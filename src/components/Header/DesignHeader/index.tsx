@@ -23,7 +23,7 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
                       hasBackdrop={true}
                       content={<NavigationMenu/>}
                       placement={"bottom-start"}>
-              <Button icon={"menu"}/>
+              <Button minimal={true} icon={"menu"}/>
             </Popover2>
             <NavbarDivider/>
             <ButtonGroup minimal={true}>

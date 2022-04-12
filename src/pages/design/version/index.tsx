@@ -9,7 +9,7 @@ import {
 } from '@mui/lab';
 import React, {useEffect} from 'react';
 import {Divider, Typography} from "@mui/material";
-import {Button, MenuItem, NonIdealState} from "@blueprintjs/core";
+import {Button, MenuItem} from "@blueprintjs/core";
 import {ItemRenderer, Select} from "@blueprintjs/select";
 import shallow from "zustand/shallow";
 import useVersionStore from "@/store/version/useVersionStore";
@@ -24,6 +24,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import {compareStringVersion} from "@/utils/string";
 import {Popover2} from "@blueprintjs/popover2";
 import {VersionHandle} from "@/components/Menu";
+import {Empty} from "antd";
 
 
 export type VersionProps = {};
@@ -151,11 +152,16 @@ const Version: React.FC<VersionProps> = (props) => {
                   </TimelineContent>
                 </TimelineItem>
               }) :
-              <NonIdealState
-                icon={"info-sign"}
-                title={"提示："}
-                description={'未创建版本'}
-              />
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{
+                  height: 60,
+                }}
+                description={
+                  <span>未创建版本</span>
+                }
+              >
+              </Empty>
 
             }
           </Timeline>

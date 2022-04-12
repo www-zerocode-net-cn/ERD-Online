@@ -73,27 +73,32 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
         const projectId = cache.getItem('projectId');
         const defaultDatabase = get().dispatch.getCurrentDBData();
         console.log(59, defaultDatabase);
-        request.post('/ncnb/doc/gendocx', {
-          method: 'POST',
-          responseType: 'blob',
-          data: {
-            imgs: tempImages,
-            projectId,
-            type,
-            doctpl: _.get(dataSource, 'profile.wordTemplateConfig', ""),
-            dbKey: defaultDatabase.key || ''
-          }
-        }).then((res) => {
-          if (res) {
-            File.saveByBlob(res, `${project}${postfix}`);
-          }
-        }).catch((err: any) => {
-          message.error(`生成文档出错！出错原因：${err.message}！`);
-        }).finally(() => {
-          // this.setState({
-          //   downloading: false
-          // });
-        });
+        const doctpl = _.get(dataSource, 'profile.wordTemplateConfig', "");
+        if (doctpl && doctpl !== "") {
+          request.post('/ncnb/doc/gendocx', {
+            method: 'POST',
+            responseType: 'blob',
+            data: {
+              imgs: tempImages,
+              projectId,
+              type,
+              doctpl: doctpl,
+              dbKey: defaultDatabase?.key || ''
+            }
+          }).then((res) => {
+            if (res) {
+              File.saveByBlob(res, `${project}${postfix}`);
+            }
+          }).catch((err: any) => {
+            message.error(`生成文档出错！出错原因：${err.message}！`);
+          }).finally(() => {
+            // this.setState({
+            //   downloading: false
+            // });
+          });
+        } else {
+          message.warn(`${type}导出失败!请重试！出错原因：未配置word模板`);
+        }
       }, (err: any) => {
         message.error(`${type}导出失败!请重试！出错原因：${err.message}`);
       });
@@ -271,7 +276,7 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
     if (data) {
       File.save(data, `${moment().format('YYYY-MM-D-h-mm-ss')}.sql`);
       message.success('导出成功');
-    }else {
+    } else {
       message.warn('暂时无法导出');
     }
   }

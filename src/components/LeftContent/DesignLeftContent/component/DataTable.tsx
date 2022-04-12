@@ -1,5 +1,5 @@
 import React from 'react';
-import {Classes, Icon, InputGroup, Menu, MenuItem, NonIdealState} from "@blueprintjs/core";
+import {Classes, Icon, InputGroup, Menu, MenuItem} from "@blueprintjs/core";
 import classNames from "classnames";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
@@ -22,6 +22,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {makeStyles} from "@mui/styles";
 import {Bottom} from "react-spaces";
+import {Empty} from "antd";
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
   root: {
@@ -93,7 +94,7 @@ export const renderEntityRightContext = (payload: { title: string, chnname: stri
   </Menu>
 ;
 export const renderModuleRightContext = (payload: { name: string, chnname: string }) => <Menu>
-    <AddModule moduleDisable={false}/>
+    <AddModule moduleDisable={false} trigger="bp"/>
     <RenameModule moduleDisable={false} renameInfo={payload}/>
     <RemoveModule disable={false}/>
     <MenuItem icon="duplicate" text="复制模块"/>
@@ -216,11 +217,17 @@ const DataTable: React.FC<DataTableProps> = (props) => {
             </StyledTreeItem>;
           })
           :
-          <NonIdealState
-            icon={"info-sign"}
-            title={"提示："}
-            description={<>未创建模块,点击下方按钮新增一个吧！<a><AddModule moduleDisable={false}/></a></>}
-          />
+          <Empty
+            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+            imageStyle={{
+              height: 60,
+            }}
+            description={
+              <span>暂无数据</span>
+            }
+          >
+            <AddModule moduleDisable={false} trigger="ant"/>
+          </Empty>
         }
 
       </TreeView>

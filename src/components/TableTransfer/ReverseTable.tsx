@@ -75,7 +75,7 @@ const ReverseTable: React.FC<ReverseTableProps> = (props) => {
         <Card size="small">
           <Descriptions size="small" column={3}>
             <Descriptions.Item label="数据源">{projectDispatch.getCurrentDBName()}</Descriptions.Item>
-            <Descriptions.Item label="全部表">{module.entities.length}</Descriptions.Item>
+            <Descriptions.Item label="解析表">{module.entities.length}</Descriptions.Item>
             <Descriptions.Item label="存量表" labelStyle={{color: "red"}}
                                contentStyle={{color: "red"}}>{exists.length}</Descriptions.Item>
           </Descriptions>

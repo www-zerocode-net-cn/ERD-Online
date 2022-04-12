@@ -117,4 +117,5 @@ useProjectStore.subscribe(state => state.project, (project, previousProject) => 
   Save.saveProject(project);
   globalState.dispatch.setSaved(true);
 });
+
 export default useProjectStore;

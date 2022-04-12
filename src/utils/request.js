@@ -5,9 +5,9 @@
  */
 import {extend} from 'umi-request';
 import {notification} from 'antd';
-import {createHashHistory} from 'history';
-// const history = createBrowserHistory() // history模式
-const history = createHashHistory() // hash模式
+import * as cache from "./cache";
+
+import {history} from 'umi';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -43,63 +43,59 @@ const errorHandler = error => {
     });
     return;
   }
-  const errortext = codeMessage[response.status] || response.statusText;
+  const errorText = codeMessage[response.status] || response.statusText;
   const {status, url} = response;
 
   if (status === 400) {
     notification.error({
-      message: `请求错误 ${status}:`,
-      description: errortext,
+      message: `请求提示 ${status}:`,
+      description: errorText,
     });
     return;
   }
   if (status === 401) {
-    notification.error({
-      message: '未登录或登录已过期，请重新登录。',
-    });
-    history.replace("/login");
+    history.push("/login");
     return;
   }
   // environment should not be used
   if (status === 403) {
     notification.error({
-      message: `请求错误 ${status}: `,
-      description: errortext,
+      message: `操作未授权 ${status}: `,
+      description: errorText,
     });
     return;
   }
   if (status <= 504 && status >= 500) {
     notification.error({
-      message: `请求错误 ${status}: `,
-      description: errortext,
+      message: `请求提示 ${status}: `,
+      description: errorText,
     });
     return;
   }
   if (status >= 404 && status < 422) {
     notification.error({
-      message: `请求错误 ${status}:`,
-      description: errortext,
+      message: `请求提示 ${status}:`,
+      description: errorText,
     });
   }
 
 };
-
+//本地
+export const GLOBAL_REQUEST_URL = "http://localhost:9502";
+//生产
+// export const GLOBAL_REQUEST_URL = "https://www.zerocode.net.cn";
 /**
  * 配置request请求时的默认参数
  */
 const request = extend({
-  // //本地
-  prefix: 'http://localhost:9502',
-  // //生产
-  // prefix: 'https://erd.java2e.com/erd',
+  prefix: GLOBAL_REQUEST_URL,
   errorHandler, // 默认错误处理
-
 });
 
 
 request.interceptors.request.use((url, options) => {
   if (url.indexOf('/oauth/token') < 0) {
-    const authorization = '297f26d7-bb53-4f0f-bdcc-b7d5ec4f303f';
+    const authorization = cache.getItem('Authorization');
     if (authorization) {
       options.headers = {
         ...options.headers,
@@ -149,11 +145,8 @@ request.interceptors.response.use(async (response, options) => {
     const {code, msg} = data;
     if (code !== 200) {
       const errorText = msg || codeMessage[code];
-      if (code === 401) {
-
-      }
       notification.error({
-        message: `请求错误 ${code}:`,
+        message: `请求提示 ${code}:`,
         description: errorText,
       });
     }

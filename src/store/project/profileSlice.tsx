@@ -64,14 +64,19 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   })),
 
   addDbs: (payload: any) => set(produce(state => {
+    console.log(67, state.project.projectJSON.profile)
+    if (!state.project.projectJSON.profile.dbs) {
+      state.project.projectJSON.profile.dbs = [];
+    }
     state.project.projectJSON.profile.dbs.push(payload);
   })),
   removeDbs: (key: string) => set(produce(state => {
     Save.checkdbversion(key).then((res: any) => {
       if (res && res.code === 200) {
         if (res.data === 0) {
-          state.project.projectJSON.profile.dbs = state.project.projectJSON?.profile?.dbs?.filter((db: any) => db.key !== key);
-          console.log(56, state.project.projectJSON?.profile?.dbs);
+          console.log(78, get().project);
+          const dbs = get().project.projectJSON?.profile?.dbs?.filter((db: any) => db.key !== key);
+          get().dispatch.updateAllDbs(dbs);
           message.success('删除成功');
         } else {
           message.warn("当前数据源存在已同步版本，不允许删除！")
@@ -79,8 +84,6 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       } else {
         message.error('删除失败');
       }
-    }).catch(() => {
-      message.error('删除失败');
     });
   })),
   updateDbs: (key: string, payload: any) => set(produce(state => {
@@ -361,9 +364,6 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     // 获取word的目录
     const doctpl = get().project?.projectJSON?.profile.wordTemplateConfig;
     console.log(29, 'doctpl', doctpl)
-    if (!doctpl) {
-      message.error('下载模板出错!无法获取模板位置');
-    }
     request('/ncnb/doc/downloadWordTemplate', {
       method: 'GET',
       responseType: 'blob',
@@ -372,7 +372,7 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       }
     }).then((res) => {
       if (res) {
-        saveByBlob(res, 'template.docx');
+        saveByBlob(res, 'wordTemplate.docx');
       }
     }).catch((err) => {
       message.error(`下载模板出错!出错原因：${err.message}！`);

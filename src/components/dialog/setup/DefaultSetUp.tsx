@@ -8,6 +8,7 @@ import * as cache from "@/utils/cache";
 import {Button as AntButton, message} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
+import {GLOBAL_REQUEST_URL} from "@/utils/request";
 
 
 export type DefaultSetUpProps = {};
@@ -61,7 +62,7 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
             label="ERD秘钥"
             extra='仅用于ERD导入导出加密解密'
             name="erdPassword"
-            placeholder="默认随机生成"
+            placeholder="默认为ERDOnline"
           />
           <ProFormText
             width="md"
@@ -93,6 +94,7 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
                 onChange: (e) => {
                   if (e.file.status == 'done') { //上传完成时
                     console.log(83, 'e.file', e);
+                    debugger
                     if (e.file.response.code == 200) {
                       projectDispatch.updateWordTemplateConfig(e.file.response.data);
                     } else {
@@ -104,8 +106,7 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
                   //status状态：'error' | 'success' | 'done' | 'uploading' | 'removed';
                 },
               }}
-              action={`http://localhost:9502/ncnb/doc/uploadWordTemplate/${projectId}`}
-
+              action={`${GLOBAL_REQUEST_URL}/ncnb/doc/uploadWordTemplate/${projectId}`}
             />
             <AntButton title='下载模板' onClick={() => projectDispatch.downloadWordTemplate()}>下载模板</AntButton>
           </ProFormFieldSet>

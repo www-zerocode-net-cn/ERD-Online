@@ -2,9 +2,12 @@ import React from 'react';
 import {Alignment, Button} from "@blueprintjs/core";
 import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
 import useProjectStore from "@/store/project/useProjectStore";
+import {Button as AntButton} from "antd";
 
 export type AddModuleProps = {
   moduleDisable: boolean;
+  trigger: string;
+
 };
 
 const AddModule: React.FC<AddModuleProps> = (props) => {
@@ -26,13 +29,16 @@ const AddModule: React.FC<AddModuleProps> = (props) => {
     <ModalForm
       title="新增模块"
       trigger={
-        <Button icon="add"
-                text={"新增模块"}
-                minimal={true}
-                small={true}
-                fill={true}
-                alignText={Alignment.LEFT}
-                disabled={props.moduleDisable}></Button>
+        props.trigger === "bp" ?
+          <Button icon="add"
+                  text={"新增模块"}
+                  minimal={true}
+                  small={true}
+                  fill={true}
+                  alignText={Alignment.LEFT}
+                  disabled={props.moduleDisable}></Button>
+          : <AntButton type="primary">新增模块</AntButton>
+
       }
       onFinish={async (values: any) => {
         console.log(39, values);

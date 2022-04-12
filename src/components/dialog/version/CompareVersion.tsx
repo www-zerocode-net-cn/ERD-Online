@@ -58,7 +58,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
 
 
   const compare = () => {
-    if (!state.initVersion || !state.incrementVersion) {
+    if (versions.length > 1 && (!state.initVersion || !state.incrementVersion)) {
       message.warn('请选择你要比较的两个版本');
     }
     if (compareStringVersion(state.incrementVersion, state.initVersion) <= 0) {
@@ -210,7 +210,8 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         <Grid item xs={4} style={{height: '450px', overflowY: "auto"}}>
           {
             messages.length > 0 ?
-              _.sortBy(messages,['opt','type']).map((m: any, index: number) => (<div key={m.message}>{`${index + 1}: ${m.message}`}</div>)) :
+              _.sortBy(messages, ['opt', 'type']).map((m: any, index: number) => (
+                <div key={m.message}>{`${index + 1}: ${m.message}`}</div>)) :
               `${data ? '当前脚本为全量脚本' : '当前版本无变化'}`
           }
         </Grid>
