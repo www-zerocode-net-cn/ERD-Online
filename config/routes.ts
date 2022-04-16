@@ -61,11 +61,11 @@
   {
     name: 'test',
     path: '/test',
-    component: './test'
+    component: './test',
   },
   {
     path: '/',
-    redirect: '/project/home',
+    redirect: '/login',
   },
   {
     component: './404',
