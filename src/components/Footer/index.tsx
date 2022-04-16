@@ -4,7 +4,7 @@ import './index.less'
 export type FooterProps = {};
 
 const Footer: React.FC<FooterProps> = (props) => {
-  return (<><a className="copyright">2021@ERD Online</a></>)
+  return (<><a className="copyright" href="https://www.zerocode.net.cn/">2021@ERD Online</a></>)
 };
 
 export default React.memo(Footer);
