@@ -79,4 +79,78 @@ export default defineConfig({
       drop_console: isEnvProduction,
     },
   },
+  chainWebpack(config){
+    config.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: 'async',
+          minSize: 30000,
+          minChunks: 2,
+          automaticNameDelimiter: '.',
+          cacheGroups: {
+            vendor: {
+              name: 'vendors',
+              test: /^.*node_modules[\\/](?!ag-grid-|lodash|wangeditor|react-virtualized|rc-select|rc-drawer|rc-time-picker|rc-tree|rc-table|rc-calendar|antd).*$/,
+              chunks: "all",
+              priority: 10,
+            },
+            virtualized: {
+              name: "virtualized",
+              test: /[\\/]node_modules[\\/]react-virtualized/,
+              chunks: "all",
+              priority: 10
+            },
+            ag: {
+              name: "ag",
+              test: /[\\/]node_modules[\\/]ag-grid-/,
+              chunks: "all",
+              priority: 10
+            },
+            antd: {
+              name: "antd",
+              test: /[\\/]node_modules[\\/]antd[\\/]/,
+              chunks: "all",
+              priority: 9
+            },
+            lodash: {
+              name: "lodash",
+              test: /[\\/]node_modules[\\/]lodash[\\/]/,
+              chunks: "all",
+              priority: -2
+            },
+            handsontable: {
+              name: "handsontable",
+              test: /[\\/]node_modules[\\/]handsontable[\\/]/,
+              chunks: "all",
+              priority: 10
+            },
+            blueprintjs: {
+              name: "blueprintjs",
+              test: /[\\/]node_modules[\\/]blueprintjs[\\/]/,
+              chunks: "all",
+              priority: 10
+            },
+            ace: {
+              name: "ace",
+              test: /[\\/]node_modules[\\/]ace[\\/]/,
+              chunks: "all",
+              priority: 10
+            },
+            xlsx: {
+              name: "xlsx",
+              test: /[\\/]node_modules[\\/]xlsx[\\/]/,
+              chunks: "async",
+              priority: 10
+            }
+          }
+        }
+      }
+    });
+    //过滤掉momnet的那些不使用的国际化文件
+    config.plugin("replace").use(require("webpack").ContextReplacementPlugin).tap(() => {
+      return [/moment[/\\]locale$/, /zh-cn/];
+    });
+  }
+
 });
