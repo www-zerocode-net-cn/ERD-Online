@@ -80,10 +80,15 @@ const errorHandler = error => {
   }
 
 };
+
 //本地
-export const GLOBAL_REQUEST_URL = "http://localhost:9502";
-//生产
-// export const GLOBAL_REQUEST_URL = "https://www.zerocode.net.cn";
+let url = "http://localhost:9502";
+const isEnvProduction = process.env.NODE_ENV === "production";
+if (isEnvProduction) {
+  //生产
+  url = "https://www.zerocode.net.cn";
+}
+export const GLOBAL_REQUEST_URL = url;
 /**
  * 配置request请求时的默认参数
  */
