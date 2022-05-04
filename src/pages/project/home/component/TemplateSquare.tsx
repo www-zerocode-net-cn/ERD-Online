@@ -6,17 +6,17 @@ export type TemplateSquareProps = {};
 
 const TemplateSquare: React.FC<TemplateSquareProps> = (props) => {
   const BREADCRUMBS1: IBreadcrumbProps[] = [
-    {href: "/users", icon: "folder-close", text: "Users"},
-    {href: "/users", icon: "folder-close", text: "Users"},
-    {href: "/users", icon: "folder-close", text: "Users"},
-    {href: "/users", icon: "folder-close", text: "Users"},
+    {href: "/users", icon: "folder-close", text: "人口数据模型"},
+    {href: "/users", icon: "folder-close", text: "教育数据模型"},
+    {href: "/users", icon: "folder-close", text: "经济数据模型"},
+    {href: "/users", icon: "folder-close", text: "政务数据模型"},
 
   ];
   const visibleItemRenderer1 = ({text, ...restProps}: IBreadcrumbProps) => {
     // customize rendering of last breadcrumb
     return <Card key={Math.random()} elevation={Elevation.TWO} className="item">
       <div className="projectImg"></div>
-      <h5 className="bp4-heading name">H2 测试项目</h5>
+      <h5 className="bp4-heading name">{text}</h5>
     </Card>;
   };
   return (<>

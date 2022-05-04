@@ -2,16 +2,17 @@ import * as React from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Avatar, Box, CssBaseline, Grid, Link, Paper, Typography} from '@mui/material';
+import {GLOBAL_REQUEST_URL} from "@/utils/request";
 
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://www.zerocode.net.cn/">
+      <Link color="inherit" href="https://erd.zerocode.net.cn/">
         ERD Online
       </Link>{' '}
-      {new Date().getFullYear()}
+      {'2021'}
       {'.'}
     </Typography>
   );
@@ -67,7 +68,7 @@ export default function Login() {
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
 
 
-              <iframe src="http://wexinlogin.gz2vip.91tunnel.com:9502/auth/oauth2/authorization/wechat"
+              <iframe src={`${GLOBAL_REQUEST_URL}/auth/oauth2/authorization/wechat`}
                       style={{"border": "none"}}
                       scrolling="no" height="500px"
                       sandbox="allow-scripts  allow-top-navigation"

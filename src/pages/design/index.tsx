@@ -28,7 +28,7 @@ const Design: React.FC<DesignProps> = (props) => {
     <>
       <Left size={"80%"}>
         <ProjectList/>
-        <a className="copyright" href="https://www.zerocode.net.cn/">2021@ERD Online</a>
+        <a className="copyright" href="https://erd.zerocode.net.cn/">2021@ERD Online</a>
       </Left>
       <Right size="20%">
         {rightContent()}

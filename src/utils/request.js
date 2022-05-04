@@ -86,7 +86,7 @@ let url = "http://localhost:9502";
 const isEnvProduction = process.env.NODE_ENV === "production";
 if (isEnvProduction) {
   //生产
-  url = "https://www.zerocode.net.cn";
+  url = "https://erd.zerocode.net.cn";
 }
 export const GLOBAL_REQUEST_URL = url;
 /**
