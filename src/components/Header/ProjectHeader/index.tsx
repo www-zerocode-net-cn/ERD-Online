@@ -18,20 +18,20 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = (props) => {
         </Navbar>
       </Left>
       <Right size={"20%"}>
-        <Navbar>
-          <Navbar.Group align={Alignment.CENTER}>
-            <InputGroup
-              className={Classes.ROUND}
-              asyncControl={true}
-              leftIcon="search"
-              placeholder=""
-            />
-            <NavbarDivider></NavbarDivider>
-            <Button className="bp4-minimal" icon="cog" title="设置"/>
-            <Button className="bp4-minimal" icon="notifications" title="通知"/>
-            <Button className="bp4-minimal" icon="user" title="用户"/>
-          </Navbar.Group>
-        </Navbar>
+        {/*<Navbar>*/}
+        {/*  <Navbar.Group align={Alignment.CENTER}>*/}
+        {/*    <InputGroup*/}
+        {/*      className={Classes.ROUND}*/}
+        {/*      asyncControl={true}*/}
+        {/*      leftIcon="search"*/}
+        {/*      placeholder=""*/}
+        {/*    />*/}
+        {/*    <NavbarDivider></NavbarDivider>*/}
+        {/*    <Button className="bp4-minimal" icon="cog" title="设置"/>*/}
+        {/*    <Button className="bp4-minimal" icon="notifications" title="通知"/>*/}
+        {/*    <Button className="bp4-minimal" icon="user" title="用户"/>*/}
+        {/*  </Navbar.Group>*/}
+        {/*</Navbar>*/}
       </Right>
     </Top>
   )

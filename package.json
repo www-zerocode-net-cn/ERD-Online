@@ -1,8 +1,8 @@
 {
-  "name": "ERD Online",
+  "name": "ERD-Online",
   "version": "4.0.0",
   "private": true,
-  "description": "开箱即用的数据库建模、产品版本管理软件",
+  "description": "开箱即用的数据库建模,产品版本管理软件",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",

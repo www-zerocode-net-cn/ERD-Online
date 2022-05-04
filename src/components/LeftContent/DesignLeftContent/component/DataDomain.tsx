@@ -75,9 +75,9 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
           activeDataTypePanel();
         }}/>
         <RemoveDataType disable={false}/>
-        <MenuItem icon="duplicate" text="复制字段类型"/>
+      {/*  <MenuItem icon="duplicate" text="复制字段类型"/>
         <MenuItem icon="cut" text="剪切字段类型"/>
-        <MenuItem icon="clipboard" text="粘贴字段类型"/>
+        <MenuItem icon="clipboard" text="粘贴字段类型"/>*/}
       </Menu>
     ;
     const renderDatabaseRightContext = () => <Menu>
@@ -86,9 +86,9 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
           activeDatabasePanel();
         }}/>
         <RemoveDatabase disable={false}/>
-        <MenuItem icon="duplicate" text="复制数据源"/>
+     {/*   <MenuItem icon="duplicate" text="复制数据源"/>
         <MenuItem icon="cut" text="剪切数据源"/>
-        <MenuItem icon="clipboard" text="粘贴数据源"/>
+        <MenuItem icon="clipboard" text="粘贴数据源"/>*/}
       </Menu>
     ;
 

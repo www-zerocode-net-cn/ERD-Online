@@ -43,14 +43,14 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
       <Right size={"20%"}>
         <Navbar>
           <Navbar.Group align={Alignment.RIGHT}>
-            <Button className="bp4-minimal" icon="people" title="用户"/>
+         {/*   <Button className="bp4-minimal" icon="people" title="用户"/>
             <NavbarDivider/>
             <Button className="bp4-minimal" icon="share" title="邀请协作"/>
             <NavbarDivider/>
             <Button className="bp4-minimal" icon="notifications" title="通知"/>
             <NavbarDivider/>
             <Button className="bp4-minimal" icon="chat" title="聊天"/>
-            <NavbarDivider/>
+            <NavbarDivider/>*/}
             <Button className="bp4-minimal" intent={saved ? "success" : "danger"}
                     icon={saved ? "tick-circle" : "disable"} title={saved ? "已保存" : "未保存"}/>
           </Navbar.Group>

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Alignment, Button} from "@blueprintjs/core";
 import {MyIcon} from "@/components/Menu";
 import {
@@ -30,7 +30,10 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
   }), shallow);
 
 
-  projectDispatch.setExportData();
+  useEffect(() => {
+    projectDispatch.setExportData();
+
+  });
 
   const formRef = useRef<ProFormInstance>();
   return (<>

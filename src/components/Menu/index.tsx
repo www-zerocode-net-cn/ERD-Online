@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, ButtonGroup, Icon, Menu, MenuDivider, MenuItem, Props} from "@blueprintjs/core";
+import {AnchorButton, Button, ButtonGroup, Icon, Menu, MenuDivider, MenuItem, Props} from "@blueprintjs/core";
 import {createFromIconfontCN} from "@ant-design/icons";
 import {history} from 'umi';
 import AddVersion from "@/components/dialog/version/AddVersion";
@@ -74,10 +74,17 @@ export const SetUpMenu: React.FunctionComponent<IFileMenuProps> = props => (
 );
 
 export const HelpMenu: React.FunctionComponent<IFileMenuProps> = props => (
-  <Menu className={props.className}>
-    <MenuItem key="video" text="教程" icon="video"  {...props} />
-    <MenuItem key="default" text="快捷键" icon="key-command" {...props} />
-  </Menu>
+/*  <Menu className={props.className}>
+    <MenuItem key="video" text="教程" icon="video" {...props} ></MenuItem>
+    {/!*<MenuItem key="default" text="快捷键" icon="key-command" {...props} />*!/}
+  </Menu>*/
+  <AnchorButton
+    href="https://portal.zerocode.net.cn/docs/getting-started"
+    icon="share"
+    target="_blank"
+    minimal={true}
+    text={"教程"}
+  />
 );
 
 
@@ -156,7 +163,7 @@ export const NavigationMenu: React.FunctionComponent<IFileMenuProps> = props => 
       <MenuItem text="资源社区" icon="globe-network" labelElement={<Icon icon="share"/>}></MenuItem>
       <MenuDivider/>
       <MenuItem text="帮助" icon="help"><HelpMenu className={className}/></MenuItem>
-      <MenuItem text="账号设置" icon="user"></MenuItem>
+     {/* <MenuItem text="账号设置" icon="user"></MenuItem>*/}
       <MenuItem text="退出登录" icon="log-out"></MenuItem>
     </Menu>
   );

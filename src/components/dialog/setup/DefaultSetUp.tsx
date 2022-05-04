@@ -94,7 +94,6 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
                 onChange: (e) => {
                   if (e.file.status == 'done') { //上传完成时
                     console.log(83, 'e.file', e);
-                    debugger
                     if (e.file.response.code == 200) {
                       projectDispatch.updateWordTemplateConfig(e.file.response.data);
                     } else {

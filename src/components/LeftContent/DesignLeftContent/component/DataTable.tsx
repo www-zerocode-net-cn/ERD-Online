@@ -88,18 +88,18 @@ export const renderEntityRightContext = (payload: { title: string, chnname: stri
     <AddEntity moduleDisable={false}/>
     <RenameEntity moduleDisable={false} renameInfo={payload}/>
     <RemoveEntity disable={false}/>
-    <MenuItem icon="duplicate" text="复制表"/>
+{/*    <MenuItem icon="duplicate" text="复制表"/>
     <MenuItem icon="cut" text="剪切表"/>
-    <MenuItem icon="clipboard" text="粘贴表"/>
+    <MenuItem icon="clipboard" text="粘贴表"/>*/}
   </Menu>
 ;
 export const renderModuleRightContext = (payload: { name: string, chnname: string }) => <Menu>
     <AddModule moduleDisable={false} trigger="bp"/>
     <RenameModule moduleDisable={false} renameInfo={payload}/>
     <RemoveModule disable={false}/>
-    <MenuItem icon="duplicate" text="复制模块"/>
+{/*    <MenuItem icon="duplicate" text="复制模块"/>
     <MenuItem icon="cut" text="剪切模块"/>
-    <MenuItem icon="clipboard" text="粘贴模块"/>
+    <MenuItem icon="clipboard" text="粘贴模块"/>*/}
   </Menu>
 ;
 
