@@ -718,7 +718,9 @@ export const getAllDataSQL = (dataSource, code) => {
   };
   let sqlString = '';
   // 1.获取所有的表
-  const tempEntities = getAllTable(dataSource, 'name').map((entity) => {
+  let allTable = getAllTable(dataSource, 'name');
+  console.log(726, 'alltable', allTable);
+  const tempEntities = allTable.map((entity) => {
     return {
       ...entity,
       fields: (entity.fields || []).map(field => {

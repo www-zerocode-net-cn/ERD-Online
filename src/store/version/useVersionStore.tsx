@@ -510,7 +510,8 @@ const useVersionStore = create<VersionState>(
           }
         );
         const dbData = get().dispatch.getCurrentDBData();
-        const code = _.get(dbData, 'type', defaultDB);
+        console.log(514, 'dbData', dbData);
+        const code = _.get(dbData, 'select', defaultDB);
         let data = '';
         if (init) {
           data = getAllDataSQL({
