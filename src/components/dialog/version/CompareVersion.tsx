@@ -10,7 +10,6 @@ import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore
 import shallow from "zustand/shallow";
 import CodeEditor from "@/components/CodeEditor";
 import {Button, message} from "antd";
-import {checkVersionData} from "@/utils/dbversionutils";
 import moment from "moment";
 import * as File from '@/utils/file';
 import _ from 'lodash';
@@ -48,7 +47,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
   });
 
   useEffect(() => {
-    compare();
+    versionDispatch.compare(state);
   }, [state.initVersion, state.incrementVersion]);
 
 
@@ -56,33 +55,6 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
     return {label: v.version, value: v.version}
   })
 
-
-  const compare = () => {
-    if (versions.length > 1 && (!state.initVersion || !state.incrementVersion)) {
-      message.warn('请选择你要比较的两个版本');
-    }
-    if (compareStringVersion(state.incrementVersion, state.initVersion) <= 0) {
-      message.warn('增量脚本的版本号不能小于或等于初始版本的版本号');
-    } else {
-      // 读取两个版本下的数据信息
-      let incrementVersionData = {};
-      let initVersionData = {};
-      versions.forEach((v: any) => {
-        if (v.version === state.initVersion) {
-          initVersionData = {modules: v.projectJSON.modules};
-        }
-        if (v.version === state.incrementVersion) {
-          incrementVersionData = {modules: v.projectJSON.modules};
-        }
-      });
-      const changes = checkVersionData(incrementVersionData, initVersionData);
-      versionDispatch.showChanges(SHOW_CHANGE_TYPE.MULTI, changes, incrementVersionData, initVersionData);
-      setState({
-        ...state,
-        incrementVersionData
-      });
-    }
-  };
 
   const onVersionChange = (value: any, version: string) => {
     setState({
@@ -127,7 +99,10 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
       trigger={
         <MenuItem key="compare" shouldDismissPopover={false}
                   text={isDetail ? "版本变更详情" : "任意版本比较"} icon={isDetail ? <DetailsIcon/> : <CompareArrowsIcon/>}
-                  onClick={() => isDetail ? versionDispatch.showChanges(SHOW_CHANGE_TYPE.CURRENT, null, null, null) : compare()}></MenuItem>
+                  onClick={() => isDetail ?
+                    versionDispatch.showChanges(SHOW_CHANGE_TYPE.CURRENT, null, null, null)
+                    : versionDispatch.compare(state)
+                  }></MenuItem>
       }
       submitter={{
         // 完全自定义整个区域
