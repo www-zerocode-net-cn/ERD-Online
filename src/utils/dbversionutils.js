@@ -1,6 +1,6 @@
 // @ts-nocheck
 import _ from 'lodash';
-import { compareStringVersion } from './string';
+import {compareStringVersion} from './string';
 
 const getAllTable = (dataSource) => {
   return (dataSource.modules || []).reduce((a, b) => {
@@ -11,7 +11,8 @@ const getAllTable = (dataSource) => {
 const compareField = (currentField, checkField, table) => {
   const changes = [];
   Object.keys(currentField).forEach((name) => {
-    if (checkField[name] !== currentField[name]) {
+    //typeName和dataType是erd后增的两个属性，比较的时候要排除这两个属性
+    if (name !== 'typeName' && name !== 'dataType' && checkField[name] !== currentField[name]) {
       changes.push({
         type: 'field',
         name: `${table.title}.${currentField.name}.${name}`,

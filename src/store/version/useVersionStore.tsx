@@ -204,7 +204,7 @@ const useVersionStore = create<VersionState>(
       compareField: (currentField: any, checkField: any, table: any) => {
         const changes: any = [];
         Object.keys(currentField).forEach((name) => {
-          if (checkField[name] !== currentField[name]) {
+          if (name !== 'typeName' && name !== 'dataType' && checkField[name] !== currentField[name]) {
             changes.push({
               type: 'field',
               name: `${table.title}.${currentField.name}.${name}`,
