@@ -176,6 +176,13 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
         okText: null,
         cancelText: null,
       });
+    }else {
+      Modal.warning({
+        title: '导出提示',
+        content: `正在导出， 共【${allTable.length}】张表，请耐心等待！导出完毕之前请勿关闭此窗口！`,
+        okText: null,
+        cancelText: null,
+      });
     }
   },
   onDBChange: (defaultDb: string) => {

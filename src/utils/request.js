@@ -81,19 +81,13 @@ const errorHandler = error => {
 
 };
 
-//本地
-let url = "http://localhost:9502";
-const isEnvProduction = process.env.NODE_ENV === "production";
-if (isEnvProduction) {
-  //生产
-  url = "https://erd.zerocode.net.cn";
-}
-export const GLOBAL_REQUEST_URL = url;
+export const BASE_URL = window._env_.API_URL || API_URL;
+
 /**
  * 配置request请求时的默认参数
  */
 const request = extend({
-  prefix: GLOBAL_REQUEST_URL,
+  prefix: BASE_URL,
   errorHandler, // 默认错误处理
 });
 

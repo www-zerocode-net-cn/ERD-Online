@@ -8,7 +8,6 @@ import * as cache from "@/utils/cache";
 import {Button as AntButton, message} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
-import {GLOBAL_REQUEST_URL} from "@/utils/request";
 
 
 export type DefaultSetUpProps = {};
@@ -105,7 +104,7 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
                   //status状态：'error' | 'success' | 'done' | 'uploading' | 'removed';
                 },
               }}
-              action={`${GLOBAL_REQUEST_URL}/ncnb/doc/uploadWordTemplate/${projectId}`}
+              action={`${API_URL}/ncnb/doc/uploadWordTemplate/${projectId}`}
             />
             <AntButton title='下载模板' onClick={() => projectDispatch.downloadWordTemplate()}>下载模板</AntButton>
           </ProFormFieldSet>

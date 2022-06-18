@@ -5,8 +5,9 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
+
+
 const {REACT_APP_ENV} = process.env;
-const isEnvProduction = process.env.NODE_ENV === "production";
 
 export default defineConfig({
   hash: true,
@@ -54,8 +55,6 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
-  // Fast Refresh 热更新
-  fastRefresh: {},
   openAPI: [
     {
       requestLibPath: "import { request } from 'umi'",
@@ -67,23 +66,12 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
   sass: {},
-  mfsu: {},
   headScripts: [
-    { src: '/js/html2canvas.min.js', defer: true },
-    { src: '/js/g6.min.js', defer: true },
-    { src: '/js/g6-plugins.min.js', defer: true },
+    {src: '/js/html2canvas.min.js', defer: true},
+    {src: '/js/g6.min.js', defer: true},
+    {src: '/js/g6-plugins.min.js', defer: true},
+    {src: '/env-config.js', defer: true},
   ],
-  // 生产环境去除console日志打印
-  terserOptions: {
-    compress: {
-      drop_console: isEnvProduction,
-    },
-  },
-  chainWebpack(config){
-    //过滤掉momnet的那些不使用的国际化文件
-    config.plugin("replace").use(require("webpack").ContextReplacementPlugin).tap(() => {
-      return [/moment[/\\]locale$/, /zh-cn/];
-    });
-  }
+
 
 });

@@ -1,8 +1,10 @@
 import * as React from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {Avatar, Box, CssBaseline, Grid, Link, Paper, Typography} from '@mui/material';
-import {GLOBAL_REQUEST_URL} from "@/utils/request";
+import {Avatar, Box, Button, CssBaseline, Grid, Link, Paper, TextField, Typography} from '@mui/material';
+import request from "@/utils/request";
+import * as cache from "@/utils/cache";
+import {history} from 'umi';
 
 
 function Copyright(props: any) {
@@ -25,9 +27,25 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    let username = data.get('username');
+    let password = data.get('password');
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      username: username,
+      password: password,
+    });
+    request.get(
+      '/auth/oauth/token?username=' + username + '&password=' + password + '&grant_type=password&scope=select',
+    ).then(res => {
+      if (res) {
+        if (res.access_token) {
+          cache.setItem('Authorization', res.access_token);
+          cache.setItem('username', username);
+          history.push({
+            pathname: "/project/home"
+          });
+
+        }
+      }
     });
   };
 
@@ -63,19 +81,36 @@ export default function Login() {
               <LockOutlinedIcon/>
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              登录
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
-
-
-              <iframe src={`${GLOBAL_REQUEST_URL}/auth/oauth2/authorization/wechat`}
-                      style={{"border": "none"}}
-                      scrolling="no" height="500px"
-                      sandbox="allow-scripts  allow-top-navigation"
-
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="账号"
+                name="username"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="密码"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{mt: 3, mb: 2}}
               >
-                <h3>使用微信扫码登录</h3>
-              </iframe>
+                登录
+              </Button>
               <Copyright sx={{mt: 5}}/>
             </Box>
           </Box>

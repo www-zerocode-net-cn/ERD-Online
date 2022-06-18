@@ -2,6 +2,12 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
+  publicPath: '/',
+  define: {
+    API_URL: 'http://localhost:9502'
+  },
+  // Fast Refresh 热更新
+  fastRefresh: {},
   plugins: [
     // https://github.com/zthxxx/react-dev-inspector
     'react-dev-inspector/plugins/umi/react-inspector',
@@ -12,4 +18,5 @@ export default defineConfig({
     babelPlugins: [],
     babelOptions: {},
   },
+  mfsu:{}
 });
