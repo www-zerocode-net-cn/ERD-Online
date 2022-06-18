@@ -52,7 +52,8 @@ export type IVersionSlice = {
   initDbs: (dbs: any) => void;
   dbChange: (db: any) => void;
   resolveDb: () => void;
-
+  compare: (state: any) => void;
+  checkVersionData: (dataSource1: any, dataSource2: any) => any;
 }
 
 
@@ -69,8 +70,10 @@ export type VersionState =
     changes: any,
     dbs: any,
     synchronous: any;
+    incrementVersionData: any;
     fetch: (db: any) => Promise<void>;
     dispatch: IVersionSlice;
+
   }
 
 let projectState = useProjectStore.getState();
@@ -87,6 +90,7 @@ const useVersionStore = create<VersionState>(
     dbVersion: undefined,
     changes: [],
     dbs: [],
+    incrementVersionData: {},
     synchronous: {},
     fetch: async (db: any) => {
       //显示的调用一下
@@ -223,7 +227,14 @@ const useVersionStore = create<VersionState>(
       calcChanges: (data: any) => {
         const dataSource = projectState.project.projectJSON;
         const changes: any = [];
-        const checkVersion = data.sort((a: any, b: any) => compareStringVersion(b.version, a.version))[0];
+        let checkVersion
+        try {
+          checkVersion = data.sort((a: any, b: any) => {
+            return compareStringVersion(b.version, a.version)
+          })[0];
+        } catch (e) {
+          console.log(237, e)
+        }
         if (checkVersion) {
           // 读取当前版本的内容
           const currentDataSource = {...dataSource};
@@ -748,6 +759,7 @@ const useVersionStore = create<VersionState>(
         }
       },
       saveNewVersion: (tempValue: any) => {
+        debugger
         const changes = get().dispatch.calcChanges(get().versions);
 
         if (!tempValue.version || !tempValue.versionDesc) {
@@ -868,7 +880,105 @@ const useVersionStore = create<VersionState>(
       },
       resolveDb: () => set(produce(state => {
         state.hasDB = state.dbs && state.dbs.length > 0;
-      }))
+      })),
+      compare: (state: any) => {
+        if (get().versions.length > 1 && (!state.initVersion || !state.incrementVersion)) {
+          message.warn('请选择你要比较的两个版本');
+        }
+        if (compareStringVersion(state.incrementVersion, state.initVersion) <= 0) {
+          message.warn('增量脚本的版本号不能小于或等于初始版本的版本号');
+        } else {
+          // 读取两个版本下的数据信息
+          let incrementVersionData = {};
+          let initVersionData = {};
+          get().versions.forEach((v: any) => {
+            if (v.version === state.initVersion) {
+              initVersionData = {modules: v.projectJSON.modules};
+            }
+            if (v.version === state.incrementVersion) {
+              incrementVersionData = {modules: v.projectJSON.modules};
+            }
+          });
+          const changes = get().dispatch.checkVersionData(incrementVersionData, initVersionData);
+          get().dispatch.showChanges(SHOW_CHANGE_TYPE.MULTI, changes, incrementVersionData, initVersionData);
+          set({
+            incrementVersionData
+          })
+        }
+      },
+      checkVersionData: (dataSource1: any, dataSource2: any) => {
+        // 循环比较每个模块下的每张表以及每一个字段的差异
+        const changes: any = [];
+        // 1.获取所有的表
+        const currentTables = get().dispatch.getAllTable(dataSource1);
+        const checkTables = get().dispatch.getAllTable(dataSource2);
+        const checkTableNames = checkTables.map((e: any) => e.title);
+        const currentTableNames = currentTables.map((e: any) => e.title);
+        // 2.将当前的表循环
+        currentTables.forEach((table: any) => {
+          // 1.1 判断该表是否存在
+          if (checkTableNames.includes(table.title)) {
+            // 1.2.1 如果该表存在则需要对比字段
+            const checkTable = checkTables.filter((t: any) => t.title === table.title)[0] || {};
+            // 将两个表的所有的属性循环比较
+            const checkFields = (checkTable.fields || []).filter((f: any) => f.name);
+            const tableFields = (table.fields || []).filter((f: any) => f.name);
+            const checkFieldsName = checkFields.map((f: any) => f.name);
+            const tableFieldsName = tableFields.map((f: any) => f.name);
+            tableFields.forEach((field: any) => {
+              if (!checkFieldsName.includes(field.name)) {
+                changes.push({
+                  type: 'field',
+                  name: `${table.title}.${field.name}`,
+                  opt: 'add',
+                });
+              } else {
+                // 比较属性的详细信息
+                const checkField = checkFields.filter((f: any) => f.name === field.name)[0] || {};
+                const result = get().dispatch.compareField(field, checkField, table);
+                changes.push(...result);
+              }
+            });
+            checkFields.forEach((field: any) => {
+              if (!tableFieldsName.includes(field.name)) {
+                changes.push({
+                  type: 'field',
+                  name: `${table.title}.${field.name}`,
+                  opt: 'delete',
+                });
+              }
+            });
+            // 1.2.2 其他信息
+            const entityResult = get().dispatch.compareEntity(_.omit(table, ['fields', 'indexs', 'headers']),
+              _.omit(checkTable, ['fields', 'indexs']));
+            changes.push(...entityResult);
+            // 1.2.3 对比索引
+            const result = get().dispatch.compareIndexs(table, checkTable);
+            changes.push(...result);
+          } else {
+            // 1.3 如果该表不存在则说明当前版本新增了该表
+            changes.push({
+              type: 'entity',
+              name: table.title,
+              opt: 'add',
+            });
+          }
+        });
+        // 3.将比较的表循环，查找删除的表
+        checkTables.forEach((table: any) => {
+          // 1.1 判断该表是否存在
+          if (!currentTableNames.includes(table.title)) {
+            // 1.2 如果该表不存在则说明当前版本删除了该表
+            changes.push({
+              type: 'entity',
+              name: table.title,
+              opt: 'delete',
+            });
+          }
+        });
+        return changes;
+      }
+
     }
   })
 );
