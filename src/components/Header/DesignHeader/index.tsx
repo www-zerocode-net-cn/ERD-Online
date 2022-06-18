@@ -1,11 +1,12 @@
 import React from 'react';
-import {Alignment, Button, ButtonGroup, Navbar, NavbarDivider} from "@blueprintjs/core";
+import {Alignment, Button, ButtonGroup, Classes, InputGroup, Navbar, NavbarDivider} from "@blueprintjs/core";
 import {Left, Right, Top} from "react-spaces";
 import {Popover2} from "@blueprintjs/popover2";
 import shallow from "zustand/shallow";
 import './index.less';
 import {NavigationMenu, ProjectMenu} from '@/components/Menu';
 import useGlobalStore from "@/store/global/globalStore";
+import classNames from "classnames";
 
 export type DesignHeaderProps = {};
 
@@ -39,6 +40,14 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
             </ButtonGroup>
           </Navbar.Group>
         </Navbar>
+      </Left>
+      <Left size={"65%"}>
+        <InputGroup
+          className={classNames(Classes.ROUND, "table-search-input")}
+          asyncControl={true}
+          leftIcon="search"
+          placeholder="搜索表或字段"
+        />
       </Left>
       <Right size={"20%"}>
         <Navbar>

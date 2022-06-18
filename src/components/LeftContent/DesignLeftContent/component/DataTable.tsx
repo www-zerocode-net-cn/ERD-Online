@@ -1,6 +1,5 @@
 import React from 'react';
-import {Classes, Icon, InputGroup, Menu, MenuItem} from "@blueprintjs/core";
-import classNames from "classnames";
+import {Icon, Menu} from "@blueprintjs/core";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import useTabStore from "@/store/tab/useTabStore";
@@ -21,7 +20,7 @@ import {TreeView} from '@mui/lab';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {makeStyles} from "@mui/styles";
-import {Bottom} from "react-spaces";
+import {Top} from "react-spaces";
 import {Empty} from "antd";
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
@@ -88,7 +87,7 @@ export const renderEntityRightContext = (payload: { title: string, chnname: stri
     <AddEntity moduleDisable={false}/>
     <RenameEntity moduleDisable={false} renameInfo={payload}/>
     <RemoveEntity disable={false}/>
-{/*    <MenuItem icon="duplicate" text="复制表"/>
+    {/*    <MenuItem icon="duplicate" text="复制表"/>
     <MenuItem icon="cut" text="剪切表"/>
     <MenuItem icon="clipboard" text="粘贴表"/>*/}
   </Menu>
@@ -97,7 +96,7 @@ export const renderModuleRightContext = (payload: { name: string, chnname: strin
     <AddModule moduleDisable={false} trigger="bp"/>
     <RenameModule moduleDisable={false} renameInfo={payload}/>
     <RemoveModule disable={false}/>
-{/*    <MenuItem icon="duplicate" text="复制模块"/>
+    {/*    <MenuItem icon="duplicate" text="复制模块"/>
     <MenuItem icon="cut" text="剪切模块"/>
     <MenuItem icon="clipboard" text="粘贴模块"/>*/}
   </Menu>
@@ -180,13 +179,8 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   }
 
   return (<>
-    <InputGroup
-      className={classNames(Classes.ROUND, "table-search-input")}
-      asyncControl={true}
-      leftIcon="search"
-      placeholder=""
-    />
-    <Bottom size="90%" scrollable={true} style={{marginTop: '10px'}}>
+
+    <Top size="90%" scrollable={true}>
       <TreeView
         className="root"
         defaultExpanded={['3']}
@@ -231,7 +225,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
         }
 
       </TreeView>
-    </Bottom>
+    </Top>
   </>);
 }
 

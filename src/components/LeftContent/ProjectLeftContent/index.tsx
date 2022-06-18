@@ -14,7 +14,8 @@ const ProjectLeftContent: React.FC<ProjectLeftContentProps> = (props) => {
       </Menu>
       <Menu className={Classes.ELEVATION_1}>
         <MenuDivider title="团队"/>
-        <MenuItem icon="group-objects" text="我的team"/>
+        <MenuItem icon="group-objects" text="团队1"/>
+        <MenuItem icon="add" text="创建团队"/>
       </Menu>
       <Menu className={Classes.ELEVATION_1}>
         <MenuItem icon="globe-network" labelElement={<Icon icon="share"/>} text="资源社区"/>
