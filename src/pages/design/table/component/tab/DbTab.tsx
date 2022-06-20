@@ -44,6 +44,12 @@ const DbTab: React.FC<DbTabProps> = (props) => {
         <Tab id="deleteIndexTemplate" title="删除索引"
              panel={<TableCodeShow dbCode={dbCode} templateCode="deleteIndexTemplate"
                                    moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="createPkTemplate" title="新建主键"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="createPkTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
+        <Tab id="deletePkTemplate" title="删除主键"
+             panel={<TableCodeShow dbCode={dbCode} templateCode="deletePkTemplate"
+                                   moduleEntity={moduleEntity}/>}></Tab>
       </Tabs>
     </>
   );

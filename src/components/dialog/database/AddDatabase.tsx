@@ -136,6 +136,14 @@ const AddDatabase: React.FC<AddDatabaseProps> = (props) => {
               value: 'deleteIndexTemplate',
             },
             {
+              label: '创建主键',
+              value: 'createPkTemplate',
+            },
+            {
+              label: '删除主键',
+              value: 'deletePkTemplate',
+            },
+            {
               label: '表注释',
               value: 'updateTableComment',
             },

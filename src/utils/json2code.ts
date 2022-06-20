@@ -258,7 +258,7 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
         const dataTable = tempEntities.filter(t => t.title === change[0])[0] || {};
         const field = (dataTable.fields || []).filter(f => f.name === change[1])[0] || {};
         const changeData = (c.changeData || '').split('=>');
-        return getTemplateString(getTemplate('updateFieldTemplate'), {
+        const updateFieldStr = getTemplateString(getTemplate('updateFieldTemplate'), {
           module: {name: dataTable.name},
           entity: dataTable,
           field: {
@@ -268,6 +268,34 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
           },
           separator
         });
+        let pkStr = '';
+        // 如果改动的是主键属性，则响应的增减主键的修改语句
+        if (change[change?.length - 1] === 'pk') {
+          if (changeData[1] === 'true') {
+            pkStr = getTemplateString(getTemplate('createPkTemplate'), {
+              module: {name: dataTable.name},
+              entity: dataTable,
+              field: {
+                ...field,
+                updateName: change[2],
+                update: changeData[1],
+              },
+              separator
+            });
+          } else if (changeData[1] === 'false') {
+            pkStr = getTemplateString(getTemplate('deletePkTemplate'), {
+              module: {name: dataTable.name},
+              entity: dataTable,
+              field: {
+                ...field,
+                updateName: change[2],
+                update: changeData[1],
+              },
+              separator
+            });
+          }
+        }
+        return updateFieldStr + pkStr;
       } else if (c.opt === 'add') {
         const change = c.name.split('.');
         const dataTable = tempEntities.filter(t => t.title === change[0])[0] || {};
@@ -660,6 +688,24 @@ export const getDemoTemplateData = (templateShow) => {
       }, null, 2);
       break;
     case 'deleteFieldTemplate':
+      data = JSON.stringify({
+        field: {
+          name: demoField.name,
+        },
+        ...demoTable,
+        separator: '/*SQL@Run*/'
+      }, null, 2);
+      break;
+    case 'createPkTemplate':
+      data = JSON.stringify({
+        field: {
+          name: demoField.name,
+        },
+        ...demoTable,
+        separator: '/*SQL@Run*/'
+      }, null, 2);
+      break;
+    case 'deletePkTemplate':
       data = JSON.stringify({
         field: {
           name: demoField.name,
