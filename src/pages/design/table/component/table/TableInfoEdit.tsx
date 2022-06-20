@@ -8,8 +8,13 @@ import {ModuleEntity} from "@/store/tab/useTabStore";
 import shallow from "zustand/shallow";
 // @ts-ignore
 import {CellChange, ChangeSource} from "handsontable";
-import _ from "lodash";
-import {message} from "antd";
+import {
+  column1,
+  column2,
+  handsontableAfterChange,
+  handsontableAfterRowMove,
+  handsontableBeforeChange
+} from "@/components/dialog/setup/DefaultField";
 
 
 export type TableInfoEditProps = {
@@ -41,29 +46,10 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
   const hotTableComponent = useRef(null);
 
 
-  // Empty validator
-  const emptyValidator = (value: any, callback: any) => {
-    if (!value || value.length === 0) {
-      console.log('false');
-      message.error("当前编辑项不允许为空");
-      callback(false);
-    } else {
-      console.log('true');
-      callback(true);
-    }
-  };
-
   const hotSettings = {
     data: JSON.parse(s),
     columns: [
-      {
-        data: 'chnname',
-        validator: emptyValidator
-      },
-      {
-        data: 'name',
-        validator: emptyValidator
-      },
+      ...column1,
       {
         data: 'typeName',
         type: 'dropdown',
@@ -71,49 +57,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
         allowInvalid: false,
         allowEmpty: false
       },
-      {
-        data: 'type',
-        type: 'text',
-        readOnly: true
-      },
-      {
-        data: 'dataType',
-        type: 'text',
-        readOnly: true
-      },
-      {
-        data: 'remark',
-        type: 'text'
-      },
-      {
-        data: 'pk',
-        type: 'checkbox',
-
-      },
-      {
-        data: 'notNull',
-        type: 'checkbox',
-      },
-      {
-        data: 'autoIncrement',
-        type: 'checkbox',
-      },
-      {
-        data: 'defaultValue',
-        type: 'text',
-      },
-      {
-        data: 'relationNoShow',
-        type: 'checkbox',
-      },
-      {
-        data: 'uiHint',
-        type: 'autocomplete', strict: true, filter: true,
-        visibleRows: 10,
-        trimDropdown: true,
-        allowInvalid: false,
-        source: ['Text', 'Number', 'Money', 'Select', 'Radio', 'CheckBox', 'Email', 'URL', 'DatePicker', 'TextArea', 'AddressPicker'],
-      },
+      ...column2
     ],
     allowInvalid: false,
     allowRemoveColumn: false,
@@ -161,64 +105,10 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
       id={"data-sheet"}
       // @ts-ignore
       settings={hotSettings}
-      beforeChange={(changes: CellChange[], source: ChangeSource) => {
-        if (changes) {
-          changes.forEach((c: CellChange) => {
-            const [row, prop, oldValue, newValue] = c;
-            // @ts-ignore
-            const {hotInstance} = hotTableComponent.current;
-            console.log(163, hotInstance.getDataAtRow(row));
-            if (prop === 'typeName' && oldValue !== newValue) {
-              const d = _.find(datatype, {'name': newValue});
-              const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
-              const path = `apply.${defaultDatabaseCode}.type`;
-              hotInstance.setDataAtRowProp(row, 'type', _.get(d, 'code'));
-              hotInstance.setDataAtRowProp(row, 'dataType', _.get(d, path));
-            }
-          });
-        }
-      }}
-      afterChange={(changes: CellChange[] | null, source: ChangeSource) => {
-        console.log(189, changes);
-        console.log(190, source);
-        // // @ts-ignore
-        // const {hotInstance} = hotTableComponent.current;
-        // hotInstance.selectRows(2)
-        if (changes) {
-          const payload = hotSettings.data;
-          console.log(193, payload);
-          afterChange(payload);
-        }
-      }}
-      afterRowMove={(startRow: number, endRow: number) => {
-        console.log(198, startRow[0], endRow);
-        // @ts-ignore
-        const {hotInstance} = hotTableComponent.current;
-        const payload = hotSettings.data;
-        console.log(203, payload);
-        console.log(209, hotInstance);
-        const finalData: any[] = [];
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        const {_arrayMap} = hotInstance.getPlugin('manualRowMove').rowsMapper;
-        // eslint-disable-next-line no-plusplus
-        for (let loop = 0; loop < hotSettings.data.length; loop++) {
-          const data = hotSettings.data[_arrayMap[loop]];
-          finalData.push(data);
-        }
-        // 延迟一会保存数据，避免页面渲染混乱
-        setTimeout(() => {
-          // eslint-disable-next-line no-underscore-dangle
-          hotInstance.getPlugin('manualRowMove').rowsMapper._arrayMap = _.sortBy(_arrayMap);
-          // eslint-disable-next-line no-underscore-dangle
-          console.log(218, 'rowPositions', hotInstance.getPlugin('manualRowMove').rowsMapper._arrayMap);
-          console.log(239, 'finalData', finalData);
-          afterChange(finalData);
-        }, 200);
-
-      }
-      }
+      beforeChange={handsontableBeforeChange(hotTableComponent, datatype, database)}
+      afterChange={handsontableAfterChange(hotSettings, afterChange)}
+      afterRowMove={handsontableAfterRowMove(hotTableComponent, hotSettings, afterChange)}
     >
-
     </HotTable>
   );
 }

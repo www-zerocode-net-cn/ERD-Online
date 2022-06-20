@@ -347,7 +347,7 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     console.log(30, 'defaultDatabaseCode', defaultDatabaseCode);
     const defaultFields = get().project?.projectJSON?.profile?.defaultFields || [];
     const datatype = get().project?.projectJSON?.dataTypeDomains?.datatype || [];
-    return defaultFields.map((d: any) => {
+    return defaultFields.filter((f: any) => f != null).map((d: any) => {
       const defaultField = _.find(datatype, ['code', d.type]);
       if (defaultField) {
         console.log(31, 'defaultField', defaultField);
