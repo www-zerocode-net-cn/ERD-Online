@@ -3,7 +3,6 @@ import {Button, ButtonGroup, Divider, NonIdealState, OverflowList} from "@bluepr
 import {Alignment} from "@blueprintjs/core/src/common/index";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
-import useTabStore from "@/store/tab/useTabStore";
 import AddEntity from "@/components/dialog/entity/AddEntity";
 import {Popconfirm} from "antd";
 import {ContextMenu2} from '@blueprintjs/popover2';
@@ -17,11 +16,11 @@ const TableObjectList: React.FC<TableObjectListProps> = (props) => {
     currentModuleName: state.currentModule,
     projectDispatch: state.dispatch,
   }), shallow);
-  const tabDispatch = useTabStore(state => state.dispatch);
   /* const currentModuleIndex = modules?.findIndex((m: any) => m.name === currentModuleName); */
 
 
   const [disabled, setDisabled] = useState(true);
+  //@ts-ignore
   const [selectTable, setSelectTable] = useState('');
 
   console.log('currentModuleName21', currentModuleName);
@@ -59,9 +58,6 @@ const TableObjectList: React.FC<TableObjectListProps> = (props) => {
     <>
       <Divider/>
       <ButtonGroup minimal={true} className="table-button-tool-group">
-        {/* <Button icon="database" text={"打开表"} small={true} disabled={disabled}></Button> */}
-        <Button icon="edit" text={"设计表"} small={true} disabled={disabled}
-                onClick={() => tabDispatch.addTab({module: currentModuleName, entity: selectTable})}></Button>
         <AddEntity moduleDisable={moduleDisable}/>
         <Popconfirm placement="right" title="删除表"
                     onConfirm={() => projectDispatch.removeEntity()} okText="是"
