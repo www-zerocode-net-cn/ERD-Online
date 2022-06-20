@@ -33,9 +33,13 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
     console.log('addEntity', 16, state.project.projectJSON.modules[currentModuleIndex].entities)
     const entityIndex = state.project.projectJSON.modules[currentModuleIndex].entities?.findIndex((e: any) => e.title === payload.title);
     if (entityIndex === -1) {
-      state.project.projectJSON.modules[currentModuleIndex].entities.push(payload);
-      console.log('addEntity', 17, state.project.projectJSON.modules[currentModuleIndex].entities)
-      message.success('提交成功');
+      if (payload) {
+        state.project.projectJSON.modules[currentModuleIndex].entities.push(payload);
+        console.log('addEntity', 17, state.project.projectJSON.modules[currentModuleIndex].entities)
+        message.success('提交成功');
+      }else {
+        message.error('保存出错，不能保存null')
+      }
     } else {
       message.warn(`${payload.title}已经存在`);
     }
