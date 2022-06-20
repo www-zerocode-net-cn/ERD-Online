@@ -227,14 +227,11 @@ const useVersionStore = create<VersionState>(
       calcChanges: (data: any) => {
         const dataSource = projectState.project.projectJSON;
         const changes: any = [];
-        let checkVersion
-        try {
-          checkVersion = data.sort((a: any, b: any) => {
-            return compareStringVersion(b.version, a.version)
-          })[0];
-        } catch (e) {
-          console.log(237, e)
-        }
+        let tempData = [...data];
+        const checkVersion = tempData.sort((a: any, b: any) => {
+          console.log(233, b.version, a.version, compareStringVersion(b.version, a.version));
+          return compareStringVersion(b.version, a.version)
+        })[0];
         if (checkVersion) {
           // 读取当前版本的内容
           const currentDataSource = {...dataSource};
@@ -759,7 +756,7 @@ const useVersionStore = create<VersionState>(
         }
       },
       saveNewVersion: (tempValue: any) => {
-        debugger
+        // 注意get().versions获取到的数据是冻结的，需要解冻才能操作，数组用[...data],数组用Json.parse(Json.stringfy())
         const changes = get().dispatch.calcChanges(get().versions);
 
         if (!tempValue.version || !tempValue.versionDesc) {
