@@ -113,8 +113,8 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   const {tabDispatch} = useTabStore(state => ({tableTabs: state.tableTabs, tabDispatch: state.dispatch}));
 
 
+  const classes = useTreeItemStyles();
   const StyledTreeItem = (prop: StyledTreeItemProps) => {
-    const classes = useTreeItemStyles();
     const {type, module, labelText, chnname, labelIcon, labelInfo, color, bgColor, ...other} = prop;
 
     const activeModuleOrEntity = (t: string, m: string) => {
@@ -173,6 +173,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   };
 
   const activeEntity = (module: any, entity: any) => {
+    debugger
     tabDispatch.addTab({module: module?.name, entity: entity.title});
     projectDispatch.setCurrentModule(module?.name);
     projectDispatch.setCurrentEntity(entity.title);
@@ -198,6 +199,19 @@ const DataTable: React.FC<DataTableProps> = (props) => {
                                    labelIcon={"database"}
                                    labelInfo={module?.entities?.length}
                                    onClick={() => projectDispatch.setCurrentModule(module?.name)}>
+              <TreeItem
+                label={
+                  <div className={classes.labelRoot}>
+                    <Icon icon={"many-to-many"} className={classes.labelIcon}/>
+                    <Typography variant="body2" className={classes.labelText}>
+                      {"关系图"}
+                    </Typography>
+                  </div>
+                }
+                nodeId={"relation"}
+                onClick={() => activeEntity(module, {title: "relation"})}
+              />
+
               {module?.entities?.map((entity: any) => {
                 return <StyledTreeItem key={`${module?.name}###${entity.title}`}
                                        type="entity"

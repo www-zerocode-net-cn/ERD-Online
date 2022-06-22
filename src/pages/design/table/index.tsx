@@ -11,6 +11,7 @@ import {ContextMenu2} from "@blueprintjs/popover2";
 import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
 import shallow from "zustand/shallow";
 import Version from "@/pages/design/version";
+import Relation from "@/pages/design/relation";
 
 export type TableProps = {};
 const Table: React.FC<TableProps> = (props) => {
@@ -35,6 +36,15 @@ const Table: React.FC<TableProps> = (props) => {
 
   console.log('tableTabs', tableTabs)
   console.log('selectTabId', selectTabId)
+
+  const getTab = (tab: ModuleEntity) => {
+    debugger
+    if (tab.entity === 'relation') {
+      return <Relation/>
+    } else {
+      return <TableTab moduleEntity={tab}/>;
+    }
+  }
 
   const closeCurrent = (tab: ModuleEntity) => {
     console.log('currentEntity19', tab)
@@ -87,7 +97,7 @@ const Table: React.FC<TableProps> = (props) => {
                onClickCapture={() => tabDispatch.activeTab({module: "all", entity: "object"})}
                key={0}
                title={"对象"}
-               style={{width: "40px",textAlign:"center"}}
+               style={{width: "40px", textAlign: "center"}}
                panel={<TableObjectList/>}>
 
           </Tab>
@@ -98,7 +108,7 @@ const Table: React.FC<TableProps> = (props) => {
               const selectedTabId = `${tab.module}###${tab.entity}`;
               return <Tab id={selectedTabId}
                           key={index}
-                          panel={<TableTab moduleEntity={tab}/>}>
+                          panel={getTab(tab)}>
                 <ContextMenu2 content={() => renderRightContent(tab)}>
                   <div title={`${tab.entity}|${tab.module}`} className="tab-text-close">
                     <div style={{textAlign: 'center'}} onClick={() => tabDispatch.activeTab(tab)}>{tab.entity}</div>
