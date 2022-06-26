@@ -66,12 +66,7 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
   sass: {},
-  headScripts: [
-    {src: '/js/html2canvas.min.js', defer: true},
-    {src: '/js/g6.min.js', defer: true},
-    {src: '/js/g6-plugins.min.js', defer: true},
-    {src: '/env-config.js', defer: true},
-  ],
+
 
 
 });
