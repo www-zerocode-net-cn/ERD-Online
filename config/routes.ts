@@ -49,6 +49,26 @@
         component: './design/table',
       },
       {
+        name: 'relation',
+        path: '/design/relation',
+        component: './design/relation',
+      },
+      {
+        name: 'test',
+        path: '/design/test',
+        component: './design/test',
+      },
+      {
+        name: 'test2',
+        path: '/design/test2',
+        component: './design/test/Test2'
+      },
+      {
+        name: 'test3',
+        path: '/design/test3',
+        component: './design/test/Test3',
+      },
+      {
         name: 'code',
         path: '/design/code',
         component: './design/code',

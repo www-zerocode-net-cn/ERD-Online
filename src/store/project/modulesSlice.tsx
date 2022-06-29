@@ -3,6 +3,7 @@ import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import EntitiesSlice from "@/store/project/entitiesSlice";
 import {message} from "antd";
+import _ from 'lodash';
 
 export type IModulesSlice = {
   currentModule?: string;
@@ -14,8 +15,11 @@ export interface IModulesDispatchSlice {
   renameModule: (payload: any) => void;
   removeModule: () => void;
   updateModule: (payload: any) => void;
+  updateRelation: (payload: any) => void;
   setCurrentModule: (payload: any) => void,
   updateAllModules: (payload: any) => void,
+  getModuleEntityTree: () => any,
+  getModuleEntityFieldTree: () => any,
 };
 
 
@@ -47,12 +51,50 @@ const ModulesSlice = (set: SetState<ProjectState>) => ({
   updateModule: (payload: any) => set(produce(state => {
     state.project.projectJSON.modules[state.currentModuleIndex] = payload
   })),
+  updateRelation: (payload: any) => set(produce(state => {
+    if (payload.graphCanvas) {
+      state.project.projectJSON.modules[state.currentModuleIndex].graphCanvas = payload.graphCanvas;
+    }
+    if (payload.associations) {
+      state.project.projectJSON.modules[state.currentModuleIndex].associations = payload.associations;
+    }
+  })),
   setCurrentModule: (payload: any) => set(produce(state => {
     state.currentModule = payload
     state.currentModuleIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m?.name === payload);
   })),
   updateAllModules: (payload: any) => set(produce(state => {
     state.project.projectJSON.modules = payload;
+  })),
+  getModuleEntityTree: () => set(produce(state => {
+    let map = state.project?.projectJSON?.modules?.map((module: any) => {
+      let relation = {type: 'relation', title: '关系图', key: `${module.name}###relation`, isLeaf: true};
+      let entities = module?.entities?.map((entity: any) => {
+        return {type: 'entity', title: entity.title, key: entity.title, isLeaf: true}
+      });
+      return {
+        type: 'module',
+        title: module.name,
+        key: module.name,
+        children: _.concat(relation, entities)
+      }
+    });
+    console.log(82, 'getModuleEntityTree', map);
+    return map;
+  })),
+  getModuleEntityFieldTree: () => set(produce(state => {
+    return state.project?.projectJSON?.modules?.map((module: any) => {
+      let relation = {type: 'relation', title: '关系图', key: `${module.name}###relation`, isLeaf: true};
+      let entities = module?.entities?.map((entity: any) => {
+        return {type: 'entity', title: entity.title, key: entity.title, isLeaf: true}
+      });
+      return {
+        type: 'module',
+        title: module.name,
+        key: module.name,
+        children: _.concat(relation, entities)
+      }
+    });
   })),
   ...EntitiesSlice(set),
 });

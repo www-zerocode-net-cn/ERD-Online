@@ -38,9 +38,8 @@ const Table: React.FC<TableProps> = (props) => {
   console.log('selectTabId', selectTabId)
 
   const getTab = (tab: ModuleEntity) => {
-    debugger
-    if (tab.entity === 'relation') {
-      return <Relation/>
+    if (tab.entity?.startsWith('关系图')) {
+      return <Relation moduleEntity={tab}/>
     } else {
       return <TableTab moduleEntity={tab}/>;
     }

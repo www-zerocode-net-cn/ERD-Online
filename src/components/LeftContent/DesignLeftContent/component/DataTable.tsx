@@ -16,12 +16,12 @@ import RemoveModule from "@/components/dialog/module/RemoveModule";
 
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
 import {Typography} from '@mui/material';
-import {TreeView} from '@mui/lab';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {makeStyles} from "@mui/styles";
 import {Top} from "react-spaces";
-import {Empty} from "antd";
+import {Empty, Tree} from "antd";
+import _ from "lodash";
+import useShortcutStore from "@/store/shortcut/useShortcutStore";
+
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
   root: {
@@ -62,6 +62,7 @@ export const useTreeItemStyles = makeStyles((theme: any) => ({
     marginLeft: '5px',
   },
   labelText: {
+    width: '80px',
     fontWeight: 'inherit',
     flexGrow: 1,
     display: 'block',
@@ -112,20 +113,13 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   console.log('modules139', modules)
   const {tabDispatch} = useTabStore(state => ({tableTabs: state.tableTabs, tabDispatch: state.dispatch}));
 
+  const {shortcutDispatch} = useShortcutStore(state => ({
+    shortcutDispatch:state.dispatch
+  }));
 
   const classes = useTreeItemStyles();
   const StyledTreeItem = (prop: StyledTreeItemProps) => {
     const {type, module, labelText, chnname, labelIcon, labelInfo, color, bgColor, ...other} = prop;
-
-    const activeModuleOrEntity = (t: string, m: string) => {
-      projectDispatch.setCurrentModule(m);
-      console.log(145, 111);
-      if (type === "entity") {
-        console.log(147, 222);
-        console.log(147, 222);
-        projectDispatch.setCurrentEntity(labelText);
-      }
-    }
 
     return (
       <ContextMenu2
@@ -133,7 +127,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
           ? renderModuleRightContext({name: labelText, chnname})
           : renderEntityRightContext({title: labelText, chnname})
         }
-        onContextMenu={() => activeModuleOrEntity(type, module)}
+        onContextMenu={() => alert(123)}
       >
         <TreeItem
           label={
@@ -173,72 +167,119 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   };
 
   const activeEntity = (module: any, entity: any) => {
-    debugger
-    tabDispatch.addTab({module: module?.name, entity: entity.title});
-    projectDispatch.setCurrentModule(module?.name);
-    projectDispatch.setCurrentEntity(entity.title);
+    projectDispatch.setCurrentModule(module);
+    projectDispatch.setCurrentEntity(entity);
+  }
+
+  const getModuleEntityTree = () => {
+    let map = modules?.map((module: any) => {
+      let relation = {
+        type: 'relation',
+        module: module.name,
+        title: '关系图',
+        key: `${module.name}###relation`,
+        isLeaf: true
+      };
+      let entities = module?.entities?.map((entity: any) => {
+        return {
+          type: 'entity',
+          module: module.name,
+          length: entity?.fields?.length,
+          title: entity.title,
+          key: entity.title,
+          isLeaf: true
+        }
+      });
+      return {
+        type: 'module',
+        module: module.name,
+        length: module?.entities?.length,
+        title: module.name,
+        key: module.name,
+        children: _.concat(relation, entities)
+      }
+    });
+    console.log(82, 'getModuleEntityTree', map);
+    return map;
   }
 
   return (<>
 
     <Top size="90%" scrollable={true}>
-      <TreeView
-        className="root"
-        defaultExpanded={['3']}
-        defaultCollapseIcon={<ArrowDropDownIcon/>}
-        defaultExpandIcon={<ArrowRightIcon/>}
-        defaultEndIcon={<div style={{width: 24}}/>}
-      >
-        {modules && modules.length > 0 ? modules.map((module: any) => {
-            return <StyledTreeItem key={module?.name}
-                                   type="module"
-                                   module={module?.name}
-                                   nodeId={module?.name}
-                                   labelText={module?.name}
-                                   chnname={module?.chnname}
-                                   labelIcon={"database"}
-                                   labelInfo={module?.entities?.length}
-                                   onClick={() => projectDispatch.setCurrentModule(module?.name)}>
-              <TreeItem
-                label={
-                  <div className={classes.labelRoot}>
-                    <Icon icon={"many-to-many"} className={classes.labelIcon}/>
-                    <Typography variant="body2" className={classes.labelText}>
-                      {"关系图"}
-                    </Typography>
-                  </div>
-                }
-                nodeId={"relation"}
-                onClick={() => activeEntity(module, {title: "relation"})}
-              />
-
-              {module?.entities?.map((entity: any) => {
-                return <StyledTreeItem key={`${module?.name}###${entity.title}`}
-                                       type="entity"
-                                       module={module?.name}
-                                       nodeId={`${module?.name}###${entity.title}`}
-                                       labelText={entity.title}
-                                       chnname={entity?.chnname}
-                                       labelIcon={"th"} labelInfo={entity?.fields?.length}
-                                       onClick={() => activeEntity(module, entity)}/>
-              })}
-            </StyledTreeItem>;
-          })
-          :
-          <Empty
-            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-            imageStyle={{
-              height: 60,
-            }}
-            description={
-              <span>暂无数据</span>
+      {modules && modules.length > 0 ? <Tree
+          showIcon={false}
+          treeData={getModuleEntityTree()}
+          blockNode={true}
+          className={classes.label}
+          rootStyle={{textAlign: 'left'}}
+          onClick={(e, node: any) => {
+            console.log(198, 'node', node);
+            if (node.type === "module") {
+              projectDispatch.setCurrentModule(node.module)
+            } else if (node.type === "entity") {
+              tabDispatch.addTab({module: node.module, entity: node.title});
+              activeEntity(node.module, node.title)
+            } else if (node.type === "relation") {
+              shortcutDispatch.setShow(false);
+              tabDispatch.addTab({module: node.module, entity: `关系图-${node.module}`});
+              activeEntity(node.module, node.title)
             }
-          >
-            <AddModule moduleDisable={false} trigger="ant"/>
-          </Empty>
-        }
+          }}
+          titleRender={(node: any) => {
+            console.log(185, 'node', node);
+            const type = node.type;
+            const module = node.module;
+            const entity = node.title;
 
-      </TreeView>
+            return <ContextMenu2
+              content={node.type === "module"
+                ? renderModuleRightContext({name: node.name, chnname: node.chnname})
+                : node.type === "entity" ? renderEntityRightContext({title: node.title, chnname: node.chnname}) : <></>
+              }
+              onContextMenu={() => alert(1)}
+            >
+              <div className={classes.labelRoot} onDragStart={(e) => {
+
+                console.log('开始拖');
+                e.stopPropagation();
+                let value = '';
+                if (type === "module") {
+                  value = `module&${module}`;
+                } else {
+                  if (type === "entity") {
+                    value = `entity&${module}&${entity}`;
+                  } else if (type === "relation") {
+                    value = `map&${module}/关系图`;
+                  }
+                }
+                e.dataTransfer.setData("Text", value);
+              }} draggable="true">
+                <Icon icon={node.type === "module" ? "database" : node.type === "relation" ? "many-to-many" : "th"}
+                      className={classes.labelIcon}/>
+                <Typography variant="body2" className={classes.labelText}>
+                  {node.title}
+                </Typography>
+                <Typography variant="caption" color="inherit">
+                  {node.type !== 'relation' ? node.length : null}
+                </Typography>
+              </div>
+            </ContextMenu2>
+          }}
+        />
+        :
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{
+            height: 60,
+          }}
+          description={
+            <span>暂无数据</span>
+          }
+        >
+          <AddModule moduleDisable={false} trigger="ant"/>
+        </Empty>
+      }
+
     </Top>
   </>);
 }

@@ -100,10 +100,10 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
     minRows: 1
   };
   return (
+    // @ts-ignore
     <HotTable
       ref={hotTableComponent}
       id={"data-sheet"}
-      // @ts-ignore
       settings={hotSettings}
       beforeChange={handsontableBeforeChange(hotTableComponent, datatype, database)}
       afterChange={handsontableAfterChange(hotSettings, afterChange)}
