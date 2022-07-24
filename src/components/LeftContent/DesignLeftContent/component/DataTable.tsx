@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Icon, Menu} from "@blueprintjs/core";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
@@ -21,7 +21,6 @@ import {Top} from "react-spaces";
 import {Empty, Tree} from "antd";
 import useShortcutStore from "@/store/shortcut/useShortcutStore";
 import useGlobalStore from "@/store/global/globalStore";
-import _ from "lodash";
 
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
@@ -109,8 +108,7 @@ export const renderModuleRightContext = (payload: { name: string, chnname: strin
 export type DataTableProps = {};
 
 const DataTable: React.FC<DataTableProps> = (props) => {
-  const {expandedKeys, modules, projectDispatch} = useProjectStore(state => ({
-    expandedKeys: state.expandedKeys,
+  const {modules, projectDispatch} = useProjectStore(state => ({
     modules: state.project?.projectJSON?.modules,
     projectDispatch: state.dispatch,
   }), shallow);
@@ -126,8 +124,16 @@ const DataTable: React.FC<DataTableProps> = (props) => {
 
   const [autoExpandParent, setAutoExpandParent] = useState(true);
 
+
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+
+  useEffect(() => {
+    setExpandedKeys(projectDispatch.getExpandedKeys(searchKey || ''));
+  }, [searchKey]);
+
   const onExpand = (newExpandedKeys: any) => {
-    projectDispatch.setExpandedKeys(newExpandedKeys);
+    console.log(128, newExpandedKeys);
+    setExpandedKeys(newExpandedKeys);
     setAutoExpandParent(false);
   };
 

@@ -23,6 +23,7 @@ export interface IModulesDispatchSlice {
   getModuleEntityFieldTree: () => any,
   setExpandedKey: (expandedKey: string) => any,
   setExpandedKeys: (expandedKey: any) => any,
+  getExpandedKeys: (expandedKey: any) => any,
 };
 
 
@@ -71,6 +72,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     state.project.projectJSON.modules = payload;
   })),
   getModuleEntityTree: (searchKey: string) => {
+    const tempExpandedKeys: any = [];
     console.log(70, get().project)
     let map = get().project.projectJSON?.modules?.map((module: any) => {
       let relation = {
@@ -83,8 +85,8 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       let entities = module?.entities?.filter((f: any) => {
         if (searchKey && searchKey.length > 0) {
           const flag = f.title.search(_.escapeRegExp(searchKey)) >= 0;
-          if(flag){
-            get().dispatch.setExpandedKey(`module${module.name}`);
+          if (flag) {
+            tempExpandedKeys.push(`module${module.name}`);
           }
           return flag
         } else {
@@ -109,6 +111,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         children: _.concat(relation, entities)
       }
     });
+
     console.log(82, 'getModuleEntityTree', map);
     return map;
   },
@@ -133,6 +136,25 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   setExpandedKeys: (expandedKeys: any) => set(produce(state => {
     state.expandedKeys = expandedKeys;
   })),
+  getExpandedKeys: (searchKey: string) => {
+    const tempExpandedKeys: any = [];
+    console.log(70, get().project)
+    get().project.projectJSON?.modules?.forEach((module: any) => {
+      module?.entities?.filter((f: any) => {
+        if (searchKey && searchKey.length > 0) {
+          const flag = f.title.search(_.escapeRegExp(searchKey)) >= 0;
+          if (flag) {
+            tempExpandedKeys.push(`module${module.name}`);
+          }
+          return flag
+        } else {
+          return true;
+        }
+      })
+    });
+    console.log(155, 'tempExpandedKeys', tempExpandedKeys);
+    return tempExpandedKeys;
+  },
   ...EntitiesSlice(set),
 });
 
