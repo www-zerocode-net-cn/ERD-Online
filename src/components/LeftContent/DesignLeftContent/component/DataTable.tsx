@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Icon, Menu} from "@blueprintjs/core";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
@@ -19,8 +19,9 @@ import {Typography} from '@mui/material';
 import {makeStyles} from "@mui/styles";
 import {Top} from "react-spaces";
 import {Empty, Tree} from "antd";
-import _ from "lodash";
 import useShortcutStore from "@/store/shortcut/useShortcutStore";
+import useGlobalStore from "@/store/global/globalStore";
+import _ from "lodash";
 
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
@@ -97,6 +98,8 @@ export const renderModuleRightContext = (payload: { name: string, chnname: strin
     <AddModule moduleDisable={false} trigger="bp"/>
     <RenameModule moduleDisable={false} renameInfo={payload}/>
     <RemoveModule disable={false}/>
+    <AddEntity moduleDisable={false}/>
+
     {/*    <MenuItem icon="duplicate" text="复制模块"/>
     <MenuItem icon="cut" text="剪切模块"/>
     <MenuItem icon="clipboard" text="粘贴模块"/>*/}
@@ -106,16 +109,27 @@ export const renderModuleRightContext = (payload: { name: string, chnname: strin
 export type DataTableProps = {};
 
 const DataTable: React.FC<DataTableProps> = (props) => {
-  const {modules, projectDispatch} = useProjectStore(state => ({
+  const {expandedKeys, modules, projectDispatch} = useProjectStore(state => ({
+    expandedKeys: state.expandedKeys,
     modules: state.project?.projectJSON?.modules,
     projectDispatch: state.dispatch,
   }), shallow);
   console.log('modules139', modules)
   const {tabDispatch} = useTabStore(state => ({tableTabs: state.tableTabs, tabDispatch: state.dispatch}));
-
+  const {searchKey} = useGlobalStore(state => ({
+    searchKey: state.searchKey,
+    globalDispatch: state.dispatch,
+  }), shallow);
   const {shortcutDispatch} = useShortcutStore(state => ({
-    shortcutDispatch:state.dispatch
+    shortcutDispatch: state.dispatch
   }));
+
+  const [autoExpandParent, setAutoExpandParent] = useState(true);
+
+  const onExpand = (newExpandedKeys: any) => {
+    projectDispatch.setExpandedKeys(newExpandedKeys);
+    setAutoExpandParent(false);
+  };
 
   const classes = useTreeItemStyles();
   const StyledTreeItem = (prop: StyledTreeItemProps) => {
@@ -127,7 +141,8 @@ const DataTable: React.FC<DataTableProps> = (props) => {
           ? renderModuleRightContext({name: labelText, chnname})
           : renderEntityRightContext({title: labelText, chnname})
         }
-        onContextMenu={() => alert(123)}
+        onContextMenu={() => {
+        }}
       >
         <TreeItem
           label={
@@ -171,44 +186,16 @@ const DataTable: React.FC<DataTableProps> = (props) => {
     projectDispatch.setCurrentEntity(entity);
   }
 
-  const getModuleEntityTree = () => {
-    let map = modules?.map((module: any) => {
-      let relation = {
-        type: 'relation',
-        module: module.name,
-        title: '关系图',
-        key: `${module.name}###relation`,
-        isLeaf: true
-      };
-      let entities = module?.entities?.map((entity: any) => {
-        return {
-          type: 'entity',
-          module: module.name,
-          length: entity?.fields?.length,
-          title: entity.title,
-          key: entity.title,
-          isLeaf: true
-        }
-      });
-      return {
-        type: 'module',
-        module: module.name,
-        length: module?.entities?.length,
-        title: module.name,
-        key: module.name,
-        children: _.concat(relation, entities)
-      }
-    });
-    console.log(82, 'getModuleEntityTree', map);
-    return map;
-  }
 
   return (<>
 
     <Top size="90%" scrollable={true}>
       {modules && modules.length > 0 ? <Tree
           showIcon={false}
-          treeData={getModuleEntityTree()}
+          onExpand={(newExpandedKeys) => onExpand(newExpandedKeys)}
+          expandedKeys={expandedKeys}
+          autoExpandParent={autoExpandParent}
+          treeData={projectDispatch.getModuleEntityTree(searchKey || '')}
           blockNode={true}
           className={classes.label}
           rootStyle={{textAlign: 'left'}}
@@ -236,7 +223,8 @@ const DataTable: React.FC<DataTableProps> = (props) => {
                 ? renderModuleRightContext({name: node.name, chnname: node.chnname})
                 : node.type === "entity" ? renderEntityRightContext({title: node.title, chnname: node.chnname}) : <></>
               }
-              onContextMenu={() => alert(1)}
+              onContextMenu={() => {
+              }}
             >
               <div className={classes.labelRoot} onDragStart={(e) => {
 

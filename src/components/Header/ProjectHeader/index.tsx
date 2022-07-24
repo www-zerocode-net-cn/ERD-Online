@@ -20,7 +20,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = (props) => {
       <Right size={"20%"}>
         <Navbar>
           <Navbar.Group align={Alignment.CENTER}>
-            <InputGroup
+           {/* <InputGroup
               className={Classes.ROUND}
               asyncControl={true}
               leftIcon="search"
@@ -29,7 +29,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = (props) => {
             <NavbarDivider></NavbarDivider>
             <Button className="bp4-minimal" icon="cog" title="设置"/>
             <Button className="bp4-minimal" icon="notifications" title="通知"/>
-            <Button className="bp4-minimal" icon="user" title="用户"/>
+            <Button className="bp4-minimal" icon="user" title="用户"/>*/}
           </Navbar.Group>
         </Navbar>
       </Right>

@@ -20,7 +20,7 @@ export type ProjectListProps = {
 const ProjectList: React.FC<ProjectListProps> = (props) => {
     const [state, setState] = useState<ProjectListProps>({
       page: 1,
-      limit: 8,
+      limit: 6,
       total: 0,
       projects: [],
       order: "createTime"

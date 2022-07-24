@@ -81,7 +81,7 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     }
     return "";
   },
-  ...ModulesSlice(set),
+  ...ModulesSlice(set,get),
   ...DataTypeDomainsSlice(set),
   ...DatabaseDomainsSlice(set, get),
   ...ProfileSlice(set, get),

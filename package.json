@@ -9,7 +9,7 @@
     "build:dev": "cross-env REACT_APP_ENV=dev UMI_ENV=dev umi build",
     "build:test": "cross-env REACT_APP_ENV=test UMI_ENV=test umi build",
     "build:pre": "cross-env REACT_APP_ENV=pre UMI_ENV=pre umi build",
-    "build:prod": "cross-env REACT_APP_ENV=prod UMI_ENV=prod umi build",
+    "build:prod": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && cross-env REACT_APP_ENV=prod UMI_ENV=prod umi build",
     "deploy": "npm run site && npm run gh-pages",
     "dev": "npm run start:dev",
     "gh-pages": "gh-pages -d dist",
