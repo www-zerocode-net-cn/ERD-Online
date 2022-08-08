@@ -49,7 +49,7 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
           asyncControl={true}
           leftIcon="search"
           onChange={(e) => globalDispatch.setSearchKey(e.target.value)}
-          placeholder="搜索模块或表"
+          placeholder="搜索表（区分大小写）"
         />
       </Left>
       <Right size={"20%"}>
