@@ -81,8 +81,16 @@
   {
     name: 'test',
     path: '/test',
-    component: './test',
+    layout: false,
+    component: '../layouts/CommonLayout',
+    routes: [
+      {
+        name: 'test',
+        path: '/test/test',
+        component: './test/test',
+      },]
   },
+
   {
     path: '/',
     redirect: '/login',
