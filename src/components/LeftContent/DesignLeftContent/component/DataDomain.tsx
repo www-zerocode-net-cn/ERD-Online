@@ -18,7 +18,6 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import AddDatabase from "@/components/dialog/database/AddDatabase";
 import RemoveDatabase from "@/components/dialog/database/RemoveDatabase";
 import RenameDatabase from "@/components/dialog/database/RenameDatabase";
-import {Fill, Top} from "react-spaces";
 
 
 interface StyledTreeItemProps extends TreeItemProps {
@@ -75,7 +74,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
           activeDataTypePanel();
         }}/>
         <RemoveDataType disable={false}/>
-      {/*  <MenuItem icon="duplicate" text="复制字段类型"/>
+        {/*  <MenuItem icon="duplicate" text="复制字段类型"/>
         <MenuItem icon="cut" text="剪切字段类型"/>
         <MenuItem icon="clipboard" text="粘贴字段类型"/>*/}
       </Menu>
@@ -86,7 +85,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
           activeDatabasePanel();
         }}/>
         <RemoveDatabase disable={false}/>
-     {/*   <MenuItem icon="duplicate" text="复制数据源"/>
+        {/*   <MenuItem icon="duplicate" text="复制数据源"/>
         <MenuItem icon="cut" text="剪切数据源"/>
         <MenuItem icon="clipboard" text="粘贴数据源"/>*/}
       </Menu>
@@ -159,60 +158,56 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
                       labelInfo={datatype.length || 0}
                       haveRightMenu={false}
       >
-        <Top size="50%" scrollable={true}>
-          {datatype?.map((type: any) => {
-            return <StyledTreeItem key={type.name}
-                                   type="dataType"
-                                   code={type.code||''}
-                                   nodeId={type.name}
-                                   labelText={type.name||''}
-                                   chnname={type.chnname}
-                                   labelIcon={"dot"}
-                                   haveRightMenu={true}
-                                   onClick={() => {
-                                     activeDataTypeOrDatabase("dataType", type.code);
-                                     activeDataTypePanel();
-                                   }}
-            />
-          })}
-        </Top>
-      </StyledTreeItem>
-    </TreeView>
-    <Fill scrollable={true} style={{marginTop: "10px"}}>
-      <TreeView
-        defaultExpanded={['database']}
-        defaultCollapseIcon={<ArrowDropDownIcon/>}
-        defaultExpandIcon={<ArrowRightIcon/>}
-        defaultEndIcon={<div style={{width: 24}}/>}
-      ><StyledTreeItem key="database"
-                       type="database"
-                       code="###menu###"
-                       nodeId="database"
-                       labelText="数据源"
-                       chnname="database"
-                       labelIcon={"array"}
-                       className="left-tree"
-                       labelInfo={database.length || 0}
-                       haveRightMenu={false}
-      >
-        {database?.map((db: any) => {
-          return <StyledTreeItem key={db.code}
-                                 type="database"
-                                 code={db.code}
-                                 nodeId={db.code}
-                                 labelText={db.code}
-                                 chnname={db.chnname}
-                                 labelIcon={"database"}
+        {datatype?.map((type: any) => {
+          return <StyledTreeItem key={type.name}
+                                 type="dataType"
+                                 code={type.code || ''}
+                                 nodeId={type.name}
+                                 labelText={type.name || ''}
+                                 chnname={type.chnname}
+                                 labelIcon={"dot"}
                                  haveRightMenu={true}
                                  onClick={() => {
-                                   activeDataTypeOrDatabase("database", db.code);
-                                   activeDatabasePanel();
+                                   activeDataTypeOrDatabase("dataType", type.code);
+                                   activeDataTypePanel();
                                  }}
           />
         })}
       </StyledTreeItem>
-      </TreeView>
-    </Fill>
+    </TreeView>
+    <TreeView
+      defaultExpanded={['database']}
+      defaultCollapseIcon={<ArrowDropDownIcon/>}
+      defaultExpandIcon={<ArrowRightIcon/>}
+      defaultEndIcon={<div style={{width: 24}}/>}
+    ><StyledTreeItem key="database"
+                     type="database"
+                     code="###menu###"
+                     nodeId="database"
+                     labelText="数据源"
+                     chnname="database"
+                     labelIcon={"array"}
+                     className="left-tree"
+                     labelInfo={database.length || 0}
+                     haveRightMenu={false}
+    >
+      {database?.map((db: any) => {
+        return <StyledTreeItem key={db.code}
+                               type="database"
+                               code={db.code}
+                               nodeId={db.code}
+                               labelText={db.code}
+                               chnname={db.chnname}
+                               labelIcon={"database"}
+                               haveRightMenu={true}
+                               onClick={() => {
+                                 activeDataTypeOrDatabase("database", db.code);
+                                 activeDatabasePanel();
+                               }}
+        />
+      })}
+    </StyledTreeItem>
+    </TreeView>
     <RenameDataType onRef={dataTypeRef}/>
     <RenameDatabase onRef={databaseRef}/>
   </div>)

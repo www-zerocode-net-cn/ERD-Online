@@ -11,16 +11,11 @@ const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
   hash: true,
-  antd: {
-    dark: true, // 开启暗色主题
-  },
   dva: {
     hmr: true,
   },
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
-    locale: true,
-    siderWidth: 240,
     ...defaultSettings,
   },
   // https://umijs.org/zh-CN/plugins/plugin-locale
@@ -40,12 +35,7 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
-  theme: {
-    'primary-color': defaultSettings.primaryColor,
-    'border-radius-base': '6px',
-    'popover-background': '#1f2931',
-    'component-background': '#1f2931',
-  },
+
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild
   esbuild: {},

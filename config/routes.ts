@@ -41,7 +41,7 @@
   {
     path: '/design',
     layout: false,
-    component: '../layouts/DesignLayout',
+    component: '../layouts/CommonLayout',
     routes: [
       {
         name: 'table',

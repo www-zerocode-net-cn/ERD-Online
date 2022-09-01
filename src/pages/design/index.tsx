@@ -26,13 +26,8 @@ const Design: React.FC<DesignProps> = (props) => {
   }
   return (
     <>
-      <Left size={"80%"}>
-        <ProjectList/>
-        <a className="copyright" href="https://erd.zerocode.net.cn/">2021@ERD Online</a>
-      </Left>
-      <Right size="20%">
-        {rightContent()}
-      </Right>
+      <ProjectList/>
+      {rightContent()}
     </>
   );
 }

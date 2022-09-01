@@ -84,46 +84,44 @@ const Table: React.FC<TableProps> = (props) => {
 
   return (
     <>
-      <Left size={"80%"}>
-        <Tabs
-          id="globalNavbar"
-          renderActiveTabPanelOnly={true}
-          className="tabs-height"
-          defaultSelectedTabId={defaultSelectTabId}
-          selectedTabId={selectTabId}
-        >
-          <Tab id={defaultSelectTabId}
-               onClickCapture={() => tabDispatch.activeTab({module: "all", entity: "object"})}
-               key={0}
-               title={"对象"}
-               style={{width: "40px", textAlign: "center"}}
-               panel={<TableObjectList/>}>
+      <Tabs
+        id="globalNavbar"
+        renderActiveTabPanelOnly={true}
+        className="tabs-height"
+        defaultSelectedTabId={defaultSelectTabId}
+        selectedTabId={selectTabId}
+      >
+        <Tab id={defaultSelectTabId}
+             onClickCapture={() => tabDispatch.activeTab({module: "all", entity: "object"})}
+             key={0}
+             title={"对象"}
+             style={{width: "40px", textAlign: "center"}}
+             panel={<TableObjectList/>}>
 
-          </Tab>
+        </Tab>
 
-          {
-            tableTabs?.map((tab: ModuleEntity, index: number) => {
-              console.log('tab75', tab)
-              const selectedTabId = `${tab.module}###${tab.entity}`;
-              return <Tab id={selectedTabId}
-                          key={index}
-                          panel={getTab(tab)}>
-                <ContextMenu2 content={() => renderRightContent(tab)}>
-                  <div title={`${tab.entity}|${tab.module}`} className="tab-text-close">
-                    <div style={{textAlign: 'center'}} onClick={() => tabDispatch.activeTab(tab)}>{tab.entity}</div>
-                    <Icon style={{width: "20%"}} icon={"cross"} onClick={() => closeCurrent(tab)}/>
-                  </div>
-                </ContextMenu2>
-              </Tab>;
-            })
-          }
-          <Tabs.Expander/>
-        </Tabs>
-        <Footer/>
-      </Left>
+        {
+          tableTabs?.map((tab: ModuleEntity, index: number) => {
+            console.log('tab75', tab)
+            const selectedTabId = `${tab.module}###${tab.entity}`;
+            return <Tab id={selectedTabId}
+                        key={index}
+                        panel={getTab(tab)}>
+              <ContextMenu2 content={() => renderRightContent(tab)}>
+                <div title={`${tab.entity}|${tab.module}`} className="tab-text-close">
+                  <div style={{textAlign: 'center'}} onClick={() => tabDispatch.activeTab(tab)}>{tab.entity}</div>
+                  <Icon style={{width: "20%"}} icon={"cross"} onClick={() => closeCurrent(tab)}/>
+                </div>
+              </ContextMenu2>
+            </Tab>;
+          })
+        }
+        <Tabs.Expander/>
+      </Tabs>
+      {/*    </Left>
       <Right size="20%">
         {rightContent()}
-      </Right>
+      </Right>*/}
     </>
   );
 }

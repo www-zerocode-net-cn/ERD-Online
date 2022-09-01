@@ -57,7 +57,7 @@ const TableObjectList: React.FC<TableObjectListProps> = (props) => {
   return (
     <>
       <Divider/>
-      <ButtonGroup minimal={true} className="table-button-tool-group">
+      <ButtonGroup minimal={true}>
         <AddEntity moduleDisable={moduleDisable}/>
         <Popconfirm placement="right" title="删除表"
                     onConfirm={() => projectDispatch.removeEntity()} okText="是"

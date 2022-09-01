@@ -17,7 +17,6 @@ import RemoveModule from "@/components/dialog/module/RemoveModule";
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
 import {Typography} from '@mui/material';
 import {makeStyles} from "@mui/styles";
-import {Top} from "react-spaces";
 import {Empty, Tree} from "antd";
 import useShortcutStore from "@/store/shortcut/useShortcutStore";
 import useGlobalStore from "@/store/global/globalStore";
@@ -195,86 +194,84 @@ const DataTable: React.FC<DataTableProps> = (props) => {
 
   return (<>
 
-    <Top size="90%" scrollable={true}>
-      {modules && modules.length > 0 ? <Tree
-          showIcon={false}
-          onExpand={(newExpandedKeys) => onExpand(newExpandedKeys)}
-          expandedKeys={expandedKeys}
-          autoExpandParent={autoExpandParent}
-          treeData={projectDispatch.getModuleEntityTree(searchKey || '')}
-          blockNode={true}
-          className={classes.label}
-          rootStyle={{textAlign: 'left'}}
-          onClick={(e, node: any) => {
-            console.log(198, 'node', node);
-            if (node.type === "module") {
-              projectDispatch.setCurrentModule(node.module)
-            } else if (node.type === "entity") {
-              tabDispatch.addTab({module: node.module, entity: node.title});
-              activeEntity(node.module, node.title)
-            } else if (node.type === "relation") {
-              shortcutDispatch.setShow(false);
-              tabDispatch.addTab({module: node.module, entity: `关系图-${node.module}`});
-              activeEntity(node.module, node.title)
-            }
-          }}
-          titleRender={(node: any) => {
-            console.log(185, 'node', node);
-            const type = node.type;
-            const module = node.module;
-            const entity = node.title;
-
-            return <ContextMenu2
-              content={node.type === "module"
-                ? renderModuleRightContext({name: node.name, chnname: node.chnname})
-                : node.type === "entity" ? renderEntityRightContext({title: node.title, chnname: node.chnname}) : <></>
-              }
-              onContextMenu={() => {
-              }}
-            >
-              <div className={classes.labelRoot} onDragStart={(e) => {
-
-                console.log('开始拖');
-                e.stopPropagation();
-                let value = '';
-                if (type === "module") {
-                  value = `module&${module}`;
-                } else {
-                  if (type === "entity") {
-                    value = `entity&${module}&${entity}`;
-                  } else if (type === "relation") {
-                    value = `map&${module}/关系图`;
-                  }
-                }
-                e.dataTransfer.setData("Text", value);
-              }} draggable="true">
-                <Icon icon={node.type === "module" ? "database" : node.type === "relation" ? "many-to-many" : "th"}
-                      className={classes.labelIcon}/>
-                <Typography variant="body2" className={classes.labelText}>
-                  {node.title}
-                </Typography>
-                <Typography variant="caption" color="inherit">
-                  {node.type !== 'relation' ? node.length : null}
-                </Typography>
-              </div>
-            </ContextMenu2>
-          }}
-        />
-        :
-        <Empty
-          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-          imageStyle={{
-            height: 60,
-          }}
-          description={
-            <span>暂无数据</span>
+    {modules && modules.length > 0 ? <Tree
+        showIcon={false}
+        onExpand={(newExpandedKeys) => onExpand(newExpandedKeys)}
+        expandedKeys={expandedKeys}
+        autoExpandParent={autoExpandParent}
+        treeData={projectDispatch.getModuleEntityTree(searchKey || '')}
+        blockNode={true}
+        className={classes.label}
+        rootStyle={{textAlign: 'left'}}
+        onClick={(e, node: any) => {
+          console.log(198, 'node', node);
+          if (node.type === "module") {
+            projectDispatch.setCurrentModule(node.module)
+          } else if (node.type === "entity") {
+            tabDispatch.addTab({module: node.module, entity: node.title});
+            activeEntity(node.module, node.title)
+          } else if (node.type === "relation") {
+            shortcutDispatch.setShow(false);
+            tabDispatch.addTab({module: node.module, entity: `关系图-${node.module}`});
+            activeEntity(node.module, node.title)
           }
-        >
-          <AddModule moduleDisable={false} trigger="ant"/>
-        </Empty>
-      }
+        }}
+        titleRender={(node: any) => {
+          console.log(185, 'node', node);
+          const type = node.type;
+          const module = node.module;
+          const entity = node.title;
 
-    </Top>
+          return <ContextMenu2
+            content={node.type === "module"
+              ? renderModuleRightContext({name: node.name, chnname: node.chnname})
+              : node.type === "entity" ? renderEntityRightContext({title: node.title, chnname: node.chnname}) : <></>
+            }
+            onContextMenu={() => {
+            }}
+          >
+            <div className={classes.labelRoot} onDragStart={(e) => {
+
+              console.log('开始拖');
+              e.stopPropagation();
+              let value = '';
+              if (type === "module") {
+                value = `module&${module}`;
+              } else {
+                if (type === "entity") {
+                  value = `entity&${module}&${entity}`;
+                } else if (type === "relation") {
+                  value = `map&${module}/关系图`;
+                }
+              }
+              e.dataTransfer.setData("Text", value);
+            }} draggable="true">
+              <Icon icon={node.type === "module" ? "database" : node.type === "relation" ? "many-to-many" : "th"}
+                    className={classes.labelIcon}/>
+              <Typography variant="body2" className={classes.labelText}>
+                {node.title}
+              </Typography>
+              <Typography variant="caption" color="inherit">
+                {node.type !== 'relation' ? node.length : null}
+              </Typography>
+            </div>
+          </ContextMenu2>
+        }}
+      />
+      :
+      <Empty
+        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+        imageStyle={{
+          height: 60,
+        }}
+        description={
+          <span>暂无数据</span>
+        }
+      >
+        <AddModule moduleDisable={false} trigger="ant"/>
+      </Empty>
+    }
+
   </>);
 }
 
