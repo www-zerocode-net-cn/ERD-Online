@@ -26,7 +26,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
 
   const settings: Partial<ProSettings> | undefined = {
     fixSiderbar: true,
-    layout: 'top',
+    layout: 'mix',
     splitMenus: true,
   };
 
@@ -40,6 +40,8 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
       }}
     >
       <ProLayout
+        logo={"/logo.svg"}
+        title={"ERD Online"}
         bgLayoutImgList={[
           {
             src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
