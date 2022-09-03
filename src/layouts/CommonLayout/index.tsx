@@ -12,6 +12,7 @@ import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
 import {Link} from "umi";
+import shallow from "zustand/shallow";
 
 
 export interface CommonLayoutLayoutProps {
@@ -19,18 +20,27 @@ export interface CommonLayoutLayoutProps {
 }
 
 const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
-  const {children} = props;
+  const [pathname, setPathname] = useState('/design/table/model');
 
-  const fetch = useProjectStore(state => state.fetch);
-  fetch();
+
+  const {children} = props;
+  const {fetch, project} = useProjectStore(
+    state => ({
+      fetch: state.fetch,
+      project: state.project
+    }), shallow);
+
+
+  console.log(34, project);
+  if (!project || !project.projectJSON) {
+    fetch();
+  }
 
   const settings: Partial<ProSettings> | undefined = {
     fixSiderbar: true,
     layout: 'mix',
     splitMenus: true,
   };
-
-  const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
 
 
   return (
@@ -78,7 +88,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         menuExtraRender={(props) => {
           console.log(118, props)
           return (
-            pathname=='/design/table/model'?<DesignLeftContent collapsed={props.collapsed}/>:null
+            pathname == '/design/table/model' ? <DesignLeftContent collapsed={props.collapsed}/> : null
 
           )
         }}
@@ -138,7 +148,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         }}
         onMenuHeaderClick={(e) => console.log(e)}
         itemRender={(route, params, routes, paths) => {
-          console.log(141,route, params, routes, paths)
+          console.log(141, route, params, routes, paths)
           const first = routes.indexOf(route) === 0;
           return first ? (
             <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
@@ -150,11 +160,11 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
 
           <a
             onClick={() => {
-              console.log(153,item)
+              console.log(153, item)
               setPathname(item.path || '/welcome');
             }}
           >
-            <Link to={item?.path||'/welcome'}>{dom}</Link>
+            <Link to={item?.path || '/welcome'}>{dom}</Link>
           </a>
         )}
         {...settings}
@@ -162,7 +172,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         <PageContainer
           title={false}
           breadcrumbRender={false}>
-            {children}
+          {children}
         </PageContainer>
       </ProLayout>
     </div>
