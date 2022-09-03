@@ -1,9 +1,8 @@
 import React, {useEffect} from "react";
 import "./index.scss";
 import TemplateSquare from "@/pages/project/home/component/TemplateSquare";
-import TableObjectList from "@/pages/design/table/component/table/TableObjectList";
 import TableTab from "@/pages/design/table/component/tab/TableTab";
-import useTabStore, {defaultSelectTabId, ModuleEntity} from "@/store/tab/useTabStore";
+import useTabStore, {ModuleEntity} from "@/store/tab/useTabStore";
 import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
 import shallow from "zustand/shallow";
 import Version from "@/pages/design/version";
@@ -63,17 +62,32 @@ const Table: React.FC<TableProps> = (props) => {
   }
 
 
-
   useEffect(() => {
     console.log('re-rending11')
   })
-  const { TabPane } = Tabs;
+  const {TabPane} = Tabs;
 
+  const getModuleEntity = (key: string) => {
+    return {module: key.split('###')[0], entity: key.split('###')[1]};
+  }
+
+  const onChange = (targetKey: string) => {
+    tabDispatch.activeTab(getModuleEntity(targetKey));
+  };
+
+  const onEdit = (targetKey: any, action: 'add' | 'remove') => {
+    console.log(targetKey)
+    if (action === 'remove') {
+      closeCurrent(getModuleEntity(targetKey));
+    } else {
+    }
+  };
 
   return (
     <>
 
-      <Tabs type="editable-card" hideAdd>
+      <Tabs type="editable-card" hideAdd onEdit={(e, action) => onEdit(e, action)} activeKey={selectTabId}
+            onChange={onChange}>
         {tableTabs?.map((tab: ModuleEntity, index: number) => {
             return <TabPane tab={tab.entity} key={`${tab.module}###${tab.entity}`} closable={true}>
               {getTab(tab)}
