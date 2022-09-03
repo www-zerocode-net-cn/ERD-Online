@@ -14,12 +14,6 @@ export default defineConfig({
   dva: {
     hmr: true,
   },
-  layout: {
-    // https://umijs.org/zh-CN/plugins/plugin-layout
-    ...defaultSettings,
-  },
-  // https://umijs.org/zh-CN/plugins/plugin-locale
-
   targets: {
     ie: 11,
   },
