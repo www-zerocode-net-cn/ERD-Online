@@ -76,7 +76,7 @@ const TableCodeShow: React.FC<TableCodeShowProps> = (props) => {
   return (<>
     <CodeEditor
       mode='mysql'
-      height={`${tempHeight * 0.65}px`}
+      height={`${tempHeight * 0.6}px`}
       value={result}
     />
   </>);
