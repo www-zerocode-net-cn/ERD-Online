@@ -8,18 +8,20 @@ import {Tabs} from "antd";
 const {TabPane} = Tabs;
 
 
-export type DesignLeftContentProps = {};
+export type DesignLeftContentProps = {
+  collapsed: boolean|undefined;
+};
 
 const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
 
 
     return (
-      <Tabs defaultActiveKey="1" type="card" centered={true} className={"left-table-tab"}>
+      props.collapsed ? <></> : <Tabs defaultActiveKey="1" centered={true}>
         <TabPane
           tab={
             <div>
-          数据表
-        </div>
+              数据表
+            </div>
           }
           key="1"
         >
@@ -28,8 +30,8 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
         <TabPane
           tab={
             <div>
-          数据域
-        </div>
+              数据域
+            </div>
           }
           key="2"
         >
