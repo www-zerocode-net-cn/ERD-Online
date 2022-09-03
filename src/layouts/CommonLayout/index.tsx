@@ -43,6 +43,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   };
 
 
+
   return (
     <div
       id="test-pro-layout"
@@ -52,7 +53,8 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     >
       <ProLayout
         logo={"/logo.svg"}
-        title={"ERD Online"}
+        // @ts-ignore
+        title={<Link to={"/"}>ERD Online</Link>}
         bgLayoutImgList={[
           {
             src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
