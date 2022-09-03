@@ -1,6 +1,5 @@
-import {Input} from 'antd';
+import {Input, Tabs, Tree} from 'antd';
 import React, {useState} from 'react';
-import './index.less';
 import useProjectStore from "@/store/project/useProjectStore";
 import {
   GithubFilled,
@@ -12,6 +11,7 @@ import {
 import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import defaultProps from './_defaultProps';
+import type {DataNode} from "antd/lib/tree";
 
 
 export interface CommonLayoutLayoutProps {
@@ -31,6 +31,44 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   };
 
   const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
+
+
+  const { TabPane } = Tabs;
+
+  const onChange = (key: string) => {
+    console.log(key);
+  };
+
+  const treeData: DataNode[] = [
+    {
+      title: 'parent 1',
+      key: '0-0',
+      children: [
+        {
+          title: 'parent 1-0',
+          key: '0-0-0',
+          disabled: true,
+          children: [
+            {
+              title: 'leaf',
+              key: '0-0-0-0',
+              disableCheckbox: true,
+            },
+            {
+              title: 'leaf',
+              key: '0-0-0-1',
+            },
+          ],
+        },
+        {
+          title: 'parent 1-1',
+          key: '0-0-1',
+          children: [{ title: <span style={{ color: '#1890ff' }}>sss</span>, key: '0-0-1-0' }],
+        },
+      ],
+    },
+  ];
+
 
   return (
     <div
@@ -74,6 +112,32 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
           size: 'small',
           title: <div>七妮妮</div>,
         }}
+        menuExtraRender={(props)=>{
+          return (
+            <Tabs defaultActiveKey="1" onChange={onChange} centered>
+              <TabPane tab="Tab 1" key="1">
+                <Tree
+                  checkable
+                  defaultExpandedKeys={['0-0-0', '0-0-1']}
+                  defaultSelectedKeys={['0-0-0', '0-0-1']}
+                  defaultCheckedKeys={['0-0-0', '0-0-1']}
+                  treeData={treeData}
+                />
+              </TabPane>
+              <TabPane tab="Tab 2" key="2">
+                <Tree
+                  checkable
+                  defaultExpandedKeys={['0-0-0', '0-0-1']}
+                  defaultSelectedKeys={['0-0-0', '0-0-1']}
+                  defaultCheckedKeys={['0-0-0', '0-0-1']}
+                  treeData={treeData}
+                />
+              </TabPane>
+            </Tabs>
+          )
+        }}
+
+        fixSiderbar
         actionsRender={(props) => {
           if (props.isMobile) return [];
           return [
