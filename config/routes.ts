@@ -92,7 +92,7 @@
 
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/project/home',
   },
   {
     component: './404',
