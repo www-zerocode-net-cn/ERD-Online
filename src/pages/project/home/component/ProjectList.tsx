@@ -82,7 +82,7 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
       // customize rendering of last breadcrumb
       return <Card sx={{maxWidth: 345}} onClick={() => {
         cache.setItem("projectId", id);
-        window.location.href = '/design/table';
+        window.location.href = '/design/table/model';
       }}>
         <CardActionArea>
           <CardMedia
