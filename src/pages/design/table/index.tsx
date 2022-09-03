@@ -73,7 +73,7 @@ const Table: React.FC<TableProps> = (props) => {
   return (
     <>
 
-      <Tabs type="editable-card" >
+      <Tabs type="editable-card" hideAdd>
         {tableTabs?.map((tab: ModuleEntity, index: number) => {
             return <TabPane tab={tab.entity} key={`${tab.module}###${tab.entity}`} closable={true}>
               {getTab(tab)}
