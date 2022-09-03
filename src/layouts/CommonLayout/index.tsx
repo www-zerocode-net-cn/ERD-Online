@@ -12,6 +12,7 @@ import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
+import {Link} from "umi";
 
 
 export interface CommonLayoutLayoutProps {
@@ -136,13 +137,24 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
           );
         }}
         onMenuHeaderClick={(e) => console.log(e)}
+        itemRender={(route, params, routes, paths) => {
+          console.log(141,route, params, routes, paths)
+          const first = routes.indexOf(route) === 0;
+          return first ? (
+            <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
+          ) : (
+            <span>{route.breadcrumbName}</span>
+          );
+        }}
         menuItemRender={(item, dom) => (
+
           <a
             onClick={() => {
+              console.log(153,item)
               setPathname(item.path || '/welcome');
             }}
           >
-            {dom}
+            <Link to={item.path}>{dom}</Link>
           </a>
         )}
         {...settings}

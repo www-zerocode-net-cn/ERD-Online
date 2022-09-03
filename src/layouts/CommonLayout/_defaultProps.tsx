@@ -5,23 +5,27 @@ export default {
     path: '/',
     routes: [
       {
-        path: '/welcome',
-        name: '欢迎',
+        path: '/design/table',
+        name: '模型',
         icon: <SmileFilled />,
-        component: './Welcome',
-      },
-      {
-        path: '/admin',
-        name: '管理页',
-        icon: <CrownFilled />,
-        access: 'canAdmin',
-        component: './Admin',
         routes: [
           {
-            path: '/admin/sub-page1',
+            path: 'https://ant.design',
+            name: 'Ant Design 官网外链',
+            icon: <ChromeFilled />,
+          },
+        ]
+      },
+      {
+        path: '/design/table/version',
+        name: '版本',
+        icon: <CrownFilled />,
+        routes: [
+          {
+            path: '/project/home',
             name: '一级页面',
             icon: <CrownFilled />,
-            component: './Welcome',
+
           },
           {
             path: '/admin/sub-page2',
@@ -38,7 +42,7 @@ export default {
         ],
       },
       {
-        name: '列表页',
+        name: '导入',
         icon: <TabletFilled />,
         path: '/list',
         component: './ListTableList',
