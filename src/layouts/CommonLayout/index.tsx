@@ -1,4 +1,4 @@
-import {Input, Layout} from 'antd';
+import {Input} from 'antd';
 import React, {useState} from 'react';
 import './index.less';
 import useProjectStore from "@/store/project/useProjectStore";
@@ -139,11 +139,12 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         )}
         {...settings}
       >
-        <PageContainer>
+        <PageContainer
+          title={false}
+          breadcrumbRender={false}>
           <ProCard
             style={{
-              height: '200vh',
-              minHeight: 800,
+              minHeight: 700,
             }}
           >
             {children}
@@ -151,6 +152,6 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         </PageContainer>
       </ProLayout>
     </div>
-  )
+  );
 }
 export default React.memo(CommonLayout)
