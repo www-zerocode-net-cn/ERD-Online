@@ -1,11 +1,12 @@
 import React from 'react';
-import {Divider, Tab, Tabs} from "@blueprintjs/core";
 import TableInfoEdit from "@/pages/design/table/component/table/TableInfoEdit";
 import CodeTab from "@/pages/design/table/component/tab/CodeTab";
 import {ModuleEntity} from "@/store/tab/useTabStore";
 import TableIndexEdit from "@/pages/design/table/component/table/TableIndexEdit";
 
+import {Tabs} from "antd";
 
+const {TabPane} = Tabs;
 export type TableTabProps = {
   moduleEntity: ModuleEntity
 };
@@ -16,13 +17,12 @@ const TableTab: React.FC<TableTabProps> = (props) => {
     <>
       <Tabs
         id="tableNav"
-        animate={false}
-        renderActiveTabPanelOnly={true}
-        className="tabs-table-height"
+        defaultActiveKey="field"
+        size={'small'}
       >
-        <Tab id="field" title="字段" panel={<TableInfoEdit moduleEntity={props.moduleEntity}/>}></Tab>
-        <Tab id="index" title="索引" panel={<TableIndexEdit moduleEntity={props.moduleEntity}/>}></Tab>
-        <Tab id="code" title="代码信息" panel={<CodeTab moduleEntity={props.moduleEntity}/>}></Tab>
+        <TabPane key="field" tab="字段"><TableInfoEdit moduleEntity={props.moduleEntity}/></TabPane>
+        <TabPane key="index" tab="索引"><TableIndexEdit moduleEntity={props.moduleEntity}/></TabPane>
+        <TabPane key="code" tab="代码信息"><CodeTab moduleEntity={props.moduleEntity}/></TabPane>
       </Tabs>
     </>
   );
