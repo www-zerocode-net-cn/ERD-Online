@@ -78,7 +78,8 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         menuExtraRender={(props) => {
           console.log(118, props)
           return (
-            <DesignLeftContent collapsed={props.collapsed}/>
+            pathname=='/design/table/model'?<DesignLeftContent collapsed={props.collapsed}/>:null
+
           )
         }}
         siderWidth={300}
@@ -130,8 +131,8 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
                 paddingBlockStart: 12,
               }}
             >
-              <div>© 2021 Made with love</div>
-              <div>by Ant Design</div>
+              <div>© 2022 Made with 零代</div>
+              <div>ERD Online</div>
             </div>
           );
         }}

@@ -44,8 +44,7 @@
     component: '../layouts/CommonLayout',
     routes: [
       {
-        name: 'table',
-        path: '/design/table',
+        path: '/design/table/model',
         component: './design/table',
       },
       {
