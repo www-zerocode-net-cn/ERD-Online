@@ -3,7 +3,6 @@ import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import React from "react";
 import {ModuleEntity} from "@/store/tab/useTabStore";
-import {Left} from "react-spaces";
 
 
 export type RelationProps = {
@@ -32,8 +31,6 @@ const Relation: React.FC<RelationProps> = (props) => {
   ];
 
   return (
-    <Left size={"100%"}>
-
       <G6Relation dataSource={JSON.parse(JSON.stringify(projectJSON))}
                   columnOrder={columnOrder}
                   value={`map&${props.moduleEntity.module}`}
@@ -42,7 +39,6 @@ const Relation: React.FC<RelationProps> = (props) => {
                   projectDispatch={projectDispatch}
 
       />
-    </Left>
   );
 }
 export default React.memo(Relation)

@@ -14,7 +14,6 @@ const TableTab: React.FC<TableTabProps> = (props) => {
   console.log('TableTab13', TableTab)
   return (
     <>
-      <Divider/>
       <Tabs
         id="tableNav"
         animate={false}

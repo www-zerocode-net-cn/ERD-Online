@@ -9,7 +9,6 @@ import {
   SearchOutlined
 } from "@ant-design/icons";
 import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
-import ProCard from "@ant-design/pro-card";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
 import {Link} from "umi";
@@ -154,7 +153,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
               setPathname(item.path || '/welcome');
             }}
           >
-            <Link to={item.path}>{dom}</Link>
+            <Link to={item?.path||'/welcome'}>{dom}</Link>
           </a>
         )}
         {...settings}
@@ -162,13 +161,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         <PageContainer
           title={false}
           breadcrumbRender={false}>
-          <ProCard
-            style={{
-              minHeight: 700,
-            }}
-          >
             {children}
-          </ProCard>
         </PageContainer>
       </ProLayout>
     </div>
