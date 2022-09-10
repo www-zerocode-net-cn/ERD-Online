@@ -123,11 +123,12 @@ const DataTable: React.FC<DataTableProps> = (props) => {
 
   const [autoExpandParent, setAutoExpandParent] = useState(true);
 
-
+  // @ts-ignore
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
 
   useEffect(() => {
     setExpandedKeys(projectDispatch.getExpandedKeys(searchKey || ''));
+    console.log(130,expandedKeys)
   }, [searchKey]);
 
   const onExpand = (newExpandedKeys: any) => {
@@ -196,6 +197,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
 
     {modules && modules.length > 0 ? <Tree
         showIcon={false}
+        height={600}
         onExpand={(newExpandedKeys) => onExpand(newExpandedKeys)}
         expandedKeys={expandedKeys}
         autoExpandParent={autoExpandParent}
