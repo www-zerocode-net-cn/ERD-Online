@@ -1,6 +1,8 @@
-import React, {useRef, useEffect} from "react";
+// @ts-nocheck
+import React, {useEffect, useRef} from "react";
 import jspreadsheet from "jspreadsheet-ce";
 
+import _ from 'lodash';
 import "jspreadsheet-ce/dist/jspreadsheet.css";
 import "jspreadsheet-ce/dist/jspreadsheet.datatables.css";
 import "jsuites/dist/jsuites.css"
@@ -9,14 +11,34 @@ import "./index.less"
 
 export type JExcelProps = {
   data: any,
-  column: any,
+  columns: any,
+  saveData: any,
+  notEmptyColumn: string[],
 };
 
 const JExcel: React.FC<JExcelProps> = (props) => {
+  const {data, columns, saveData, notEmptyColumn} = props;
+  const saveValidData = (excelData: any) => {
+    if (!excelData || excelData.length === 0) {
+      return;
+    }
+    if (notEmptyColumn) {
+      excelData = _.reject(excelData, function (o) {
+        const findIndex = _.findIndex(notEmptyColumn, function (f) {
+          return !o[f] || o[f] == '';
+        });
+        return findIndex > -1;
+      });
+    }
+    console.log(30, excelData);
+    saveData(excelData);
+  }
+
+
   const jRef = useRef(null);
   const options = {
-    data: props.data,
-    columns: props.column,
+    data,
+    columns,
     allowExport: true,
     minDimensions: [1, 1],
     csvHeaders: true,
@@ -36,6 +58,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
         content: 'redo',
         tooltip: '重做',
         onclick: function () {
+          // @ts-ignore
           jRef?.current?.jexcel.redo();
         }
       },
@@ -44,6 +67,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
         content: 'add',
         tooltip: '末尾增加一行',
         onclick: function () {
+          // @ts-ignore
           jRef?.current?.jexcel.insertRow();
         }
       },
@@ -52,6 +76,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
         content: 'remove',
         tooltip: '删除选中行',
         onclick: function () {
+          // @ts-ignore
           jRef?.current?.jexcel.deleteRow()
         }
       },
@@ -60,7 +85,6 @@ const JExcel: React.FC<JExcelProps> = (props) => {
         content: 'publish',
         tooltip: '在此前插入行',
         onclick: function () {
-          debugger
           const selectedRows = jRef?.current?.jexcel.getSelectedRows();
           console.log('publish', selectedRows)
 
@@ -84,6 +108,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
             alert('未选中行');
             return;
           }
+          // @ts-ignore
           jRef?.current?.jexcel.insertRow(1, parseInt(selectedRows[selectedRows.length - 1].dataset.y));
         }
       },
@@ -131,9 +156,34 @@ const JExcel: React.FC<JExcelProps> = (props) => {
       "noCellsSelected": "未选定单元格"
     },
     about: false,
-    onafterchanges: (el: any, records: any) => {
-      console.log(156, el, records, jRef?.current?.jexcel.getJson())
-    }
+    onchange: (el: any, records: any) => {
+      console.log('onchange', jRef?.current?.jexcel.getJson())
+      saveValidData(jRef?.current?.jexcel.getJson());
+    },
+    oninsertrow: () => {
+      console.log('oninsertrow', jRef?.current?.jexcel.getJson())
+      saveValidData(jRef?.current?.jexcel.getJson())
+    },
+    ondeleterow: () => {
+      console.log('ondeleterow', jRef?.current?.jexcel.getJson())
+      saveValidData(jRef?.current?.jexcel.getJson())
+    },
+    onmoverow: () => {
+      console.log('onmoverow', jRef?.current?.jexcel.getJson())
+      saveValidData(jRef?.current?.jexcel.getJson())
+    },
+    onpaste: () => {
+      console.log('onpaste', jRef?.current?.jexcel.getJson())
+      saveValidData(jRef?.current?.jexcel.getJson())
+    },
+    onundo: () => {
+      console.log('onundo', jRef?.current?.jexcel.getJson())
+      saveValidData(jRef?.current?.jexcel.getJson())
+    },
+    onredo: () => {
+      console.log('onredo', jRef?.current?.jexcel.getJson())
+      saveValidData(jRef?.current?.jexcel.getJson())
+    },
   };
 
   useEffect(() => {
