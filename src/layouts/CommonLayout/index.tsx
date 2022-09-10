@@ -173,6 +173,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
       >
         <PageContainer
           title={false}
+          fixedHeader
           breadcrumbRender={false}>
           {children}
         </PageContainer>

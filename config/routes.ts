@@ -94,6 +94,12 @@
     path: '/',
     redirect: '/project/home',
   },
+
+  {
+    name: 'excel',
+    path: '/JExcel',
+    component: './JExcel',
+  },
   {
     component: './404',
   },
