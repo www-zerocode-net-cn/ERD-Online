@@ -102,13 +102,13 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
 
 
   const data = JSON.parse(s);
-  const column = [{
-    title: '字段名*',
+  const columns = [{
+    title: '中文名*',
     name: 'chnname',
     type: 'text',
-    width: '100'
+    width: '100',
   }, {
-    title: '逻辑名(英文名)*',
+    title: '英文名*',
     name: 'name',
     type: 'text',
     width: '100'
@@ -129,7 +129,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
     title: '数据源类型',
     name: 'dataType',
     type: 'text',
-    width: '100',
+    width: '130',
     readOnly: true
   }, {
     title: '说明',
@@ -152,15 +152,15 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
     type: 'checkbox',
     width: '50',
   }, {
-    title: '默认值',
-    name: 'defaultValue',
-    type: 'text',
-    width: '50',
-  }, {
     title: '关系图',
     name: 'relationNoShow',
     type: 'checkbox',
     width: '50',
+  }, {
+    title: '默认值',
+    name: 'defaultValue',
+    type: 'text',
+    width: '100',
   }, {
     title: 'UI建议',
     name: 'uiHint',
@@ -180,7 +180,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
         afterRowMove={handsontableAfterRowMove(hotTableComponent, hotSettings, afterChange)}
       >
       </HotTable>*/}
-      <JExcel data={data} column={column}/>
+      <JExcel data={data} columns={columns} saveData={afterChange} notEmptyColumn={['chnname','name','typeName']}/>
     </>
   );
 }
