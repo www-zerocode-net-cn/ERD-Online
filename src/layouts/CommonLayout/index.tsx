@@ -112,15 +112,6 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
                   e.preventDefault();
                 }}
               >
-                <Input
-                  style={{
-                    borderRadius: 4,
-                    marginInlineEnd: 12,
-                  }}
-                  prefix={<SearchOutlined/>}
-                  placeholder="搜索方案"
-                  bordered={false}
-                />
                 <PlusCircleFilled
                   style={{
                     color: 'var(--ant-primary-color)',
