@@ -1537,7 +1537,7 @@ export default class G6Relation extends React.Component {
         {}
       </div>
       <div
-        style={{position: 'fixed', bottom: '5%', right: '40%', color: '#CCCCCC'}}
+        style={{position: 'fixed', bottom: '5%', right: '40%', color: '#f50808'}}
       >
         按住shift可拖动关系图，滑动鼠标可放大缩小关系图，按下M可打开或者关闭缩略图
       </div>
