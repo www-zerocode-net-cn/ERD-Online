@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Alignment, Button} from "@blueprintjs/core";
 import ProForm, {ModalForm, ProFormCheckbox, ProFormRadio, ProFormText} from '@ant-design/pro-form';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
@@ -7,6 +6,8 @@ import {Divider} from '@mui/material';
 import _ from "lodash";
 import CodeEditor from "@/components/CodeEditor";
 import {RadioChangeEvent} from "antd/lib/radio/interface";
+import {PlusOutlined} from "@ant-design/icons";
+import {Button} from "antd";
 
 export type AddDatabaseProps = {
   moduleDisable: boolean;
@@ -43,13 +44,10 @@ const AddDatabase: React.FC<AddDatabaseProps> = (props) => {
       title="新增数据源"
       layout="horizontal"
       trigger={
-        <Button icon="add"
-                text={"新增数据源"}
-                minimal={true}
-                small={true}
-                fill={true}
-                alignText={Alignment.LEFT}
-                disabled={props.moduleDisable}></Button>
+        <Button icon={<PlusOutlined />}
+                type="text"
+                size={"small"}
+                disabled={props.moduleDisable}>新增数据源</Button>
       }
       onFinish={async (values: any) => {
 
