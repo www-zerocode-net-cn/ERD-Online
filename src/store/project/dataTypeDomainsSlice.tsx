@@ -1,7 +1,8 @@
-import {SetState} from "zustand";
+import {GetState, SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import {message} from "antd";
+import _ from "lodash";
 
 export type IDataTypeDomainsSlice = {
   currentDataType?: string;
@@ -16,9 +17,11 @@ export interface IDataTypeDomainsDispatchSlice {
   updateDatatype: (payload: any) => void;
   setCurrentDatatype: (payload: any) => void,
   updateAllDataTypes: (payload: any) => void,
+  getDataTypeTree: (searchKey: string) => any,
+
 }
 
-const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({
+const DataTypeDomainsSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
   addDatatype: (payload: any) => set(produce(state => {
     const datatypeName = payload.name;
     console.log('datatypeName', 29, datatypeName);
@@ -58,6 +61,41 @@ const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({
   updateAllDataTypes: (payload: any) => set(produce(state => {
     state.project.projectJSON.dataTypeDomains.datatype = payload;
   })),
+  getDataTypeTree: (searchKey: string) => {
+    console.log(70, get().project)
+
+    let dataTypes = get().project?.projectJSON?.dataTypeDomains?.datatype?.map((datatype: any) => {
+      return {
+        type: 'dataType',
+        code: datatype.code,
+        title: datatype.name,
+        isLeaf: true,
+        key: `datatype${datatype.name}`,
+      }
+    });
+    let databases = get().project?.projectJSON?.dataTypeDomains?.database?.map((database: any) => {
+      return {
+        type: 'database',
+        code: database.code,
+        title: database.code,
+        isLeaf: true,
+        key: `database${database.code}`,
+      }
+    });
+    console.log(73, 'getDataTypeTree', dataTypes,databases);
+
+    return [{
+      title: '字段类型',
+      isLeaf: false,
+      key: `datatype###datatype`,
+      children: dataTypes
+    },{
+      title: '数据源',
+      isLeaf: false,
+      key: `database###database`,
+      children: databases
+    }];
+  },
 });
 
 
