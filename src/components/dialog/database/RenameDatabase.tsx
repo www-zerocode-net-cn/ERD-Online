@@ -91,6 +91,11 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
       request={async (params) => {
         return getInitValue(params);
       }}
+      modalProps={{
+        onCancel: () => {
+          setModalVisit(false);
+        }
+      }}
       onVisibleChange={setModalVisit}
       // 完全自定义整个区域
       submitter={{
