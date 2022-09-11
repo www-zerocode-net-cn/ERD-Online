@@ -86,18 +86,10 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
       request={async (params) => {
         return getInitValue(params);
       }}
-      submitter={{
-        // 配置按钮文本
-        searchConfig: {
-          resetText: '取消',
-          submitText: '保存',
-        },
-        resetButtonProps: {
-          onClick: () => {
-            setModalVisit(false);
-          }
-        },
-
+      modalProps={{
+        onCancel: () => {
+          setModalVisit(false);
+        }
       }}
       onVisibleChange={setModalVisit}
     >
