@@ -43,7 +43,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
   }
 
 
-  const renderDataTypeRightContext = () => <Menu>
+  const renderDataTypeRightContext = () => <Menu mode="inline">
       <AddDataType moduleDisable={false}/>
       <Menu.Item icon={<EditOutlined/>} onClick={() => {
         activeDataTypePanel();
@@ -54,7 +54,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
         <MenuItem icon="clipboard" text="粘贴字段类型"/>*/}
     </Menu>
   ;
-  const renderDatabaseRightContext = () => <Menu>
+  const renderDatabaseRightContext = () => <Menu mode="inline">
       <AddDatabase moduleDisable={false}/>
       <Menu.Item icon={<EditOutlined/>} onClick={() => {
         activeDatabasePanel();

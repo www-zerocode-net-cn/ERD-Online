@@ -62,6 +62,7 @@ const AddDataType: React.FC<AddDataTypeProps> = (props) => {
           code: values.code,
           apply
         });
+        return true;
       }}
     >
       <ProForm.Group>

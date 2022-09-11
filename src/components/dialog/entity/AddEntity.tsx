@@ -43,7 +43,7 @@ const AddEntity: React.FC<AddEntityProps> = (props) => {
           title: values.title,
           chnname: values.chnname,
         });
-        return true
+        return true;
       }}
     >
       <ProForm.Group>

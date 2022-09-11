@@ -58,6 +58,7 @@ const AddDatabase: React.FC<AddDatabaseProps> = (props) => {
           defaultDatabase: values.defaultDatabase,
           fileShow: values.fileShow,
         });
+        return true;
       }}
     >
       <ProFormText
