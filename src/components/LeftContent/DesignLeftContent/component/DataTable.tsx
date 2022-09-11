@@ -1,23 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Icon, Menu} from "@blueprintjs/core";
+import {Icon} from "@blueprintjs/core";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import useTabStore from "@/store/tab/useTabStore";
-import {ContextMenu2} from "@blueprintjs/popover2";
-import PropTypes from "prop-types";
-import {IconName} from "@blueprintjs/icons";
-import {MaybeElement} from "@blueprintjs/core/src/common/index";
 import AddEntity from "@/components/dialog/entity/AddEntity";
 import RenameEntity from "@/components/dialog/entity/RenameEntity";
 import RemoveEntity from "@/components/dialog/entity/RemoveEntity";
 import AddModule from "@/components/dialog/module/AddModule";
 import RenameModule from "@/components/dialog/module/RenameModule";
 import RemoveModule from "@/components/dialog/module/RemoveModule";
-
-import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
 import {Typography} from '@mui/material';
 import {makeStyles} from "@mui/styles";
-import {Empty, Tree} from "antd";
+import {Dropdown, Empty, Menu, Tree} from "antd";
 import useShortcutStore from "@/store/shortcut/useShortcutStore";
 import useGlobalStore from "@/store/global/globalStore";
 
@@ -72,31 +66,35 @@ export const useTreeItemStyles = makeStyles((theme: any) => ({
   },
 }));
 
-interface StyledTreeItemProps extends TreeItemProps {
-  type: string,
-  module: string,
-  bgColor?: string,
-  color?: string,
-  labelIcon: IconName | MaybeElement,
-  labelInfo?: number,
-  labelText: string,
-  chnname: string,
-}
 
-export const renderEntityRightContext = (payload: { title: string, chnname: string }) => <Menu>
-    <AddEntity moduleDisable={false}/>
-    <RenameEntity moduleDisable={false} renameInfo={payload}/>
-    <RemoveEntity disable={false}/>
+export const renderEntityRightContext = (payload: { title: string, chnname: string }) => <Menu mode="inline">
+    <Menu.Item>
+      <AddEntity moduleDisable={false}/>
+    </Menu.Item>
+    <Menu.Item>
+      <RenameEntity moduleDisable={false} renameInfo={payload}/>
+    </Menu.Item>
+    <Menu.Item>
+      <RemoveEntity disable={false}/>
+    </Menu.Item>
     {/*    <MenuItem icon="duplicate" text="复制表"/>
     <MenuItem icon="cut" text="剪切表"/>
     <MenuItem icon="clipboard" text="粘贴表"/>*/}
   </Menu>
 ;
-export const renderModuleRightContext = (payload: { name: string, chnname: string }) => <Menu>
-    <AddModule moduleDisable={false} trigger="bp"/>
-    <RenameModule moduleDisable={false} renameInfo={payload}/>
-    <RemoveModule disable={false}/>
-    <AddEntity moduleDisable={false}/>
+export const renderModuleRightContext = (payload: { name: string, chnname: string }) => <Menu mode="inline">
+    <Menu.Item>
+      <AddModule moduleDisable={false} trigger="bp"/>
+    </Menu.Item>
+    <Menu.Item>
+      <RenameModule moduleDisable={false} renameInfo={payload}/>
+    </Menu.Item>
+    <Menu.Item>
+      <RemoveModule disable={false}/>
+    </Menu.Item>
+    <Menu.Item>
+      <AddEntity moduleDisable={false}/>
+    </Menu.Item>
 
     {/*    <MenuItem icon="duplicate" text="复制模块"/>
     <MenuItem icon="cut" text="剪切模块"/>
@@ -128,7 +126,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
 
   useEffect(() => {
     setExpandedKeys(projectDispatch.getExpandedKeys(searchKey || ''));
-    console.log(130,expandedKeys)
+    console.log(130, expandedKeys)
   }, [searchKey]);
 
   const onExpand = (newExpandedKeys: any) => {
@@ -138,54 +136,6 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   };
 
   const classes = useTreeItemStyles();
-  const StyledTreeItem = (prop: StyledTreeItemProps) => {
-    const {type, module, labelText, chnname, labelIcon, labelInfo, color, bgColor, ...other} = prop;
-
-    return (
-      <ContextMenu2
-        content={type === "module"
-          ? renderModuleRightContext({name: labelText, chnname})
-          : renderEntityRightContext({title: labelText, chnname})
-        }
-        onContextMenu={() => {
-        }}
-      >
-        <TreeItem
-          label={
-            <div className={classes.labelRoot}>
-              <Icon icon={labelIcon} className={classes.labelIcon}/>
-              <Typography variant="body2" className={classes.labelText}>
-                {labelText}
-              </Typography>
-              <Typography variant="caption" color="inherit">
-                {labelInfo}
-              </Typography>
-            </div>
-          }
-          title={labelText}
-          classes={{
-            root: classes.root,
-            content: classes.content,
-            expanded: classes.expanded,
-            selected: classes.selected,
-            group: classes.group,
-            label: classes.label,
-          }}
-          {...other}
-        />
-      </ContextMenu2>
-    );
-  }
-  StyledTreeItem.propTypes = {
-    type: PropTypes.string,
-    module: PropTypes.string.isRequired,
-    bgColor: PropTypes.string,
-    color: PropTypes.string,
-    labelIcon: PropTypes.elementType.isRequired,
-    labelInfo: PropTypes.number,
-    labelText: PropTypes.string.isRequired,
-    chnname: PropTypes.string,
-  };
 
   const activeEntity = (module: any, entity: any) => {
     projectDispatch.setCurrentModule(module);
@@ -224,13 +174,15 @@ const DataTable: React.FC<DataTableProps> = (props) => {
           const module = node.module;
           const entity = node.title;
 
-          return <ContextMenu2
-            content={node.type === "module"
-              ? renderModuleRightContext({name: node.name, chnname: node.chnname})
-              : node.type === "entity" ? renderEntityRightContext({title: node.title, chnname: node.chnname}) : <></>
-            }
-            onContextMenu={() => {
-            }}
+          return <Dropdown trigger={['contextMenu']}
+                           overlay={node.type === "module"
+                             ? renderModuleRightContext({name: node.name, chnname: node.chnname})
+                             : node.type === "entity" ? renderEntityRightContext({
+                               title: node.title,
+                               chnname: node.chnname
+                             }) : <></>
+                           }
+
           >
             <div className={classes.labelRoot} onDragStart={(e) => {
 
@@ -257,7 +209,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
                 {node.type !== 'relation' ? node.length : null}
               </Typography>
             </div>
-          </ContextMenu2>
+          </Dropdown>
         }}
       />
       :

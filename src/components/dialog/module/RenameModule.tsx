@@ -1,7 +1,8 @@
 import React from 'react';
-import {Alignment, Button} from "@blueprintjs/core";
 import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
 import useProjectStore from "@/store/project/useProjectStore";
+import {EditOutlined} from "@ant-design/icons";
+import {Button} from "antd";
 
 export type RenameModuleProps = {
   moduleDisable: boolean;
@@ -15,13 +16,10 @@ const RenameModule: React.FC<RenameModuleProps> = (props) => {
     <ModalForm
       title="重命名模块"
       trigger={
-        <Button icon="edit"
-                text={"重命名模块"}
-                minimal={true}
-                small={true}
-                fill={true}
-                alignText={Alignment.LEFT}
-                disabled={props.moduleDisable}></Button>
+        <Button icon={<EditOutlined />}
+                type="text"
+                size={"small"}
+                disabled={props.moduleDisable}>重命名模块</Button>
       }
       onFinish={async (values: any) => {
         console.log(39, values);
