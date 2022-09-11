@@ -48,6 +48,56 @@
         component: './design/table',
       },
       {
+        path: '/design/table/version',
+        component: './design/version',
+      },
+      {
+        path: '/design/table/import',
+        component: './design/version',
+        routes: [
+          {
+            path: '/design/table/import/reverse',
+            component: './design/version',
+          },
+          {
+            path: '/design/table/import/pdman',
+            component: './design/version',
+          },
+          {
+            path: '/design/table/import/erd',
+            component: './design/version',
+          },
+        ]
+      },
+      {
+        path: 'design/table/export',
+        component: './design/version',
+        routes: [
+          {
+            path: '/design/table/import/common',
+            component: './design/version',
+          },
+          {
+            path: '/design/table/import/more',
+            component: './design/version',
+          },
+        ]
+      },
+      {
+        path: '/design/table/setting',
+        component: './design/version',
+        routes: [
+          {
+            path: '/design/table/setting/db',
+            component: './design/version',
+          },
+          {
+            path: '/design/table/setting/default',
+            component: './design/version',
+          },
+        ]
+      },
+      {
         name: 'relation',
         path: '/design/relation',
         component: './design/relation',
