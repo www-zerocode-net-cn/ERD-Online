@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useEffect } from "react";
 import jspreadsheet from "jspreadsheet-ce";
 
