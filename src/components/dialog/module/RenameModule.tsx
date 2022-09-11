@@ -27,6 +27,7 @@ const RenameModule: React.FC<RenameModuleProps> = (props) => {
           name: values.name,
           chnname: values.chnname,
         });
+        return true;
       }}
       initialValues={props.renameInfo}
     >

@@ -31,6 +31,7 @@ const RenameEntity: React.FC<RenameEntityProps> = (props) => {
           title: values.title,
           chnname: values.chnname,
         });
+        return true;
       }}
       initialValues={props.renameInfo}
     >

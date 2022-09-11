@@ -104,6 +104,8 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       });
       return {
         type: 'module',
+        name:module.name,
+        chnname:module.chnname,
         module: module.name,
         length: module?.entities?.length,
         title: module.name,
