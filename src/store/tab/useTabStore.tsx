@@ -29,7 +29,7 @@ export type TabState = {
   dispatch: actions
 };
 
-export const defaultSelectTabId = 'all###object';
+export const defaultSelectTabId = '';
 
 const useTabStore = create<TabState>(
   (set, get) => ({

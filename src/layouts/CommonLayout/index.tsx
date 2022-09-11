@@ -1,13 +1,6 @@
-import {Input} from 'antd';
 import React, {useState} from 'react';
 import useProjectStore from "@/store/project/useProjectStore";
-import {
-  GithubFilled,
-  InfoCircleFilled,
-  PlusCircleFilled,
-  QuestionCircleFilled,
-  SearchOutlined
-} from "@ant-design/icons";
+import {GithubFilled, InfoCircleFilled, PlusCircleFilled, QuestionCircleFilled} from "@ant-design/icons";
 import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";

@@ -3,7 +3,7 @@ import "./index.scss";
 import TableTab from "@/pages/design/table/component/tab/TableTab";
 import useTabStore, {ModuleEntity} from "@/store/tab/useTabStore";
 import Relation from "@/pages/design/relation";
-import {Dropdown, Menu, Tabs, TabsProps} from "antd";
+import {Dropdown, Empty, Menu, Tabs, TabsProps} from "antd";
 
 export type TableProps = {};
 const Table: React.FC<TableProps> = (props) => {
@@ -93,58 +93,28 @@ const Table: React.FC<TableProps> = (props) => {
 
   return (
     <>
-
-      <Tabs type="editable-card" hideAdd onEdit={(e, action) => onEdit(e, action)} activeKey={selectTabId}
-            onChange={onChange}
-            renderTabBar={renderTabBar}
-      >
-        {tableTabs?.map((tab: ModuleEntity, index: number) => {
-            return <TabPane tab={tab.entity} key={`${tab.module}###${tab.entity}`} closable={true}>
-              {getTab(tab)}
-            </TabPane>
-          }
-        )}
-      </Tabs>
-      {/*<Tabs*/}
-      {/*  id="globalNavbar"*/}
-      {/*  renderActiveTabPanelOnly={true}*/}
-      {/*  className="tabs-height"*/}
-      {/*  defaultSelectedTabId={defaultSelectTabId}*/}
-      {/*  selectedTabId={selectTabId}*/}
-      {/*>*/}
-      {/*  <Tab id={defaultSelectTabId}*/}
-      {/*       onClickCapture={() => tabDispatch.activeTab({module: "all", entity: "object"})}*/}
-      {/*       key={0}*/}
-      {/*       title={"对象"}*/}
-      {/*       style={{width: "40px", textAlign: "center"}}*/}
-      {/*       panel={<TableObjectList/>}>*/}
-
-      {/*  </Tab>*/}
-
-      {/*  {*/}
-      {/*    tableTabs?.map((tab: ModuleEntity, index: number) => {*/}
-      {/*      console.log('tab75', tab)*/}
-      {/*      const selectedTabId = `${tab.module}###${tab.entity}`;*/}
-      {/*      return <Tab id={selectedTabId}*/}
-      {/*                  key={index}*/}
-      {/*                  panel={getTab(tab)}>*/}
-      {/*        <ContextMenu2 content={() => renderRightContent(tab)}>*/}
-      {/*          <div title={`${tab.entity}|${tab.module}`} className="tab-text-close">*/}
-      {/*            <div style={{textAlign: 'center'}} onClick={() => tabDispatch.activeTab(tab)}>{tab.entity}</div>*/}
-      {/*            <Icon style={{width: "20%"}} icon={"cross"} onClick={() => closeCurrent(tab)}/>*/}
-      {/*          </div>*/}
-      {/*        </ContextMenu2>*/}
-      {/*      </Tab>;*/}
-      {/*    })*/}
-      {/*  }*/}
-      {/*  <Tabs.Expander/>*/}
-      {/*</Tabs>*/}
-      {/*<Footer/>*/}
-      {/*    </Left>
-      <Right size="20%">
-        {rightContent()}
-      </Right>*/}
+      {selectTabId ?
+        <Tabs type="editable-card" hideAdd onEdit={(e, action) => onEdit(e, action)} activeKey={selectTabId}
+              onChange={onChange}
+              renderTabBar={renderTabBar}
+        >
+          {tableTabs?.map((tab: ModuleEntity, index: number) => {
+              return <TabPane tab={tab.entity} key={`${tab.module}###${tab.entity}`} closable={true}>
+                {getTab(tab)}
+              </TabPane>
+            }
+          )}
+        </Tabs>
+        : <Empty
+          style={{
+            marginTop: '100px'
+          }}
+          description={
+            <span>这里空空如也!</span>
+          }/>
+      }
     </>
   );
 }
+
 export default React.memo(Table)
