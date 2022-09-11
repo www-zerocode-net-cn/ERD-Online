@@ -5,10 +5,9 @@ import AddDataType from "@/components/dialog/dataType/AddDataType";
 import RemoveDataType from "@/components/dialog/dataType/RemoveDataType";
 import AddDatabase from "@/components/dialog/database/AddDatabase";
 import RemoveDatabase from "@/components/dialog/database/RemoveDatabase";
-import {Dropdown, Menu, Tree} from "antd";
+import {Button, Dropdown, Menu, Tree} from "antd";
 import RenameDataType from "@/components/dialog/dataType/RenameDataType";
 import RenameDatabase from "@/components/dialog/database/RenameDatabase";
-import {EditOutlined} from "@ant-design/icons";
 
 
 export type DataDomainProps = {};
@@ -42,24 +41,17 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
     databaseRef.current.setModalVisit(true);
   }
 
-
   const renderDataTypeRightContext = () => <Menu mode="inline">
-      <AddDataType moduleDisable={false}/>
-      <Menu.Item icon={<EditOutlined/>} onClick={() => {
-        activeDataTypePanel();
-      }}>修改字段类型</Menu.Item>
-      <RemoveDataType disable={false}/>
+      <Menu.Item><AddDataType moduleDisable={false}/></Menu.Item>
+      <Menu.Item><RemoveDataType disable={false}/></Menu.Item>
       {/*  <MenuItem icon="duplicate" text="复制字段类型"/>
         <MenuItem icon="cut" text="剪切字段类型"/>
         <MenuItem icon="clipboard" text="粘贴字段类型"/>*/}
     </Menu>
   ;
   const renderDatabaseRightContext = () => <Menu mode="inline">
-      <AddDatabase moduleDisable={false}/>
-      <Menu.Item icon={<EditOutlined/>} onClick={() => {
-        activeDatabasePanel();
-      }}>修改数据源</Menu.Item>
-      <RemoveDatabase disable={false}/>
+      <Menu.Item><AddDatabase moduleDisable={false}/></Menu.Item>
+      <Menu.Item><RemoveDatabase disable={false}/></Menu.Item>
       {/*   <MenuItem icon="duplicate" text="复制数据源"/>
         <MenuItem icon="cut" text="剪切数据源"/>
         <MenuItem icon="clipboard" text="粘贴数据源"/>*/}
@@ -78,7 +70,6 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
       showIcon={false}
       height={550}
       defaultExpandedKeys={['database###database']}
-      blockNode={true}
       rootStyle={{textAlign: 'left'}}
       treeData={projectDispatch.getDataTypeTree('')}
       titleRender={(node: any) => {
@@ -86,18 +77,20 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
         return <Dropdown trigger={['contextMenu']}
                          overlay={renderContext(node.code, node.type)}
         >
-          <li>{node.title}</li>
+          <Button
+            type="text"
+            size={"small"}
+            onClick={(e) => {
+              console.log(224, 'node', node);
+              if (node.type === "dataType" && node.code != '###menu###') {
+                activeDataTypeOrDatabase("dataType", node.code);
+                activeDataTypePanel();
+              } else if (node.type === "database" && node.code != '###menu###') {
+                activeDataTypeOrDatabase("database", node.code);
+                activeDatabasePanel();
+              }
+            }}>{node.title}</Button>
         </Dropdown>
-      }}
-      onClick={(e, node: any) => {
-        console.log(224, 'node', node);
-        if (node.type === "dataType" && node.code != '###menu###') {
-          activeDataTypeOrDatabase("dataType", node.code);
-          activeDataTypePanel();
-        } else if (node.type === "database" && node.code != '###menu###') {
-          activeDataTypeOrDatabase("database", node.code);
-          activeDatabasePanel();
-        }
       }}
     >
     </Tree>
