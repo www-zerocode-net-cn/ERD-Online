@@ -88,8 +88,14 @@ export default {
             component: './Welcome',
           },
           {
+            path: '/design/table/setting/defaultField',
+            name: '默认字段设置',
+            icon: <CrownFilled/>,
+            component: './Welcome',
+          },
+          {
             path: '/design/table/setting/default',
-            name: '默认项设置',
+            name: '系统默认项设置',
             icon: <CrownFilled/>,
             component: './Welcome',
           },

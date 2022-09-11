@@ -53,47 +53,62 @@
       },
       {
         path: '/design/table/import',
-        component: './design/version',
+        layout: false,
         routes: [
           {
+            path: '/design/table/import',
+            redirect: '/design/table/import/reverse',
+          },
+          {
             path: '/design/table/import/reverse',
-            component: './design/version',
+            layout: false,
+            component: './design/import/component/ReverseDatabase',
           },
           {
             path: '/design/table/import/pdman',
-            component: './design/version',
+            component: './design/import/component/ReversePdMan',
           },
           {
             path: '/design/table/import/erd',
-            component: './design/version',
+            component: './design/import/component/ReverseERD',
           },
         ]
       },
       {
         path: 'design/table/export',
-        component: './design/version',
         routes: [
           {
+            path: '/design/table/export',
+            redirect: 'design/table/import/common',
+          },
+          {
             path: '/design/table/import/common',
-            component: './design/version',
+            component: './design/export/component/ExportDDL',
           },
           {
             path: '/design/table/import/more',
-            component: './design/version',
+            component: './design/export/component/ExportDDL',
           },
         ]
       },
       {
         path: '/design/table/setting',
-        component: './design/version',
         routes: [
           {
+            path: '/design/table/setting',
+            redirect: '/design/table/setting/db',
+          },
+          {
             path: '/design/table/setting/db',
-            component: './design/version',
+            component: './design/setting/component/DatabaseSetUp',
+          },
+          {
+            path: '/design/table/setting/defaultField',
+            component: './design/setting/component/DefaultField',
           },
           {
             path: '/design/table/setting/default',
-            component: './design/version',
+            component: './design/setting/component/DatabaseSetUp',
           },
         ]
       },
