@@ -214,7 +214,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
       />
       :
       <Empty
-        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+        image="/empty.svg"
         imageStyle={{
           height: 60,
         }}

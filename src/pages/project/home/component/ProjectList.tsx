@@ -143,7 +143,7 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
             </>
             :
             <Empty
-              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              image="/empty.svg"
               imageStyle={{
                 height: 60,
               }}

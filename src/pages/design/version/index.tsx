@@ -153,7 +153,7 @@ const Version: React.FC<VersionProps> = (props) => {
                 </TimelineItem>
               }) :
               <Empty
-                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                image="/empty.svg"
                 imageStyle={{
                   height: 60,
                 }}
