@@ -1,34 +1,16 @@
 import React, {useEffect} from "react";
 import "./index.scss";
-import TemplateSquare from "@/pages/project/home/component/TemplateSquare";
 import TableTab from "@/pages/design/table/component/tab/TableTab";
 import useTabStore, {ModuleEntity} from "@/store/tab/useTabStore";
-import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
-import shallow from "zustand/shallow";
-import Version from "@/pages/design/version";
 import Relation from "@/pages/design/relation";
-import {Tabs} from "antd";
+import {Dropdown, Menu, Tabs, TabsProps} from "antd";
 
 export type TableProps = {};
 const Table: React.FC<TableProps> = (props) => {
   const tableTabs = useTabStore(state => state.tableTabs);
   const selectTabId = useTabStore(state => state.selectTabId);
   const tabDispatch = useTabStore(state => state.dispatch);
-  const {panel} = useShortcutStore(state => ({
-    panel: state.panel
-  }), shallow);
 
-  const rightContent = () => {
-    console.log(17, "panel", panel);
-    switch (panel) {
-      case PANEL.DEFAULT:
-        return <TemplateSquare/>;
-      case PANEL.VERSION:
-        return <Version/>;
-      default:
-        return <></>;
-    }
-  }
 
   console.log('tableTabs', tableTabs)
   console.log('selectTabId', selectTabId)
@@ -83,11 +65,39 @@ const Table: React.FC<TableProps> = (props) => {
     }
   };
 
+
+  const renderRightContent = (tab: ModuleEntity) => {
+    return (
+      <Menu>
+        <Menu.Item key={"closeCurrent"} onClick={() => closeCurrent(tab)}>关闭当前</Menu.Item>
+        <Menu.Item key={"closeLeft"} onClick={() => closeLeft(tab)}>关闭左边</Menu.Item>
+        <Menu.Item key={"closeRight"} onClick={() => closeRight(tab)}>关闭右边</Menu.Item>
+        <Menu.Item key={"closeAll"} onClick={() => closeAll(tab)}>关闭全部</Menu.Item>
+      </Menu>
+    );
+  };
+
+
+  const renderTabBar: TabsProps['renderTabBar'] = (tabBarProps, DefaultTabBar) => (
+    // @ts-ignore
+    <DefaultTabBar {...tabBarProps}>
+      {node => (
+        // @ts-ignore
+        <Dropdown overlay={renderRightContent({module: node?.key?.split('###')[0], entity: node?.key?.split('###')[1]})}
+                  trigger={['contextMenu']}>
+          {node}
+        </Dropdown>
+      )}
+    </DefaultTabBar>
+  );
+
   return (
     <>
 
       <Tabs type="editable-card" hideAdd onEdit={(e, action) => onEdit(e, action)} activeKey={selectTabId}
-            onChange={onChange}>
+            onChange={onChange}
+            renderTabBar={renderTabBar}
+      >
         {tableTabs?.map((tab: ModuleEntity, index: number) => {
             return <TabPane tab={tab.entity} key={`${tab.module}###${tab.entity}`} closable={true}>
               {getTab(tab)}
