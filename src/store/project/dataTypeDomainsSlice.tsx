@@ -85,11 +85,15 @@ const DataTypeDomainsSlice = (set: SetState<ProjectState>, get: GetState<Project
     console.log(73, 'getDataTypeTree', dataTypes,databases);
 
     return [{
+      type: 'dataType',
       title: '字段类型',
+      code: '###menu###',
       isLeaf: false,
       key: `datatype###datatype`,
       children: dataTypes
     },{
+      type: 'database',
+      code: '###menu###',
       title: '数据源',
       isLeaf: false,
       key: `database###database`,
