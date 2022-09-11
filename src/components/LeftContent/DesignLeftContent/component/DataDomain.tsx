@@ -56,7 +56,7 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
   ;
   const renderDatabaseRightContext = () => <Menu>
       <AddDatabase moduleDisable={false}/>
-      <Menu.Item icon="edit" onClick={() => {
+      <Menu.Item icon={<EditOutlined/>} onClick={() => {
         activeDatabasePanel();
       }}>修改数据源</Menu.Item>
       <RemoveDatabase disable={false}/>
