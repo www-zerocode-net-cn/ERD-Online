@@ -27,7 +27,14 @@ export default {
         path: '/design/table/version',
         name: '版本',
         icon: <FieldTimeOutlined/>,
-        routes: [],
+        routes: [
+          {
+            path: '/design/table/version',
+            name: '全部版本',
+            icon: <CrownFilled/>,
+            component: './Welcome',
+          },
+        ],
       },
       {
         name: '导入',

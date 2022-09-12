@@ -120,6 +120,26 @@ const useVersionStore = create<VersionState>(
             }
           });
         });
+      } else {
+        if (!db) {
+          get().dispatch.initDbs(projectState.project.projectJSON?.profile?.dbs);
+        }
+        Save.hisProjectLoad(db ? db : get().dispatch.getCurrentDBData()).then(res => {
+          if (res) {
+            const versions = res.data;
+            if (versions) {
+              console.log(44, 'versions', res);
+              get().dispatch.checkBaseVersion(versions);
+              get().dispatch.getVersionMessage(versions);
+              get().dispatch.getDBVersion();
+              set({
+                changes: get().dispatch.calcChanges(versions)
+              });
+            } else {
+              message.error('获取版本信息失败');
+            }
+          }
+        });
       }
     },
     dispatch: {
