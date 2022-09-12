@@ -53,6 +53,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-card": "^1.18.39",
+    "@ant-design/pro-components": "^2.3.7",
     "@ant-design/pro-form": "^1.58.1",
     "@ant-design/pro-layout": "7.0.0-experimental.35",
     "@ant-design/pro-table": "^2.67.1",
