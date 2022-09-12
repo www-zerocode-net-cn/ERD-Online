@@ -6,6 +6,7 @@ import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
 import {Link} from "umi";
 import shallow from "zustand/shallow";
+import _ from 'lodash';
 
 
 export interface CommonLayoutLayoutProps {
@@ -25,7 +26,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
 
 
   console.log(34, project);
-  if (!project || !project.projectJSON) {
+  if (_.isEmpty(project) || _.isEmpty(project.projectJSON)) {
     fetch();
   }
 

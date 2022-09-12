@@ -1,53 +1,27 @@
-import {
-  Timeline,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-  TimelineOppositeContent,
-  TimelineSeparator
-} from '@mui/lab';
 import React, {useEffect, useState} from 'react';
-import {Divider, Typography} from "@mui/material";
-import {ItemRenderer, Select} from "@blueprintjs/select";
 import shallow from "zustand/shallow";
 import useVersionStore from "@/store/version/useVersionStore";
-import {Top} from 'react-spaces';
 import './index.less';
-import SyncDisabledIcon from '@mui/icons-material/SyncDisabled';
-import CloudSyncIcon from '@mui/icons-material/CloudSync';
-import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import ReportIcon from '@mui/icons-material/Report';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import {compareStringVersion} from "@/utils/string";
-import {Popover2} from "@blueprintjs/popover2";
-import {VersionHandle} from "@/components/Menu";
-import {Badge, Button, Empty, Space, Tag} from "antd";
-import {ProFormSelect, ProList} from '@ant-design/pro-components';
+import {Select, Space, Tag} from "antd";
+import {ProList} from '@ant-design/pro-components';
 import AddVersion from "@/components/dialog/version/AddVersion";
 import SyncConfig from "@/components/dialog/version/SyncConfig";
 import InitVersion from "@/components/dialog/version/InitVersion";
 import RebuildVersion from "@/components/dialog/version/RebuildVersion";
 import CompareVersion, {CompareVersionType} from "@/components/dialog/version/CompareVersion";
-import {Menu} from "@blueprintjs/core";
 import RenameVersion from "@/components/dialog/version/RenameVersion";
 import RemoveVersion from "@/components/dialog/version/RemoveVersion";
 import SyncVersion from "@/components/dialog/version/SyncVersion";
-import {
-  CheckCircleFilled,
-  CheckCircleOutlined,
-  CheckCircleTwoTone, WarningFilled,
-  WarningOutlined,
-  WarningTwoTone
-} from "@ant-design/icons";
+import {CheckCircleFilled, WarningFilled} from "@ant-design/icons";
+import _ from "lodash";
+
+const {Option, OptGroup} = Select;
 
 
 export type VersionProps = {};
 
 export type IDatabase = any;
-
-const DatabaseSelect = Select.ofType<any>();
 
 const Version: React.FC<VersionProps> = (props) => {
   const {dbs, synchronous, dbVersion, changes, versions, fetch, versionDispatch} = useVersionStore(state => ({
@@ -65,13 +39,14 @@ const Version: React.FC<VersionProps> = (props) => {
   console.log('versions', 38, versions);
   console.log('changes', 48, changes);
   // fetch();
+  //获取全部历史版本
   useEffect(() => {
     fetch(null);
   }, []);
 
   const handleItemSelect = React.useCallback((db: IDatabase) => {
     console.log(57, db);
-    versionDispatch.dbChange(db);
+    // versionDispatch.dbChange(db);
   }, []);
   // NOTE: not using Films.itemRenderer here so we can set icons.
   /*  const renderDb: ItemRenderer<IDatabase> = (db: any, {modifiers, handleClick}) => {
@@ -95,57 +70,13 @@ const Version: React.FC<VersionProps> = (props) => {
 
   const currentDB = versionDispatch.getCurrentDB();
 
-
-  const dataSource = [
-    {
-      version: '实验名称1',
-      versionDesc: '系统性的沉淀B端知识体系',
-      content: [
-        {
-          label: '版本状态',
-          value: '成功',
-          status: 'success',
-        },
-        {
-          label: '版本生成时间',
-          value: '2022/5/4 19:21:11',
-        },
-      ],
-    },
-    {
-      version: '实验名称2',
-      versionDesc: '系统性的沉淀B端知识体系',
-      content: [
-        {
-          label: '版本状态',
-          value: '成功',
-          status: 'success',
-        },
-        {
-          label: '版本生成时间',
-          value: '2022/5/4 19:21:11',
-        },
-      ],
-    },
-  ];
-
-  const renderBadge = (count: number, active = false) => {
-    return (
-      <Badge
-        count={count}
-        style={{
-          marginBlockStart: -2,
-          marginInlineStart: 4,
-          color: active ? '#1890FF' : '#999',
-          backgroundColor: active ? '#E6F7FF' : '#eee',
-        }}
-      />
-    );
-  };
+  console.log(98, 'currentDB', currentDB)
+  console.log(98, 'dbs  groupDb', _.groupBy(dbs, g => g.select))
 
   const [activeKey, setActiveKey] = useState<React.Key | undefined>('tab1');
 
 
+  const groupDb = _.groupBy(dbs, g => g.select);
   return (
     <div>
       {/*      <div className="model-template-tool">
@@ -309,18 +240,44 @@ const Version: React.FC<VersionProps> = (props) => {
               },
               {
                 key: 'tab2',
-                label: <ProFormSelect
-                  initialValue={currentDB !== '' ? currentDB : "(请选择数据源)"}
-                  options={[
-                    {
-                      value: 'money',
-                      label: '确认金额',
-                    },
-                  ]}
+                label: /*<ProFormSelect
+
+                  initialValue={{value:currentDB !== '' ? currentDB : ""}}
+                  placeholder="未选择数据源"
+                  request={async () => dbs.map((m: any) => {
+                    return {
+                      label: m.name,
+                      value: m.name
+                    }
+                  })}
                   width="xs"
                   name="useMode"
                   label="请选择数据源"
-                />,
+                />,*/
+                  <Space>
+                    数据源
+                    <Select
+                      labelInValue
+                      value={currentDB ? currentDB : "请选择数据源"}
+                      style={{width: 200}}
+                      onChange={handleItemSelect}
+                    >
+                      {
+                        Object.keys(groupDb).map(m => {
+                          console.log(267, m, groupDb[m]);
+                          return <OptGroup key={m} label={m}>
+                            {groupDb[m].map(
+                              m1 => {
+                                return <Option key={m.name} value={m1.name}>{m1.name}</Option>
+                              }
+                            )}
+                          </OptGroup>
+                        })
+
+                      }
+                    </Select>
+                  </Space>
+
               },
             ],
             onChange(key) {

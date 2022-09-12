@@ -96,26 +96,31 @@ const useVersionStore = create<VersionState>(
       //显示的调用一下
       projectState = useProjectStore.getState();
       console.log(79, 'projectState.project.projectJSON?.profile?.dbs', projectState)
-      if (!db) {
-        get().dispatch.initDbs(projectState.project.projectJSON?.profile?.dbs);
-      }
-      await Save.hisProjectLoad(db ? db : get().dispatch.getCurrentDBData()).then(res => {
-        if (res) {
-          const versions = res.data;
-          if (versions) {
-            console.log(44, 'versions', res);
-            get().dispatch.checkBaseVersion(versions);
-            get().dispatch.getVersionMessage(versions);
-            get().dispatch.getDBVersion();
-            set({
-              changes: get().dispatch.calcChanges(versions)
-            });
-          } else {
-            message.error('获取版本信息失败');
+      if (_.isEmpty(projectState?.project)) {
+        await projectState.fetch().then((res: any) => {
+          console.log(101, res);
+          const data = res?.data;
+          if (!db && data) {
+            get().dispatch.initDbs(data.project.projectJSON?.profile?.dbs);
           }
-        }
-      });
-
+          Save.hisProjectLoad(db ? db : get().dispatch.getCurrentDBData()).then(res => {
+            if (res) {
+              const versions = res.data;
+              if (versions) {
+                console.log(44, 'versions', res);
+                get().dispatch.checkBaseVersion(versions);
+                get().dispatch.getVersionMessage(versions);
+                get().dispatch.getDBVersion();
+                set({
+                  changes: get().dispatch.calcChanges(versions)
+                });
+              } else {
+                message.error('获取版本信息失败');
+              }
+            }
+          });
+        });
+      }
     },
     dispatch: {
       compareStringArray: (currentFields: any, checkFields: any, title: any, name: any) => {
