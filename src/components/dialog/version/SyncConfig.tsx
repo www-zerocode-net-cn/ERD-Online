@@ -1,8 +1,8 @@
 import React from 'react';
 import ProForm, {ModalForm, ProFormRadio} from "@ant-design/pro-form";
-import {Alignment, Button} from "@blueprintjs/core";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
+import {Button} from "antd";
 
 
 export type SyncConfigProps = {};
@@ -21,12 +21,7 @@ const SyncConfig: React.FC<SyncConfigProps> = (props) => {
       trigger={
         <Button
           key="refresh"
-          icon="refresh"
-          text="同步配置"
-          minimal={true}
-          small={true}
-          fill={true}
-          alignText={Alignment.LEFT}></Button>
+          type={"primary"}>同步配置</Button>
       }
       onFinish={async (values: any) => {
         console.log(32, 'setUpgradeType', values);
