@@ -5,7 +5,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import {compareStringVersion} from "@/utils/string";
-import {message} from "antd";
+import {Button, message} from "antd";
+import {EditOutlined} from "@ant-design/icons";
 
 
 export type RenameVersionProps = {};
@@ -46,7 +47,7 @@ const RenameVersion: React.FC<RenameVersionProps> = (props) => {
         return true;
       }}
       trigger={
-        <MenuItem key="editor" shouldDismissPopover={false} text="编辑版本" icon={<EditIcon/>}></MenuItem>
+        <Button key="editor" size={"small"} type={"link"} icon={<EditOutlined />}>编辑版本</Button>
       }
       request={async (params) => {
         return currentVersion;

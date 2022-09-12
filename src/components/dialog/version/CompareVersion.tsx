@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ProForm, {ModalForm} from "@ant-design/pro-form";
-import {MenuItem} from "@blueprintjs/core";
 import {Divider, Grid} from "@mui/material";
-import DetailsIcon from '@mui/icons-material/Details';
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import {ProFormSelect} from "@ant-design/pro-form/es";
 import {compareStringVersion} from '@/utils/string';
 import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore";
@@ -13,6 +10,7 @@ import {Button, message} from "antd";
 import moment from "moment";
 import * as File from '@/utils/file';
 import _ from 'lodash';
+import {DiffOutlined, InfoOutlined} from "@ant-design/icons";
 
 export const CompareVersionType = {DETAIL: "detail", COMPARE: "compare"}
 
@@ -97,12 +95,14 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
       title={isDetail ? "版本变更详情" : "任意版本比较"}
       layout="horizontal"
       trigger={
-        <MenuItem key="compare" shouldDismissPopover={false}
-                  text={isDetail ? "版本变更详情" : "任意版本比较"} icon={isDetail ? <DetailsIcon/> : <CompareArrowsIcon/>}
-                  onClick={() => isDetail ?
-                    versionDispatch.showChanges(SHOW_CHANGE_TYPE.CURRENT, null, null, null)
-                    : versionDispatch.compare(state)
-                  }></MenuItem>
+        <Button key="compare"
+                size={"small"}
+                type={"link"}
+                icon={isDetail ? <InfoOutlined/> : <DiffOutlined/>}
+                onClick={() => isDetail ?
+                  versionDispatch.showChanges(SHOW_CHANGE_TYPE.CURRENT, null, null, null)
+                  : versionDispatch.compare(state)
+                }>{isDetail ? "版本变更详情" : "任意版本比较"}</Button>
       }
       submitter={{
         // 完全自定义整个区域
