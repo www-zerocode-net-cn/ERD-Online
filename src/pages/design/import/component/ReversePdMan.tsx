@@ -3,12 +3,11 @@ import {Alignment, Button} from "@blueprintjs/core";
 import {MyIcon} from "@/components/Menu";
 import {ModalForm} from '@ant-design/pro-form';
 import {InboxOutlined} from '@mui/icons-material';
-import Dragger from "antd/es/upload/Dragger";
-import {message, Modal} from "antd";
+import {message, Modal, Upload} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import _ from "lodash";
-
+const { Dragger } = Upload;
 
 export type ReversePdManProps = {};
 

@@ -1,4 +1,4 @@
-import ProForm, {ModalForm, ProFormInstance, ProFormSelect, StepsForm} from '@ant-design/pro-form';
+import ProForm, {ModalForm, ProFormInstance, ProFormSelect, StepsForm} from '@ant-design/pro-components';
 import React, {useRef} from 'react';
 import {Button as AntButton, Spin} from 'antd';
 import {Alignment, Button} from "@blueprintjs/core";
@@ -67,6 +67,9 @@ const ReverseDatabase: React.FC<DatabaseReverseProps> = (props) => {
               <AntButton type="primary" key="gotoTwo" onClick={() => props.onPre?.()}>
                 {'<'} 上一步
               </AntButton>,
+              <AntButton type="primary" key="goToTree" onClick={() => projectDispatch.getSelectedEntity()}>
+                提交
+              </AntButton>,
             ];
           }
 
@@ -74,8 +77,8 @@ const ReverseDatabase: React.FC<DatabaseReverseProps> = (props) => {
             <AntButton type="primary" key="gotoTwo" onClick={() => props.onPre?.()}>
               {'<'} 上一步
             </AntButton>,
-            <AntButton type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
-              提交 √
+            <AntButton type="primary" key="goToTree" onClick={() => projectDispatch.getSelectedEntity()}>
+              提交
             </AntButton>,
           ];
         },
@@ -125,13 +128,13 @@ const ReverseDatabase: React.FC<DatabaseReverseProps> = (props) => {
 
       >
         <Spin tip="正在解析数据源，请稍后。。。(请勿关闭当前弹窗！)" spinning={loading}>
-          <ProForm.Group>
+
             {
               !flag && (status === 'SUCCESS' ?
                 <ReverseTable/>
                 : '解析失败')
             }
-          </ProForm.Group>
+
         </Spin>
       </StepsForm.StepForm>
 
