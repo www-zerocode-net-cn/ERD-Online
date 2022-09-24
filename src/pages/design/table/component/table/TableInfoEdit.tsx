@@ -7,6 +7,7 @@ import shallow from "zustand/shallow";
 // @ts-ignore
 import {CellChange, ChangeSource} from "handsontable";
 import JExcel from "@/pages/JExcel";
+import {column1, column2} from "@/pages/design/setting/component/DefaultField";
 
 
 export type TableInfoEditProps = {
@@ -36,72 +37,15 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
   }
 
   const data = JSON.parse(s);
-  const columns = [{
-    title: '中文名*',
-    name: 'chnname',
-    type: 'text',
-    width: '100',
-  }, {
-    title: '英文名*',
-    name: 'name',
-    type: 'text',
-    width: '100'
-  }, {
-    title: '类型*',
-    name: 'typeName',
-    type: 'dropdown',
-    source: allDataTypeName,
-    width: '100',
-
-  }, {
-    title: '类型(code)',
-    name: 'type',
-    type: 'text',
-    width: '100',
-    readOnly: true
-  }, {
-    title: '数据源类型',
-    name: 'dataType',
-    type: 'text',
-    width: '130',
-    readOnly: true
-  }, {
-    title: '说明',
-    name: 'remark',
-    type: 'text',
-    width: '100',
-  }, {
-    title: '主键',
-    name: 'pk',
-    type: 'checkbox',
-    width: '50',
-  }, {
-    title: '非空',
-    name: 'notNull',
-    type: 'checkbox',
-    width: '50',
-  }, {
-    title: '自增',
-    name: 'autoIncrement',
-    type: 'checkbox',
-    width: '50',
-  }, {
-    title: '关系图',
-    name: 'relationNoShow',
-    type: 'checkbox',
-    width: '50',
-  }, {
-    title: '默认值',
-    name: 'defaultValue',
-    type: 'text',
-    width: '100',
-  }, {
-    title: 'UI建议',
-    name: 'uiHint',
-    type: 'dropdown',
-    width: '100',
-    source: ['Text', 'Number', 'Money', 'Select', 'Radio', 'CheckBox', 'Email', 'URL', 'DatePicker', 'TextArea', 'AddressPicker'],
-  }
+  const columns = [
+    ...column1, {
+      title: '类型*',
+      name: 'typeName',
+      type: 'dropdown',
+      source: allDataTypeName,
+      width: '100',
+    },
+    ...column2
   ];
   return (
     <>
