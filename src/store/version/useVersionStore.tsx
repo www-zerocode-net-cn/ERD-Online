@@ -7,6 +7,7 @@ import * as Save from '@/utils/save';
 import {getAllDataSQL, getCodeByChanges} from "@/utils/json2code";
 import moment from "moment";
 import produce from "immer";
+import {Link} from "umi";
 
 export const SHOW_CHANGE_TYPE = {
   // 默认为最新版本变化
@@ -108,9 +109,9 @@ const useVersionStore = create<VersionState>(
               const versions = res.data;
               if (versions) {
                 console.log(44, 'versions', res);
+                get().dispatch.getDBVersion();
                 get().dispatch.checkBaseVersion(versions);
                 get().dispatch.getVersionMessage(versions);
-                get().dispatch.getDBVersion();
                 set({
                   changes: get().dispatch.calcChanges(versions)
                 });
@@ -129,9 +130,9 @@ const useVersionStore = create<VersionState>(
             const versions = res.data;
             if (versions) {
               console.log(44, 'versions', res);
+              get().dispatch.getDBVersion();
               get().dispatch.checkBaseVersion(versions);
               get().dispatch.getVersionMessage(versions);
-              get().dispatch.getDBVersion();
               set({
                 changes: get().dispatch.calcChanges(versions)
               });
@@ -345,7 +346,7 @@ const useVersionStore = create<VersionState>(
           set({
             dbVersion: '',
           });
-          message.warn('获取数据源版本信息失败,无法获取到数据源信息,请配置或切换数据源！', 5);
+          message.warn(<>获取数据源版本信息失败,无法获取到数据源信息,请<a href={'/design/table/setting/db'}>配置</a>或切换数据源！</>, 5);
           state.hasDB = false;
 
         } else {

@@ -15,6 +15,7 @@ export interface CommonLayoutLayoutProps {
 
 const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   console.log(17, props);
+  // @ts-ignore
   console.log(18, props?.location?.pathname);
   // @ts-ignore
   const [pathname, setPathname] = useState(props?.location?.pathname || 'design/table/model');
@@ -50,7 +51,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
       <ProLayout
         logo={"/logo.svg"}
         // @ts-ignore
-        title={<Link to={"/"}>ERD Online</Link>}
+        title={<Link to={"/"}>ERD Online Pro</Link>}
         bgLayoutImgList={[
           {
             src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
@@ -90,7 +91,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
 
           )
         }}
-        siderWidth={300}
+        siderWidth={333}
         actionsRender={(props) => {
           if (props.isMobile) return [];
           return [
@@ -131,7 +132,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
               }}
             >
               <div>© 2022 Made with 零代</div>
-              <div>ERD Online</div>
+              <div>ERD Online Pro</div>
             </div>
           );
         }}
@@ -147,14 +148,20 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         }}
         menuItemRender={(item, dom) => (
 
-          <a
-            onClick={() => {
-              console.log(153, item)
-              setPathname(item.path || '/welcome');
-            }}
-          >
-            <Link to={item?.path || '/welcome'}>{dom}</Link>
-          </a>
+          item.path?.startsWith('http') || item.exact ?
+            <a href={item.path} target={'_blank'}>
+              {item.icon} {item.name}
+            </a>
+            :
+            <a
+              onClick={() => {
+                console.log(153, item);
+                setPathname(item.path || '/design/table/model');
+              }}
+            >
+              <Link to={item?.path || '/design/table/model'}>{dom}</Link>
+            </a>
+
         )}
         {...settings}
       >

@@ -292,7 +292,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                   onBlur: (e) => {
                     console.log(281, e.target.value);
                     projectDispatch.updateDbs('properties', {
-                      ...defaultDbs.properties,
+                      ...defaultDbs?.properties,
                       username: e.target.value
                     });
                   }

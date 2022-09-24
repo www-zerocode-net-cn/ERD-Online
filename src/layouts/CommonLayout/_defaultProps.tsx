@@ -17,8 +17,9 @@ export default {
         icon: <DatabaseOutlined/>,
         routes: [
           {
+            exact: true,
             path: 'https://www.zerocode.net.cn/',
-            name: 'ERD Online 官方论坛',
+            name: 'ERD Online Pro 官方论坛',
             icon: <MediumOutlined/>
           },
         ]
@@ -104,7 +105,7 @@ export default {
   appList: [
     {
       icon: '/logo.svg',
-      title: 'ERD Online',
+      title: 'ERD Online Pro',
       desc: '国内第一个开源免费在线建模软件',
       url: 'https://portal.zerocode.net.cn/',
       target: '_blank',

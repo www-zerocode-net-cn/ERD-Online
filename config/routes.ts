@@ -115,7 +115,7 @@
           },
           {
             path: '/design/table/setting/default',
-            component: './design/setting/component/DatabaseSetUp',
+            component: './design/setting/component/DefaultSetUp',
           },
         ]
       },
