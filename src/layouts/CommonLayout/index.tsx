@@ -14,7 +14,10 @@ export interface CommonLayoutLayoutProps {
 }
 
 const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
-  const [pathname, setPathname] = useState('/design/table/model');
+  console.log(17, props);
+  console.log(18, props?.location?.pathname);
+  // @ts-ignore
+  const [pathname, setPathname] = useState(props?.location?.pathname || 'design/table/model');
 
 
   const {children} = props;
@@ -35,7 +38,6 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     layout: 'mix',
     splitMenus: true,
   };
-
 
 
   return (
@@ -84,7 +86,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         menuExtraRender={(props) => {
           console.log(118, props)
           return (
-            pathname == '/design/table/model' ? <DesignLeftContent collapsed={props.collapsed}/> : null
+            props.location.pathname === '/design/table/model' ? <DesignLeftContent collapsed={props.collapsed}/> : null
 
           )
         }}

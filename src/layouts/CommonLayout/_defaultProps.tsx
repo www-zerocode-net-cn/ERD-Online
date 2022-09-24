@@ -29,10 +29,9 @@ export default {
         icon: <FieldTimeOutlined/>,
         routes: [
           {
-            path: '/design/table/version',
+            path: '/design/table/version/all',
             name: '全部版本',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
         ],
       },
@@ -40,25 +39,21 @@ export default {
         name: '导入',
         icon: <ImportOutlined/>,
         path: '/design/table/import',
-        component: './ListTableList',
         routes: [
           {
             path: '/design/table/import/reverse',
             name: '数据源逆向解析',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
           {
             path: '/design/table/import/pdman',
             name: '解析PdMan文件',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
           {
             path: '/design/table/import/erd',
             name: '解析ERD文件',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
         ],
       },
@@ -86,25 +81,21 @@ export default {
         name: '设置',
         icon: <RadiusSettingOutlined/>,
         path: '/design/table/setting',
-        component: './ListTableList',
         routes: [
           {
             path: '/design/table/setting/db',
             name: '数据源设置',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
           {
             path: '/design/table/setting/defaultField',
             name: '默认字段设置',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
           {
             path: '/design/table/setting/default',
             name: '系统默认项设置',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
         ],
       },

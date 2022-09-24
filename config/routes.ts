@@ -49,7 +49,16 @@
       },
       {
         path: '/design/table/version',
-        component: './design/version',
+        routes: [
+          {
+            path: '/design/table/version',
+            redirect: '/design/table/version/all',
+          },
+          {
+            path: '/design/table/version/all',
+            component: './design/version',
+          },
+        ]
       },
       {
         path: '/design/table/import',
