@@ -5,7 +5,7 @@ import {
   FieldTimeOutlined,
   ImportOutlined,
   MediumOutlined,
-  RadiusSettingOutlined
+  RadiusSettingOutlined, SettingOutlined
 } from '@ant-design/icons';
 
 export default {
@@ -61,25 +61,22 @@ export default {
         name: '导出',
         icon: <ExportOutlined/>,
         path: '/design/table/export',
-        component: './ListTableList',
         routes: [
           {
             path: '/design/table/export/common',
             name: '普通导出',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
           {
             path: '/design/table/export/more',
             name: '高级导出',
             icon: <CrownFilled/>,
-            component: './Welcome',
           },
         ],
       },
       {
         name: '设置',
-        icon: <RadiusSettingOutlined/>,
+        icon: <SettingOutlined />,
         path: '/design/table/setting',
         routes: [
           {

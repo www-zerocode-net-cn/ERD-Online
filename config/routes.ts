@@ -62,7 +62,6 @@
       },
       {
         path: '/design/table/import',
-        layout: false,
         routes: [
           {
             path: '/design/table/import',
@@ -70,7 +69,6 @@
           },
           {
             path: '/design/table/import/reverse',
-            layout: false,
             component: './design/import/component/ReverseDatabase',
           },
           {
@@ -84,18 +82,18 @@
         ]
       },
       {
-        path: 'design/table/export',
+        path: '/design/table/export',
         routes: [
           {
             path: '/design/table/export',
-            redirect: 'design/table/import/common',
+            redirect: '/design/table/export/common',
           },
           {
-            path: '/design/table/import/common',
-            component: './design/export/component/ExportDDL',
+            path: '/design/table/export/common',
+            component: './design/export/component/ExportCommon',
           },
           {
-            path: '/design/table/import/more',
+            path: '/design/table/export/more',
             component: './design/export/component/ExportDDL',
           },
         ]
