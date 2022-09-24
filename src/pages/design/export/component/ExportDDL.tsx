@@ -236,6 +236,8 @@ const ExportDDL: React.FC<ExportDDLProps> = (props) => {
           label="预览"
         >
           <CodeEditor
+            height={'50vh'}
+            width={'70vw'}
             mode='mysql'
             value={data}
           />
