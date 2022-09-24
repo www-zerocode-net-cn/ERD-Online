@@ -6,6 +6,7 @@ import {HotTable} from "@handsontable/react";
 // @ts-ignore
 import {CellChange, ChangeSource} from "handsontable";
 import _ from "lodash";
+import JExcel from "@/pages/JExcel";
 
 
 export type DefaultFieldProps = {};
@@ -95,55 +96,65 @@ export const emptyValidator = (value: any, callback: any) => {
 
 export const column1 = [
   {
-    data: 'chnname',
-    validator: emptyValidator
-  },
-  {
-    data: 'name',
-    validator: emptyValidator
-  }];
-
-export const column2 = [{
-  data: 'type',
-  type: 'text',
-  readOnly: true
-},
-  {
-    data: 'dataType',
+    title: '中文名*',
+    name: 'chnname',
     type: 'text',
+    width: '100',
+  }, {
+    title: '英文名*',
+    name: 'name',
+    type: 'text',
+    width: '100'
+  },];
+
+export const column2 = [
+  {
+    title: '类型(code)',
+    name: 'type',
+    type: 'text',
+    width: '100',
     readOnly: true
-  },
-  {
-    data: 'remark',
-    type: 'text'
-  },
-  {
-    data: 'pk',
-    type: 'checkbox',
-
-  },
-  {
-    data: 'notNull',
-    type: 'checkbox',
-  },
-  {
-    data: 'autoIncrement',
-    type: 'checkbox',
-  },
-  {
-    data: 'defaultValue',
+  }, {
+    title: '数据源类型',
+    name: 'dataType',
     type: 'text',
-  },
-  {
-    data: 'relationNoShow',
+    width: '130',
+    readOnly: true
+  }, {
+    title: '说明',
+    name: 'remark',
+    type: 'text',
+    width: '100',
+  }, {
+    title: '主键',
+    name: 'pk',
     type: 'checkbox',
-  },
-  {
-    data: 'uiHint',
-    type: 'autocomplete', strict: true, filter: true,
-    visibleRows: 10,
-    trimDropdown: true,
-    allowInvalid: false,
+    width: '50',
+  }, {
+    title: '非空',
+    name: 'notNull',
+    type: 'checkbox',
+    width: '50',
+  }, {
+    title: '自增',
+    name: 'autoIncrement',
+    type: 'checkbox',
+    width: '50',
+  }, {
+    title: '关系图',
+    name: 'relationNoShow',
+    type: 'checkbox',
+    width: '50',
+  }, {
+    title: '默认值',
+    name: 'defaultValue',
+    type: 'text',
+    width: '100',
+  }, {
+    title: 'UI建议',
+    name: 'uiHint',
+    type: 'dropdown',
+    width: '100',
     source: ['Text', 'Number', 'Money', 'Select', 'Radio', 'CheckBox', 'Email', 'URL', 'DatePicker', 'TextArea', 'AddressPicker'],
   }];
 
@@ -155,18 +166,31 @@ const DefaultField: React.FC<DefaultFieldProps> = (props) => {
   }), shallow);
   console.log('datatype', 115, datatype)
 
-  const allDataTypeName = datatype.map((t: any) => {
+  const allDataTypeName = datatype?.map((t: any) => {
     return t.name;
   })
 
   const defaultJson = JSON.stringify(projectDispatch.getDefaultFields().filter((f: any) => f != null) || []);
 
   console.log(29, 'defaultJson', defaultJson);
+  const data = JSON.parse(defaultJson);
+
 
   const afterChange = (payload: any) => {
     console.log(32, 'updateDefaultFields', payload);
     projectDispatch.updateDefaultFields(payload);
   }
+
+  const columns = [
+    ...column1, {
+      title: '类型*',
+      name: 'typeName',
+      type: 'dropdown',
+      source: allDataTypeName,
+      width: '100',
+    },
+    ...column2
+  ];
 
   const hotTableComponent = useRef(null);
 
@@ -224,17 +248,19 @@ const DefaultField: React.FC<DefaultFieldProps> = (props) => {
     minRows: 1
   };
   return (
-    <HotTable
-      ref={hotTableComponent}
-      id={"data-sheet"}
-      // @ts-ignore
-      settings={hotSettings}
-      beforeChange={handsontableBeforeChange(hotTableComponent, datatype, database)}
-      afterChange={handsontableAfterChange(hotSettings, afterChange)}
-      afterRowMove={handsontableAfterRowMove(hotTableComponent, hotSettings, afterChange)}
-    >
+    /*    <HotTable
+          ref={hotTableComponent}
+          id={"data-sheet"}
+          // @ts-ignore
+          settings={hotSettings}
+          beforeChange={handsontableBeforeChange(hotTableComponent, datatype, database)}
+          afterChange={handsontableAfterChange(hotSettings, afterChange)}
+          afterRowMove={handsontableAfterRowMove(hotTableComponent, hotSettings, afterChange)}
+        >
 
-    </HotTable>
+        </HotTable>*/
+    <JExcel data={data} columns={columns} saveData={afterChange} notEmptyColumn={['chnname', 'name', 'typeName']}/>
+
   )
 }
 
