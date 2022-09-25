@@ -7,6 +7,7 @@ import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
 import {Link} from "umi";
 import shallow from "zustand/shallow";
 import _ from 'lodash';
+import ProCard from "@ant-design/pro-card";
 
 
 export interface CommonLayoutLayoutProps {
@@ -169,7 +170,13 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
           title={false}
           fixedHeader
           breadcrumbRender={false}>
-          {children}
+          <ProCard
+            style={{
+              minHeight: '85vh',
+            }}
+          >
+            {children}
+          </ProCard>
         </PageContainer>
       </ProLayout>
     </div>

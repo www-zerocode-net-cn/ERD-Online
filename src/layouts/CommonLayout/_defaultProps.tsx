@@ -1,8 +1,9 @@
 import {
+  ConsoleSqlOutlined,
   CrownFilled,
-  DatabaseOutlined,
+  DatabaseOutlined, DeliveredProcedureOutlined,
   ExportOutlined,
-  FieldTimeOutlined,
+  FieldTimeOutlined, GlobalOutlined,
   ImportOutlined,
   MediumOutlined,
   RadiusSettingOutlined, SettingOutlined
@@ -20,7 +21,7 @@ export default {
             exact: true,
             path: 'https://www.zerocode.net.cn/',
             name: 'ERD Online Pro 官方论坛',
-            icon: <MediumOutlined/>
+            icon: <GlobalOutlined />
           },
         ]
       },
@@ -66,12 +67,12 @@ export default {
           {
             path: '/design/table/export/common',
             name: '普通导出',
-            icon: <CrownFilled/>,
+            icon: <DeliveredProcedureOutlined />,
           },
           {
             path: '/design/table/export/more',
             name: '高级导出',
-            icon: <CrownFilled/>,
+            icon: <ConsoleSqlOutlined />,
           },
         ],
       },

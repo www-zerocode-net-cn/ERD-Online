@@ -18,7 +18,7 @@ export type ProjectListProps = {
 
 
 const ProjectList: React.FC<ProjectListProps> = (props) => {
-    const [state, setState] = useState<ProjectListProps>({
+  const [state, setState] = useState<ProjectListProps>({
       page: 1,
       limit: 6,
       total: 0,
@@ -26,28 +26,28 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
       order: "createTime"
     });
 
-    const fetchProjects = (params: any) => {
-      pageProject(params || state).then(res => {
-        if (res) {
-          if (res.data) {
-            console.log(44, 'projects', res);
-            setState({
-                ...state,
-                total: res.data.total,
-                projects: res.data.records
-              }
-            );
-          } else {
-            message.error('获取项目信息失败');
-          }
+  const fetchProjects = (params: any) => {
+    pageProject(params || state).then(res => {
+      if (res) {
+        if (res.data) {
+          console.log(44, 'projects', res);
+          setState({
+              ...state,
+              total: res.data.total,
+              projects: res.data.records
+            }
+          );
+        } else {
+          message.error('获取项目信息失败');
         }
-      });
+      }
+    });
 
-    }
+  }
 
-    useEffect(() => {
-      fetchProjects(state);
-    }, [state.page, state.order]);
+  useEffect(() => {
+    fetchProjects(state);
+  }, [state.page, state.order]);
 
     const orderByCreateTime = () => {
       setState({

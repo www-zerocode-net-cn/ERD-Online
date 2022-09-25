@@ -21,12 +21,23 @@
   {
     path: '/project',
     layout: false,
-    component: '../layouts/ProjectLayout',
+    component: '../layouts/HomeLayout',
     routes: [
       {
-        name: 'home',
         path: '/project/home',
         component: './project/home',
+      },
+      {
+        path: '/project/recent',
+        component: './project/recent',
+      },
+      {
+        path: '/project/person',
+        component: './project/person',
+      },
+      {
+        path: '/project/group',
+        component: './project/group',
       },
       {
         name: 'new',
