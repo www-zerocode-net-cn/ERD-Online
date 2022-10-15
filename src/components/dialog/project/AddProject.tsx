@@ -1,12 +1,14 @@
 import React from 'react';
-import ProForm, {ModalForm, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
+import ProForm, {ModalForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
 import useProjectStore from "@/store/project/useProjectStore";
 import defaultData from "@/utils/defaultData.json";
 import {Button} from "antd";
+import _ from "lodash";
 
 export type AddProjectProps = {
   fetchProjects: any;
   trigger: string;
+  type: number;
 };
 
 const AddProject: React.FC<AddProjectProps> = (props) => {
@@ -15,12 +17,16 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
   const emptyProject = {
     "projectName": "",
     "description": "",
+    "tags": "",
     "projectJSON": {
       ...defaultData
     },
-    "configJSON": {},
+    "configJSON": {synchronous: {upgradeType: "increment"}},
   }
 
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
 
   return (<>
     <ModalForm
@@ -34,6 +40,8 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
           ...emptyProject,
           projectName: values.projectName,
           description: values.description,
+          type: props.type,
+          tags: _.join(values.tags, ',')
         }).then(() => {
           props.fetchProjects();
         });
@@ -57,6 +65,26 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
                          },
                        ],
                      }}
+        />
+      </ProForm.Group>
+      <ProForm.Group>
+        <ProFormSelect width="md"
+                       name="tags"
+                       label="标签"
+                       placeholder="请输入项目标签,按回车分割"
+                       formItemProps={{
+                         rules: [
+                           {
+                             required: true,
+                             message: '不能为空',
+                           },
+                         ],
+                       }}
+                       fieldProps={{
+                         mode: "tags",
+                         onChange: handleChange,
+                         tokenSeparators: [',']
+                       }}
         />
       </ProForm.Group>
       <ProFormTextArea
