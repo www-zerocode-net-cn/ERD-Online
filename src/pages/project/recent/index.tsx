@@ -1,6 +1,6 @@
 import {ProList} from '@ant-design/pro-components';
-import {Button, message, Tag} from 'antd';
-import {useEffect, useState} from "react";
+import {message, Tag} from 'antd';
+import React, {useEffect, useState} from "react";
 import {pageProject} from "@/utils/save";
 import {ProjectListProps} from "@/pages/project/home/component/ProjectList";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
@@ -56,25 +56,23 @@ export default () => {
   }, [state.page, state.order]);
 
   return <ProList<ProjectItem>
+    size={'large'}
     toolbar={{
       menu: {
         items: [
           {
             key: 'tab1',
-            label: <span>最近项目</span>,
+            label: <span>最近项目 「个人 + 团队」</span>,
           },
         ],
       },
       search: {
+        size: 'middle',
+        placeholder: '项目名',
         onSearch: (value: string) => {
           fetchProjects(state);
         },
       },
-      actions: [
-        <Button type="primary" key="primary">
-          新建实验
-        </Button>,
-      ],
     }}
     rowKey="name"
     dataSource={state.projects}
@@ -100,7 +98,7 @@ export default () => {
         dataIndex: 'type',
         render: (_, row) => {
           return (
-            <Tag key={row.projectName}>
+            <Tag color={'blue'} key={row.projectName}>
               {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
             </Tag>
           );

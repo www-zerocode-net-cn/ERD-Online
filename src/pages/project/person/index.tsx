@@ -1,107 +1,128 @@
-import { ProList } from '@ant-design/pro-components';
-import { Button, Space, Tag } from 'antd';
-import request from 'umi-request';
+import {ProList} from '@ant-design/pro-components';
+import {Button, Empty, message, Tag} from 'antd';
+import React, {useEffect, useState} from "react";
+import {pageProject} from "@/utils/save";
+import {ProjectListProps} from "@/pages/project/home/component/ProjectList";
+import {TeamOutlined, UserOutlined} from "@ant-design/icons";
+import AddProject from "@/components/dialog/project/AddProject";
 
-type GithubIssueItem = {
-  url: string;
+type ProjectItem = {
   id: number;
-  number: number;
-  title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
+  projectName: string;
+  description: number;
+  type: string;
+  updater: string;
+  updateTime: string;
+  creator: string;
+  createTime: string;
 };
 
-export default () => (
-  <ProList<GithubIssueItem>
-    toolBarRender={() => {
-      return [
-        <Button key="3" type="primary">
-          新建
-        </Button>,
-      ];
+export default () => {
+
+  const [state, setState] = useState<ProjectListProps>({
+    page: 1,
+    limit: 6,
+    total: 0,
+    projects: [],
+    order: "createTime"
+  });
+
+  const fetchProjects = (params: any) => {
+    pageProject(params || state).then(res => {
+      if (res) {
+        if (res.data) {
+          console.log(44, 'projects', res);
+          setState({
+              ...state,
+              total: res.data.total,
+              projects: res.data.records?.map((m: any) => {
+                  return {
+                    ...m,
+                    avatar: '/logo.svg'
+                  }
+                }
+              )
+            }
+          );
+        } else {
+          message.error('获取项目信息失败');
+        }
+      }
+    });
+
+  }
+
+  useEffect(() => {
+    fetchProjects(state);
+  }, [state.page, state.order]);
+
+  return <ProList<ProjectItem>
+    size={'large'}
+    toolbar={{
+      menu: {
+        items: [
+          {
+            key: 'tab1',
+            label: <span>个人项目</span>,
+          },
+        ],
+      },
+      search: {
+        size: 'middle',
+        placeholder: '项目名',
+        onSearch: (value: string) => {
+          fetchProjects(state);
+        },
+      },
+      actions: [
+        <AddProject fetchProjects={() => fetchProjects(null)} trigger="ant"/>
+      ],
     }}
-    search={{}}
     rowKey="name"
-    request={async (params = {}) =>
-      request<{
-        data: GithubIssueItem[];
-      }>('https://proapi.azurewebsites.net/github/issues', {
-        params,
-      })
-    }
+    dataSource={state.projects}
     pagination={{
-      pageSize: 7,
+      pageSize: 8,
     }}
-    showActions="hover"
     metas={{
       title: {
-        dataIndex: 'user',
-        title: '用户',
+        dataIndex: 'projectName',
+        title: '项目名称',
       },
       avatar: {
         dataIndex: 'avatar',
         search: false,
+
       },
       description: {
-        dataIndex: 'title',
+        dataIndex: 'description',
         search: false,
+
       },
       subTitle: {
-        dataIndex: 'labels',
+        dataIndex: 'type',
         render: (_, row) => {
           return (
-            <Space size={0}>
-              {row.labels?.map((label: { name: string }) => (
-                <Tag color="blue" key={label.name}>
-                  {label.name}
-                </Tag>
-              ))}
-            </Space>
+            <Tag color={'blue'} key={row.projectName}>
+              {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
+            </Tag>
           );
         },
         search: false,
       },
       actions: {
         render: (text, row) => [
+          <a href={row.url} target="_blank" rel="noopener noreferrer" key="view">
+            打开
+          </a>,
           <a href={row.url} target="_blank" rel="noopener noreferrer" key="link">
-            链路
+            修改
           </a>,
           <a href={row.url} target="_blank" rel="noopener noreferrer" key="warning">
-            报警
-          </a>,
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="view">
-            查看
+            删除
           </a>,
         ],
         search: false,
       },
-      status: {
-        // 自己扩展的字段，主要用于筛选，不在列表中显示
-        title: '状态',
-        valueType: 'select',
-        valueEnum: {
-          all: { text: '全部', status: 'Default' },
-          open: {
-            text: '未解决',
-            status: 'Error',
-          },
-          closed: {
-            text: '已解决',
-            status: 'Success',
-          },
-          processing: {
-            text: '解决中',
-            status: 'Processing',
-          },
-        },
-      },
     }}
   />
-);
+};

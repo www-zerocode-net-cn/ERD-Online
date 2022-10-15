@@ -1,9 +1,8 @@
 import React from 'react';
-import {Button} from "@blueprintjs/core";
 import ProForm, {ModalForm, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
 import useProjectStore from "@/store/project/useProjectStore";
 import defaultData from "@/utils/defaultData.json";
-import {Button as AntButton} from "antd";
+import {Button} from "antd";
 
 export type AddProjectProps = {
   fetchProjects: any;
@@ -27,9 +26,7 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
     <ModalForm
       title="新增项目"
       trigger={
-        props.trigger === "bp" ?
-          <Button minimal={true} icon={"add"} text={'新增'}/>
-          : <AntButton type="primary">立即创建</AntButton>
+        <Button type="primary">新建</Button>
       }
       onFinish={async (values: any) => {
         console.log(39, values);

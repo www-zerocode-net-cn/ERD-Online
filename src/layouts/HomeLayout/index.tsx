@@ -6,7 +6,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import ProCard from '@ant-design/pro-card';
-import {PageContainer, ProLayout, ProSettings} from '@ant-design/pro-layout';
+import {PageContainer, ProBreadcrumb, ProLayout, ProSettings} from '@ant-design/pro-layout';
 import {Button, Divider, Input} from 'antd';
 import React, {useState} from 'react';
 import defaultProps from './_defaultProps';
@@ -22,6 +22,16 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
 
   const {children} = props;
+
+  const settings: ProSettings | undefined = {
+    "layout": "mix",
+    "navTheme": "light",
+    "contentWidth": "Fluid",
+    "fixSiderbar": true,
+    "colorPrimary": "#1890ff",
+    "siderMenuType": "group",
+    "fixedHeader": true
+  };
 
   return (
     <ProLayout
@@ -54,28 +64,6 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
                 e.preventDefault();
               }}
             >
-              <Input
-                style={{
-                  borderRadius: 4,
-                  marginInlineEnd: 12,
-                  backgroundColor: 'rgba(0,0,0,0.03)',
-                }}
-                prefix={
-                  <SearchOutlined
-                    style={{
-                      color: 'rgba(0, 0, 0, 0.15)',
-                    }}
-                  />
-                }
-                placeholder="搜索方案"
-                bordered={false}
-              />
-              <PlusCircleFilled
-                style={{
-                  color: 'var(--ant-primary-color)',
-                  fontSize: 24,
-                }}
-              />
             </div>
           ) : undefined,
           <InfoCircleFilled key="InfoCircleFilled"/>,
@@ -100,26 +88,21 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
       onMenuHeaderClick={(e) => console.log(e)}
       menuItemRender={(item, dom) => (
         item.path?.startsWith('http') || item.exact ?
-          <div>
+          <a href={item.path} target={'_blank'}>
             {item.icon} {item.name}
-            <a href={item.path} target={'_blank'}>
-              <MenuDivider/>
-            </a>
-          </div>
+          </a>
           :
-          <div>
-            <a
-              onClick={() => {
-                console.log(153, item);
-                setPathname(item.path || '/project');
-              }}
-            >
-              <Link to={item?.path || '/project'}>{dom}</Link>
-            </a>
-            <MenuDivider/>
-          </div>
 
+          <a
+            onClick={() => {
+              console.log(153, item);
+              setPathname(item.path || '/project');
+            }}
+          >
+            <Link to={item?.path || '/project'}>{dom}</Link>
+          </a>
       )}
+      {...settings}
     >
       <PageContainer
         title={false}

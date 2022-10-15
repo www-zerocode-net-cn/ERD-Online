@@ -36,7 +36,7 @@ export default {
       {
         exact: true,
         path: 'https://www.zerocode.net.cn/',
-        name: 'ERD Online Pro 官方论坛',
+        name: 'ERD Online Pro 论坛',
         icon: <GlobalOutlined />
       },
     ],
