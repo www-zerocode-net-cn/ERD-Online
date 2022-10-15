@@ -26,6 +26,7 @@ export const pageProject = (params) => {
     params: {
       page: params.page,
       limit: params.limit,
+      projectName: params.projectName,
       order: params.order
     }
   });

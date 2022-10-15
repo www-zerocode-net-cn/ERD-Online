@@ -1,16 +1,23 @@
 import {ProList} from '@ant-design/pro-components';
-import {Button, Empty, message, Tag} from 'antd';
-import React, {useEffect, useState} from "react";
+import {message, Space, Tag} from 'antd';
+import {useEffect, useState} from "react";
 import {pageProject} from "@/utils/save";
 import {ProjectListProps} from "@/pages/project/home/component/ProjectList";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
 import AddProject from "@/components/dialog/project/AddProject";
+import RenameProject from "@/components/dialog/project/RenameProject";
+import RemoveProject from "@/components/dialog/project/RemoveProject";
+import OpenProject from "@/components/dialog/project/OpenProject";
+import {searchProjects} from "@/pages/project/recent";
+import _ from "lodash";
+
 
 type ProjectItem = {
-  id: number;
+  id: string;
   projectName: string;
   description: number;
   type: string;
+  tags: string;
   updater: string;
   updateTime: string;
   creator: string;
@@ -68,25 +75,33 @@ export default () => {
         ],
       },
       search: {
-        size: 'middle',
         placeholder: '项目名',
         onSearch: (value: string) => {
-          fetchProjects(state);
+          searchProjects(fetchProjects, state, value);
         },
       },
       actions: [
-        <AddProject fetchProjects={() => fetchProjects(null)} trigger="ant"/>
+        <AddProject fetchProjects={() => fetchProjects(null)} trigger="ant" type={1}/>
       ],
     }}
     rowKey="name"
     dataSource={state.projects}
     pagination={{
-      pageSize: 8,
+      pageSize: state.limit,
+      total: state.total,
+      onChange: (page: number, pageSize: number) => {
+        setState({
+          ...state,
+          page,
+          limit: pageSize
+        })
+      }
     }}
     metas={{
       title: {
         dataIndex: 'projectName',
         title: '项目名称',
+
       },
       avatar: {
         dataIndex: 'avatar',
@@ -99,14 +114,21 @@ export default () => {
 
       },
       subTitle: {
-        dataIndex: 'type',
         render: (_, row) => {
+
           return (
-            <Tag color={'blue'} key={row.projectName}>
-              {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
-            </Tag>
+            <Space size={0}>
+              <Tag color={'blue'} key={row.projectName}>
+                {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
+              </Tag>
+              {row.tags?.split(",").map((m: string, i: number) => {
+                return <Tag color={i % 2 == 0 ? "#5BD8A6" : "blue"}>{m}</Tag>
+              })}
+            </Space>
+
           );
         },
+        dataIndex: 'type',
         search: false,
       },
       content: {
@@ -117,15 +139,9 @@ export default () => {
       },
       actions: {
         render: (text, row) => [
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="link">
-            修改
-          </a>,
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="warning">
-            删除
-          </a>,
-          <Button>
-            打开模型
-          </Button>
+          <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}/>,
+          <RemoveProject fetchProjects={() => fetchProjects(null)} project={row}/>,
+          <OpenProject project={row}/>
         ],
         search: false,
       },

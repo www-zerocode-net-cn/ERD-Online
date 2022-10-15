@@ -1,9 +1,12 @@
 import {ProList} from '@ant-design/pro-components';
-import {Button, message, Tag} from 'antd';
-import React, {useEffect, useState} from "react";
+import {message, Tag} from 'antd';
+import  {useEffect, useState} from "react";
 import {pageProject} from "@/utils/save";
 import {ProjectListProps} from "@/pages/project/home/component/ProjectList";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
+import RenameProject from "@/components/dialog/project/RenameProject";
+import RemoveProject from "@/components/dialog/project/RemoveProject";
+import OpenProject from "@/components/dialog/project/OpenProject";
 
 type ProjectItem = {
   id: number;
@@ -16,6 +19,13 @@ type ProjectItem = {
   createTime: string;
 };
 
+export function searchProjects(fetchProjects: (params: any) => void, state: ProjectListProps, value: string) {
+  fetchProjects({
+    ...state,
+    projectName: value
+  });
+}
+
 export default () => {
 
   const [state, setState] = useState<ProjectListProps>({
@@ -23,7 +33,7 @@ export default () => {
     limit: 6,
     total: 0,
     projects: [],
-    order: "createTime"
+    order: "updateTime"
   });
 
   const fetchProjects = (params: any) => {
@@ -70,14 +80,22 @@ export default () => {
         size: 'middle',
         placeholder: '项目名',
         onSearch: (value: string) => {
-          fetchProjects(state);
+          searchProjects(fetchProjects, state, value);
         },
       },
     }}
     rowKey="name"
     dataSource={state.projects}
     pagination={{
-      pageSize: 8,
+      pageSize: state.limit,
+      total: state.total,
+      onChange: (page: number, pageSize: number) => {
+        setState({
+          ...state,
+          page,
+          limit: pageSize
+        })
+      }
     }}
     metas={{
       title: {
@@ -113,15 +131,9 @@ export default () => {
       },
       actions: {
         render: (text, row) => [
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="link">
-            修改
-          </a>,
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="warning">
-            删除
-          </a>,
-          <Button>
-            打开模型
-          </Button>
+          <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}/>,
+          <RemoveProject fetchProjects={() => fetchProjects(null)} project={row}/>,
+          <OpenProject project={row}/>
         ],
         search: false,
       },
