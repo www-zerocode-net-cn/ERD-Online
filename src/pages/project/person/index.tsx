@@ -109,17 +109,23 @@ export default () => {
         },
         search: false,
       },
+      content: {
+        dataIndex: 'updateTime',
+        render: (text) => (
+          <div key="updateTime" style={{color: '#00000073'}}>{text}</div>
+        ),
+      },
       actions: {
         render: (text, row) => [
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="view">
-            打开
-          </a>,
           <a href={row.url} target="_blank" rel="noopener noreferrer" key="link">
             修改
           </a>,
           <a href={row.url} target="_blank" rel="noopener noreferrer" key="warning">
             删除
           </a>,
+          <Button>
+            打开模型
+          </Button>
         ],
         search: false,
       },

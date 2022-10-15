@@ -1,6 +1,7 @@
 import { ProList } from '@ant-design/pro-components';
 import { Button, Space, Tag } from 'antd';
 import request from 'umi-request';
+import React from "react";
 
 type GithubIssueItem = {
   url: string;
@@ -67,6 +68,12 @@ export default () => (
           );
         },
         search: false,
+      },
+      content: {
+        dataIndex: 'updateTime',
+        render: (text) => (
+          <div key="updateTime" style={{color: '#00000073'}}>{text}</div>
+        ),
       },
       actions: {
         render: (text, row) => [
