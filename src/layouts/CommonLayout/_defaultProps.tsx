@@ -118,6 +118,27 @@ export default {
       url: 'https://www.zerocode.net.cn/',
       target: '_blank',
     },
+    {
+      icon: '/zerocode.svg',
+      title: 'LOCO',
+      desc: '类钉钉宜搭的低代码搭建平台',
+      url: 'https://www.zerocode.net.cn/',
+      target: '_blank',
+    },
+    {
+      icon: '/zerocode.svg',
+      title: 'Fast Test',
+      desc: '接口快速测试平台',
+      url: 'https://www.zerocode.net.cn/',
+      target: '_blank',
+    },
+    {
+      icon: '/zerocode.svg',
+      title: 'Super BI',
+      desc: '超级报表、BI引擎',
+      url: 'https://www.zerocode.net.cn/',
+      target: '_blank',
+    },
 
 
   ],
