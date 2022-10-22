@@ -1,72 +1,136 @@
-import { ProList } from '@ant-design/pro-components';
-import { Button, Space, Tag } from 'antd';
-import request from 'umi-request';
-import React from "react";
+import {ProList} from '@ant-design/pro-components';
+import {message, Space, Tag} from 'antd';
+import {useEffect, useState} from "react";
+import {pageProject} from "@/utils/save";
+import {ProjectListProps} from "@/pages/project/home/component/ProjectList";
+import {TeamOutlined, UserOutlined} from "@ant-design/icons";
+import AddProject from "@/components/dialog/project/AddProject";
+import RenameProject from "@/components/dialog/project/RenameProject";
+import RemoveProject from "@/components/dialog/project/RemoveProject";
+import OpenProject from "@/components/dialog/project/OpenProject";
+import {searchProjects} from "@/pages/project/recent";
+import _ from "lodash";
+import ConfigProject from "@/components/dialog/project/ConfigProject";
 
-type GithubIssueItem = {
-  url: string;
-  id: number;
-  number: number;
-  title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
+
+type ProjectItem = {
+  id: string;
+  projectName: string;
+  description: number;
+  type: string;
+  tags: string;
+  updater: string;
+  updateTime: string;
+  creator: string;
+  createTime: string;
 };
 
-export default () => (
-  <ProList<GithubIssueItem>
-    toolBarRender={() => {
-      return [
-        <Button key="3" type="primary">
-          新建
-        </Button>,
-      ];
+export default () => {
+
+  const [state, setState] = useState<ProjectListProps>({
+    page: 1,
+    limit: 6,
+    total: 0,
+    type: 2,
+    projects: [],
+    order: "createTime"
+  });
+
+  const fetchProjects = (params: any) => {
+    pageProject(params || state).then(res => {
+      if (res) {
+        if (res.data) {
+          console.log(44, 'projects', res);
+          setState({
+              ...state,
+              total: res.data.total,
+              projects: res.data.records?.map((m: any) => {
+                  return {
+                    ...m,
+                    avatar: '/logo.svg'
+                  }
+                }
+              )
+            }
+          );
+        } else {
+          message.error('获取项目信息失败');
+        }
+      }
+    });
+
+  }
+
+  useEffect(() => {
+    fetchProjects(state);
+  }, [state.page, state.order]);
+
+  return <ProList<ProjectItem>
+    size={'large'}
+    toolbar={{
+      menu: {
+        items: [
+          {
+            key: 'tab1',
+            label: <span>团队项目</span>,
+          },
+        ],
+      },
+      search: {
+        placeholder: '项目名',
+        onSearch: (value: string) => {
+          searchProjects(fetchProjects, state, value);
+        },
+      },
+      actions: [
+        <AddProject fetchProjects={() => fetchProjects(null)} trigger="ant" type={2}/>
+      ],
     }}
-    search={{}}
     rowKey="name"
-    request={async (params = {}) =>
-      request<{
-        data: GithubIssueItem[];
-      }>('https://proapi.azurewebsites.net/github/issues', {
-        params,
-      })
-    }
+    dataSource={state.projects}
     pagination={{
-      pageSize: 6,
+      pageSize: state.limit,
+      total: state.total,
+      onChange: (page: number, pageSize: number) => {
+        setState({
+          ...state,
+          page,
+          limit: pageSize
+        })
+      }
     }}
-    showActions="hover"
     metas={{
       title: {
-        dataIndex: 'user',
-        title: '用户',
+        dataIndex: 'projectName',
+        title: '项目名称',
+
       },
       avatar: {
         dataIndex: 'avatar',
         search: false,
+
       },
       description: {
-        dataIndex: 'title',
+        dataIndex: 'description',
         search: false,
+
       },
       subTitle: {
-        dataIndex: 'labels',
         render: (_, row) => {
+
           return (
             <Space size={0}>
-              {row.labels?.map((label: { name: string }) => (
-                <Tag color="blue" key={label.name}>
-                  {label.name}
-                </Tag>
-              ))}
+              <Tag color={'blue'} key={row.projectName}>
+                {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
+              </Tag>
+              {row.tags?.split(",").map((m: string, i: number) => {
+                return <Tag color={i % 2 == 0 ? "#5BD8A6" : "blue"}>{m}</Tag>
+              })}
             </Space>
+
           );
         },
+        dataIndex: 'type',
         search: false,
       },
       content: {
@@ -77,38 +141,13 @@ export default () => (
       },
       actions: {
         render: (text, row) => [
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="link">
-            链路
-          </a>,
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="warning">
-            报警
-          </a>,
-          <a href={row.url} target="_blank" rel="noopener noreferrer" key="view">
-            查看
-          </a>,
+          <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}/>,
+          <RemoveProject fetchProjects={() => fetchProjects(null)} project={row}/>,
+          <ConfigProject project={row} type={2}/>,
+          <OpenProject project={row} type={2}/>
         ],
         search: false,
       },
-      status: {
-        // 自己扩展的字段，主要用于筛选，不在列表中显示
-        title: '状态',
-        valueType: 'select',
-        valueEnum: {
-          all: { text: '全部', status: 'Default' },
-          open: {
-            text: '未解决',
-            status: 'Error',
-          },
-          closed: {
-            text: '已解决',
-            status: 'Success',
-          },
-          processing: {
-            text: '解决中',
-            status: 'Processing',
-          },
-        },
-      },
     }}
   />
-);
+};

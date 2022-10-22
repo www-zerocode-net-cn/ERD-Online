@@ -24,6 +24,7 @@ export const addProject = (data) => {
 export const pageProject = (params) => {
   return request.get('/ncnb/project/page', {
     params: {
+      ...params,
       page: params.page,
       limit: params.limit,
       projectName: params.projectName,

@@ -40,6 +40,10 @@
         component: './project/group',
       },
       {
+        path: '/project/group/setting',
+        component: './project/group/component/GroupSetting',
+      },
+      {
         name: 'new',
         path: '/project/new',
         component: './project/new',

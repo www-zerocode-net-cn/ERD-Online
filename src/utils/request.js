@@ -142,7 +142,7 @@ request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
   if (data) {
     const {code, msg} = data;
-    if (code !== 200) {
+    if (code && code !== 200) {
       const errorText = msg || codeMessage[code];
       notification.error({
         message: `请求提示 ${code}:`,

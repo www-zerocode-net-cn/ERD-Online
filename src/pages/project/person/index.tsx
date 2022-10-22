@@ -30,6 +30,7 @@ export default () => {
     page: 1,
     limit: 6,
     total: 0,
+    type: 1,
     projects: [],
     order: "createTime"
   });
@@ -141,7 +142,7 @@ export default () => {
         render: (text, row) => [
           <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}/>,
           <RemoveProject fetchProjects={() => fetchProjects(null)} project={row}/>,
-          <OpenProject project={row}/>
+          <OpenProject project={row} type={1}/>
         ],
         search: false,
       },
