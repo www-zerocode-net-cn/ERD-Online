@@ -13,7 +13,7 @@ const ConfigProject: React.FC<ConfigProjectProps> = (props) => {
   return (<>
     <Button type="primary" ghost onClick={() => {
       cache.setItem("projectId", props.project.id);
-      window.location.href = '/design/table/model';
+      window.location.href = '/project/group/setting';
     }}>
       权限配置
     </Button>

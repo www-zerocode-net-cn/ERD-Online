@@ -1,12 +1,13 @@
 import {
   ConsoleSqlOutlined,
   CrownFilled,
-  DatabaseOutlined, DeliveredProcedureOutlined,
+  DatabaseOutlined,
+  DeliveredProcedureOutlined,
   ExportOutlined,
-  FieldTimeOutlined, GlobalOutlined,
+  FieldTimeOutlined,
+  GlobalOutlined,
   ImportOutlined,
-  MediumOutlined,
-  RadiusSettingOutlined, SettingOutlined
+  SettingOutlined
 } from '@ant-design/icons';
 
 export default {

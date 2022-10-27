@@ -4,7 +4,6 @@ import * as cache from "@/utils/cache";
 
 export type OpenProjectProps = {
   project: any;
-  type: number;
 };
 
 const OpenProject: React.FC<OpenProjectProps> = (props) => {
@@ -15,7 +14,7 @@ const OpenProject: React.FC<OpenProjectProps> = (props) => {
       cache.setItem("projectId", props.project.id);
       window.location.href = '/design/table/model';
     }}>
-      {props.type === 1 ? "打开模型" : "打开模型"}
+      打开模型
     </Button>
   </>);
 }

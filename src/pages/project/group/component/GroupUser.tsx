@@ -1,52 +1,57 @@
-import React from "react";
-import { ProList } from '@ant-design/pro-components';
-import { Button, Space, Tag } from 'antd';
-import request from 'umi-request';
+import React, {useRef} from "react";
+import {ActionType, ProList} from '@ant-design/pro-components';
+import {Button, Popconfirm} from 'antd';
+import {get} from "@/services/crud";
 
-type GithubIssueItem = {
-  url: string;
-  id: number;
-  number: number;
+type ProjectUser = {
+  id: string;
+  username: string;
   title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
+  avatar: string;
+  email: string;
+
 };
 export type GroupUserProps = {};
 const GroupUser: React.FC<GroupUserProps> = (props) => {
+
   return (<>
-    <ProList<GithubIssueItem>
+    <ProList<ProjectUser>
       toolBarRender={() => {
         return [
           <Button key="3" type="primary">
-            新建
+            添加成员
           </Button>,
         ];
       }}
-      search={{}}
-      rowKey="name"
-      headerTitle="基础列表"
-      request={async (params = {}) =>
-        request<{
-          data: GithubIssueItem[];
-        }>('https://proapi.azurewebsites.net/github/issues', {
-          params,
-        })
+      search={{
+        filterType: 'light',
+      }}
+      rowKey="id"
+      request={async (params = {}) => {
+        const result = await get('/ncnb/project/role/users', {
+          ...params,
+          projectId: '6cd44fa2b90cf6aa94f4f6d83d316774',
+          roleId: '1b850e5d9ffc9c4e5b6bb363e835a204',
+        });
+        return {
+          data: result?.data?.records,
+          total: result?.data?.total,
+          success: result.code === 200
+        }
+      }
+
       }
       pagination={{
-        pageSize: 5,
+        pageSize: 6,
       }}
-      showActions="hover"
       metas={{
+        id: {
+          dataIndex: 'id',
+          hideInTable: true
+        },
         title: {
-          dataIndex: 'user',
-          title: '用户',
+          dataIndex: 'username',
+          title: '用户名',
         },
         avatar: {
           dataIndex: 'avatar',
@@ -56,54 +61,22 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
           dataIndex: 'title',
           search: false,
         },
-        subTitle: {
-          dataIndex: 'labels',
-          render: (_, row) => {
-            return (
-              <Space size={0}>
-                {row.labels?.map((label: { name: string }) => (
-                  <Tag color="blue" key={label.name}>
-                    {label.name}
-                  </Tag>
-                ))}
-              </Space>
-            );
-          },
-          search: false,
+        content: {
+          dataIndex: 'email',
+          title: '邮箱'
         },
         actions: {
           render: (text, row) => [
-            <a href={row.url} target="_blank" rel="noopener noreferrer" key="link">
-              链路
-            </a>,
-            <a href={row.url} target="_blank" rel="noopener noreferrer" key="warning">
-              报警
-            </a>,
-            <a href={row.url} target="_blank" rel="noopener noreferrer" key="view">
-              查看
-            </a>,
+            <Popconfirm placement="right" title={"是否将『" + row.username + "』移除"}
+                        onConfirm={() => alert(1)}
+                        okText="是"
+                        cancelText="否">
+              <a key="link">
+                移除
+              </a>
+            </Popconfirm>
           ],
           search: false,
-        },
-        status: {
-          // 自己扩展的字段，主要用于筛选，不在列表中显示
-          title: '状态',
-          valueType: 'select',
-          valueEnum: {
-            all: { text: '全部', status: 'Default' },
-            open: {
-              text: '未解决',
-              status: 'Error',
-            },
-            closed: {
-              text: '已解决',
-              status: 'Success',
-            },
-            processing: {
-              text: '解决中',
-              status: 'Processing',
-            },
-          },
         },
       }}
     />

@@ -155,11 +155,6 @@
         component: './design/test/Test3',
       },
       {
-        name: 'code',
-        path: '/design/code',
-        component: './design/code',
-      },
-      {
         component: './404',
       },
     ],

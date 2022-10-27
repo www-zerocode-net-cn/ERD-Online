@@ -2,15 +2,14 @@ import {ProList} from '@ant-design/pro-components';
 import {message, Space, Tag} from 'antd';
 import {useEffect, useState} from "react";
 import {pageProject} from "@/utils/save";
-import {ProjectListProps} from "@/pages/project/home/component/ProjectList";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
 import AddProject from "@/components/dialog/project/AddProject";
 import RenameProject from "@/components/dialog/project/RenameProject";
 import RemoveProject from "@/components/dialog/project/RemoveProject";
 import OpenProject from "@/components/dialog/project/OpenProject";
 import {searchProjects} from "@/pages/project/recent";
-import _ from "lodash";
 import ConfigProject from "@/components/dialog/project/ConfigProject";
+import {ProjectListProps} from "@/pages/project/person";
 
 
 type ProjectItem = {
@@ -144,7 +143,7 @@ export default () => {
           <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}/>,
           <RemoveProject fetchProjects={() => fetchProjects(null)} project={row}/>,
           <ConfigProject project={row} type={2}/>,
-          <OpenProject project={row} type={2}/>
+          <OpenProject project={row}/>
         ],
         search: false,
       },

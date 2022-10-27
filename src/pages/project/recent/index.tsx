@@ -2,11 +2,11 @@ import {ProList} from '@ant-design/pro-components';
 import {message, Tag} from 'antd';
 import  {useEffect, useState} from "react";
 import {pageProject} from "@/utils/save";
-import {ProjectListProps} from "@/pages/project/home/component/ProjectList";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
 import RenameProject from "@/components/dialog/project/RenameProject";
 import RemoveProject from "@/components/dialog/project/RemoveProject";
 import OpenProject from "@/components/dialog/project/OpenProject";
+import {ProjectListProps} from "@/pages/project/person";
 
 type ProjectItem = {
   id: number;

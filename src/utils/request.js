@@ -9,6 +9,7 @@ import * as cache from "./cache";
 
 import {history} from 'umi';
 
+
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -65,7 +66,8 @@ const errorHandler = error => {
     });
     return;
   }
-  if (status <= 504 && status >= 500) {
+  if (status <= 504 && status > 500) {
+    console.log(70, 'message');
     notification.error({
       message: `请求提示 ${status}: `,
       description: errorText,
@@ -93,11 +95,15 @@ const request = extend({
 
 
 request.interceptors.request.use((url, options) => {
+  // let params = (new URL(document.location)).searchParams;
+  // let projectId = params.get('projectId');
   if (url.indexOf('/oauth/token') < 0) {
     const authorization = cache.getItem('Authorization');
+    const projectId = cache.getItem('projectId');
     if (authorization) {
       options.headers = {
         ...options.headers,
+        'projectId':projectId,
         'Authorization': `Bearer ${authorization}`
       }
       return (

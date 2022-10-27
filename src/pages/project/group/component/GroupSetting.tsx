@@ -1,9 +1,10 @@
 import {ProCard} from '@ant-design/pro-components';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Space, Tabs, Typography} from "antd";
 import {PlusCircleTwoTone} from "@ant-design/icons";
 import GroupUser from "@/pages/project/group/component/GroupUser";
 import GroupPermission from "@/pages/project/group/component/GroupPermission";
+import {get} from "@/services/crud";
 
 const {Text, Title} = Typography;
 
@@ -11,7 +12,9 @@ const {Text, Title} = Typography;
 export type GroupSettingProps = {};
 const GroupSetting: React.FC<GroupSettingProps> = (props) => {
   const [tab, setTab] = useState('admin');
-  const tabs = <>
+  const [items, setItems] = useState([]);
+
+  const children = <>
     <Tabs
       defaultActiveKey="1"
       items={[
@@ -23,11 +26,30 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
         {
           label: <Text strong>权限配置</Text>,
           key: '3',
-          children: <GroupPermission values={{"id":1}}/>,
+          children: <GroupPermission values={{"id": 1}}/>,
         },
       ]}
     />
   </>;
+
+  useEffect(() => {
+    get('/ncnb/project/roles', {
+      projectId: '6cd44fa2b90cf6aa94f4f6d83d316774',
+    }).then(resp => {
+      const items = resp?.data?.map((d: { roleName: string; roleCode: string; }) => {
+        if (d.roleCode.includes('ADMIN')) {
+          setTab(d.roleCode);
+        }
+        return {
+          label: d.roleName,
+          key: d.roleCode,
+          children: children,
+        }
+      });
+      setItems(items);
+    });
+  }, []);
+
 
   return (
     <div>
@@ -40,23 +62,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
         tabs={{
           tabPosition: 'left',
           activeKey: tab,
-          items: [
-            {
-              label: `团队所有者`,
-              key: 'admin',
-              children: tabs,
-            },
-            {
-              label: `团队管理员`,
-              key: 'manager',
-              children: tabs,
-            },
-            {
-              label: `团队普通成员`,
-              key: 'common',
-              children: tabs,
-            },
-          ],
+          items: items,
           onChange: (key) => {
             setTab(key);
           },
