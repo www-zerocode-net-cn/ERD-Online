@@ -5,6 +5,8 @@ import {PlusCircleTwoTone} from "@ant-design/icons";
 import GroupUser from "@/pages/project/group/component/GroupUser";
 import GroupPermission from "@/pages/project/group/component/GroupPermission";
 import {get} from "@/services/crud";
+import {CONSTANT} from "@/utils/constant";
+import {useSearchParams} from "@@/exports";
 
 const {Text, Title} = Typography;
 
@@ -13,8 +15,9 @@ export type GroupSettingProps = {};
 const GroupSetting: React.FC<GroupSettingProps> = (props) => {
   const [tab, setTab] = useState('admin');
   const [items, setItems] = useState([]);
+  const [searchParams] = useSearchParams();
 
-  const children = (roleId: string) => {
+  const children = (roleId: string,isAdmin:boolean) => {
 
     return <>
       <Tabs
@@ -23,7 +26,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
           {
             label: <Text strong>用户组成员</Text>,
             key: '1',
-            children: <GroupUser roleId={roleId}/>,
+            children: <GroupUser roleId={roleId} isAdmin={isAdmin}/>,
           },
           {
             label: <Text strong>权限配置</Text>,
@@ -37,18 +40,19 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
 
   useEffect(() => {
     get('/ncnb/project/roles', {
-      projectId: '6cd44fa2b90cf6aa94f4f6d83d316774',
+      projectId: searchParams.get(CONSTANT.PROJECT_ID),
     }).then(resp => {
       const items = resp?.data?.map((d: {
           roleId: string; roleName: string; roleCode: string;
       }) => {
-        if (d.roleCode.includes('ADMIN')) {
+        const isAdmin = d.roleCode.includes('ADMIN');
+        if (isAdmin) {
           setTab(d.roleCode);
         }
         return {
           label: d.roleName,
           key: d.roleCode,
-          children: children(d.roleId),
+          children: children(d.roleId,isAdmin),
         }
       });
       setItems(items);

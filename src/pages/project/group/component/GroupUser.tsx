@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useRef} from "react";
 import {ProList} from '@ant-design/pro-components';
-import {Button, Popconfirm} from 'antd';
-import {get} from "@/services/crud";
+import {message, Popconfirm} from 'antd';
+import {del, get} from "@/services/crud";
 import {useSearchParams} from "@@/exports";
 import {CONSTANT} from "@/utils/constant";
+import AddUser from "@/pages/project/group/component/AddUser";
+import {ActionType} from "@ant-design/pro-table";
 
 
 type ProjectUser = {
@@ -16,50 +18,48 @@ type ProjectUser = {
 };
 export type GroupUserProps = {
   roleId: string;
+  isAdmin: boolean;
 };
 const GroupUser: React.FC<GroupUserProps> = (props) => {
 
   const [searchParams] = useSearchParams();
 
+  const actionRef = useRef<ActionType>();
+
   return (<>
     <ProList<ProjectUser>
+      actionRef={actionRef}
       toolBarRender={() => {
-        return [
-          <Button key="3" type="primary">
-            添加成员
-          </Button>,
+        return props.isAdmin ? [] : [
+          <AddUser roleId={props.roleId} actionRef={actionRef}/>,
         ];
       }}
       search={{
         filterType: 'light',
       }}
       rowKey="id"
-      request={async (params = {}) => {
-        const result = await get('/ncnb/project/role/users', {
-          ...params,
-          projectId: searchParams.get(CONSTANT.PROJECT_ID),
-          roleId: props.roleId,
-        });
-        return {
-          data: result?.data?.records,
-          total: result?.data?.total,
-          success: result.code === 200
+      request={
+        async (params = {}) => {
+          const result = await get('/ncnb/project/role/users', {
+            ...params,
+            projectId: searchParams.get(CONSTANT.PROJECT_ID),
+            roleId: props.roleId,
+          });
+          return {
+            data: result?.data?.records,
+            total: result?.data?.total,
+            success: result.code === 200
+          }
         }
-      }
-
       }
       pagination={{
         pageSize: 6,
       }}
       metas={{
-        id: {
-          dataIndex: 'id',
-          hideInTable: true,
-          search: false,
-        },
         title: {
           dataIndex: 'username',
           title: '用户名',
+          search: !props.isAdmin
         },
         avatar: {
           dataIndex: 'avatar',
@@ -71,12 +71,23 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
         },
         content: {
           dataIndex: 'email',
-          title: '邮箱'
+          title: '邮箱',
+          search: !props.isAdmin
+
         },
         actions: {
-          render: (text, row) => [
+          render: (text, row) => props.isAdmin ? [] : [
             <Popconfirm placement="right" title={"是否将『" + row.username + "』移除"}
-                        onConfirm={() => alert(1)}
+                        onConfirm={() => del("/ncnb/project/role/users", {
+                          roleId: props.roleId,
+                          userIds: [row.id],
+                        }).then((r) => {
+                          if (r.code === 200) {
+                            message.success("移除成功");
+                            actionRef.current?.reload();
+                          }
+                        })
+                        }
                         okText="是"
                         cancelText="否">
               <a key="link">

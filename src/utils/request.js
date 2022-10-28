@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 /**
  * request 网络请求工具
  * 更详细的api文档: https://bigfish.alipay.com/doc/api#request
@@ -6,9 +6,8 @@
 import {extend} from 'umi-request';
 import {notification} from 'antd';
 import * as cache from "./cache";
-
-import {history} from 'umi';
 import {CONSTANT} from "@/utils/constant";
+
 
 
 const codeMessage = {
