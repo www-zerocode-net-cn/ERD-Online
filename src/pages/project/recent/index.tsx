@@ -1,5 +1,5 @@
 import {ProList} from '@ant-design/pro-components';
-import {message, Tag} from 'antd';
+import {message, Space, Tag} from 'antd';
 import  {useEffect, useState} from "react";
 import {pageProject} from "@/utils/save";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
@@ -119,14 +119,21 @@ export default () => {
         ),
       },
       subTitle: {
-        dataIndex: 'type',
         render: (_, row) => {
+
           return (
-            <Tag color={'blue'} key={row.projectName}>
-              {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
-            </Tag>
+            <Space size={0}>
+              <Tag color={'blue'} key={row.projectName}>
+                {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
+              </Tag>
+              {row.tags?.split(",").map((m: string, i: number) => {
+                return <Tag color={i % 2 == 0 ? "#5BD8A6" : "blue"}>{m}</Tag>
+              })}
+            </Space>
+
           );
         },
+        dataIndex: 'type',
         search: false,
       },
       actions: {

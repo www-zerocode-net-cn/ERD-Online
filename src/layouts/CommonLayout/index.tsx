@@ -4,10 +4,11 @@ import {GithubFilled, InfoCircleFilled, PlusCircleFilled, QuestionCircleFilled} 
 import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
-import {Link} from "umi";
+import {Link} from "@umijs/max";
 import shallow from "zustand/shallow";
 import _ from 'lodash';
-import ProCard from "@ant-design/pro-card";
+import {ProCard} from "@ant-design/pro-components";
+import {Outlet} from "@@/exports";
 
 
 export interface CommonLayoutLayoutProps {
@@ -21,8 +22,6 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   // @ts-ignore
   const [pathname, setPathname] = useState(props?.location?.pathname || 'design/table/model');
 
-
-  const {children} = props;
   const {fetch, project} = useProjectStore(
     state => ({
       fetch: state.fetch,
@@ -175,7 +174,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
               minHeight: '85vh',
             }}
           >
-            {children}
+            <Outlet/>
           </ProCard>
         </PageContainer>
       </ProLayout>

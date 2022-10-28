@@ -1,7 +1,9 @@
-import React, {useRef} from "react";
-import {ActionType, ProList} from '@ant-design/pro-components';
+import React from "react";
+import {ProList} from '@ant-design/pro-components';
 import {Button, Popconfirm} from 'antd';
 import {get} from "@/services/crud";
+
+import { history } from 'umi';
 
 type ProjectUser = {
   id: string;
@@ -11,9 +13,10 @@ type ProjectUser = {
   email: string;
 
 };
-export type GroupUserProps = {};
+export type GroupUserProps = {
+  roleId: string;
+};
 const GroupUser: React.FC<GroupUserProps> = (props) => {
-
   return (<>
     <ProList<ProjectUser>
       toolBarRender={() => {
@@ -30,8 +33,8 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
       request={async (params = {}) => {
         const result = await get('/ncnb/project/role/users', {
           ...params,
-          projectId: '6cd44fa2b90cf6aa94f4f6d83d316774',
-          roleId: '1b850e5d9ffc9c4e5b6bb363e835a204',
+          projectId: history.location.search,
+          roleId: props.roleId,
         });
         return {
           data: result?.data?.records,
@@ -47,7 +50,8 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
       metas={{
         id: {
           dataIndex: 'id',
-          hideInTable: true
+          hideInTable: true,
+          search: false,
         },
         title: {
           dataIndex: 'username',

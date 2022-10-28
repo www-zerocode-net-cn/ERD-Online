@@ -1,9 +1,9 @@
 import {GithubFilled, InfoCircleFilled, QuestionCircleFilled,} from '@ant-design/icons';
-import ProCard from '@ant-design/pro-card';
 import {PageContainer, ProLayout, ProSettings} from '@ant-design/pro-layout';
 import React, {useState} from 'react';
 import defaultProps from './_defaultProps';
-import {Link} from "umi";
+import {Link, Outlet} from "@@/exports";
+import {ProCard} from '@ant-design/pro-components';
 
 
 export interface HomeLayoutLayoutProps {
@@ -12,8 +12,6 @@ export interface HomeLayoutLayoutProps {
 
 const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
-
-  const {children} = props;
 
   const settings: ProSettings | undefined = {
     "layout": "mix",
@@ -104,7 +102,7 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
             minHeight: '85vh',
           }}
         >
-          {children}
+          <Outlet/>
         </ProCard>
       </PageContainer>
     </ProLayout>

@@ -14,36 +14,41 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
   const [tab, setTab] = useState('admin');
   const [items, setItems] = useState([]);
 
-  const children = <>
-    <Tabs
-      defaultActiveKey="1"
-      items={[
-        {
-          label: <Text strong>用户组成员</Text>,
-          key: '1',
-          children: <GroupUser/>,
-        },
-        {
-          label: <Text strong>权限配置</Text>,
-          key: '3',
-          children: <GroupPermission values={{"id": 1}}/>,
-        },
-      ]}
-    />
-  </>;
+  const children = (roleId: string) => {
+
+    return <>
+      <Tabs
+        defaultActiveKey="1"
+        items={[
+          {
+            label: <Text strong>用户组成员</Text>,
+            key: '1',
+            children: <GroupUser roleId={roleId}/>,
+          },
+          {
+            label: <Text strong>权限配置</Text>,
+            key: '3',
+            children: <GroupPermission values={{"id": 1}}/>,
+          },
+        ]}
+      />
+    </>;
+  }
 
   useEffect(() => {
     get('/ncnb/project/roles', {
       projectId: '6cd44fa2b90cf6aa94f4f6d83d316774',
     }).then(resp => {
-      const items = resp?.data?.map((d: { roleName: string; roleCode: string; }) => {
+      const items = resp?.data?.map((d: {
+          roleId: string; roleName: string; roleCode: string;
+      }) => {
         if (d.roleCode.includes('ADMIN')) {
           setTab(d.roleCode);
         }
         return {
           label: d.roleName,
           key: d.roleCode,
-          children: children,
+          children: children(d.roleId),
         }
       });
       setItems(items);

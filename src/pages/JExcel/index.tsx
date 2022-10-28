@@ -5,7 +5,7 @@ import jspreadsheet from "jspreadsheet-ce";
 import _ from 'lodash';
 import "jspreadsheet-ce/dist/jspreadsheet.css";
 import "jspreadsheet-ce/dist/jspreadsheet.datatables.css";
-import "jsuites/dist/jsuites.css"
+// import "jsuites/dist/jsuites.css"
 
 import "./index.less"
 

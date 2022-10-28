@@ -140,11 +140,6 @@
         component: './design/relation',
       },
       {
-        name: 'test',
-        path: '/design/test',
-        component: './design/test',
-      },
-      {
         name: 'test2',
         path: '/design/test2',
         component: './design/test/Test2'
