@@ -20,6 +20,7 @@ import useGlobalStore from "@/store/global/globalStore";
 import produce from "immer";
 import {IExportDispatchSlice, IExportSlice} from "@/store/project/exportSlice";
 import {message} from "antd";
+import {CONSTANT} from "@/utils/constant";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -62,7 +63,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
       (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
         project: {},
         fetch: async () => {
-          const projectId = cache.getItem('projectId');
+          const projectId = cache.getItem(CONSTANT.PROJECT_ID);
           await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {
             console.log(45, res);
             const data = res?.data;

@@ -2,8 +2,9 @@ import React from "react";
 import {ProList} from '@ant-design/pro-components';
 import {Button, Popconfirm} from 'antd';
 import {get} from "@/services/crud";
+import {useSearchParams} from "@@/exports";
+import {CONSTANT} from "@/utils/constant";
 
-import { history } from 'umi';
 
 type ProjectUser = {
   id: string;
@@ -17,6 +18,9 @@ export type GroupUserProps = {
   roleId: string;
 };
 const GroupUser: React.FC<GroupUserProps> = (props) => {
+
+  const [searchParams] = useSearchParams();
+
   return (<>
     <ProList<ProjectUser>
       toolBarRender={() => {
@@ -33,7 +37,7 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
       request={async (params = {}) => {
         const result = await get('/ncnb/project/role/users', {
           ...params,
-          projectId: history.location.search,
+          projectId: searchParams.get(CONSTANT.PROJECT_ID),
           roleId: props.roleId,
         });
         return {

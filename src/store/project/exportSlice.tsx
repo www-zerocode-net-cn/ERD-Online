@@ -11,6 +11,7 @@ import {generateHtml} from "@/utils/generatehtml";
 import {getAllDataSQLByFilter} from "@/utils/json2code";
 import produce from "immer";
 import moment from "moment";
+import {CONSTANT} from "@/utils/constant";
 
 export type IExportSlice = {
   exportSliceState?: any;
@@ -71,7 +72,7 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
           a[b] = images[b].replace('data:image/png;base64,', '');
           return a;
         }, {});
-        const projectId = cache.getItem('projectId');
+        const projectId = cache.getItem(CONSTANT.PROJECT_ID);
         const defaultDatabase = get().dispatch.getCurrentDBData();
         console.log(59, defaultDatabase);
         request.post('/ncnb/doc/gendocx', {

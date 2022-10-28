@@ -1,6 +1,7 @@
 import * as cache from '@/utils/cache';
 
 import request from "@/utils/request";
+import {CONSTANT} from "@/utils/constant";
 
 
 // 新增项目
@@ -32,7 +33,7 @@ export const pageProject = (params: any) => {
 
 // 保存项目
 export const saveProject = (data: any) => {
-  const id = cache.getItem('projectId');
+  const id = cache.getItem(CONSTANT.PROJECT_ID);
   return request.post('/ncnb/project/save', {
     data: {
       ...data,

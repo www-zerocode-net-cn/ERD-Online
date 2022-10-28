@@ -8,6 +8,7 @@ import {notification} from 'antd';
 import * as cache from "./cache";
 
 import {history} from 'umi';
+import {CONSTANT} from "@/utils/constant";
 
 
 const codeMessage = {
@@ -96,14 +97,14 @@ const request = extend({
 
 request.interceptors.request.use((url, options) => {
   // let params = (new URL(document.location)).searchParams;
-  // let projectId = params.get('projectId');
+  // let projectId = params.get(CONSTANT.PROJECT_ID);
   if (url.indexOf('/oauth/token') < 0) {
     const authorization = cache.getItem('Authorization');
-    const projectId = cache.getItem('projectId');
+    const projectId = cache.getItem(CONSTANT.PROJECT_ID);
     if (authorization) {
       options.headers = {
         ...options.headers,
-        'projectId':projectId,
+        projectId:projectId,
         'Authorization': `Bearer ${authorization}`
       }
       return (

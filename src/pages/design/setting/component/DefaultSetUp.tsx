@@ -4,12 +4,13 @@ import * as cache from "@/utils/cache";
 import {Button, message} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
+import {CONSTANT} from "@/utils/constant";
 
 
 export type DefaultSetUpProps = {};
 
 const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
-  const projectId = cache.getItem('projectId');
+  const projectId = cache.getItem(CONSTANT.PROJECT_ID);
 
   const {projectDispatch, profile} = useProjectStore(state => ({
     projectDispatch: state.dispatch,
