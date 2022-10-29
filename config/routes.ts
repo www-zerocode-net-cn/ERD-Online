@@ -19,6 +19,20 @@
     ],
   },
   {
+    path: '/register',
+    layout: false,
+    routes: [
+      {
+        name: 'register',
+        path: '/register',
+        component: './register',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+  {
     path: '/project',
     layout: false,
     component: '../layouts/HomeLayout',

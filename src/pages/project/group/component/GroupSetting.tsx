@@ -1,7 +1,6 @@
 import {ProCard} from '@ant-design/pro-components';
 import React, {useEffect, useState} from 'react';
 import {Space, Tabs, Typography} from "antd";
-import {PlusCircleTwoTone} from "@ant-design/icons";
 import GroupUser from "@/pages/project/group/component/GroupUser";
 import GroupPermission from "@/pages/project/group/component/GroupPermission";
 import {get} from "@/services/crud";
@@ -45,7 +44,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
       const items = resp?.data?.map((d: {
           roleId: string; roleName: string; roleCode: string;
       }) => {
-        const isAdmin = d.roleCode.includes('ADMIN');
+        const isAdmin = d.roleCode.includes('_0');
         if (isAdmin) {
           setTab(d.roleCode);
         }
@@ -64,7 +63,9 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
     <div>
       <Space size={'large'}>
         <Title level={4}>用户组 </Title>
+{/*
         <Title level={3}> <PlusCircleTwoTone/></Title>
+*/}
       </Space>
       <br/>
       <ProCard
