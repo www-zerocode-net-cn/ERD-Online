@@ -861,10 +861,10 @@ export default class G6Relation extends React.Component {
       plugins: [miniMap],
       grid: {
         forceAlign: true, // 是否支持网格对齐
-        cell: 5,         // 网格大小
+        cell: 10,         // 网格大小
         line: {         // 网格线样式
-          stroke: '#444c58',
-          opacity: 0.5
+          stroke: '#535c69',
+          opacity: 0.05
         },
       },
     });
