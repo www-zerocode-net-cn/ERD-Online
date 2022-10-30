@@ -35,9 +35,7 @@ export interface CommonLayoutLayoutProps {
 
 const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   console.log(17, props);
-  // @ts-ignore
-  console.log(18, props?.location?.pathname);
-  const [pathname, setPathname] = useState('design/table/model');
+  const [pathname, setPathname] = useState('/design/table/model');
 
   const {fetch, project} = useProjectStore(
     state => ({
