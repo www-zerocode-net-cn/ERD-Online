@@ -1,6 +1,5 @@
 import {ProList} from '@ant-design/pro-components';
 import {Tag} from 'antd';
-import {FileMarkdownTwoTone, FileTextTwoTone, FileWordTwoTone, Html5TwoTone} from "@ant-design/icons";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {FileDisplay, FileLock, FileWord, HtmlFive} from "@icon-park/react";

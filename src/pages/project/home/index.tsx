@@ -1,6 +1,6 @@
 import {ProCard, StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 const {Statistic} = StatisticCard;
 
@@ -8,6 +8,44 @@ export type HomeProps = {};
 const Home: React.FC<HomeProps> = (props) => {
 
   const [responsive, setResponsive] = useState(false);
+
+  const [dateInfo, setDateInfo] = useState('2019年9月28日 星期五');
+
+
+  useEffect(() => {
+    let time = new Date();
+    let year = time.getFullYear();
+    let month = time.getMonth() + 1;
+    let date = time.getDate();
+    let hour = time.getHours();
+    let minutes = time.getMinutes();
+    let second = time.getSeconds();
+    // @ts-ignore
+    month < 10 ? (month = "0" + month) : month;
+    // month = month + 1;
+    // @ts-ignore
+    hour < 10 ? (hour = "0" + hour) : hour;
+    // @ts-ignore
+    minutes < 10 ? (minutes = "0" + minutes) : minutes;
+    // @ts-ignore
+    second < 10 ? (second = "0" + second) : second;
+    let now_time =
+
+      year +
+      "年" +
+      month +
+      "月" +
+      date +
+      "日" +
+      " " +
+      hour +
+      ":" +
+      minutes +
+      ":" +
+      second;
+    setDateInfo(now_time);
+    setInterval(() => setDateInfo(now_time), 1000);
+  })
 
   return (
     <RcResizeObserver
@@ -18,7 +56,7 @@ const Home: React.FC<HomeProps> = (props) => {
     >
       <ProCard
         title="数据概览"
-        extra="2019年9月28日 星期五"
+        extra={dateInfo}
         split={responsive ? 'horizontal' : 'vertical'}
         headerBordered
         bordered
@@ -28,30 +66,30 @@ const Home: React.FC<HomeProps> = (props) => {
             <ProCard split="vertical">
               <StatisticCard
                 statistic={{
-                  title: '昨日全部流量',
+                  title: '昨日全部模型',
                   value: 234,
-                  description: <Statistic title="较本月平均流量" value="8.04%" trend="down"/>,
+                  description: <Statistic title="较本月平均模型" value="8.04%" trend="down"/>,
                 }}
               />
               <StatisticCard
                 statistic={{
-                  title: '本月累计流量',
+                  title: '本月累计模型',
                   value: 234,
-                  description: <Statistic title="月同比" value="8.04%" trend="up"/>,
+                  description: <Statistic title="月同比" value="8.88%" trend="up"/>,
                 }}
               />
             </ProCard>
             <ProCard split="vertical">
               <StatisticCard
                 statistic={{
-                  title: '运行中实验',
+                  title: '设计中模型',
                   value: '12/56',
                   suffix: '个',
                 }}
               />
               <StatisticCard
                 statistic={{
-                  title: '历史实验总数',
+                  title: '历史模型总数',
                   value: '134',
                   suffix: '个',
                 }}
@@ -59,25 +97,15 @@ const Home: React.FC<HomeProps> = (props) => {
             </ProCard>
           </ProCard>
           <StatisticCard
-            title="流量走势"
+            title="模型走势"
             chart={
               <img
-                src="https://gw.alipayobjects.com/zos/alicdn/_dZIob2NB/zhuzhuangtu.svg"
-                width="100%"
+                src="/zhuzhuangtu.svg"
               />
             }
           />
         </ProCard>
-        <StatisticCard
-          title="流量占用情况"
-          chart={
-            <img
-              src="https://gw.alipayobjects.com/zos/alicdn/qoYmFMxWY/jieping2021-03-29%252520xiawu4.32.34.png"
-              alt="大盘"
-              width="100%"
-            />
-          }
-        />
+
       </ProCard>
     </RcResizeObserver>
   );

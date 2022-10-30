@@ -1,11 +1,10 @@
-import {GithubFilled, InfoCircleFilled, QuestionCircleFilled,} from '@ant-design/icons';
 import {PageContainer, ProLayout, ProSettings} from '@ant-design/pro-layout';
 import React, {useState} from 'react';
 import defaultProps from './_defaultProps';
 import {Link, Outlet} from "@@/exports";
 import {ProCard, WaterMark} from '@ant-design/pro-components';
-import {Camera, Me} from "@icon-park/react";
-import {headRightContent} from "@/layouts/CommonLayout";
+import {Me} from "@icon-park/react";
+import {avatarTitle, headRightContent} from "@/layouts/CommonLayout";
 
 
 export interface HomeLayoutLayoutProps {
@@ -36,9 +35,8 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
           pathname,
         }}
         avatarProps={{
-          src: <Me theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
-          size: 'small',
-          title: '七妮妮',
+          src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
+          title: avatarTitle,
         }}
         actionsRender={(props) => {
           if (props.isMobile) return [];

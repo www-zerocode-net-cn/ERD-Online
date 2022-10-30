@@ -9,14 +9,28 @@ import _ from 'lodash';
 import {ProCard, WaterMark} from "@ant-design/pro-components";
 import {Outlet} from "@@/exports";
 import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
+import {Popover, Image, Button, Dropdown} from "antd";
+
 
 export const headRightContent = [
-  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img src='https://gitee.com/MARTIN-88/erd-online/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>,
-  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online/stargazers'><img src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=white' alt='star'></img></a>,
-  <TwoDimensionalCodeOne title={"公众号"} theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
-  <TwoDimensionalCodeTwo title={"微信群"} theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
-  <WeixinMiniApp title={"小程序"} theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img
+    src='https://gitee.com/MARTIN-88/erd-online/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>,
+  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online/stargazers'><img
+    src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=white' alt='star'></img></a>,
+  <Popover placement="bottom" title="公众号" content={<Image src="/gongzhonghao.jpg"/>} trigger="hover">
+    <TwoDimensionalCodeOne theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
+  </Popover>,
+  <Popover placement="bottom" title="微信群" content={<Image src="/zerocode.png"/>} trigger="hover">
+    <TwoDimensionalCodeTwo theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
+  </Popover>,
+  <Popover placement="bottom" title="小程序" content={<Image src="/xiaochengxu.jpg"/>} trigger="hover">
+    <WeixinMiniApp theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
+  </Popover>
 ];
+
+export const avatarTitle = <Dropdown overlay={<Button>退出登录</Button>} placement="bottom" arrow={{pointAtCenter: true}}>
+  <div>七妮妮</div>
+</Dropdown>;
 
 export interface CommonLayoutLayoutProps {
   children: any;
@@ -46,6 +60,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     layout: 'mix',
     splitMenus: true,
   };
+
 
 
   return (
@@ -84,7 +99,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         avatarProps={{
           src: <Me theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           size: 'small',
-          title: <div>七妮妮1</div>,
+          title: avatarTitle,
         }}
         menuExtraRender={(props) => {
           console.log(118, props)

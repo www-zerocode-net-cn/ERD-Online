@@ -1,14 +1,4 @@
-import {
-  BorderRightOutlined,
-  ChromeFilled,
-  CrownFilled, FireOutlined, GlobalOutlined, HomeOutlined,
-  MediumOutlined,
-  SmileFilled,
-  TabletFilled, TeamOutlined,
-  UsergroupAddOutlined,
-  UserOutlined
-} from '@ant-design/icons';
-import {EveryUser, HomeTwo, Sphere, Timeline, User, WebPage} from "@icon-park/react";
+import {EveryUser, HomeTwo, Sphere, Timeline, User} from "@icon-park/react";
 
 export default {
   route: {
