@@ -4,7 +4,10 @@ import defaultProps from './_defaultProps';
 import {Link, Outlet} from "@@/exports";
 import {ProCard, WaterMark} from '@ant-design/pro-components';
 import {Me} from "@icon-park/react";
-import {avatarTitle, headRightContent} from "@/layouts/CommonLayout";
+import { headRightContent} from "@/layouts/CommonLayout";
+import {Button, Dropdown} from "antd";
+import {logout} from "@/utils/request";
+import * as cache from "@/utils/cache";
 
 
 export interface HomeLayoutLayoutProps {
@@ -36,7 +39,9 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
         }}
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
-          title: avatarTitle,
+          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom" arrow={{pointAtCenter: true}}>
+            <div>{cache.getItem('username')}</div>
+          </Dropdown>,
         }}
         actionsRender={(props) => {
           if (props.isMobile) return [];

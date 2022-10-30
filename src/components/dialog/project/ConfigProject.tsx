@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from "antd";
 import * as cache from "@/utils/cache";
+import {history} from "@@/core/history";
 
 export type ConfigProjectProps = {
   project: any;
@@ -13,7 +14,9 @@ const ConfigProject: React.FC<ConfigProjectProps> = (props) => {
   return (<>
     <Button type="primary" ghost onClick={() => {
       cache.setItem("projectId", props.project.id);
-      window.location.href = '/project/group/setting?projectId=' + props.project.id;
+      history.push({
+        pathname: '/project/group/setting?projectId=' + props.project.id
+      });
     }}>
       权限配置
     </Button>

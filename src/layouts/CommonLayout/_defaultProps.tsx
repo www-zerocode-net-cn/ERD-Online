@@ -24,7 +24,6 @@ export default {
         icon: <DatabaseNetwork theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         routes: [
           {
-            exact: true,
             path: 'https://www.zerocode.net.cn/',
             name: 'ERD Online Pro 论坛',
             icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>

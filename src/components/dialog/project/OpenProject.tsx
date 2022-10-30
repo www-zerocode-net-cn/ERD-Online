@@ -14,7 +14,7 @@ const OpenProject: React.FC<OpenProjectProps> = (props) => {
     <Button type="primary" ghost onClick={() => {
       cache.setItem("projectId", props.project.id);
       history.push({
-        pathname: '/design/table/model?projectId=' + props.project.id
+        pathname: '/design/table/version?projectId=' + props.project.id
       });
     }}>
       打开模型

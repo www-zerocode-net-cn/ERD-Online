@@ -141,4 +141,9 @@ request.interceptors.response.use(async (response, options) => {
 });
 
 
+export const logout = () => {
+  cache.setItem(CONSTANT.PROJECT_ID, "");
+  history.push("/login");
+}
+
 export default request;

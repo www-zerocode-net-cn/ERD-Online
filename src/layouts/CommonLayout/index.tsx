@@ -10,13 +10,11 @@ import {ProCard, WaterMark} from "@ant-design/pro-components";
 import {Outlet} from "@@/exports";
 import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
 import {Popover, Image, Button, Dropdown} from "antd";
+import {logout} from "@/utils/request";
+import * as cache from "@/utils/cache";
 
 
 export const headRightContent = [
-  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img
-    src='https://gitee.com/MARTIN-88/erd-online/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>,
-  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online/stargazers'><img
-    src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=white' alt='star'></img></a>,
   <Popover placement="bottom" title="公众号" content={<Image src="/gongzhonghao.jpg"/>} trigger="hover">
     <TwoDimensionalCodeOne theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
   </Popover>,
@@ -25,12 +23,12 @@ export const headRightContent = [
   </Popover>,
   <Popover placement="bottom" title="小程序" content={<Image src="/xiaochengxu.jpg"/>} trigger="hover">
     <WeixinMiniApp theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
-  </Popover>
+  </Popover>,
+  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img
+    src='https://gitee.com/MARTIN-88/erd-online/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>,
+  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online/stargazers'><img
+    src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=white' alt='star'></img></a>,
 ];
-
-export const avatarTitle = <Dropdown overlay={<Button>退出登录</Button>} placement="bottom" arrow={{pointAtCenter: true}}>
-  <div>七妮妮</div>
-</Dropdown>;
 
 export interface CommonLayoutLayoutProps {
   children: any;
@@ -97,9 +95,11 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
           type: 'group',
         }}
         avatarProps={{
-          src: <Me theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+          src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
           size: 'small',
-          title: avatarTitle,
+          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom" arrow={{pointAtCenter: true}}>
+            <div>{cache.getItem('username')}</div>
+          </Dropdown>,
         }}
         menuExtraRender={(props) => {
           console.log(118, props)

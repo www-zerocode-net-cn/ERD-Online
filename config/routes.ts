@@ -1,7 +1,6 @@
 ﻿export default [
   {
     path: '/login',
-    layout: false,
     routes: [
       {
         name: 'login',
@@ -20,7 +19,7 @@
   },
   {
     path: '/register',
-    layout: false,
+
     routes: [
       {
         name: 'register',
@@ -34,7 +33,6 @@
   },
   {
     path: '/project',
-    layout: false,
     component: '../layouts/HomeLayout',
     routes: [
       {
@@ -69,7 +67,6 @@
   },
   {
     path: '/design',
-    layout: false,
     component: '../layouts/CommonLayout',
     routes: [
       {
@@ -171,7 +168,7 @@
   {
     name: 'test',
     path: '/test',
-    layout: false,
+
     component: '../layouts/CommonLayout',
     routes: [
       {
