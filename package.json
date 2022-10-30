@@ -64,6 +64,7 @@
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@handsontable/react": "^5.0.0",
+    "@icon-park/react": "^1.4.2",
     "@mui/icons-material": "^5.2.5",
     "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.1",

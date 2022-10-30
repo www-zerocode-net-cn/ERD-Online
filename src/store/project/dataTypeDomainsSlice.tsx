@@ -3,6 +3,7 @@ import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import {message} from "antd";
 import _ from "lodash";
+import {Data, DatabasePoint, DataNull, DataUser} from "@icon-park/react";
 
 export type IDataTypeDomainsSlice = {
   currentDataType?: string;
@@ -68,6 +69,7 @@ const DataTypeDomainsSlice = (set: SetState<ProjectState>, get: GetState<Project
       return {
         type: 'dataType',
         code: datatype.code,
+        icon: <DataNull theme="filled" size="13" fill="#DE2910" strokeWidth={2}/>,
         title: datatype.name,
         isLeaf: true,
         key: `datatype${datatype.name}`,
@@ -77,24 +79,27 @@ const DataTypeDomainsSlice = (set: SetState<ProjectState>, get: GetState<Project
       return {
         type: 'database',
         code: database.code,
+        icon: <DatabasePoint theme="filled" size="13" fill="#DE2910" strokeWidth={2}/>,
         title: database.code,
         isLeaf: true,
         key: `database${database.code}`,
       }
     });
-    console.log(73, 'getDataTypeTree', dataTypes,databases);
+    console.log(73, 'getDataTypeTree', dataTypes, databases);
 
     return [{
       type: 'dataType',
       title: '字段类型',
+      icon: <DataUser theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
       code: '###menu###',
       isLeaf: false,
       key: `datatype###datatype`,
       children: dataTypes
-    },{
+    }, {
       type: 'database',
       code: '###menu###',
       title: '数据源',
+      icon: <Data theme="filled" size="13" fill="#DE2910" strokeWidth={2}/>,
       isLeaf: false,
       key: `database###database`,
       children: databases

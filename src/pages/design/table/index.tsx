@@ -107,6 +107,9 @@ const Table: React.FC<TableProps> = (props) => {
         </Tabs>
         : <Empty
           image="/empty.svg"
+          imageStyle={{
+            height: 200,
+          }}
           style={{
             marginTop: '100px'
           }}

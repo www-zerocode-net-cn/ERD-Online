@@ -89,7 +89,10 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
                 activeDataTypeOrDatabase("database", node.code);
                 activeDatabasePanel();
               }
-            }}>{node.title}</Button>
+            }}>
+            <span style={{marginRight:'6px'}}>{node.icon}</span>
+            <span>{node.title}</span>
+          </Button>
         </Dropdown>
       }}
     >

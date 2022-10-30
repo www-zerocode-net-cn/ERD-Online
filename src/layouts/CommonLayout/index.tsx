@@ -1,15 +1,22 @@
 import React, {useState} from 'react';
 import useProjectStore from "@/store/project/useProjectStore";
-import {GithubFilled, InfoCircleFilled, PlusCircleFilled, QuestionCircleFilled} from "@ant-design/icons";
 import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
 import {Link} from "@umijs/max";
 import shallow from "zustand/shallow";
 import _ from 'lodash';
-import {ProCard} from "@ant-design/pro-components";
+import {ProCard, WaterMark} from "@ant-design/pro-components";
 import {Outlet} from "@@/exports";
+import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
 
+export const headRightContent = [
+  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img src='https://gitee.com/MARTIN-88/erd-online/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>,
+  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online/stargazers'><img src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=white' alt='star'></img></a>,
+  <TwoDimensionalCodeOne title={"公众号"} theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+  <TwoDimensionalCodeTwo title={"微信群"} theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+  <WeixinMiniApp title={"小程序"} theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+];
 
 export interface CommonLayoutLayoutProps {
   children: any;
@@ -42,12 +49,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
 
 
   return (
-    <div
-      id="test-pro-layout"
-      style={{
-        height: '100vh',
-      }}
-    >
+    <WaterMark content={['ERD Online', 'V4.0.3']}>
       <ProLayout
         logo={"/logo.svg"}
         // @ts-ignore
@@ -80,9 +82,9 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
           type: 'group',
         }}
         avatarProps={{
-          src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+          src: <Me theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           size: 'small',
-          title: <div>七妮妮</div>,
+          title: <div>七妮妮1</div>,
         }}
         menuExtraRender={(props) => {
           console.log(118, props)
@@ -94,33 +96,8 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         siderWidth={333}
         actionsRender={(props) => {
           if (props.isMobile) return [];
-          return [
-            props.layout !== 'side' && document.body.clientWidth > 1400 ? (
-              <div
-                key="SearchOutlined"
-                aria-hidden
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginInlineEnd: 24,
-                }}
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                }}
-              >
-                <PlusCircleFilled
-                  style={{
-                    color: 'var(--ant-primary-color)',
-                    fontSize: 24,
-                  }}
-                />
-              </div>
-            ) : undefined,
-            <InfoCircleFilled key="InfoCircleFilled"/>,
-            <QuestionCircleFilled key="QuestionCircleFilled"/>,
-            <GithubFilled key="GithubFilled"/>,
-          ];
+
+          return headRightContent;
         }}
         menuFooterRender={(props) => {
           if (props?.collapsed) return undefined;
@@ -150,7 +127,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
 
           item.path?.startsWith('http') || item.exact ?
             <a href={item.path} target={'_blank'}>
-              {item.icon} {item.name}
+              {dom}
             </a>
             :
             <a
@@ -178,7 +155,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
           </ProCard>
         </PageContainer>
       </ProLayout>
-    </div>
+    </WaterMark>
   );
 }
 export default React.memo(CommonLayout)

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Icon} from "@blueprintjs/core";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import useTabStore from "@/store/tab/useTabStore";
@@ -14,6 +13,7 @@ import {makeStyles} from "@mui/styles";
 import {Dropdown, Empty, Menu, Tree} from "antd";
 import useShortcutStore from "@/store/shortcut/useShortcutStore";
 import useGlobalStore from "@/store/global/globalStore";
+import {Data, RelationalGraph, TableFile} from "@icon-park/react";
 
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
@@ -200,8 +200,12 @@ const DataTable: React.FC<DataTableProps> = (props) => {
               }
               e.dataTransfer.setData("Text", value);
             }} draggable="true">
-              <Icon icon={node.type === "module" ? "database" : node.type === "relation" ? "many-to-many" : "th"}
-                    className={classes.labelIcon}/>
+              <div style={{marginRight: "6px"}}>
+                {node.type === "module" ? <Data theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
+                  : node.type === "relation" ? <RelationalGraph theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
+                    : <TableFile theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
+                }
+              </div>
               <Typography variant="body2" className={classes.labelText}>
                 {node.title}
               </Typography>

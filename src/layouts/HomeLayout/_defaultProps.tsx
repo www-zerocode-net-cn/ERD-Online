@@ -8,6 +8,7 @@ import {
   UsergroupAddOutlined,
   UserOutlined
 } from '@ant-design/icons';
+import {EveryUser, HomeTwo, Sphere, Timeline, User, WebPage} from "@icon-park/react";
 
 export default {
   route: {
@@ -16,28 +17,28 @@ export default {
       {
         path: '/project/home',
         name: '首页',
-        icon: <HomeOutlined />,
+        icon: <HomeTwo theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
       },
       {
         path: '/project/recent',
         name: '最近',
-        icon: <FireOutlined />,
+        icon: <Timeline theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
       },
       {
         path: '/project/person',
         name: '个人',
-        icon: <UserOutlined />,
+        icon: <User theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
       },
       {
         path: '/project/group',
         name: '团队',
-        icon: <TeamOutlined />,
+        icon: <EveryUser theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
       },
       {
         exact: true,
         path: 'https://www.zerocode.net.cn/',
         name: 'ERD Online Pro 论坛',
-        icon: <GlobalOutlined />
+        icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
       },
     ],
   },

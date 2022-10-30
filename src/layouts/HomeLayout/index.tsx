@@ -3,7 +3,9 @@ import {PageContainer, ProLayout, ProSettings} from '@ant-design/pro-layout';
 import React, {useState} from 'react';
 import defaultProps from './_defaultProps';
 import {Link, Outlet} from "@@/exports";
-import {ProCard} from '@ant-design/pro-components';
+import {ProCard, WaterMark} from '@ant-design/pro-components';
+import {Camera, Me} from "@icon-park/react";
+import {headRightContent} from "@/layouts/CommonLayout";
 
 
 export interface HomeLayoutLayoutProps {
@@ -24,88 +26,70 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   };
 
   return (
-    <ProLayout
-      logo={"/logo.svg"}
-      // @ts-ignore
-      title={<Link to={"/"}>ERD Online Pro</Link>}
-      {...defaultProps}
-      location={{
-        pathname,
-      }}
-      avatarProps={{
-        src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-        size: 'small',
-        title: '七妮妮',
-      }}
-      actionsRender={(props) => {
-        if (props.isMobile) return [];
-        return [
-          props.layout !== 'side' ? (
+    <WaterMark content={['ERD Online', 'V4.0.3']}>
+      <ProLayout
+        logo={"/logo.svg"}
+        // @ts-ignore
+        title={<Link to={"/"}>ERD Online Pro</Link>}
+        {...defaultProps}
+        location={{
+          pathname,
+        }}
+        avatarProps={{
+          src: <Me theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+          size: 'small',
+          title: '七妮妮',
+        }}
+        actionsRender={(props) => {
+          if (props.isMobile) return [];
+          return headRightContent;
+        }}
+        menuFooterRender={(props) => {
+          if (props?.collapsed) return undefined;
+          return (
             <div
-              key="SearchOutlined"
-              aria-hidden
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginInlineEnd: 24,
-              }}
-              onMouseDown={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
+                textAlign: 'center',
+                paddingBlockStart: 12,
               }}
             >
+              <div>© 2022 Made with 零代</div>
+              <div>ERD Online Pro</div>
             </div>
-          ) : undefined,
-          <InfoCircleFilled key="InfoCircleFilled"/>,
-          <QuestionCircleFilled key="QuestionCircleFilled"/>,
-          <GithubFilled key="GithubFilled"/>,
-        ];
-      }}
-      menuFooterRender={(props) => {
-        if (props?.collapsed) return undefined;
-        return (
-          <div
-            style={{
-              textAlign: 'center',
-              paddingBlockStart: 12,
-            }}
-          >
-            <div>© 2022 Made with 零代</div>
-            <div>ERD Online Pro</div>
-          </div>
-        );
-      }}
-      onMenuHeaderClick={(e) => console.log(e)}
-      menuItemRender={(item, dom) => (
-        item.path?.startsWith('http') || item.exact ?
-          <a href={item.path} target={'_blank'}>
-            {item.icon} {item.name}
-          </a>
-          :
+          );
+        }}
+        onMenuHeaderClick={(e) => console.log(e)}
+        menuItemRender={(item, dom) => (
+          item.path?.startsWith('http') || item.exact ?
+            <a href={item.path} target={'_blank'}>
+              {dom}
+            </a>
+            :
 
-          <a
-            onClick={() => {
-              console.log(153, item);
-              setPathname(item.path || '/project');
+            <a
+              onClick={() => {
+                console.log(153, item);
+                setPathname(item.path || '/project');
+              }}
+            >
+              <Link to={item?.path || '/project'}>{dom}</Link>
+            </a>
+        )}
+        {...settings}
+      >
+        <PageContainer
+          title={false}
+        >
+          <ProCard
+            style={{
+              minHeight: '85vh',
             }}
           >
-            <Link to={item?.path || '/project'}>{dom}</Link>
-          </a>
-      )}
-      {...settings}
-    >
-      <PageContainer
-        title={false}
-      >
-        <ProCard
-          style={{
-            minHeight: '85vh',
-          }}
-        >
-          <Outlet/>
-        </ProCard>
-      </PageContainer>
-    </ProLayout>
+            <Outlet/>
+          </ProCard>
+        </PageContainer>
+      </ProLayout>
+    </WaterMark>
   );
 };
 export default React.memo(HomeLayout);

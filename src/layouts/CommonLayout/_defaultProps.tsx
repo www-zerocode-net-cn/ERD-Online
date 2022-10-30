@@ -1,14 +1,19 @@
 import {
-  ConsoleSqlOutlined,
-  CrownFilled,
-  DatabaseOutlined,
-  DeliveredProcedureOutlined,
-  ExportOutlined,
-  FieldTimeOutlined,
-  GlobalOutlined,
-  ImportOutlined,
-  SettingOutlined
-} from '@ant-design/icons';
+  Column,
+  DatabaseConfig,
+  DatabaseDownload,
+  DatabaseNetwork,
+  DataDisplay,
+  Export,
+  FileJpg,
+  FileLock,
+  History,
+  Outbound,
+  SettingConfig,
+  SettingTwo,
+  Sphere,
+  Warehousing
+} from "@icon-park/react";
 
 export default {
   route: {
@@ -16,86 +21,86 @@ export default {
       {
         path: '/design/table/model',
         name: '模型',
-        icon: <DatabaseOutlined/>,
+        icon: <DatabaseNetwork theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         routes: [
           {
             exact: true,
             path: 'https://www.zerocode.net.cn/',
             name: 'ERD Online Pro 论坛',
-            icon: <GlobalOutlined />
+            icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
           },
         ]
       },
       {
         path: '/design/table/version',
         name: '版本',
-        icon: <FieldTimeOutlined/>,
+        icon: <History theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         routes: [
           {
             path: '/design/table/version/all',
-            name: '全部版本',
-            icon: <CrownFilled/>,
+            name: '版本管理',
+            icon: <History theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
         ],
       },
       {
         name: '导入',
-        icon: <ImportOutlined/>,
+        icon: <Warehousing theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         path: '/design/table/import',
         routes: [
           {
             path: '/design/table/import/reverse',
             name: '数据源逆向解析',
-            icon: <CrownFilled/>,
+            icon: <DataDisplay theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
           {
             path: '/design/table/import/pdman',
             name: '解析PdMan文件',
-            icon: <CrownFilled/>,
+            icon: <FileJpg theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
           {
             path: '/design/table/import/erd',
             name: '解析ERD文件',
-            icon: <CrownFilled/>,
+            icon: <FileLock theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
         ],
       },
       {
         name: '导出',
-        icon: <ExportOutlined/>,
+        icon: <Outbound theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         path: '/design/table/export',
         routes: [
           {
             path: '/design/table/export/common',
             name: '普通导出',
-            icon: <DeliveredProcedureOutlined />,
+            icon: <Export theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
           {
             path: '/design/table/export/more',
             name: '高级导出',
-            icon: <ConsoleSqlOutlined />,
+            icon: <DatabaseDownload theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
         ],
       },
       {
         name: '设置',
-        icon: <SettingOutlined />,
+        icon: <SettingTwo theme="filled" size="15" fill="#DE2910" strokeWidth={2}/>,
         path: '/design/table/setting',
         routes: [
           {
             path: '/design/table/setting/db',
             name: '数据源设置',
-            icon: <CrownFilled/>,
+            icon: <DatabaseConfig theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
           {
             path: '/design/table/setting/defaultField',
             name: '默认字段设置',
-            icon: <CrownFilled/>,
+            icon: <Column theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
           {
             path: '/design/table/setting/default',
             name: '系统默认项设置',
-            icon: <CrownFilled/>,
+            icon: <SettingConfig theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
         ],
       },

@@ -16,6 +16,22 @@ const iconStyles: CSSProperties = {
   cursor: 'pointer',
 };
 
+export async function login(username:string, password:string) {
+  await request.get(
+    '/auth/oauth/token?username=' + username + '&password=' + password + '&grant_type=password&scope=select'
+  ).then(res => {
+    if (res) {
+      if (res.access_token) {
+        cache.setItem('Authorization', res.access_token);
+        cache.setItem('username', username);
+        history.push({
+          pathname: "/project/home"
+        });
+      }
+    }
+  });
+}
+
 export default () => {
   const [loginType, setLoginType] = useState<LoginType>('account');
 
@@ -30,19 +46,7 @@ export default () => {
           console.log(29, values);
           let username = values.username;
           let password = values.password;
-          await request.get(
-            '/auth/oauth/token?username=' + username + '&password=' + password + '&grant_type=password&scope=select'
-          ).then(res => {
-            if (res) {
-              if (res.access_token) {
-                cache.setItem('Authorization', res.access_token);
-                cache.setItem('username', username);
-                history.push({
-                  pathname: "/project/home"
-                });
-              }
-            }
-          });
+          await login(username, password);
         }}
         activityConfig={{
           style: {
