@@ -1,10 +1,9 @@
-import {PageContainer, ProLayout, ProSettings} from '@ant-design/pro-layout';
 import React, {useState} from 'react';
 import defaultProps from './_defaultProps';
-import {Link, Outlet} from "@@/exports";
-import {ProCard, WaterMark} from '@ant-design/pro-components';
+import {history, Link, Outlet} from "@@/exports";
+import {ProCard, WaterMark,PageContainer, ProLayout, ProSettings} from '@ant-design/pro-components';
 import {Me} from "@icon-park/react";
-import { headRightContent} from "@/layouts/CommonLayout";
+import {headRightContent} from "@/layouts/CommonLayout";
 import {Button, Dropdown} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
@@ -15,7 +14,7 @@ export interface HomeLayoutLayoutProps {
 }
 
 const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
-  const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
+  const [pathname, setPathname] = useState('/project/home');
 
   const settings: ProSettings | undefined = {
     "layout": "mix",
@@ -30,14 +29,15 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
     <WaterMark content={['ERD Online', 'V4.0.3']}>
       <ProLayout
         logo={"/logo.svg"}
-        title={'ERD Online Pro'}
+        title={"ERD Online Pro"}
         {...defaultProps}
         location={{
           pathname,
         }}
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
-          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom" arrow={{pointAtCenter: true}}>
+          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom"
+                           arrow={{pointAtCenter: true}}>
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
         }}
@@ -59,11 +59,11 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
             </div>
           );
         }}
-        onMenuHeaderClick={(e) => console.log(e)}
+        onMenuHeaderClick={(e) => history.push("/")}
         menuItemRender={(item, dom) => (
           item.path?.startsWith('http') || item.exact ?
             <a href={item?.path || '/project'} target={'_blank'}>{dom}</a>
-          :
+            :
 
             <div
               onClick={() => {

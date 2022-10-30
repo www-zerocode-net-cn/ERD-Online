@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 import useProjectStore from "@/store/project/useProjectStore";
-import {PageContainer, ProLayout, ProSettings} from "@ant-design/pro-layout";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
 import {Link} from "@umijs/max";
 import shallow from "zustand/shallow";
 import _ from 'lodash';
-import {ProCard, WaterMark} from "@ant-design/pro-components";
-import {Outlet} from "@@/exports";
+import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
+import {Outlet,history} from "@@/exports";
 import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
-import {Popover, Image, Button, Dropdown} from "antd";
+import {Button, Dropdown, Image, Popover} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 
@@ -38,8 +37,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   console.log(17, props);
   // @ts-ignore
   console.log(18, props?.location?.pathname);
-  // @ts-ignore
-  const [pathname, setPathname] = useState(props?.location?.pathname || 'design/table/model');
+  const [pathname, setPathname] = useState('design/table/model');
 
   const {fetch, project} = useProjectStore(
     state => ({
@@ -57,16 +55,15 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     fixSiderbar: true,
     layout: 'mix',
     splitMenus: true,
-  };
 
+  };
 
 
   return (
     <WaterMark content={['ERD Online', 'V4.0.3']}>
       <ProLayout
         logo={"/logo.svg"}
-        // @ts-ignore
-        title={<Link to={"/"}>ERD Online Pro</Link>}
+        title={'ERD Online Pro'}
         bgLayoutImgList={[
           {
             src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
@@ -97,7 +94,8 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
           size: 'small',
-          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom" arrow={{pointAtCenter: true}}>
+          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom"
+                           arrow={{pointAtCenter: true}}>
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
         }}
@@ -128,7 +126,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
             </div>
           );
         }}
-        onMenuHeaderClick={(e) => console.log(e)}
+        onMenuHeaderClick={(e) => history.push("/")}
         itemRender={(route, params, routes, paths) => {
           console.log(141, route, params, routes, paths)
           const first = routes.indexOf(route) === 0;
@@ -145,14 +143,14 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
               {dom}
             </a>
             :
-            <a
+            <div
               onClick={() => {
                 console.log(153, item);
                 setPathname(item.path || '/design/table/model');
               }}
             >
               <Link to={item?.path || '/design/table/model'}>{dom}</Link>
-            </a>
+            </div>
 
         )}
         {...settings}

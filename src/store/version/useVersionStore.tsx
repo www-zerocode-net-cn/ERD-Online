@@ -346,7 +346,7 @@ const useVersionStore = create<VersionState>(
           set({
             dbVersion: '',
           });
-          message.warn(<>获取数据源版本信息失败,无法获取到数据源信息,请<a href={'/design/table/setting/db'}>配置</a>或切换数据源！</>, 5);
+          message.warn(<>获取数据源版本信息失败,无法获取到数据源信息,请<a href={'/design/table/setting/db'}>配置</a>或切换数据源！</>, 2);
           state.hasDB = false;
 
         } else {
@@ -372,7 +372,7 @@ const useVersionStore = create<VersionState>(
         if (data.some((d: any) => d.baseVersion)) {
           state.init = false;
         } else {
-          message.warn('当前数据源不存在基线版本，请先初始化基线', 5);
+          message.warn('当前数据源不存在基线版本，请先初始化基线', 2);
           state.init = true;
         }
       })),
