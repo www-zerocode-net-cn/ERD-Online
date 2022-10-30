@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="513px" height="288px" viewBox="0 0 513 288" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>基础面积图</title>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="3.061617e-15%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#5B8FF9" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="控件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.面积图/1.基础面积图" transform="translate(-24.000000, -64.000000)">
+            <g id="基础面积图" transform="translate(24.000000, 64.000000)">
+                <g id="grid" transform="translate(33.000000, 5.000000)" stroke="#000000" stroke-linecap="square" stroke-width="0.5">
+                    <line x1="7.95825645e-13" y1="194.5" x2="479" y2="194.5" opacity="0.15"></line>
+                    <line x1="7.95825645e-13" y1="145.5" x2="479" y2="145.5" opacity="0.15"></line>
+                    <line x1="7.95825645e-13" y1="97.5" x2="479" y2="97.5" opacity="0.15"></line>
+                    <line x1="7.95825645e-13" y1="49.5" x2="479" y2="49.5" opacity="0.15"></line>
+                    <line x1="5.31378897e-13" y1="1.43759443" x2="478.997778" y2="0" opacity="0.15"></line>
+                    <line x1="7.95825645e-13" y1="242.5" x2="479" y2="242.5" opacity="0.25"></line>
+                </g>
+                <g id="Y-axis-label" fill="#000000" font-family="HelveticaNeue, Helvetica Neue" font-size="12" font-weight="normal" letter-spacing="-0.200000003" line-spacing="12" opacity="0.45">
+                    <text id="0%">
+                        <tspan x="6" y="248">0%</tspan>
+                    </text>
+                    <text id="12%">
+                        <tspan x="0" y="203">12%</tspan>
+                    </text>
+                    <text id="24%">
+                        <tspan x="0" y="155">24%</tspan>
+                    </text>
+                    <text id="36%">
+                        <tspan x="0" y="107">36%</tspan>
+                    </text>
+                    <text id="48%">
+                        <tspan x="0" y="59">48%</tspan>
+                    </text>
+                    <text id="60%">
+                        <tspan x="0" y="11">60%</tspan>
+                    </text>
+                </g>
+                <g id="X-axis-label" transform="translate(41.000000, 256.000000)" fill="#000000" font-size="12" font-weight="normal" letter-spacing="-0.200000003" line-spacing="12">
+                    <text id="10月" opacity="0.45" font-family="PingFangSC-Regular, PingFang SC">
+                        <tspan x="1" y="13">10月</tspan>
+                    </text>
+                    <text id="2018" opacity="0.25" font-family="HelveticaNeue, Helvetica Neue">
+                        <tspan x="0" y="31">2018</tspan>
+                    </text>
+                    <text id="2019" opacity="0.25" font-family="HelveticaNeue, Helvetica Neue">
+                        <tspan x="220" y="31">2019</tspan>
+                    </text>
+                    <text id="11月" opacity="0.45" font-family="PingFangSC-Regular, PingFang SC">
+                        <tspan x="77" y="13">11月</tspan>
+                    </text>
+                    <text id="12月" opacity="0.45" font-family="PingFangSC-Regular, PingFang SC">
+                        <tspan x="148" y="13">12月</tspan>
+                    </text>
+                    <text id="1月" opacity="0.45" font-family="PingFangSC-Regular, PingFang SC">
+                        <tspan x="223.5" y="13">1月</tspan>
+                    </text>
+                    <text id="2月" opacity="0.45" font-family="PingFangSC-Regular, PingFang SC">
+                        <tspan x="297.5" y="13">2月</tspan>
+                    </text>
+                    <text id="3月" opacity="0.45" font-family="PingFangSC-Regular, PingFang SC">
+                        <tspan x="370.5" y="13">3月</tspan>
+                    </text>
+                    <text id="4月" opacity="0.45" font-family="PingFangSC-Regular, PingFang SC">
+                        <tspan x="443.5" y="13">4月</tspan>
+                    </text>
+                </g>
+                <g id="X-axis-ticks" transform="translate(54.000000, 248.000000)" opacity="0.25" stroke="#000000" stroke-linecap="square" stroke-width="0.5">
+                    <line x1="73.5" y1="4" x2="73.5" y2="0" id="Line复制-184"></line>
+                    <line x1="439.5" y1="4" x2="439.5" y2="0" id="Line复制-197"></line>
+                    <line x1="0.5" y1="4" x2="0.5" y2="0" id="Line复制-183"></line>
+                    <line x1="146.5" y1="4" x2="146.5" y2="0" id="Line复制-185"></line>
+                    <line x1="219.5" y1="4" x2="219.5" y2="0" id="Line复制-192"></line>
+                    <line x1="293.5" y1="4" x2="293.5" y2="0" id="Line复制-191"></line>
+                    <line x1="366.5" y1="4" x2="366.5" y2="0" id="Line复制-193"></line>
+                </g>
+                <g id="element" transform="translate(51.375000, 21.000000)">
+                    <polygon id="area" fill="url(#linearGradient-1)" opacity="0.25" points="2.625 145.337182 75.5931308 140.316397 148.625 160 222.625 133 296.265762 99.2240185 370.277313 93.7905174 441.625 2 441.625 216 2.625 214.997691"></polygon>
+                    <polyline id="line" stroke="#5B8FF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="3 147.5 75.7142857 140.579018 148.785714 161 222.5 134 295.571429 100 369.285714 94.4940338 442 3"></polyline>
+                    <circle id="point" stroke-opacity="0.95" stroke="#FFFFFF" fill="#5B8FF9" cx="3" cy="147" r="3.5"></circle>
+                    <circle id="point" stroke-opacity="0.95" stroke="#FFFFFF" fill="#5B8FF9" cx="75.625" cy="140" r="3.5"></circle>
+                    <circle id="point" stroke-opacity="0.95" stroke="#FFFFFF" fill="#5B8FF9" cx="149.625" cy="161" r="3.5"></circle>
+                    <circle id="point" stroke-opacity="0.95" stroke="#FFFFFF" fill="#5B8FF9" cx="222.625" cy="134" r="3.5"></circle>
+                    <circle id="point" stroke-opacity="0.95" stroke="#FFFFFF" fill="#5B8FF9" cx="295.625" cy="101" r="3.5"></circle>
+                    <circle id="point" stroke-opacity="0.95" stroke="#FFFFFF" fill="#5B8FF9" cx="368.625" cy="95" r="3.5"></circle>
+                    <circle id="point" stroke-opacity="0.95" stroke="#FFFFFF" fill="#5B8FF9" cx="441.625" cy="3" r="3.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
