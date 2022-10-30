@@ -22,7 +22,6 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
     "navTheme": "light",
     "contentWidth": "Fluid",
     "fixSiderbar": true,
-    "colorPrimary": "#1890ff",
     "siderMenuType": "group",
     "fixedHeader": true
   };
@@ -31,8 +30,7 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
     <WaterMark content={['ERD Online', 'V4.0.3']}>
       <ProLayout
         logo={"/logo.svg"}
-        // @ts-ignore
-        title={<Link to={"/"}>ERD Online Pro</Link>}
+        title={'ERD Online Pro'}
         {...defaultProps}
         location={{
           pathname,
@@ -64,19 +62,17 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
         onMenuHeaderClick={(e) => console.log(e)}
         menuItemRender={(item, dom) => (
           item.path?.startsWith('http') || item.exact ?
-            <a href={item.path} target={'_blank'}>
-              {dom}
-            </a>
-            :
+            <a href={item?.path || '/project'} target={'_blank'}>{dom}</a>
+          :
 
-            <a
+            <div
               onClick={() => {
                 console.log(153, item);
                 setPathname(item.path || '/project');
               }}
             >
               <Link to={item?.path || '/project'}>{dom}</Link>
-            </a>
+            </div>
         )}
         {...settings}
       >

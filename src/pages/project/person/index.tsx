@@ -92,7 +92,7 @@ export default () => {
         <AddProject fetchProjects={() => fetchProjects(null)} trigger="ant" type={1}/>
       ],
     }}
-    rowKey="name"
+    rowKey="projectName"
     dataSource={state.projects}
     pagination={{
       pageSize: state.limit,
@@ -130,7 +130,7 @@ export default () => {
                 {row.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
               </Tag>
               {row.tags?.split(",").map((m: string, i: number) => {
-                return <Tag color={i % 2 == 0 ? "#5BD8A6" : "blue"}>{m}</Tag>
+                return <Tag color={i % 2 == 0 ? "#5BD8A6" : "blue"} key={m+i}>{m}</Tag>
               })}
             </Space>
 
@@ -147,9 +147,9 @@ export default () => {
       },
       actions: {
         render: (text, row) => [
-          <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}/>,
-          <RemoveProject fetchProjects={() => fetchProjects(null)} project={row}/>,
-          <OpenProject project={row}/>
+          <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row} key={'RenameProject'+row.id}/>,
+          <RemoveProject fetchProjects={() => fetchProjects(null)} project={row} key={'RemoveProject'+row.id}/>,
+          <OpenProject project={row} key={'OpenProject'+row.id}/>
         ],
         search: false,
       },
