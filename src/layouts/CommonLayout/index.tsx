@@ -6,7 +6,7 @@ import {Link} from "@umijs/max";
 import shallow from "zustand/shallow";
 import _ from 'lodash';
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
-import {Outlet,history} from "@@/exports";
+import {history, Outlet, useSearchParams} from "@@/exports";
 import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
 import {Button, Dropdown, Image, Popover} from "antd";
 import {logout} from "@/utils/request";
@@ -36,6 +36,9 @@ export interface CommonLayoutLayoutProps {
 const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   console.log(17, props);
   const [pathname, setPathname] = useState('/design/table/model');
+  const [searchParams] = useSearchParams();
+
+  console.log(40, searchParams.toString());
 
   const {fetch, project} = useProjectStore(
     state => ({
@@ -85,6 +88,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         {...defaultProps}
         location={{
           pathname,
+          search: 'a=1'
         }}
         menu={{
           type: 'group',
@@ -100,7 +104,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         menuExtraRender={(props) => {
           console.log(118, props)
           return (
-            props.location.pathname === '/design/table/model' ? <DesignLeftContent collapsed={props.collapsed}/> : null
+            pathname === '/design/table/model' ? <DesignLeftContent collapsed={props.collapsed}/> : null
 
           )
         }}
@@ -134,23 +138,26 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
             <span>{route.breadcrumbName}</span>
           );
         }}
-        menuItemRender={(item, dom) => (
+        menuItemRender={(item, dom) => {
+          return (
 
-          item.path?.startsWith('http') || item.exact ?
-            <a href={item.path} target={'_blank'}>
-              {dom}
-            </a>
-            :
-            <div
-              onClick={() => {
-                console.log(153, item);
-                setPathname(item.path || '/design/table/model');
-              }}
-            >
-              <Link to={item?.path || '/design/table/model'}>{dom}</Link>
-            </div>
+            item.path?.startsWith('http') || item.exact ?
+              <a href={item.path} target={'_blank'}>
+                {dom}
+              </a>
+              :
+              <div
+                onClick={() => {
+                  console.log(153, item);
+                  setPathname(item?.path || pathname);
+                  // navigate(`${item?.path}?${createSearchParams({projectId})}`)
+                }}
+              >
+                <Link to={item?.path || pathname}>{dom}</Link>
+              </div>
 
-        )}
+          );
+        }}
         {...settings}
       >
         <PageContainer
