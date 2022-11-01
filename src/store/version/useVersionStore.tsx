@@ -495,7 +495,7 @@ const useVersionStore = create<VersionState>(
         console.log(472, lastVersion);
         let tempChanges;
         if (type === SHOW_CHANGE_TYPE.CURRENT) {
-          tempChanges = [...currentVersion?.changes];
+          tempChanges = [...currentVersion?.changes||[]];
         } else if (type === SHOW_CHANGE_TYPE.MULTI) {
           tempChanges = [...change];
         } else {
