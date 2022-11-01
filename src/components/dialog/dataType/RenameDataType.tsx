@@ -63,9 +63,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
   // Ant Form 有个臭毛病，form只会加载一次，state变化不会重新加载，用此解决
   const formRef = useRef<ProFormInstance<any>>();
   useEffect(() => {
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    formRef && formRef.current?.resetFields();
+    formRef && formRef.current?.resetFields?.();
   }, [currentDataTypeIndex]);
 
   return (<>

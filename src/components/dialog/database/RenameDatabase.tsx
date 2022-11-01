@@ -1,5 +1,5 @@
 import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from 'react';
-import ProForm, {ModalForm, ProFormCheckbox, ProFormInstance, ProFormRadio, ProFormText} from '@ant-design/pro-form';
+import {ProForm, ModalForm, ProFormCheckbox, ProFormInstance, ProFormRadio, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Button, Divider} from "@mui/material";
@@ -63,16 +63,14 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
 
 
   // Ant Form 有个臭毛病，form只会加载一次，state变化不会重新加载，用此解决
-  const formRef = useRef<ProFormInstance<any>>();
+  const dataFormRef = useRef<ProFormInstance>();
   useEffect(() => {
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    formRef && formRef.current?.resetFields();
+    dataFormRef && dataFormRef.current?.resetFields?.();
   }, [currentDatabaseIndex]);
 
   return (<>
     <ModalForm
-      formRef={formRef}
+      formRef={dataFormRef}
       title="数据源"
       layout="horizontal"
       visible={modalVisit}
