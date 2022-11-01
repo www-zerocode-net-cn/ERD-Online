@@ -9,12 +9,6 @@ export default defineConfig({
   plugins: [
     // https://github.com/zthxxx/react-dev-inspector
   ],
-  // 生产环境去除console日志打印
-  terserOptions: {
-    compress: {
-      drop_console: true,
-    },
-  },
 
   // 打包时移除 console
   extraBabelPlugins: ['transform-remove-console'],

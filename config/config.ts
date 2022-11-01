@@ -20,6 +20,7 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+  deadCode: {},
   headScripts:[
     '/js/g6.min.js',
     '/js/g6-plugins.min.js',

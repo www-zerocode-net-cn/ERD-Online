@@ -83,6 +83,7 @@
     "idb-keyval": "^5.1.3",
     "immer": "^9.0.6",
     "jspreadsheet-ce": "^4.11.1",
+    "jsuites": "^4.12.0",
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.21",
     "moment": "^2.25.3",
