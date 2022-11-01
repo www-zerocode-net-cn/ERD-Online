@@ -46,7 +46,13 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
             roleId: props.roleId,
           });
           return {
-            data: result?.data?.records,
+            data: result?.data?.records?.map((m: any) => {
+                return {
+                  ...m,
+                  avatar: m.avatar ? m.avatar : '/logo.svg'
+                }
+              }
+            ),
             total: result?.data?.total,
             success: result.code === 200
           }
@@ -73,7 +79,6 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
           dataIndex: 'email',
           title: '邮箱',
           search: !props.isAdmin
-
         },
         actions: {
           render: (text, row) => props.isAdmin ? [] : [
