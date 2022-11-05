@@ -50,19 +50,19 @@ const TableIndexEdit: React.FC<TableIndexEditProps> = (props) => {
     title: '索引名*',
     name: 'name',
     type: 'text',
-    width: '250',
+    width: document.body.clientWidth * 0.2,
   }, {
     title: '字段*',
     name: 'fields',
     type: 'dropdown',
-    width: '500',
+    width: document.body.clientWidth * 0.35,
     multiple: true,
     source: fields
   }, {
     title: '是否唯一',
     name: 'isUnique',
     type: 'checkbox',
-    width: '100',
+    width: document.body.clientWidth * 0.1,
   }];
   return (
     /*    <HotTable
