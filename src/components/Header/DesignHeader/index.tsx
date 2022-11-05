@@ -45,7 +45,7 @@ const DesignHeader: React.FC<DesignHeaderProps> = (props) => {
         asyncControl={true}
         leftIcon="search"
         onChange={(e) => globalDispatch.setSearchKey(e.target.value)}
-        placeholder="搜索表（区分大小写）"
+        placeholder="搜索元数据（区分大小写）"
       />
       <Navbar>
         {/* <Navbar.Group align={Alignment.RIGHT}>

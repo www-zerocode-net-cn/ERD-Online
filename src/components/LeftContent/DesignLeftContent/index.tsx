@@ -31,7 +31,7 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
             allowClear
             size={"small"}
             prefix={<SearchOutlined/>}
-            placeholder="搜索表"
+            placeholder="搜索元数据"
             onPressEnter={(e) => {
               // @ts-ignore
               globalDispatch.setSearchKey(e.target?.value)
