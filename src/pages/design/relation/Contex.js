@@ -13,10 +13,10 @@ class Context extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultBackgroundColor: '#353b47',
-      defaultTextColor: '#ffffff',
-      selectBackgroundColor: '#1A7DC4',
-      selectTextColor: '#FFFFFF',
+      defaultBackgroundColor: '#ffffff',
+      defaultTextColor: '#000000',
+      selectBackgroundColor: '#ffffff',
+      selectTextColor: '#1690ff',
       border: '1px solid #CDCDCD',
       menus: {},
     };
@@ -26,11 +26,13 @@ class Context extends React.Component {
     document.getElementById('contextmenu').focus();
     this._checkHeight();
   }
+
   componentDidMount() {
     this._checkHeight();
   }
+
   _checkHeight = () => {
-    const { top } = this.props;
+    const {top} = this.props;
     const dom = ReactDom.findDOMNode(this.instance);
     const position = dom.getBoundingClientRect();
     const clientHeight = document.body.clientHeight;
@@ -77,18 +79,18 @@ class Context extends React.Component {
   };
 
   _onClick = (e, key, item) => {
-    const { onClick, closeContextMenu } = this.props;
+    const {onClick, closeContextMenu} = this.props;
     onClick && onClick(e, key, item);
     closeContextMenu && closeContextMenu();
   };
 
   _onBlur = () => {
-    const { closeContextMenu } = this.props;
+    const {closeContextMenu} = this.props;
     closeContextMenu && closeContextMenu();
   };
 
   render() {
-    const { menus, left, top, display } = this.props;
+    const {menus, left, top, display} = this.props;
     return (<div
       tabIndex="0"
       onBlur={this._onBlur}
@@ -107,10 +109,12 @@ class Context extends React.Component {
       }}
     >
       <ul
-        style={{ width: '100%', height: '100%' }}
+
+        style={{width: '100%', height: '100%', listStyle: 'none', paddingInlineStart: '20px',marginBottom:'0px'}}
       >
         {
           menus.map(item => {
+            console.log(115, item);
             return (<li
               onMouseOver={(ev) => this._mouseOver(ev, item.key)}
               onMouseOut={(ev) => this._mouseOut(ev, item.key)}

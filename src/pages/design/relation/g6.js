@@ -6,9 +6,11 @@ import './style/index.less';
 import {uuid} from '../../../utils/uuid';
 import * as File from '../../../utils/file';
 import Context from "@/pages/design/relation/Contex";
-import {message} from 'antd';
+import {message, Space} from 'antd';
 import {Icon, MenuItem} from "@blueprintjs/core";
 import openModal from "@/pages/design/relation/ModalWrapper";
+import {RelationalGraph,CloseOne,ConnectAddressOne,Strikethrough,DeleteFive} from "@icon-park/react";
+
 
 
 /* eslint-disable */
@@ -1210,17 +1212,17 @@ export default class G6Relation extends React.Component {
         if (item && item.get('type') === 'node' && item._attrs.actived) {
           contextMenus = [
             {
-              name: <span><Icon icon='trash' style={{color: '#FF0000', marginRight: 5}}/>删除数据表</span>,
+              name: <Space><DeleteFive theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>删除数据表</span></Space>,
               key: 'deleteTable',
             }];
         } else if (item && item.get('type') === 'edge' && item._attrs.actived) {
           contextMenus = [
             {
-              name: <span><Icon icon='edit' style={{color: '#008000', marginRight: 5}}/>对应关系</span>,
+              name: <Space><RelationalGraph theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>对应关系</span></Space>,
               key: 'relation'
             },
             {
-              name: <span><Icon icon='trash' style={{color: '#FF0000', marginRight: 5}}/>删除连接线</span>,
+              name: <Space><Strikethrough theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>删除连接线</span></Space>,
               key: 'deleteEdge'
             },
           ];
@@ -1239,12 +1241,12 @@ export default class G6Relation extends React.Component {
           if (clickPoint > -1) {
             contextMenus.push(
               {
-                name: <span><Icon icon='trash' style={{color: '#FF0000', marginRight: 5}}/>删除锚点</span>,
+                name: <Space><CloseOne theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>删除锚点</span></Space>,
                 key: 'deleteAnchor'
               })
           } else {
             contextMenus.push({
-              name: <span><Icon icon='add' style={{color: '#008000', marginRight: 5}}/>添加锚点</span>,
+              name: <Space><ConnectAddressOne theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>添加锚点</span></Space>,
               key: 'addAnchor'
             })
           }
