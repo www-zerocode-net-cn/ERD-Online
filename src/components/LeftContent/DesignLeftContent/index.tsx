@@ -41,7 +41,7 @@ const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
             <TabPane
               tab={
                 <div>
-                  数据表
+                  元数据
                 </div>
               }
               key="1"
