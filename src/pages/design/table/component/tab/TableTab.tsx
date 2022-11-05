@@ -22,7 +22,7 @@ const TableTab: React.FC<TableTabProps> = (props) => {
       >
         <TabPane key="field" tab="字段"><TableInfoEdit moduleEntity={props.moduleEntity}/></TabPane>
         <TabPane key="index" tab="索引"><TableIndexEdit moduleEntity={props.moduleEntity}/></TabPane>
-        <TabPane key="code" tab="代码信息"><CodeTab moduleEntity={props.moduleEntity}/></TabPane>
+        <TabPane key="code" tab="数据应用"><CodeTab moduleEntity={props.moduleEntity}/></TabPane>
       </Tabs>
     </>
   );

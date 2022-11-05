@@ -98,7 +98,7 @@ const DataTypeDomainsSlice = (set: SetState<ProjectState>, get: GetState<Project
     }, {
       type: 'database',
       code: '###menu###',
-      title: '数据源',
+      title: '数据模板',
       icon: <Data theme="filled" size="13" fill="#DE2910" strokeWidth={2}/>,
       isLeaf: false,
       key: `database###database`,
