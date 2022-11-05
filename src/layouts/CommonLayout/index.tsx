@@ -14,6 +14,7 @@ import * as cache from "@/utils/cache";
 
 
 export const headRightContent = [
+
   <Popover placement="bottom" title="公众号" content={<Image src="/gongzhonghao.jpg"/>} trigger="hover">
     <TwoDimensionalCodeOne theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
   </Popover>,
@@ -23,10 +24,9 @@ export const headRightContent = [
   <Popover placement="bottom" title="小程序" content={<Image src="/xiaochengxu.jpg"/>} trigger="hover">
     <WeixinMiniApp theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
   </Popover>,
-  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img
-    src='https://gitee.com/MARTIN-88/erd-online/widgets/widget_6.svg' alt='Fork me on Gitee'></img></a>,
-  <a target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online/stargazers'><img
+  <a style={{marginTop:'-10px'}} target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img
     src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=white' alt='star'></img></a>,
+
 ];
 
 export interface CommonLayoutLayoutProps {

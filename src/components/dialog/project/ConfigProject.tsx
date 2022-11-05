@@ -12,13 +12,13 @@ const ConfigProject: React.FC<ConfigProjectProps> = (props) => {
 
 
   return (<>
-    <Button type="primary" ghost onClick={() => {
+    <Button type="link" ghost onClick={() => {
       cache.setItem("projectId", props.project.id);
       history.push({
         pathname: '/project/group/setting?projectId=' + props.project.id
       });
     }}>
-      权限配置
+      查看
     </Button>
   </>);
 }

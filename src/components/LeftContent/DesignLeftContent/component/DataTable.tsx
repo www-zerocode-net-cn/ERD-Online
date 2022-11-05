@@ -13,7 +13,7 @@ import {makeStyles} from "@mui/styles";
 import {Dropdown, Empty, Menu, Tree} from "antd";
 import useShortcutStore from "@/store/shortcut/useShortcutStore";
 import useGlobalStore from "@/store/global/globalStore";
-import {Data, RelationalGraph, TableFile} from "@icon-park/react";
+import {ChartGraph, Data, RelationalGraph, TableFile} from "@icon-park/react";
 
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
@@ -202,7 +202,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
             }} draggable="true">
               <div style={{marginRight: "6px"}}>
                 {node.type === "module" ? <Data theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
-                  : node.type === "relation" ? <RelationalGraph theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
+                  : node.type === "relation" ? <ChartGraph theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>
                     : <TableFile theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
                 }
               </div>

@@ -1,18 +1,28 @@
-import {HomeTwo, Sphere, Timeline} from "@icon-park/react";
+import {DatabaseNetwork, LeftC, Permissions, SettingOne, Sphere} from "@icon-park/react";
 
 export default {
   route: {
     path: '/',
     routes: [
       {
-        path: '/project/home',
-        name: '基本设置',
-        icon: <HomeTwo theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+        path: '/project/group',
+        name: '返回项目列表',
+        icon: <LeftC theme="filled" size="18" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>,
       },
       {
-        path: '/project/recent',
+        path: '/project/group/setting/basic',
+        name: '基本设置',
+        icon: <SettingOne theme="filled" size="18" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>,
+      },
+      {
+        path: '/project/group/setting/permission',
         name: '权限组',
-        icon: <Timeline theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+        icon: <Permissions theme="filled" size="18" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>,
+      },
+      {
+        path: '/design/table/model',
+        name: '打开模型',
+        icon: <DatabaseNetwork theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
       },
       {
         exact: true,

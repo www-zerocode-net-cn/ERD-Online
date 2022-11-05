@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button, Popconfirm} from "antd";
+import {Button, Popconfirm, Space} from "antd";
 import {deleteProject} from "@/services/project";
 
 export type RemoveProjectProps = {
-  fetchProjects: any;
-  project: any;
+  fetchProjects?: any;
+  project?: any;
 
 };
 
@@ -20,7 +20,7 @@ const RemoveProject: React.FC<RemoveProjectProps> = (props) => {
                 })}
                 okText="是"
                 cancelText="否">
-      <Button type="link">删除</Button>
+      <Button danger>删除</Button>
     </Popconfirm>
   </>);
 }

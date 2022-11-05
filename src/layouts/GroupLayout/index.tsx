@@ -1,136 +1,90 @@
 import React, {useState} from "react";
-import {ProLayout, WaterMark} from "@ant-design/pro-components";
-import {Button, Result, Space, Tag} from "antd";
-import {CrownOutlined, LeftOutlined, SmileOutlined, UserOutlined} from "@ant-design/icons";
+import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
+import defaultProps from './_defaultProps';
+import {Me} from "@icon-park/react";
+import {Button, Dropdown} from "antd";
+import {logout} from "@/utils/request";
+import * as cache from "@/utils/cache";
+import {headRightContent} from "@/layouts/CommonLayout";
+import {history} from "@@/core/history";
+import {Link, Outlet} from "@@/exports";
 
 export type GroupLayoutProps = {};
 const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
-  const [pathname, setPathname] = useState('/admin/sub-page1');
-  const defaultProps = {
-    routes: [
-      {
-        path: '/admin/sub-page1',
-        name: '一级页面',
-        icon: <CrownOutlined />,
-        component: './Welcome',
-      },
-      {
-        path: '/admin/sub-page2',
-        name: '二级页面',
-        icon: <UserOutlined />,
-        component: './Welcome',
-      },
-      {
-        path: '/admin/sub-page3',
-        name: '三级页面',
-        icon: <SmileOutlined />,
-        component: './Welcome',
-      },
-    ],
-  };
+  const [pathname, setPathname] = useState('/project/home');
 
-  const defaultHomeProps = {
-    routes: [
-      {
-        path: '/',
-        name: '首页',
-        icon: <CrownOutlined />,
-        component: './Welcome',
-      },
-      {
-        path: '/admin/sub-page1',
-        name: '详情页',
-        icon: <SmileOutlined />,
-        component: './Welcome',
-      },
-    ],
+  const settings: ProSettings | undefined = {
+    "layout": "mix",
+    "navTheme": "light",
+    "contentWidth": "Fluid",
+    "fixSiderbar": true,
+    "siderMenuType": "group",
+    "fixedHeader": true
   };
-
 
   return (
     <WaterMark content={['ERD Online', 'V4.0.3']}>
       <ProLayout
-        route={pathname === '/' ? defaultHomeProps : defaultProps}
+        logo={"/logo.svg"}
+        title={"ERD Online Pro"}
+        {...defaultProps}
         location={{
           pathname,
         }}
-        navTheme="light"
-        logoStyle={{
-          backgroundColor: '#eee',
+        avatarProps={{
+          src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
+          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom"
+                           arrow={{pointAtCenter: true}}>
+            <div>{cache.getItem('username')}</div>
+          </Dropdown>,
         }}
-        menuHeaderRender={(logo, title, props) => {
-          if (pathname === '/') {
-            return (
-              <a>
-                {logo}
-                {title}
-              </a>
-            );
-          }
-          if (props?.collapsed) {
-            return (
-              <Space>
-                <LeftOutlined
-                  style={{
-                    fontSize: 24,
-                  }}
-                />
-              </Space>
-            );
-          }
+        actionsRender={(props) => {
+          if (props.isMobile) return [];
+          return headRightContent;
+        }}
+        menuFooterRender={(props) => {
+          if (props?.collapsed) return undefined;
           return (
-            <Space direction="vertical">
-              <Button
-                size="small"
-                icon={<LeftOutlined/>}
-                onClick={() => {
-                  setPathname('/');
-                }}
-              >
-                返回应用列表
-              </Button>
-              <b>alipay_dev_gzone</b>
-              <span>Creation Time 2017-01-10</span>
-              <Tag color="warning">运行中</Tag>
-            </Space>
+            <div
+              style={{
+                textAlign: 'center',
+                paddingBlockStart: 12,
+              }}
+            >
+              <div>© 2022 Made with 零代</div>
+              <div>ERD Online Pro</div>
+            </div>
           );
         }}
-        fixSiderbar
-        headerRender={() => {
-          return null;
-        }}
-        onMenuHeaderClick={(e) => console.log(e)}
+        onMenuHeaderClick={(e) => history.push("/")}
         menuItemRender={(item, dom) => (
-          <a
-            onClick={() => {
-              setPathname(item.path || '/welcome');
+          item.path?.startsWith('http') || item.exact ?
+            <a href={item?.path || '/project'} target={'_blank'}>{dom}</a>
+            :
+
+            <div
+              onClick={() => {
+                console.log(153, item);
+                setPathname(item.path || '/project');
+              }}
+            >
+              <Link to={item?.path || '/project'}>{dom}</Link>
+            </div>
+        )}
+        {...settings}
+      >
+        <PageContainer
+          title={false}
+          fixedHeader
+          breadcrumbRender={false}>
+          <ProCard
+            style={{
+              minHeight: '85vh',
             }}
           >
-            {dom}
-          </a>
-        )}
-        avatarProps={{
-          icon: <UserOutlined/>,
-        }}
-      >
-        <div
-          style={{
-            height: '120vh',
-            minHeight: 600,
-          }}
-        >
-          <Result
-            status="404"
-            style={{
-              height: '100%',
-              background: '#fff',
-            }}
-            icon="https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*aPIBS5gRPu4AAAAAAAAAAAAAARQnAQ"
-            title="Hello World"
-            subTitle="Sorry, you are not authorized to access this page."
-            extra={<Button type="primary">Back Home</Button>}
-          />
-        </div>
+            <Outlet/>
+          </ProCard>
+        </PageContainer>
       </ProLayout>
     </WaterMark>
   );

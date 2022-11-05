@@ -52,13 +52,31 @@
         component: './project/group',
       },
       {
-        path: '/project/group/setting',
-        component: './project/group/component/GroupSetting',
-      },
-      {
         name: 'new',
         path: '/project/new',
         component: './project/new',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+
+  {
+    path: '/project/group/setting',
+    component: '../layouts/GroupLayout',
+    routes: [
+      {
+        path: '/project/group/setting',
+        redirect: '/project/group/setting/basic',
+      },
+      {
+        path: '/project/group/setting/basic',
+        component: './project/group/component/BasicSetting',
+      },
+      {
+        path: '/project/group/setting/permission',
+        component: './project/group/component/GroupSetting',
       },
       {
         component: './404',

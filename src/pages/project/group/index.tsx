@@ -140,9 +140,6 @@ export default () => {
       },
       actions: {
         render: (text, row) => [
-          <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}
-                         key={'RenameProject' + row.id}/>,
-          <RemoveProject fetchProjects={() => fetchProjects(null)} project={row} key={'RemoveProject' + row.id}/>,
           <ConfigProject project={row} type={2} key={'ConfigProject' + row.id}/>,
           <OpenProject project={row} key={'OpenProject' + row.id}/>
         ],
