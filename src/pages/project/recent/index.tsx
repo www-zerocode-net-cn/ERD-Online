@@ -3,8 +3,6 @@ import {message, Space, Tag} from 'antd';
 import {useEffect, useState} from "react";
 import {pageProject} from "@/utils/save";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
-import RenameProject from "@/components/dialog/project/RenameProject";
-import RemoveProject from "@/components/dialog/project/RemoveProject";
 import OpenProject from "@/components/dialog/project/OpenProject";
 import {ProjectListProps} from "@/pages/project/person";
 
@@ -139,9 +137,6 @@ export default () => {
       },
       actions: {
         render: (text, row) => [
-          <RenameProject fetchProjects={() => fetchProjects(null)} trigger={'ant'} project={row}
-                         key={'RenameProject' + row.id}/>,
-          <RemoveProject fetchProjects={() => fetchProjects(null)} project={row} key={'RemoveProject' + row.id}/>,
           <OpenProject project={row} key={'OpenProject' + row.id}/>
         ],
         search: false,
