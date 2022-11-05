@@ -37,8 +37,9 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   console.log(17, props);
   const [pathname, setPathname] = useState('/design/table/model');
   const [searchParams] = useSearchParams();
+  const projectId = searchParams.get("projectId") || '';
 
-  console.log(40, searchParams.toString());
+  console.log(19, 'projectId', projectId);
 
   const {fetch, project} = useProjectStore(
     state => ({
@@ -153,7 +154,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
                   // navigate(`${item?.path}?${createSearchParams({projectId})}`)
                 }}
               >
-                <Link to={item?.path || pathname}>{dom}</Link>
+                <Link to={item?.path + "?projectId=" + projectId || '/project/home'}>{dom}</Link>
               </div>
 
           );

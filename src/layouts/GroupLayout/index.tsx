@@ -7,11 +7,16 @@ import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {headRightContent} from "@/layouts/CommonLayout";
 import {history} from "@@/core/history";
-import {Link, Outlet} from "@@/exports";
+import {Link, Outlet, useSearchParams} from "@@/exports";
 
 export type GroupLayoutProps = {};
 const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
   const [pathname, setPathname] = useState('/project/home');
+
+  const [searchParams] = useSearchParams();
+  const projectId = searchParams.get("projectId") || '';
+
+  console.log(19, 'projectId', projectId);
 
   const settings: ProSettings | undefined = {
     "layout": "mix",
@@ -57,20 +62,24 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
           );
         }}
         onMenuHeaderClick={(e) => history.push("/")}
-        menuItemRender={(item, dom) => (
-          item.path?.startsWith('http') || item.exact ?
-            <a href={item?.path || '/project'} target={'_blank'}>{dom}</a>
-            :
+        menuItemRender={(item, dom) => {
+          return (
+            item.path?.startsWith('http') || item.exact ?
+              <a href={item?.path || '/project'} target={'_blank'}>{dom}</a>
+              :
 
-            <div
-              onClick={() => {
-                console.log(153, item);
-                setPathname(item.path || '/project');
-              }}
-            >
-              <Link to={item?.path || '/project'}>{dom}</Link>
-            </div>
-        )}
+              <div
+                onClick={() => {
+                  console.log(153, item);
+                  setPathname(item.path || '/project/home');
+                  console.log(85, searchParams)
+                }}
+              >
+                <Link to={item?.path + "?projectId=" + projectId || '/project/home'}>{dom}</Link>
+              </div>
+          )
+        }}
+
         {...settings}
       >
         <PageContainer

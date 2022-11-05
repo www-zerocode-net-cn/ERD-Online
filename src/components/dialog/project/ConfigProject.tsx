@@ -15,7 +15,7 @@ const ConfigProject: React.FC<ConfigProjectProps> = (props) => {
     <Button type="link" ghost onClick={() => {
       cache.setItem("projectId", props.project.id);
       history.push({
-        pathname: '/project/group/setting?projectId=' + props.project.id
+        pathname: '/project/group/setting/basic?projectId=' + props.project.id
       });
     }}>
       查看
