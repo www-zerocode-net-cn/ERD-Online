@@ -82,6 +82,50 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
           ],
         }}
       />
+      <ProFormText width="md"
+                   name="creatTime"
+                   label="创建时间"
+                   placeholder="请输入项目描述"
+                   fieldProps={{
+                     bordered:false,
+                     disabled:true,
+
+                   }}
+                   formItemProps={{
+                     rules: [
+                       {
+                         required: true,
+                         message: '不能为空',
+                       },
+                       {
+                         max: 100,
+                         message: '不能大于 100 个字符',
+                       },
+                     ],
+                   }}
+      />
+      <ProFormText width="md"
+                   name="updateTime"
+                   label="最后修改时间"
+                   placeholder="请输入项目描述"
+                   fieldProps={{
+                     bordered:false,
+                     disabled:true,
+
+                   }}
+                   formItemProps={{
+                     rules: [
+                       {
+                         required: true,
+                         message: '不能为空',
+                       },
+                       {
+                         max: 100,
+                         message: '不能大于 100 个字符',
+                       },
+                     ],
+                   }}
+      />
     </ProForm>
 
 
