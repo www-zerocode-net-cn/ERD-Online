@@ -1,5 +1,5 @@
 import React from 'react';
-import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
+import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {MenuItem} from "@blueprintjs/core";
 import EditIcon from "@mui/icons-material/Edit";
 import useVersionStore from "@/store/version/useVersionStore";

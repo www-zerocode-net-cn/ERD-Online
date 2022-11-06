@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alignment, Button} from "@blueprintjs/core";
 import {MyIcon} from "@/components/Menu";
-import {ModalForm} from '@ant-design/pro-form';
+import {ModalForm} from '@ant-design/pro-components';
 import {InboxOutlined} from '@mui/icons-material';
 import {message, Modal, Upload} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";

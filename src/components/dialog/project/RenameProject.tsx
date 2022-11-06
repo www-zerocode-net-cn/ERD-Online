@@ -1,6 +1,6 @@
 import React from 'react';
-import ProForm, {ModalForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
-import {Button} from "antd";
+import ProForm, {ModalForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
+import {Button, message} from "antd";
 import {updateProject} from "@/services/project";
 import _ from "lodash";
 
@@ -24,8 +24,13 @@ const RenameProject: React.FC<RenameProjectProps> = (props) => {
           projectName: values.projectName,
           description: values.description,
           tags: _.join(values.tags, ',')
-        }).then(() => {
-          props.fetchProjects();
+        }).then((r) => {
+          if (r.code===200) {
+            props.fetchProjects();
+            message.success('修改成功');
+          } else {
+            message.error(r.message || '修改失败');
+          }
         });
         return true;
       }}
@@ -66,7 +71,7 @@ const RenameProject: React.FC<RenameProjectProps> = (props) => {
                        }}
                        fieldProps={{
                          mode: "tags",
-                         tokenSeparators: [',']
+                         tokenSeparators: [","]
                        }}
         />
       </ProForm.Group>

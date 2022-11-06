@@ -7,7 +7,7 @@ import {
   ProFormRadio,
   ProFormSelect,
   ProFormText
-} from "@ant-design/pro-form";
+} from "@ant-design/pro-components";
 import {Alignment, Button} from "@blueprintjs/core";
 import _ from "lodash";
 import {Button as MuiButton, Grid} from "@mui/material";

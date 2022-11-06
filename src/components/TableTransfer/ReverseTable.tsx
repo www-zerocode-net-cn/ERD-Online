@@ -1,6 +1,5 @@
 import {Card, Descriptions, Table} from 'antd';
-import type {ProColumns} from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import type {ProColumns,ProTable} from '@ant-design/pro-components';
 import React from "react";
 import _ from "lodash";
 import useProjectStore from "@/store/project/useProjectStore";

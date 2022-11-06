@@ -1,5 +1,5 @@
 import React from 'react';
-import ProForm, {ModalForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
+import  {ProForm,ModalForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import defaultData from "@/utils/defaultData.json";
 import {Button} from "antd";
@@ -48,7 +48,7 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
         return true;
       }}
     >
-      <ProForm.Group>
+      <ProForm>
         <ProFormText width="md"
                      name="projectName"
                      label="项目名"
@@ -66,8 +66,8 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
                        ],
                      }}
         />
-      </ProForm.Group>
-      <ProForm.Group>
+      </ProForm>
+      <ProForm>
         <ProFormSelect width="md"
                        name="tags"
                        label="标签"
@@ -86,7 +86,7 @@ const AddProject: React.FC<AddProjectProps> = (props) => {
                          tokenSeparators: [',']
                        }}
         />
-      </ProForm.Group>
+      </ProForm>
       <ProFormTextArea
         width="md"
         name="description"

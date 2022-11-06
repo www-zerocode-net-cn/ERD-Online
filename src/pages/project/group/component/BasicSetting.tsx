@@ -1,19 +1,35 @@
 import React from "react";
-import {ProForm, ProFormText,} from '@ant-design/pro-components';
+import {ProForm, ProFormText,ProFormSelect, ProFormTextArea} from '@ant-design/pro-components';
 import {Divider, message, Space, Typography} from "antd";
-import {ProFormSelect, ProFormTextArea} from "@ant-design/pro-form";
-import RemoveProject from "@/components/dialog/project/RemoveProject";
+import {get} from "@/services/crud";
+import {useSearchParams} from "@@/exports";
+import {updateProject} from "@/services/project";
+import _ from "lodash";
+import RemoveGroupProject from "@/pages/project/group/component/RemoveGroupProject";
 
 const {Title, Text} = Typography;
 
 
 export type BasicSettingProps = {};
 const BasicSetting: React.FC<BasicSettingProps> = (props) => {
+  const [searchParams] = useSearchParams();
+  const projectId = searchParams.get("projectId") || '';
   return (<>
     <ProForm
       onFinish={async (values) => {
         console.log(values);
-        message.success('提交成功');
+        await updateProject({
+          id: projectId,
+          projectName: values.projectName,
+          description: values.description,
+          tags: _.join(values.tags, ',')
+        }).then(r => {
+          if (r.code === 200) {
+            message.success('修改成功');
+          } else {
+            message.error(r.message || '修改失败')
+          }
+        })
       }}
       params={{id: '100'}}
       formKey="base-form-use-demo"
@@ -21,11 +37,9 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
         console.log('---->', value, valueType);
         return value.format('YYYY/MM/DD HH:mm:ss');
       }}
-      request={async () => {
-        return {
-          name: '蚂蚁设计有限公司',
-          useMode: 'chapter',
-        };
+      request={async (param) => {
+        const result = await get('/ncnb/project/get/' + projectId, {});
+        return result?.data
       }}
       autoFocusFirstInput
     >
@@ -61,7 +75,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
                      }}
                      fieldProps={{
                        mode: "tags",
-                       tokenSeparators: [',']
+                       tokenSeparators: [",",";"]
                      }}
       />
       <ProFormTextArea
@@ -83,12 +97,11 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
         }}
       />
       <ProFormText width="md"
-                   name="creatTime"
+                   name="createTime"
                    label="创建时间"
-                   placeholder="请输入项目描述"
                    fieldProps={{
-                     bordered:false,
-                     disabled:true,
+                     bordered: false,
+                     disabled: true,
 
                    }}
                    formItemProps={{
@@ -107,10 +120,9 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
       <ProFormText width="md"
                    name="updateTime"
                    label="最后修改时间"
-                   placeholder="请输入项目描述"
                    fieldProps={{
-                     bordered:false,
-                     disabled:true,
+                     bordered: false,
+                     disabled: true,
 
                    }}
                    formItemProps={{
@@ -131,10 +143,9 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
 
     <Divider/>
     <Space direction="vertical">
-
       <Title level={4}>删除项目</Title>
       <Text type="secondary">删除项目全部模型，此操作无法恢复</Text>
-      <RemoveProject />,
+      <RemoveGroupProject projectId={projectId}/>,
     </Space>
   </>);
 };

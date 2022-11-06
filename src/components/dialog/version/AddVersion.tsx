@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
+import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import {InfoCircleOutlined}  from '@ant-design/icons';

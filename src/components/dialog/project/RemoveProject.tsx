@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Popconfirm, Space} from "antd";
+import {Button, Popconfirm} from "antd";
 import {deleteProject} from "@/services/project";
 
 export type RemoveProjectProps = {
@@ -20,7 +20,7 @@ const RemoveProject: React.FC<RemoveProjectProps> = (props) => {
                 })}
                 okText="是"
                 cancelText="否">
-      <Button danger>删除</Button>
+      <Button type='link' danger>删除</Button>
     </Popconfirm>
   </>);
 }

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Alignment, Button} from "@blueprintjs/core";
-import {ModalForm, ProFormFieldSet, ProFormSwitch, ProFormText, ProFormUploadButton} from "@ant-design/pro-form";
+import {ModalForm, ProFormFieldSet, ProFormSwitch, ProFormText, ProFormUploadButton} from "@ant-design/pro-components";
 import ProCard from "@ant-design/pro-components";
 import "./index.less";
 import DefaultField from "@/components/dialog/setup/DefaultField";

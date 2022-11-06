@@ -1,5 +1,5 @@
 import React from 'react';
-import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
+import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Button} from "antd";

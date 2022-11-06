@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import ProForm, {ModalForm} from "@ant-design/pro-form";
+import ProForm, {ModalForm,ProFormSelect} from "@ant-design/pro-components";
 import {Divider, Grid} from "@mui/material";
-import {ProFormSelect} from "@ant-design/pro-form/es";
 import {compareStringVersion} from '@/utils/string';
 import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";

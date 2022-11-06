@@ -1,4 +1,4 @@
-import ProForm, {ModalForm, ProFormInstance, ProFormSelect, StepsForm} from '@ant-design/pro-form';
+import ProForm, {ModalForm, ProFormInstance, ProFormSelect, StepsForm} from '@ant-design/pro-components';
 import React, {useRef} from 'react';
 import {Button as AntButton, Spin} from 'antd';
 import {Alignment, Button} from "@blueprintjs/core";

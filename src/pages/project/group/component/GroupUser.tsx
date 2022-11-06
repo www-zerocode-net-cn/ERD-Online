@@ -5,7 +5,7 @@ import {del, get} from "@/services/crud";
 import {useSearchParams} from "@@/exports";
 import {CONSTANT} from "@/utils/constant";
 import AddUser from "@/pages/project/group/component/AddUser";
-import {ActionType} from "@ant-design/pro-table";
+import {ActionType} from "@ant-design/pro-components";
 
 
 type ProjectUser = {

@@ -53,8 +53,6 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.19",
-    "@ant-design/pro-form": "^1.58.1",
-    "@ant-design/pro-table": "^2.67.1",
     "@blueprintjs/core": "^4.1.1",
     "@blueprintjs/docs-theme": "^4.1.1",
     "@blueprintjs/popover2": "^1.1.2",
