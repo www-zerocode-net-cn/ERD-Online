@@ -145,7 +145,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
     <Space direction="vertical">
       <Title level={4}>删除项目</Title>
       <Text type="secondary">删除项目全部模型，此操作无法恢复</Text>
-      <RemoveGroupProject projectId={projectId}/>,
+      <RemoveGroupProject projectId={projectId}/>
     </Space>
   </>);
 };

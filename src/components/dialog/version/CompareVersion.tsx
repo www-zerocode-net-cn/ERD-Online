@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ProForm, {ModalForm,ProFormSelect} from "@ant-design/pro-components";
+import {ProForm, ModalForm,ProFormSelect} from "@ant-design/pro-components";
 import {Divider, Grid} from "@mui/material";
 import {compareStringVersion} from '@/utils/string';
 import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore";

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ProForm, {ModalForm, ProFormCheckbox, ProFormRadio, ProFormText} from '@ant-design/pro-components';
+import {ProForm, ModalForm, ProFormCheckbox, ProFormRadio, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Divider} from '@mui/material';

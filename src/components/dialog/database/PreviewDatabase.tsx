@@ -1,7 +1,7 @@
 import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from 'react';
 import {Button, Grid} from "@mui/material";
 import {getDataByTemplate, getDemoTemplateData} from "@/utils/json2code";
-import ProForm, {DrawerForm, ProFormRadio} from "@ant-design/pro-components";
+import {ProForm, DrawerForm, ProFormRadio} from "@ant-design/pro-components";
 import CodeEditor from "@/components/CodeEditor";
 import {RadioChangeEvent} from "antd/lib/radio/interface";
 import _ from "lodash";
