@@ -1,6 +1,7 @@
 import {ProCard, StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import React, {useEffect, useState} from 'react';
+import {Col, Row} from "antd";
 
 const {Statistic} = StatisticCard;
 
@@ -9,7 +10,7 @@ const Home: React.FC<HomeProps> = (props) => {
 
   const [responsive, setResponsive] = useState(false);
 
-  const [dateInfo, setDateInfo] = useState('2019年9月28日 星期五');
+  const [dateInfo, setDateInfo] = useState('');
 
 
   useEffect(() => {
@@ -30,7 +31,6 @@ const Home: React.FC<HomeProps> = (props) => {
     // @ts-ignore
     second < 10 ? (second = "0" + second) : second;
     let now_time =
-
       year +
       "年" +
       month +
@@ -43,8 +43,8 @@ const Home: React.FC<HomeProps> = (props) => {
       minutes +
       ":" +
       second;
-    setDateInfo(now_time);
-    setInterval(() => setDateInfo(now_time), 1000);
+    setDateInfo(now_time)
+    setInterval(() => setDateInfo(now_time), 60000);
   })
 
   return (
@@ -96,14 +96,128 @@ const Home: React.FC<HomeProps> = (props) => {
               />
             </ProCard>
           </ProCard>
-          <StatisticCard
-            title="模型走势"
-            chart={
-              <img
-                src="/zhuzhuangtu.svg"
-              />
-            }
-          />
+          <ProCard
+            title="学习资料"
+            headerBordered
+            collapsible
+            defaultCollapsed
+            onCollapse={(collapse) => console.log(collapse)}
+          >
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <a href="https://www.bilibili.com/video/BV1sG4y1H7or/?vd_source=04770befcf89230f48dbdad9b77555d5"
+                   target="_blank">
+                  ERD Online 视频简介
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/quick-start/introduction" target="_blank">
+                  ERD Online 业务架构介绍
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/quick-start/a-basic-project" target="_blank">
+                  ERD Online 快速入门
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/quick-start/try-out-install" target="_blank">
+                  ERD Online 快速安装
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/quick-start/compatibility" target="_blank">
+                  ERD Online 服务器兼容性列表
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/quick-start/jdbc" target="_blank">
+                  ERD Online JDBC驱动版本
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/comparison" target="_blank">
+                  ERD Online 同类产品横向对比
+                </a>
+              </Col>
+            </Row>
+          </ProCard>
+          <ProCard
+            title="历史材料"
+            headerBordered
+            collapsible
+            defaultCollapsed
+            onCollapse={(collapse) => console.log(collapse)}
+          >
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/changelog" target="_blank">
+                  ERD Online 变更日志
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://js.design/f/3iRGn_?p=4rCfiHWVrO" target="_blank">
+                  ERD Online 原型设计稿
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://www.zerocode.net.cn/thread/101" target="_blank">
+                  ERD Online ERD Online适用场景分析
+                </a>
+              </Col>
+
+            </Row>
+          </ProCard>
+          <ProCard
+            title="问题交流"
+            headerBordered
+            collapsible
+            defaultCollapsed
+            onCollapse={(collapse) => console.log(collapse)}
+          >
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/faq" target="_blank">
+                  ERD Online 问题解答
+                </a>
+              </Col>
+              <Col span={12}>
+                <a href="https://www.zerocode.net.cn/thread/57" target="_blank">
+                  ERDOnline 一键部署异常问题处理
+                </a>
+              </Col>
+            </Row>
+          </ProCard>
+          <ProCard
+            title="需求定制"
+            headerBordered
+            collapsible
+            defaultCollapsed
+            onCollapse={(collapse) => console.log(collapse)}
+          >
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <a href="https://www.yuque.com/xuelahuaxiang/erdonline/vygtk5?# 《定制流程》" target="_blank">
+                  ERD Online 功能定制（合同制）
+                </a>
+              </Col>
+            </Row>
+          </ProCard>
+          <ProCard
+            title="我要源码"
+            headerBordered
+            collapsible
+            defaultCollapsed
+            onCollapse={(collapse) => console.log(collapse)}
+          >
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <a href="https://portal.zerocode.net.cn/docs/source" target="_blank">
+                  ERD Online 获取源码（免费或付费）
+                </a>
+              </Col>
+            </Row>
+          </ProCard>
         </ProCard>
 
       </ProCard>
