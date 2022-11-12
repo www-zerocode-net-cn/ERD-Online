@@ -144,7 +144,6 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
         });
         const checked = value?.defaultValue?.length > 0;
         const indeterminateSecond = checked && value?.defaultValue?.length != value.operations?.length;
-        debugger
         secondCheckedGroups.push({
           indeterminate: indeterminateSecond,
           checked: checked,
@@ -155,7 +154,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
       });
       console.log(43, secondCheckedGroups);
       setIndeterminate(_.omit(secondCheckedGroups));
-      setOperationCheckedGroup(_.omit(checkedGroups));
+      setOperationCheckedGroup(checkedGroups);
       setOperationData(data);
       firstAllConfig(data, tmpAllIndeterminate, tmpLoginRole);
     });
@@ -207,7 +206,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
         key,
         checkedKeys,
       };
-      setOperationCheckedGroup(_.omit(operationCheckedGroup));
+      setOperationCheckedGroup(operationCheckedGroup);
     } else {
       console.log(68, '全部取消二级')
       //取消全部二级菜单
@@ -215,7 +214,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
         key,
         checkedKeys: [],
       };
-      setOperationCheckedGroup(_.omit(operationCheckedGroup));
+      setOperationCheckedGroup(operationCheckedGroup);
       indeterminate[key] = {
         ...indeterminate[key],
         indeterminate: false,
@@ -231,7 +230,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
       key,
       checkedKeys: checkedValue,
     };
-    setOperationCheckedGroup(_.omit(operationCheckedGroup));
+    setOperationCheckedGroup(operationCheckedGroup);
     indeterminate[key] = {
       ...indeterminate[key],
       indeterminate: operationCheckedGroup[key].checkedKeys?.length > 0 && operationCheckedGroup[key]?.checkedKeys?.length != operationData[key]?.operations?.length,
@@ -249,7 +248,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
     operations1 = operations.map((operation: any, index: number) =>
       <>
         <Col span={6} key={operation.value}>
-          <Checkbox value={operation.value}
+          <Checkbox key={operation.value} value={operation.value}
                     disabled={loginRole === 0 ? false : (!(loginRole <= props.defaultRole
                       && operationData[parentIndex]?.defaultValue.indexOf(operation.value) > -1))}>
             {operation.name}
@@ -266,20 +265,20 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
         render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
       }}
       onFinish={async (values) => {
-        console.log(values);
+        console.log(269,values,operationCheckedGroup);
 
         let checkedKeys: CheckboxValueType[] = [];
         operationCheckedGroup.forEach((value) => {
           checkedKeys = checkedKeys.concat(value.checkedKeys);
         });
-        await post('/syst/role/saveCheckedOperations',
+        await post('/ncnb/project/group/saveCheckedOperations',
           {
             checkedKeys,
             roleId: props.values.id
           }
         ).then((result) => {
           if (result.code === 200) {
-            message.success("得到的");
+            message.success("保存成功");
           } else {
             message.error(result.msg);
           }
