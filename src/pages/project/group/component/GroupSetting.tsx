@@ -30,7 +30,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
           {
             label: <Text strong>权限配置</Text>,
             key: '3',
-            children: <GroupPermission defaultRole={Number(defaultRole)} values={{"id": roleId}}/>,
+            children: <GroupPermission isAdmin={isAdmin} defaultRole={Number(defaultRole)} values={{"id": roleId}}/>,
           },
         ]}
       />

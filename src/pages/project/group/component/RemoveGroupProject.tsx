@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, message, Popconfirm} from "antd";
-import {deleteProject} from "@/services/project";
 import {deleteGroupProject} from "@/services/group-project";
+import {history} from "@@/core/history";
 
 export type RemoveGroupProjectProps = {
   projectId: string;
@@ -18,6 +18,9 @@ const RemoveGroupProject: React.FC<RemoveGroupProjectProps> = (props) => {
                 }).then((r) => {
                   if(r.code===200){
                     message.success('删除成功');
+                    history.push({
+                      pathname: '/project/group'
+                    });
                   }else {
                     message.error(r.message || '删除失败');
                   }

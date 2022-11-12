@@ -21,11 +21,13 @@ export type OperationCheckedGroup = {
 export type SecondCheckedGroup = {
   indeterminate: boolean;//是否半选状态，true为是
   checked: boolean;
+  disabled?: boolean;
 }
 
 export type GroupPermissionProps = {
   defaultRole: number;
   values: any;
+  isAdmin: boolean;
 };
 const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
   const [loginRole, setLoginRole] = useState<number>(3);
@@ -33,7 +35,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
   const [indeterminate, setIndeterminate] = useState<SecondCheckedGroup[]>([]);
   const [allIndeterminate, setAllIndeterminate] = useState<SecondCheckedGroup>({
     indeterminate: false,
-    checked: false
+    checked: false,
   });
   //各菜单选中的的元素集合
   const [operationCheckedGroup, setOperationCheckedGroup] = useState<OperationCheckedGroup[]>([]);
@@ -45,6 +47,42 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
       roleId: props.values?.id,
       projectId: searchParams.get(CONSTANT.PROJECT_ID),
     });
+  }
+
+  function firstAllConfig(data: any, tmpAllIndeterminate: SecondCheckedGroup, tmpLoginRole: number) {
+    console.log(44, data);
+    //有部分选中
+    const someChecked = _.find(data, function (value) {
+      return value?.defaultValue?.length > 0;
+    });
+    //全选中
+    const allChecked = _.filter(data, function (value) {
+      return value?.defaultValue?.length === value?.operations?.length;
+    });
+
+    if (allChecked.length === data.length) {
+      console.log(54, '全选中')
+      tmpAllIndeterminate = {
+        indeterminate: false,
+        checked: true,
+        disabled: tmpLoginRole === 0 ? false : (tmpLoginRole > props.defaultRole || false)
+      }
+    } else if (someChecked) {
+      console.log(60, '有部分选中')
+      tmpAllIndeterminate = {
+        indeterminate: true,
+        checked: true,
+        disabled: tmpLoginRole === 0 ? false : (tmpLoginRole > props.defaultRole || true)
+      }
+    } else {
+      console.log(66, '全取消')
+      tmpAllIndeterminate = {
+        indeterminate: false,
+        checked: false,
+        disabled: tmpLoginRole === 0 ? false : (tmpLoginRole > props.defaultRole || false)
+      }
+    }
+    setAllIndeterminate(tmpAllIndeterminate);
   }
 
   function firstCheckConfig(data: any, tmpAllIndeterminate: SecondCheckedGroup) {
@@ -61,24 +99,28 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
     if (allChecked.length === data.length) {
       console.log(54, '全选中')
       tmpAllIndeterminate = {
+        ...allIndeterminate,
         indeterminate: false,
-        checked: true
+        checked: true,
       }
     } else if (someChecked) {
       console.log(60, '有部分选中')
       tmpAllIndeterminate = {
+        ...allIndeterminate,
         indeterminate: true,
-        checked: true
+        checked: true,
       }
     } else {
       console.log(66, '全取消')
       tmpAllIndeterminate = {
+        ...allIndeterminate,
         indeterminate: false,
-        checked: false
+        checked: false,
       }
     }
     setAllIndeterminate(tmpAllIndeterminate);
   }
+
 
   useEffect(() => {
     getOperationByCheckedMenus().then(r => {
@@ -87,7 +129,8 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
         return;
       }
       const data = r?.data?.checkboxes;
-      setLoginRole(r?.data?.loginRole);
+      const tmpLoginRole = r?.data?.loginRole;
+      setLoginRole(tmpLoginRole);
       const checkedGroups: OperationCheckedGroup[] = [];
       const secondCheckedGroups: SecondCheckedGroup[] = [];
       let tmpAllIndeterminate: SecondCheckedGroup = {
@@ -100,16 +143,21 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
           checkedKeys: value.defaultValue,
         });
         const checked = value?.defaultValue?.length > 0;
+        const indeterminateSecond = checked && value?.defaultValue?.length != value.operations?.length;
+        debugger
         secondCheckedGroups.push({
-          indeterminate: checked && value?.defaultValue?.length != value.operations?.length,
-          checked: checked
+          indeterminate: indeterminateSecond,
+          checked: checked,
+          disabled: tmpLoginRole === 0 ? false//超级管理员不控制（全亮）
+            : (tmpLoginRole > props.defaultRole ? true//小角色不控制大角色权限（置灰）
+              : (indeterminateSecond || value?.defaultValue?.length === 0))//半选或者全不选置灰
         });
       });
       console.log(43, secondCheckedGroups);
       setIndeterminate(_.omit(secondCheckedGroups));
       setOperationCheckedGroup(_.omit(checkedGroups));
       setOperationData(data);
-      firstCheckConfig(data, tmpAllIndeterminate);
+      firstAllConfig(data, tmpAllIndeterminate, tmpLoginRole);
     });
   }, []);
 
@@ -123,12 +171,14 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
     if (e.target.checked) {
       //全选中
       setAllIndeterminate({
+        ...allIndeterminate,
         indeterminate: false,
         checked: true
       });
     } else {
       //全取消
       setAllIndeterminate({
+        ...allIndeterminate,
         indeterminate: false,
         checked: false
       });
@@ -147,6 +197,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
       console.log(68, '全部选中二级')
       //全选二级菜单
       indeterminate[key] = {
+        ...indeterminate[key],
         indeterminate: false,
         checked: true
       };
@@ -166,6 +217,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
       };
       setOperationCheckedGroup(_.omit(operationCheckedGroup));
       indeterminate[key] = {
+        ...indeterminate[key],
         indeterminate: false,
         checked: false
       };
@@ -181,6 +233,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
     };
     setOperationCheckedGroup(_.omit(operationCheckedGroup));
     indeterminate[key] = {
+      ...indeterminate[key],
       indeterminate: operationCheckedGroup[key].checkedKeys?.length > 0 && operationCheckedGroup[key]?.checkedKeys?.length != operationData[key]?.operations?.length,
       checked: operationCheckedGroup[key].checkedKeys?.length > 0
     };
@@ -197,8 +250,8 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
       <>
         <Col span={6} key={operation.value}>
           <Checkbox value={operation.value}
-                    disabled={!(loginRole <= props.defaultRole
-                      && operationData[parentIndex]?.defaultValue.indexOf(operation.value) > -1)}>
+                    disabled={loginRole === 0 ? false : (!(loginRole <= props.defaultRole
+                      && operationData[parentIndex]?.defaultValue.indexOf(operation.value) > -1))}>
             {operation.name}
           </Checkbox>
         </Col>
@@ -240,6 +293,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
             <Checkbox
               indeterminate={allIndeterminate.indeterminate}
               checked={allIndeterminate.checked}
+              disabled={allIndeterminate.disabled}
               onChange={onFirstChange.bind(this)}
             >全选
             </Checkbox>
@@ -253,7 +307,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
                   <Checkbox key={index}
                             indeterminate={indeterminate[index].indeterminate}
                             checked={indeterminate[index].checked}
-                            disabled={indeterminate[index].indeterminate}
+                            disabled={indeterminate[index].disabled}
                             onChange={onSecondChange.bind(this, index)}>
                     {item.menuName}
                   </Checkbox>
