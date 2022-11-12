@@ -2,8 +2,8 @@ import {ProCard, StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import React, {useEffect, useState} from 'react';
 import {Col, Row} from "antd";
+import {get} from '@/services/crud';
 
-const {Statistic} = StatisticCard;
 
 export type HomeProps = {};
 const Home: React.FC<HomeProps> = (props) => {
@@ -12,6 +12,25 @@ const Home: React.FC<HomeProps> = (props) => {
 
   const [dateInfo, setDateInfo] = useState('');
 
+  const [statisticInfo, setStatisticInfo] = useState({
+    yesterday: 0,
+    today: 0,
+    month: 0,
+    total: -1
+  });
+
+  const fetchStatistic=()=>{
+    get("/ncnb/project/statistic", {}).then(r => {
+      console.log(24, r);
+      if (r.code === 200) {
+        setStatisticInfo(r.data);
+      }
+    })
+  }
+
+  useEffect(()=>{
+    fetchStatistic();
+  },[statisticInfo.total])
 
   useEffect(() => {
     let time = new Date();
@@ -40,9 +59,7 @@ const Home: React.FC<HomeProps> = (props) => {
       " " +
       hour +
       ":" +
-      minutes +
-      ":" +
-      second;
+      minutes;
     setDateInfo(now_time)
     setInterval(() => setDateInfo(now_time), 60000);
   })
@@ -66,31 +83,31 @@ const Home: React.FC<HomeProps> = (props) => {
             <ProCard split="vertical">
               <StatisticCard
                 statistic={{
-                  title: '昨日全部模型',
-                  value: 234,
-                  description: <Statistic title="较本月平均模型" value="8.04%" trend="down"/>,
+                  title: '设计中模型',
+                  value: statisticInfo.today,
+                  suffix: '个',
                 }}
               />
               <StatisticCard
                 statistic={{
-                  title: '本月累计模型',
-                  value: 234,
-                  description: <Statistic title="月同比" value="8.88%" trend="up"/>,
+                  title: '昨日全部模型',
+                  value: statisticInfo.yesterday,
+                  suffix: '个',
                 }}
               />
             </ProCard>
             <ProCard split="vertical">
               <StatisticCard
                 statistic={{
-                  title: '设计中模型',
-                  value: '12/56',
+                  title: '本月累计模型',
+                  value: statisticInfo.month,
                   suffix: '个',
                 }}
               />
               <StatisticCard
                 statistic={{
                   title: '历史模型总数',
-                  value: '134',
+                  value: statisticInfo.total,
                   suffix: '个',
                 }}
               />

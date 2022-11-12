@@ -69,7 +69,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
   return (<>
     <ModalForm
       formRef={formRef}
-      title="字段字典"
+      title="数据字典"
       visible={modalVisit}
       onFinish={async (values: any) => {
         console.log(39, values);
