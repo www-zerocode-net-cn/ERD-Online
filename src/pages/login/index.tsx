@@ -36,7 +36,7 @@ export default () => {
   const [loginType, setLoginType] = useState<LoginType>('account');
 
   return (
-    <div style={{backgroundColor: 'white', height: 'calc(100vh - 48px)', margin: -24}}>
+    <div style={{backgroundColor: 'white', height: 'calc(100vh - 48px)', margin: 24}}>
       <LoginFormPage
         backgroundImageUrl="../login-bg.jpg"
         logo="../logo.svg"
@@ -209,7 +209,11 @@ export default () => {
             marginBlockEnd: 24,
           }}
         >
-          <Button type={"link"}>
+          <Button type={"link"} onClick={()=>{
+            history.push({
+              pathname: '/register'
+            });
+          }}>
             注册
           </Button>
           <a

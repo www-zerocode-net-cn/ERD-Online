@@ -6,7 +6,7 @@ import {login} from "@/pages/login";
 
 export default () => {
   return (
-    <div style={{backgroundColor: 'white', height: 'calc(100vh - 48px)', margin: -24}}>
+    <div style={{backgroundColor: 'white', height: 'calc(100vh - 48px)', margin: 24}}>
       <LoginFormPage
         backgroundImageUrl="../login-bg.jpg"
         logo="../logo.svg"
