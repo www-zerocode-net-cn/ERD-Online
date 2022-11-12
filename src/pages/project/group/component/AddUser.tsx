@@ -5,6 +5,7 @@ import {Button, message} from 'antd';
 import {get, post} from "@/services/crud";
 
 export type AddUserProps = {
+  projectId: string;
   roleId: string;
   actionRef: any;
 };
@@ -31,7 +32,8 @@ const AddUser: React.FC<AddUserProps> = (props) => {
       submitTimeout={2000}
       onFinish={async (values: any) => {
         console.log(values.user);
-        await post('/ncnb/project/role/users', {
+        await post('/ncnb/project/group/role/users', {
+          projectId: props.projectId,
           roleId: props.roleId,
           userIds: values.user,
         }).then((resp) => {
@@ -53,7 +55,7 @@ const AddUser: React.FC<AddUserProps> = (props) => {
           showSearch
           request={
             async (param) => {
-              const result = await get('/ncnb/project/users', {
+              const result = await get('/ncnb/project/group/users', {
                 pageSize: 6,
                 current: 1,
                 username: param.keyWords,

@@ -1,10 +1,10 @@
 import {ProList} from '@ant-design/pro-components';
 import {message, Space, Tag} from 'antd';
 import {useEffect, useState} from "react";
-import {pageProject} from "@/utils/save";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
 import OpenProject from "@/components/dialog/project/OpenProject";
 import {ProjectListProps} from "@/pages/project/person";
+import {recentProject} from "@/services/project";
 
 type ProjectItem = {
   id: number;
@@ -36,7 +36,7 @@ export default () => {
   });
 
   const fetchProjects = (params: any) => {
-    pageProject(params || state).then(res => {
+    recentProject(params || state).then(res => {
       if (res) {
         if (res.data) {
           console.log(44, 'projects', res);

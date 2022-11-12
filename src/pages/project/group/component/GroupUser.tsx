@@ -25,13 +25,14 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
   const [searchParams] = useSearchParams();
 
   const actionRef = useRef<ActionType>();
+  const projectId = searchParams.get(CONSTANT.PROJECT_ID) || '';
 
   return (<>
     <ProList<ProjectUser>
       actionRef={actionRef}
       toolBarRender={() => {
         return props.isAdmin ? [] : [
-          <AddUser roleId={props.roleId} actionRef={actionRef}/>,
+          <AddUser projectId={projectId} roleId={props.roleId} actionRef={actionRef}/>,
         ];
       }}
       search={{
@@ -40,9 +41,9 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
       rowKey="id"
       request={
         async (params = {}) => {
-          const result = await get('/ncnb/project/role/users', {
+          const result = await get('/ncnb/project/group/role/users', {
             ...params,
-            projectId: searchParams.get(CONSTANT.PROJECT_ID),
+            projectId: projectId,
             roleId: props.roleId,
           });
           return {
@@ -83,7 +84,8 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
         actions: {
           render: (text, row) => props.isAdmin ? [] : [
             <Popconfirm placement="right" title={"是否将『" + row.username + "』移除"}
-                        onConfirm={() => del("/ncnb/project/role/users", {
+                        onConfirm={() => del("/ncnb/project/group/role/users", {
+                          projectId: projectId,
                           roleId: props.roleId,
                           userIds: [row.id],
                         }).then((r) => {

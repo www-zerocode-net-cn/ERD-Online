@@ -9,13 +9,10 @@ import useGlobalStore from "@/store/global/globalStore";
 import {State} from "zustand/vanilla";
 import ExportSlice from "@/store/project/exportSlice";
 import * as CryptoJS from 'crypto-js';
-import request from "@/utils/request";
-import {message} from "antd";
 
 export type IProjectJsonSlice = {}
 
 export interface IProjectJsonDispatchSlice {
-  addProject: (project: any) => Promise<any>;
   setProjectJson: (value: any) => void;
   setModules: (value: any) => void;
   setDataTypeDomains: (value: any) => void;
@@ -28,15 +25,6 @@ export interface IProjectJsonDispatchSlice {
 const globalState = useGlobalStore.getState();
 
 const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
-  addProject: (project: any) => {
-    return request.post('/ncnb/project/add', {
-      data: project
-    }).then(res => {
-      if (res && res.code === 200) {
-        message.info('新增成功');
-      }
-    });
-  },
   setProjectJson: (value: any) => set(produce(state => {
     state.project.projectJSON = value
   })),
@@ -81,8 +69,8 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     }
     return "";
   },
-  ...ModulesSlice(set,get),
-  ...DataTypeDomainsSlice(set,get),
+  ...ModulesSlice(set, get),
+  ...DataTypeDomainsSlice(set, get),
   ...DatabaseDomainsSlice(set, get),
   ...ProfileSlice(set, get),
   ...ExportSlice(set, get),

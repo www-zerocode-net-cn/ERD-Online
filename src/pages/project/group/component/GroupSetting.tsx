@@ -16,7 +16,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
   const [items, setItems] = useState([]);
   const [searchParams] = useSearchParams();
 
-  const children = (roleId: string,isAdmin:boolean) => {
+  const children = (roleId: string, isAdmin: boolean, defaultRole: string) => {
 
     return <>
       <Tabs
@@ -30,7 +30,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
           {
             label: <Text strong>权限配置</Text>,
             key: '3',
-            children: <GroupPermission values={{"id": 1}}/>,
+            children: <GroupPermission defaultRole={Number(defaultRole)} values={{"id": roleId}}/>,
           },
         ]}
       />
@@ -38,11 +38,11 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
   }
 
   useEffect(() => {
-    get('/ncnb/project/roles', {
+    get('/ncnb/project/group/roles', {
       projectId: searchParams.get(CONSTANT.PROJECT_ID),
     }).then(resp => {
       const items = resp?.data?.map((d: {
-          roleId: string; roleName: string; roleCode: string;
+        roleId: string; roleName: string; roleCode: string;
       }) => {
         const isAdmin = d.roleCode.includes('_0');
         if (isAdmin) {
@@ -51,7 +51,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
         return {
           label: d.roleName,
           key: d.roleCode,
-          children: children(d.roleId,isAdmin),
+          children: children(d.roleId, isAdmin, d.roleCode.split('_')[1]),
         }
       });
       setItems(items);
@@ -63,7 +63,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
     <div>
       <Space size={'large'}>
         <Title level={4}>用户组 </Title>
-{/*
+        {/*
         <Title level={3}> <PlusCircleTwoTone/></Title>
 */}
       </Space>

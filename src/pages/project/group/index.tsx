@@ -1,13 +1,13 @@
 import {ProList} from '@ant-design/pro-components';
 import {message, Space, Tag} from 'antd';
 import {useEffect, useState} from "react";
-import {pageProject} from "@/utils/save";
 import {TeamOutlined, UserOutlined} from "@ant-design/icons";
 import AddProject from "@/components/dialog/project/AddProject";
 import OpenProject from "@/components/dialog/project/OpenProject";
 import {searchProjects} from "@/pages/project/recent";
 import ConfigProject from "@/components/dialog/project/ConfigProject";
 import {ProjectListProps} from "@/pages/project/person";
+import {pageGroupProject} from "@/services/group-project";
 
 
 type ProjectItem = {
@@ -34,7 +34,7 @@ export default () => {
   });
 
   const fetchProjects = (params: any) => {
-    pageProject(params || state).then(res => {
+    pageGroupProject(params || state).then(res => {
       if (res) {
         if (res.data) {
           console.log(44, 'projects', res);

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, message, Popconfirm} from "antd";
 import {deleteProject} from "@/services/project";
+import {deleteGroupProject} from "@/services/group-project";
 
 export type RemoveGroupProjectProps = {
   projectId: string;
@@ -12,7 +13,7 @@ const RemoveGroupProject: React.FC<RemoveGroupProjectProps> = (props) => {
 
   return (<>
     <Popconfirm placement="right" title="删除项目"
-                onConfirm={() => deleteProject({
+                onConfirm={() => deleteGroupProject({
                   id: props.projectId
                 }).then((r) => {
                   if(r.code===200){

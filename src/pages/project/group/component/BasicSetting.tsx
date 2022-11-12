@@ -6,6 +6,7 @@ import {useSearchParams} from "@@/exports";
 import {updateProject} from "@/services/project";
 import _ from "lodash";
 import RemoveGroupProject from "@/pages/project/group/component/RemoveGroupProject";
+import {updateGroupProject} from "@/services/group-project";
 
 const {Title, Text} = Typography;
 
@@ -18,7 +19,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
     <ProForm
       onFinish={async (values) => {
         console.log(values);
-        await updateProject({
+        await updateGroupProject({
           id: projectId,
           projectName: values.projectName,
           description: values.description,
@@ -38,7 +39,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
         return value.format('YYYY/MM/DD HH:mm:ss');
       }}
       request={async (param) => {
-        const result = await get('/ncnb/project/get/' + projectId, {});
+        const result = await get('/ncnb/project/group/get/' + projectId, {});
         return result?.data
       }}
       autoFocusFirstInput
@@ -120,6 +121,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
       <ProFormText width="md"
                    name="updateTime"
                    label="最后修改时间"
+                   placeholder=""
                    fieldProps={{
                      bordered: false,
                      disabled: true,

@@ -4,6 +4,8 @@ import {CheckboxValueType} from "antd/lib/checkbox/Group";
 import {get, post} from "@/services/crud";
 import {Checkbox, Col, Divider, Empty, List, message, Row} from "antd";
 import _ from "lodash";
+import {CONSTANT} from "@/utils/constant";
+import {useSearchParams} from "@@/exports";
 
 export type PermissionGroup = {
   defaultValue: CheckboxValueType[];
@@ -22,9 +24,11 @@ export type SecondCheckedGroup = {
 }
 
 export type GroupPermissionProps = {
+  defaultRole: number;
   values: any;
 };
 const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
+  const [loginRole, setLoginRole] = useState<number>(3);
   const [operationData, setOperationData] = useState<PermissionGroup[]>([]);
   const [indeterminate, setIndeterminate] = useState<SecondCheckedGroup[]>([]);
   const [allIndeterminate, setAllIndeterminate] = useState<SecondCheckedGroup>({
@@ -33,11 +37,14 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
   });
   //各菜单选中的的元素集合
   const [operationCheckedGroup, setOperationCheckedGroup] = useState<OperationCheckedGroup[]>([]);
+  const [searchParams] = useSearchParams();
 
 
   const getOperationByCheckedMenus = async () => {
-    const result = await get('/ncnb/project/role/permission', {roleId: props.values?.id || '1'});
-    return result?.data;
+    return await get('/ncnb/project/group/role/permission', {
+      roleId: props.values?.id,
+      projectId: searchParams.get(CONSTANT.PROJECT_ID),
+    });
   }
 
   function firstCheckConfig(data: any, tmpAllIndeterminate: SecondCheckedGroup) {
@@ -74,7 +81,13 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
   }
 
   useEffect(() => {
-    getOperationByCheckedMenus().then(data => {
+    getOperationByCheckedMenus().then(r => {
+      if (!r || r.code !== 200) {
+        message.error('获取权限列表失败');
+        return;
+      }
+      const data = r?.data?.checkboxes;
+      setLoginRole(r?.data?.loginRole);
       const checkedGroups: OperationCheckedGroup[] = [];
       const secondCheckedGroups: SecondCheckedGroup[] = [];
       let tmpAllIndeterminate: SecondCheckedGroup = {
@@ -174,22 +187,20 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
     setIndeterminate(_.omit(indeterminate));
     console.log(44, checkedValue);
     console.log(45, operationCheckedGroup[key]?.checkedKeys?.length);
-    console.log(46, operationData[key]?.operations?.length);
-    operationData[key] = {
-      ...operationData[key],
-      defaultValue: checkedValue,
-    };
-    setOperationData(operationData);
     firstCheckConfig(operationData, _.omit(allIndeterminate));
   };
 
-  const getOperation = (operations: any[]) => {
-
+  const getOperation = (operations: any[], parentIndex: number) => {
+    console.log(200, loginRole, props.defaultRole);
     let operations1: any[] = [];
     operations1 = operations.map((operation: any, index: number) =>
       <>
         <Col span={6} key={operation.value}>
-          <Checkbox value={operation.value}>{operation.name}</Checkbox>
+          <Checkbox value={operation.value}
+                    disabled={!(loginRole <= props.defaultRole
+                      && operationData[parentIndex]?.defaultValue.indexOf(operation.value) > -1)}>
+            {operation.name}
+          </Checkbox>
         </Col>
       </>
     );
@@ -242,6 +253,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
                   <Checkbox key={index}
                             indeterminate={indeterminate[index].indeterminate}
                             checked={indeterminate[index].checked}
+                            disabled={indeterminate[index].indeterminate}
                             onChange={onSecondChange.bind(this, index)}>
                     {item.menuName}
                   </Checkbox>
@@ -256,7 +268,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
                   >
                     <Row>
                       {
-                        item?.operations?.length > 0 && getOperation(item?.operations)
+                        item?.operations?.length > 0 && getOperation(item?.operations, index)
                       }
                     </Row>
                   </Checkbox.Group>

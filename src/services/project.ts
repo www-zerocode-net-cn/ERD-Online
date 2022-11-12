@@ -31,6 +31,19 @@ export const pageProject = (params: any) => {
   });
 };
 
+// 最近项目
+export const recentProject = (params: any) => {
+  return request.get('/ncnb/project/recent', {
+    params: {
+      page: params.page,
+      limit: params.limit,
+      projectName: params.projectName,
+      order: params.order,
+      type: params.type
+    }
+  });
+};
+
 // 保存项目
 export const saveProject = (data: any) => {
   const id = cache.getItem(CONSTANT.PROJECT_ID);
