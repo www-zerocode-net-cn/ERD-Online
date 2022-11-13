@@ -70,7 +70,6 @@
       {
         path: '/project/group/setting',
         redirect: '/project/group/setting/basic',
-        access: 'canAdmin',
       },
       {
         path: '/project/group/setting/basic',
@@ -175,6 +174,7 @@
     path: '/',
     redirect: '/project/home',
   },
+  {path: '/*', component: './404',},
   {
     component: './404',
   },
