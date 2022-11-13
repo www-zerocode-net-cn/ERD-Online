@@ -14,7 +14,6 @@
     "dev": "npm run start:dev",
     "gh-pages": "gh-pages -d dist",
     "i18n-remove": "pro i18n-remove --locale=zh-CN --write",
-    "postinstall": "max setup",
     "lint": "max g tmp && npm run lint:js && npm run lint:style && npm run lint:prettier",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
@@ -134,6 +133,7 @@
     "sass": "^1.55.0",
     "stylelint": "^13.0.0",
     "typescript": "^4.2.2",
+    "umi-presets-pro": "^1.0.8",
     "url-loader": "^4.1.1"
   },
   "packageManager": "pnpm@7.3.0",
