@@ -9,8 +9,7 @@ export default defineConfig({
   // Fast Refresh 热更新
   fastRefresh: true,
   title:'ERD Online',
-  plugins: [
-    // https://github.com/zthxxx/react-dev-inspector
-  ],
-  mfsu:{}
+  mfsu: {
+    exclude :['@playwright/test']
+  },
 });

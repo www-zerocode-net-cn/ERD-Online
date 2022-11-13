@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
 import defaultProps from './_defaultProps';
 import {Me} from "@icon-park/react";
@@ -6,17 +6,31 @@ import {Button, Dropdown} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {headRightContent} from "@/layouts/CommonLayout";
-import {history} from "@@/core/history";
-import {Link, Outlet, useSearchParams} from "@@/exports";
+import {history, Link, Outlet, useModel, useSearchParams} from "@umijs/max";
+import {get} from "@/services/crud";
 
 export type GroupLayoutProps = {};
 const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
+  const {initialState, setInitialState} = useModel('@@initialState');
+
   const [pathname, setPathname] = useState('/project/home');
 
   const [searchParams] = useSearchParams();
   const projectId = searchParams.get("projectId") || '';
 
   console.log(19, 'projectId', projectId);
+  console.log(24, initialState);
+  useEffect(() => {
+    get("/ncnb/project/group/currentRolePermission", {
+      projectId
+    }).then(r => {
+      console.log(29, r);
+      if (r?.code === 200) {
+        setInitialState((s: any) => ({...s, access: r.data}));
+      }
+    })
+
+  }, [])
 
   const settings: ProSettings | undefined = {
     "layout": "mix",

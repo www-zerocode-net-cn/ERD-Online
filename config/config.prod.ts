@@ -6,10 +6,6 @@ export default defineConfig({
   define: {
     API_URL: 'https://erd.zerocode.net.cn'
   },
-  plugins: [
-    // https://github.com/zthxxx/react-dev-inspector
-  ],
-
   // 打包时移除 console
   extraBabelPlugins: ['transform-remove-console'],
 
