@@ -19,7 +19,7 @@ const Home: React.FC<HomeProps> = (props) => {
     total: -1
   });
 
-  const fetchStatistic=()=>{
+  const fetchStatistic = () => {
     get("/ncnb/project/statistic", {}).then(r => {
       console.log(24, r);
       if (r.code === 200) {
@@ -27,10 +27,6 @@ const Home: React.FC<HomeProps> = (props) => {
       }
     })
   }
-
-  useEffect(()=>{
-    fetchStatistic();
-  },[statisticInfo.total])
 
   useEffect(() => {
     let time = new Date();
@@ -55,14 +51,12 @@ const Home: React.FC<HomeProps> = (props) => {
       month +
       "月" +
       date +
-      "日" +
-      " " +
-      hour +
-      ":" +
-      minutes;
-    setDateInfo(now_time)
-    setInterval(() => setDateInfo(now_time), 60000);
-  })
+      "日";
+    setDateInfo(now_time);
+    fetchStatistic();
+
+
+  },[statisticInfo.total])
 
   return (
     <RcResizeObserver
