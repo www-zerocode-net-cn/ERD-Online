@@ -1,18 +1,20 @@
 import React from "react";
-import {ProForm, ProFormText,ProFormSelect, ProFormTextArea} from '@ant-design/pro-components';
+import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import {Divider, message, Space, Typography} from "antd";
 import {get} from "@/services/crud";
 import {useSearchParams} from "@@/exports";
-import {updateProject} from "@/services/project";
 import _ from "lodash";
 import RemoveGroupProject from "@/pages/project/group/component/RemoveGroupProject";
 import {updateGroupProject} from "@/services/group-project";
+import {Access, useAccess} from "@@/plugin-access";
+
 
 const {Title, Text} = Typography;
 
 
 export type BasicSettingProps = {};
 const BasicSetting: React.FC<BasicSettingProps> = (props) => {
+  const access = useAccess();
   const [searchParams] = useSearchParams();
   const projectId = searchParams.get("projectId") || '';
   return (<>
@@ -76,7 +78,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
                      }}
                      fieldProps={{
                        mode: "tags",
-                       tokenSeparators: [",",";"]
+                       tokenSeparators: [",", ";"]
                      }}
       />
       <ProFormTextArea
@@ -144,12 +146,16 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
 
 
     <Divider/>
-    <Space direction="vertical">
-      <Title level={4}>删除项目</Title>
-      <Text type="secondary">删除项目全部模型，此操作无法恢复</Text>
-      <RemoveGroupProject projectId={projectId}/>
-    </Space>
+    <Access
+      accessible={access.canAdmin}
+      fallback={<></>}
+    >
+      <Space direction="vertical">
+        <Title level={4}>删除项目</Title>
+        <Text type="secondary">删除项目全部模型，此操作无法恢复</Text>
+        <RemoveGroupProject projectId={projectId}/>
+      </Space>
+    </Access>
   </>);
 };
-
 export default React.memo(BasicSetting)

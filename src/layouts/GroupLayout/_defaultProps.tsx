@@ -7,11 +7,13 @@ export default {
       {
         path: '/project/group',
         name: '返回项目列表',
+        access: 'canAdmin',
         icon: <LeftC theme="filled" size="18" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>,
       },
       {
         path: '/project/group/setting/basic',
         name: '基本设置',
+        access: 'canAdmin',
         icon: <SettingOne theme="filled" size="18" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>,
       },
       {

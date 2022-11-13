@@ -38,6 +38,7 @@
       {
         path: '/project/home',
         component: './project/home',
+        access: 'canAdmin'
       },
       {
         path: '/project/recent',
@@ -69,10 +70,12 @@
       {
         path: '/project/group/setting',
         redirect: '/project/group/setting/basic',
+        access: 'canAdmin',
       },
       {
         path: '/project/group/setting/basic',
         component: './project/group/component/BasicSetting',
+        access: 'canAdmin',
       },
       {
         path: '/project/group/setting/permission',
@@ -164,47 +167,13 @@
         ]
       },
       {
-        name: 'relation',
-        path: '/design/relation',
-        component: './design/relation',
-      },
-      {
-        name: 'test2',
-        path: '/design/test2',
-        component: './design/test/Test2'
-      },
-      {
-        name: 'test3',
-        path: '/design/test3',
-        component: './design/test/Test3',
-      },
-      {
         component: './404',
       },
     ],
   },
   {
-    name: 'test',
-    path: '/test',
-
-    component: '../layouts/CommonLayout',
-    routes: [
-      {
-        name: 'test',
-        path: '/test/test',
-        component: './test/test',
-      },]
-  },
-
-  {
     path: '/',
     redirect: '/project/home',
-  },
-
-  {
-    name: 'excel',
-    path: '/JExcel',
-    component: './JExcel',
   },
   {
     component: './404',

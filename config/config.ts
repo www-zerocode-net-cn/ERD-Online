@@ -8,9 +8,6 @@ const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
   hash: true,
-  dva: {
-
-  },
   fastRefresh: true,
   // umi routes: https://umijs.org/docs/routing
   routes,
@@ -20,6 +17,7 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+  layout:{},
   model: {},
   access: {},
   // access 插件依赖 initial State 所以需要同时开启
