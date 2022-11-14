@@ -3,8 +3,11 @@
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
 export default function access(initialState: and) {
-  const {permission} = initialState?.access || [];
+  let {permission} = initialState?.access || [];
   console.log(6, 'permission', permission);
+  if (!permission) {
+    permission = false;
+  }
   return {
     canAdmin: false,
     canErdProjectGroupPage: permission && permission.includes('erd_project_group_page'),//团队基础设置 -查看页面

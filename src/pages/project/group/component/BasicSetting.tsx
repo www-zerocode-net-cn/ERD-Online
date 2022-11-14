@@ -19,6 +19,13 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
   const projectId = searchParams.get("projectId") || '';
   return (<>
     <ProForm
+      submitter={{
+        // 完全自定义整个区域
+        render: (props, dom) => {
+          console.log(props);
+          return access.canErdProjectGroupEdit ? dom : null;
+        },
+      }}
       onFinish={async (values) => {
         console.log(values);
         await updateGroupProject({
@@ -51,6 +58,10 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
                    name="projectName"
                    label="项目名"
                    placeholder="请输入项目名"
+                   fieldProps={{
+                     bordered: access.canErdProjectGroupEdit,
+                     disabled: !access.canErdProjectGroupEdit,
+                   }}
                    formItemProps={{
                      rules: [
                        {
@@ -68,6 +79,8 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
                      name="tags"
                      label="标签"
                      placeholder="请输入项目标签,按回车分割"
+                     disabled={!access.canErdProjectGroupEdit}
+                     bordered={access.canErdProjectGroupEdit}
                      formItemProps={{
                        rules: [
                          {
@@ -86,6 +99,10 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
         name="description"
         label="项目描述"
         placeholder="请输入项目描述"
+        fieldProps={{
+          bordered: access.canErdProjectGroupEdit,
+          disabled: !access.canErdProjectGroupEdit,
+        }}
         formItemProps={{
           rules: [
             {
@@ -127,7 +144,6 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
                    fieldProps={{
                      bordered: false,
                      disabled: true,
-
                    }}
                    formItemProps={{
                      rules: [
@@ -147,7 +163,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
 
     <Divider/>
     <Access
-      accessible={access.canAdmin}
+      accessible={access.canErdProjectGroupDel}
       fallback={<></>}
     >
       <Space direction="vertical">
