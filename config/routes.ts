@@ -38,7 +38,6 @@
       {
         path: '/project/home',
         component: './project/home',
-        access: 'canAdmin'
       },
       {
         path: '/project/recent',
@@ -74,7 +73,6 @@
       {
         path: '/project/group/setting/basic',
         component: './project/group/component/BasicSetting',
-        access: 'canAdmin',
       },
       {
         path: '/project/group/setting/permission',
