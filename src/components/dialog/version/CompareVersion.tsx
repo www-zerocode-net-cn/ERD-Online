@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ProForm, ModalForm,ProFormSelect} from "@ant-design/pro-components";
+import {ProForm, ModalForm, ProFormSelect} from "@ant-design/pro-components";
 import {Divider, Grid} from "@mui/material";
 import {compareStringVersion} from '@/utils/string';
 import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore";
@@ -10,6 +10,7 @@ import moment from "moment";
 import * as File from '@/utils/file';
 import _ from 'lodash';
 import {DiffOutlined, InfoOutlined} from "@ant-design/icons";
+import {Access, useAccess} from "@@/plugin-access";
 
 export const CompareVersionType = {DETAIL: "detail", COMPARE: "compare"}
 
@@ -42,6 +43,8 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
     preSynchronous: false,
     flagSynchronous: false,
   });
+  const access = useAccess();
+
 
   useEffect(() => {
     versionDispatch.compare(state);
@@ -109,37 +112,41 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
           console.log(props);
           return [
             <Button key="save" onClick={onSave}>导出到文件</Button>,
-
-            <Button
-              loading={state.synchronous}
-              title='会更新数据源中的版本号'
-              style={{
-                display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
-              }}
-              onClick={() => execSQL(true, 'synchronous')}
+            <Access
+              accessible={access.canErdConnectorDbsync}
+              fallback={<></>}
             >
-              {state.synchronous ? '正在同步' : '同步到数据源'}
-            </Button>,
-            <Button
-              loading={state.flagSynchronous}
-              title='更新数据源的版本号，不会执行差异化的SQL'
-              style={{
-                display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
-              }}
-              onClick={() => execSQL(true, 'flagSynchronous')}
-            >
-              {state.flagSynchronous ? '正在标记为同步' : '标记为同步'}
-            </Button>,
-            <Button
-              loading={state.again}
-              title='不会更新数据源中的版本号'
-              style={{
-                display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) <= 0) ? '' : 'none',
-                marginLeft: 10,
-              }}
-              onClick={() => execSQL(false, 'again')}
-            >
-              {state.again ? '正在执行' : '再次执行'}</Button>
+              <Button
+                loading={state.synchronous}
+                title='会更新数据源中的版本号'
+                style={{
+                  display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
+                }}
+                onClick={() => execSQL(true, 'synchronous')}
+              >
+                {state.synchronous ? '正在同步' : '同步到数据源'}
+              </Button>,
+              <Button
+                loading={state.flagSynchronous}
+                title='更新数据源的版本号，不会执行差异化的SQL'
+                style={{
+                  display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none',
+                }}
+                onClick={() => execSQL(true, 'flagSynchronous')}
+              >
+                {state.flagSynchronous ? '正在标记为同步' : '标记为同步'}
+              </Button>,
+              <Button
+                loading={state.again}
+                title='不会更新数据源中的版本号'
+                style={{
+                  display: (isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) <= 0) ? '' : 'none',
+                  marginLeft: 10,
+                }}
+                onClick={() => execSQL(false, 'again')}
+              >
+                {state.again ? '正在执行' : '再次执行'}</Button>
+            </Access>,
           ];
         },
       }}

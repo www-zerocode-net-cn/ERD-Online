@@ -15,6 +15,7 @@ import RemoveVersion from "@/components/dialog/version/RemoveVersion";
 import SyncVersion from "@/components/dialog/version/SyncVersion";
 import {CheckCircleFilled, WarningFilled} from "@ant-design/icons";
 import _ from "lodash";
+import {Access, useAccess} from "@@/plugin-access";
 
 const {Option, OptGroup} = Select;
 
@@ -34,6 +35,7 @@ const Version: React.FC<VersionProps> = (props) => {
     versionDispatch: state.dispatch,
   }), shallow);
 
+  const access = useAccess();
 
   console.log('dbs', 37, dbs);
   console.log('versions', 38, versions);
@@ -210,16 +212,33 @@ const Version: React.FC<VersionProps> = (props) => {
             render: (text, row) => [
               <CompareVersion type={CompareVersionType.DETAIL}/>,
               <CompareVersion type={CompareVersionType.COMPARE}/>,
-              <RenameVersion/>,
-              <RemoveVersion/>,
-              <SyncVersion/>
+              <Access
+                accessible={access.canErdHisprojectEdit}
+                fallback={<></>}
+              >
+                <RenameVersion/>
+              </Access>,
+              <Access
+                accessible={access.canErdHisprojectDel}
+                fallback={<></>}
+              >
+                <RemoveVersion/>
+              </Access>,
+              <Access
+                accessible={access.canErdConnectorDbsync}
+                fallback={<></>}
+              >
+                <SyncVersion/>
+              </Access>
 
             ],
           },
         }}
-        onRow={(record:any,index:number) => {
+        onRow={(record: any, index: number) => {
           return {
-            onMouseEnter: (event) => {versionDispatch.setCurrentVersion(record, index);console.log(123)
+            onMouseEnter: (event) => {
+              versionDispatch.setCurrentVersion(record, index);
+              console.log(123)
             }, // 鼠标移入行
           };
         }}
@@ -291,10 +310,30 @@ const Version: React.FC<VersionProps> = (props) => {
             },
           },
           actions: [
-            <AddVersion trigger="bp"/>,
-            <SyncConfig/>,
-            <InitVersion/>,
-            <RebuildVersion/>,
+            <Access
+              accessible={access.canErdHisprojectAdd}
+              fallback={<></>}
+            >
+              <AddVersion trigger="bp"/>
+            </Access>,
+            <Access
+              accessible={access.canErdHisprojectConfig}
+              fallback={<></>}
+            >
+              <SyncConfig/>
+            </Access>,
+            <Access
+              accessible={access.canErdHisprojectInit}
+              fallback={<></>}
+            >
+              <InitVersion/>
+            </Access>,
+            <Access
+              accessible={access.canErdHisprojectRebuild}
+              fallback={<></>}
+            >
+              <RebuildVersion/>
+            </Access>,
 
           ],
         }}

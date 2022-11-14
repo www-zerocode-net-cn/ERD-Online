@@ -40,6 +40,7 @@ export default {
             path: '/design/table/version/all',
             name: '版本管理',
             icon: <History theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdHisprojectAll',
           },
         ],
       },
