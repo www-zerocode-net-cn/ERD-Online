@@ -8,10 +8,12 @@ import * as cache from "@/utils/cache";
 import {headRightContent} from "@/layouts/CommonLayout";
 import {history, Link, Outlet, useModel, useSearchParams} from "@umijs/max";
 import {get} from "@/services/crud";
+import {useAccess} from "@@/plugin-access";
 
 export type GroupLayoutProps = {};
 const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
   const {initialState, setInitialState} = useModel('@@initialState');
+  const access = useAccess();
 
   const [pathname, setPathname] = useState('/project/home');
 
@@ -40,6 +42,17 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
     "siderMenuType": "group",
     "fixedHeader": true
   };
+
+  const defaultPropsTmp = defaultProps.route.routes.map((m: any) => {
+    const pathAccess = access[m?.access];
+    console.log(48, pathAccess);
+    if (pathAccess !== false) {
+      return m;
+    }
+  });
+  defaultProps.route.routes = defaultPropsTmp;
+
+  console.log(54,defaultPropsTmp)
 
   return (
     <WaterMark content={['ERD Online', 'V4.0.3']}>
@@ -78,8 +91,8 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
         onMenuHeaderClick={(e) => history.push("/")}
         menuItemRender={(item, dom) => {
           return (
-            item.path?.startsWith('http') || item.exact ?
-              <a href={item?.path || '/project'} target={'_blank'}>{dom}</a>
+            item.path?.startsWith('http') || item.exact
+              ? <a href={item?.path || '/project'} target={'_blank'}>{dom}</a>
               :
 
               <div

@@ -1,11 +1,11 @@
 import React, {useRef} from "react";
-import {ProList} from '@ant-design/pro-components';
+import {ActionType, ProList} from '@ant-design/pro-components';
 import {message, Popconfirm} from 'antd';
 import {del, get} from "@/services/crud";
 import {useSearchParams} from "@@/exports";
 import {CONSTANT} from "@/utils/constant";
 import AddUser from "@/pages/project/group/component/AddUser";
-import {ActionType} from "@ant-design/pro-components";
+import {Access, useAccess} from "@@/plugin-access";
 
 
 type ProjectUser = {
@@ -21,7 +21,7 @@ export type GroupUserProps = {
   isAdmin: boolean;
 };
 const GroupUser: React.FC<GroupUserProps> = (props) => {
-
+  const access = useAccess();
   const [searchParams] = useSearchParams();
 
   const actionRef = useRef<ActionType>();
@@ -31,7 +31,7 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
     <ProList<ProjectUser>
       actionRef={actionRef}
       toolBarRender={() => {
-        return props.isAdmin ? [] : [
+        return access.canErdProjectUsersAdd && props.isAdmin ? [] : [
           <AddUser projectId={projectId} roleId={props.roleId} actionRef={actionRef}/>,
         ];
       }}
@@ -66,7 +66,7 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
         title: {
           dataIndex: 'username',
           title: '用户名',
-          search: !props.isAdmin
+          search: access.canErdProjectRolesSearch && !props.isAdmin
         },
         avatar: {
           dataIndex: 'avatar',
@@ -79,28 +79,33 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
         content: {
           dataIndex: 'email',
           title: '邮箱',
-          search: !props.isAdmin
+          search: access.canErdProjectRolesSearch && !props.isAdmin
         },
         actions: {
           render: (text, row) => props.isAdmin ? [] : [
-            <Popconfirm placement="right" title={"是否将『" + row.username + "』移除"}
-                        onConfirm={() => del("/ncnb/project/group/role/users", {
-                          projectId: projectId,
-                          roleId: props.roleId,
-                          userIds: [row.id],
-                        }).then((r) => {
-                          if (r.code === 200) {
-                            message.success("移除成功");
-                            actionRef.current?.reload();
+            <Access
+              accessible={access.canErdProjectRoleUsersDel}
+              fallback={<></>}
+            >
+              <Popconfirm placement="right" title={"是否将『" + row.username + "』移除"}
+                          onConfirm={() => del("/ncnb/project/group/role/users", {
+                            projectId: projectId,
+                            roleId: props.roleId,
+                            userIds: [row.id],
+                          }).then((r) => {
+                            if (r.code === 200) {
+                              message.success("移除成功");
+                              actionRef.current?.reload();
+                            }
+                          })
                           }
-                        })
-                        }
-                        okText="是"
-                        cancelText="否">
-              <a key="link">
-                移除
-              </a>
-            </Popconfirm>
+                          okText="是"
+                          cancelText="否">
+                <a key="link">
+                  移除
+                </a>
+              </Popconfirm>
+            </Access>
           ],
           search: false,
         },

@@ -6,6 +6,7 @@ import {Checkbox, Col, Divider, Empty, List, message, Row} from "antd";
 import _ from "lodash";
 import {CONSTANT} from "@/utils/constant";
 import {useSearchParams} from "@@/exports";
+import {useAccess} from "@@/plugin-access";
 
 export type PermissionGroup = {
   defaultValue: CheckboxValueType[];
@@ -30,6 +31,7 @@ export type GroupPermissionProps = {
   isAdmin: boolean;
 };
 const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
+  const access = useAccess();
   const [loginRole, setLoginRole] = useState<number>(3);
   const [operationData, setOperationData] = useState<PermissionGroup[]>([]);
   const [indeterminate, setIndeterminate] = useState<SecondCheckedGroup[]>([]);
@@ -262,27 +264,31 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
   return (<>
     <ProForm
       submitter={{
-        render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
+        render: (_, dom) => access.canErdProjectRolePermissionEdit ? <FooterToolbar>{dom}</FooterToolbar> : <></>,
       }}
       onFinish={async (values) => {
-        console.log(269,values,operationCheckedGroup);
+        console.log(269, values, operationCheckedGroup);
 
         let checkedKeys: CheckboxValueType[] = [];
         operationCheckedGroup.forEach((value) => {
           checkedKeys = checkedKeys.concat(value.checkedKeys);
         });
-        await post('/ncnb/project/group/saveCheckedOperations',
-          {
-            checkedKeys,
-            roleId: props.values.id
-          }
-        ).then((result) => {
-          if (result.code === 200) {
-            message.success("保存成功");
-          } else {
-            message.error(result.msg);
-          }
-        });
+        if (access.canErdProjectRolePermissionEdit) {
+          await post('/ncnb/project/group/saveCheckedOperations',
+            {
+              checkedKeys,
+              roleId: props.values.id
+            }
+          ).then((result) => {
+            if (result.code === 200) {
+              message.success("保存成功");
+            } else {
+              message.error(result.msg);
+            }
+          });
+        }else {
+          message.warn('无权操作权限功能');
+        }
 
       }}
     >

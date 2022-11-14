@@ -10,17 +10,15 @@ export default function access(initialState: and) {
   }
   return {
     canAdmin: false,
-    canErdProjectGroupPage: permission && permission.includes('erd_project_group_page'),//团队基础设置 -查看页面
     canErdProjectGroupEdit: permission && permission.includes('erd_project_group_edit'),//团队基础设置 -修改
     canErdProjectGroupDel: permission && permission.includes('erd_project_group_del'),//团队基础设置 -删除
     canErdProjectPermissionGroup: permission && permission.includes('erd_project_permission_group'),//团队权限组 -查看页面
     canErdProjectRolesPage: permission && permission.includes('erd_project_roles_page'),//团队权限组 -用户组成员
     canErdProjectRolesSearch: permission && permission.includes('erd_project_roles_search'),//团队权限组 -搜索
     canErdProjectUsersAdd: permission && permission.includes('erd_project_users_add'),//团队权限组 -新增用户
-    canErdProjectRoleUsers: permission && permission.includes('erd_project_role_users'),//团队权限组 -移除用户
+    canErdProjectRoleUsersDel: permission && permission.includes('erd_project_role_users_del'),//团队权限组 -移除用户
     canErdProjectRolePermission: permission && permission.includes('erd_project_role_permission'),//团队权限组 -权限配置
     canErdProjectRolePermissionEdit: permission && permission.includes('erd_project_role_permission_edit'),//团队权限组 -修改权限
-    canErdProjectInfo: permission && permission.includes('erd_project_info'),//模型设计 -查看页面
     canErdProjectSave: permission && permission.includes('erd_project_save'),//模型设计 -修改模型
     canErdHisprojectLoad: permission && permission.includes('erd_hisProject_load'),//版本管理 -查看页面
     canErdHisprojectAll: permission && permission.includes('erd_hisProject_all'),//版本管理 -全部版本

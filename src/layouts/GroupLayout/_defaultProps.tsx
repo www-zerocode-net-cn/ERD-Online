@@ -18,6 +18,8 @@ export default {
         path: '/project/group/setting/permission',
         name: '权限组',
         icon: <Permissions theme="filled" size="18" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>,
+        access: 'canErdProjectPermissionGroup'
+
       },
       {
         path: '/design/table/model',
