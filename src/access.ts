@@ -8,8 +8,8 @@ export default function access(initialState: and) {
   if (!permission) {
     permission = false;
   }
+  console.log(11,'erd_project_permission_group', permission && permission.includes('erd_project_permission_group'));
   return {
-    canAdmin: false,
     canErdProjectGroupEdit: permission && permission.includes('erd_project_group_edit'),//团队基础设置 -修改
     canErdProjectGroupDel: permission && permission.includes('erd_project_group_del'),//团队基础设置 -删除
     canErdProjectPermissionGroup: permission && permission.includes('erd_project_permission_group'),//团队权限组 -查看页面

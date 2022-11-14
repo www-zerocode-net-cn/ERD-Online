@@ -45,14 +45,22 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
 
   const defaultPropsTmp = defaultProps.route.routes.map((m: any) => {
     const pathAccess = access[m?.access];
-    console.log(48, pathAccess);
-    if (pathAccess !== false) {
-      return m;
+    console.log(48, pathAccess, m);
+    if (pathAccess !== 'false') {
+      return {
+        ...m,
+        routes: m?.routes.map((m1: any) => {
+          const pathAccess1 = access[m1?.access];
+          if (pathAccess1 !== 'false') {
+            return m1;
+          }
+        })
+      };
     }
   });
   defaultProps.route.routes = defaultPropsTmp;
 
-  console.log(54,defaultPropsTmp)
+  console.log(54, defaultPropsTmp)
 
   return (
     <WaterMark content={['ERD Online', 'V4.0.3']}>

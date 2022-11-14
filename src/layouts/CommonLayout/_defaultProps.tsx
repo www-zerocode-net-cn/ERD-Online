@@ -34,6 +34,7 @@ export default {
         path: '/design/table/version',
         name: '版本',
         icon: <History theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+        access: 'canErdHisprojectLoad',
         routes: [
           {
             path: '/design/table/version/all',
@@ -46,21 +47,25 @@ export default {
         name: '导入',
         icon: <Warehousing theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         path: '/design/table/import',
+        access: 'canErdTableImport',
         routes: [
           {
             path: '/design/table/import/reverse',
             name: '数据源逆向解析',
             icon: <DataDisplay theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdConnectorDbreverseparse',
           },
           {
             path: '/design/table/import/pdman',
             name: '解析PdMan文件',
             icon: <FileJpg theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdTableImportPdman',
           },
           {
             path: '/design/table/import/erd',
             name: '解析ERD文件',
             icon: <FileLock theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdTableImportErd',
           },
         ],
       },
@@ -68,16 +73,19 @@ export default {
         name: '导出',
         icon: <Outbound theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         path: '/design/table/export',
+        access: 'canErdTableExport',
         routes: [
           {
             path: '/design/table/export/common',
             name: '普通导出',
             icon: <Export theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdTableExportCommon',
           },
           {
             path: '/design/table/export/more',
             name: '高级导出',
             icon: <DatabaseDownload theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdTableExportMore',
           },
         ],
       },
@@ -85,21 +93,25 @@ export default {
         name: '设置',
         icon: <SettingTwo theme="filled" size="15" fill="#DE2910" strokeWidth={2}/>,
         path: '/design/table/setting',
+        access: 'canErdTableSetting',
         routes: [
           {
             path: '/design/table/setting/db',
             name: '数据源设置',
             icon: <DatabaseConfig theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdTableSettingDb',
           },
           {
             path: '/design/table/setting/defaultField',
             name: '默认字段设置',
             icon: <Column theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdTableSettingDefaultfield',
           },
           {
             path: '/design/table/setting/default',
             name: '系统默认项设置',
             icon: <SettingConfig theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+            access: 'canErdTableSettingDefault',
           },
         ],
       },

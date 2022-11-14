@@ -11,6 +11,7 @@ import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@
 import {Button, Dropdown, Image, Popover} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
+import {useAccess} from "@@/plugin-access";
 
 
 export const headRightContent = [
@@ -34,6 +35,8 @@ export interface CommonLayoutLayoutProps {
 }
 
 const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
+  const access = useAccess();
+
   console.log(17, props);
   const [pathname, setPathname] = useState('/design/table/model');
   const [searchParams] = useSearchParams();
@@ -59,6 +62,25 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     splitMenus: true,
 
   };
+
+  const defaultPropsTmp = defaultProps.route.routes.map((m: any) => {
+    const pathAccess = access[m?.access];
+    console.log(48, pathAccess, m);
+    if (pathAccess !== 'false') {
+      return {
+        ...m,
+        routes: m?.routes.map((m1: any) => {
+          const pathAccess1 = access[m1?.access];
+          if (pathAccess1 !== 'false') {
+            return m1;
+          }
+        })
+      };
+    }
+  });
+  defaultProps.route.routes = defaultPropsTmp;
+
+  console.log(54, defaultPropsTmp)
 
 
   return (
