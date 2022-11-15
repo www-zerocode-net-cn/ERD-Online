@@ -3,16 +3,17 @@ import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import {compareStringVersion} from "@/utils/string";
 import {Button} from "antd";
-import {CloudServerOutlined, CloudSyncOutlined, CloudUploadOutlined} from "@ant-design/icons";
+import {CloudServerOutlined, CloudUploadOutlined} from "@ant-design/icons";
 
 
-export type SyncVersionProps = {};
+export type SyncVersionProps = {
+  synced: boolean;
+};
 
 const SyncVersion: React.FC<SyncVersionProps> = (props) => {
   const {
     currentVersionIndex,
     currentVersion,
-    synchronous,
     versions,
     dbVersion,
     versionDispatch
@@ -26,10 +27,10 @@ const SyncVersion: React.FC<SyncVersionProps> = (props) => {
   }), shallow);
 
   return (<>
-    <Button key="sync" icon={compareStringVersion(currentVersion.version, dbVersion) <= 0 ? <CloudServerOutlined /> : <CloudUploadOutlined />}
+    <Button key="sync" icon={props.synced ? <CloudServerOutlined/> : <CloudUploadOutlined/>}
             type={"link"}
             size={"small"}
-            disabled={compareStringVersion(currentVersion.version, dbVersion) <= 0 ? true : !!synchronous[currentVersion.version]}
+            disabled={props.synced}
             onClick={() => {
               versionDispatch.readDb(
                 compareStringVersion(currentVersion.version, dbVersion) <= 0,
