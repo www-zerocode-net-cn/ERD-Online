@@ -5,12 +5,14 @@ import {Button, message} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {CONSTANT} from "@/utils/constant";
+import {Access, useAccess} from "@@/plugin-access";
 
 
 export type DefaultSetUpProps = {};
 
 const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
   const projectId = cache.getItem(CONSTANT.PROJECT_ID);
+  const access = useAccess();
 
   const {projectDispatch, profile} = useProjectStore(state => ({
     projectDispatch: state.dispatch,
@@ -53,31 +55,41 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
         label="WORD模板配置"
         extra="默认为系统自带的模板，如需修改，请先下载，再重新上传模板文件"
       >
-        <ProFormUploadButton
-          max={1}
-          name="wordTemplateConfig"
-          fieldProps={{
-            name: 'file',
-            headers: {
-              Authorization: 'Bearer 1'
-            },
-            onChange: (e) => {
-              if (e.file.status == 'done') { //上传完成时
-                console.log(83, 'e.file', e);
-                if (e.file.response.code == 200) {
-                  projectDispatch.updateWordTemplateConfig(e.file.response.data);
-                } else {
-                  message.error(e.file.response.msg ?? '上传失败')
+        <Access
+          accessible={access.canErdDocUploadwordtemplate}
+          fallback={<></>}
+        >
+          <ProFormUploadButton
+            max={1}
+            name="wordTemplateConfig"
+            fieldProps={{
+              name: 'file',
+              headers: {
+                Authorization: 'Bearer 1'
+              },
+              onChange: (e) => {
+                if (e.file.status == 'done') { //上传完成时
+                  console.log(83, 'e.file', e);
+                  if (e.file.response.code == 200) {
+                    projectDispatch.updateWordTemplateConfig(e.file.response.data);
+                  } else {
+                    message.error(e.file.response.msg ?? '上传失败')
+                  }
+                } else if (e.file.status == 'error') { //上传错误时
+                  message.error('上传失败')
                 }
-              } else if (e.file.status == 'error') { //上传错误时
-                message.error('上传失败')
-              }
-              //status状态：'error' | 'success' | 'done' | 'uploading' | 'removed';
-            },
-          }}
-          action={`${API_URL}/ncnb/doc/uploadWordTemplate/${projectId}`}
-        />
-        <Button title='下载模板' onClick={() => projectDispatch.downloadWordTemplate()}>下载模板</Button>
+                //status状态：'error' | 'success' | 'done' | 'uploading' | 'removed';
+              },
+            }}
+            action={`${API_URL}/ncnb/doc/uploadWordTemplate/${projectId}`}
+          />
+        </Access>
+        <Access
+          accessible={access.canErdDocDownloadwordtemplate}
+          fallback={<></>}
+        >
+          <Button title='下载模板' onClick={() => projectDispatch.downloadWordTemplate()}>下载模板</Button>
+        </Access>
       </ProFormFieldSet>
     </ProForm>
   </>);

@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import useProjectStore from "@/store/project/useProjectStore";
 import defaultProps from './_defaultProps';
 import DesignLeftContent from "@/components/LeftContent/DesignLeftContent";
-import {Link} from "@umijs/max";
+import {Link, useModel} from "@umijs/max";
 import shallow from "zustand/shallow";
 import _ from 'lodash';
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
@@ -12,6 +12,8 @@ import {Button, Dropdown, Image, Popover} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {useAccess} from "@@/plugin-access";
+import {get} from "@/services/crud";
+import {CONSTANT} from "@/utils/constant";
 
 
 export const headRightContent = [
@@ -25,7 +27,7 @@ export const headRightContent = [
   <Popover placement="bottom" title="小程序" content={<Image src="/xiaochengxu.jpg"/>} trigger="hover">
     <WeixinMiniApp theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
   </Popover>,
-  <a style={{marginTop:'-10px'}} target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img
+  <a style={{marginTop: '-10px'}} target={"_blank"} href='https://gitee.com/MARTIN-88/erd-online'><img
     src='https://gitee.com/MARTIN-88/erd-online/badge/star.svg?theme=white' alt='star'></img></a>,
 
 ];
@@ -40,7 +42,10 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   console.log(17, props);
   const [pathname, setPathname] = useState('/design/table/model');
   const [searchParams] = useSearchParams();
-  const projectId = searchParams.get("projectId") || '';
+  let projectId = searchParams.get("projectId") || '';
+  if (!projectId || projectId === '') {
+    projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }
 
   console.log(19, 'projectId', projectId);
 
@@ -62,6 +67,20 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     splitMenus: true,
 
   };
+  const {setInitialState} = useModel('@@initialState');
+
+  useEffect(() => {
+    console.log(69, access)
+    get("/ncnb/project/group/currentRolePermission", {
+      projectId
+    }).then(r => {
+      console.log(29, r);
+      if (r?.code === 200) {
+        setInitialState((s: any) => ({...s, access: r.data}));
+      }
+    })
+
+  }, [])
 
   const defaultPropsTmp = defaultProps.route.routes.map((m: any) => {
     const pathAccess = access[m?.access];
@@ -69,7 +88,7 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     if (pathAccess !== 'false') {
       return {
         ...m,
-        routes: m?.routes.map((m1: any) => {
+        routes: m?.routes?.map((m1: any) => {
           const pathAccess1 = access[m1?.access];
           if (pathAccess1 !== 'false') {
             return m1;
@@ -90,19 +109,19 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         title={'ERD Online Pro'}
         bgLayoutImgList={[
           {
-            src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
+            src: '/ant-1.png',
             left: 85,
             bottom: 100,
             height: '303px',
           },
           {
-            src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
+            src: '/ant-1.png',
             bottom: -68,
             right: -45,
             height: '303px',
           },
           {
-            src: 'https://img.alicdn.com/imgextra/i3/O1CN018NxReL1shX85Yz6Cx_!!6000000005798-2-tps-884-496.png',
+            src: '/ant-3.png',
             bottom: 0,
             left: 0,
             width: '331px',
@@ -173,7 +192,6 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
                 onClick={() => {
                   console.log(153, item);
                   setPathname(item?.path || pathname);
-                  // navigate(`${item?.path}?${createSearchParams({projectId})}`)
                 }}
               >
                 <Link to={item?.path + "?projectId=" + projectId || '/project/home'}>{dom}</Link>

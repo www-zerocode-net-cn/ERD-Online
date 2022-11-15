@@ -9,6 +9,7 @@ import {headRightContent} from "@/layouts/CommonLayout";
 import {history, Link, Outlet, useModel, useSearchParams} from "@umijs/max";
 import {get} from "@/services/crud";
 import {useAccess} from "@@/plugin-access";
+import {CONSTANT} from "@/utils/constant";
 
 export type GroupLayoutProps = {};
 const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
@@ -17,8 +18,12 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
 
   const [pathname, setPathname] = useState('/project/home');
 
+
   const [searchParams] = useSearchParams();
-  const projectId = searchParams.get("projectId") || '';
+  let projectId = searchParams.get("projectId") || '';
+  if (!projectId || projectId === '') {
+    projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }
 
   console.log(19, 'projectId', projectId);
   console.log(24, initialState);
@@ -49,7 +54,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
     if (pathAccess !== 'false') {
       return {
         ...m,
-        routes: m?.routes.map((m1: any) => {
+        routes: m?.routes?.map((m1: any) => {
           const pathAccess1 = access[m1?.access];
           if (pathAccess1 !== 'false') {
             return m1;

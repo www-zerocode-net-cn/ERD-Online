@@ -37,6 +37,7 @@ const Version: React.FC<VersionProps> = (props) => {
 
   const access = useAccess();
 
+  console.log(40, 'access', access);
   console.log('dbs', 37, dbs);
   console.log('versions', 38, versions);
   console.log('changes', 48, changes);
