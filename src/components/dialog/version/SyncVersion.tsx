@@ -33,7 +33,7 @@ const SyncVersion: React.FC<SyncVersionProps> = (props) => {
             disabled={props.synced}
             onClick={() => {
               versionDispatch.readDb(
-                compareStringVersion(currentVersion.version, dbVersion) <= 0,
+                props.synced,
                 currentVersion,
                 currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion, currentVersion.changes,
                 currentVersionIndex === (versions.length - 1), true)

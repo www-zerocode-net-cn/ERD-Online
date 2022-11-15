@@ -109,7 +109,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
       submitter={{
         // 完全自定义整个区域
         render: (props, doms) => {
-          console.log(props);
+          console.log(112, props, access);
           return [
             <Button key="save" onClick={onSave}>导出到文件</Button>,
             <Access
@@ -125,7 +125,12 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 onClick={() => execSQL(true, 'synchronous')}
               >
                 {state.synchronous ? '正在同步' : '同步到数据源'}
-              </Button>,
+              </Button>
+            </Access>,
+            <Access
+              accessible={access.canErdConnectorDbsync}
+              fallback={<></>}
+            >
               <Button
                 loading={state.flagSynchronous}
                 title='更新数据源的版本号，不会执行差异化的SQL'
@@ -135,7 +140,12 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 onClick={() => execSQL(true, 'flagSynchronous')}
               >
                 {state.flagSynchronous ? '正在标记为同步' : '标记为同步'}
-              </Button>,
+              </Button>
+            </Access>,
+            <Access
+              accessible={access.canErdConnectorDbsync}
+              fallback={<></>}
+            >
               <Button
                 loading={state.again}
                 title='不会更新数据源中的版本号'
@@ -146,7 +156,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 onClick={() => execSQL(false, 'again')}
               >
                 {state.again ? '正在执行' : '再次执行'}</Button>
-            </Access>,
+            </Access>
           ];
         },
       }}
