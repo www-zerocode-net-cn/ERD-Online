@@ -1,5 +1,5 @@
 import {Card, Descriptions, Table} from 'antd';
-import type {ProColumns,ProTable} from '@ant-design/pro-components';
+import {ProColumns, ProTable} from '@ant-design/pro-components';
 import React from "react";
 import _ from "lodash";
 import useProjectStore from "@/store/project/useProjectStore";
@@ -34,7 +34,7 @@ const ReverseTable: React.FC<ReverseTableProps> = (props) => {
       ellipsis: true,
       copyable: true,
       render: (_,entity) => {
-        return <span style={{color: exists.includes(entity.title) ? 'red' : null}}>{entity.title}</span>
+        return <span style={{color: exists.includes(entity.title) ? 'red' : ''}}>{entity.title}</span>
       }
     },
     {
