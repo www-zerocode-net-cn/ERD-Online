@@ -5,18 +5,21 @@ import {Me} from "@icon-park/react";
 import {Button, Dropdown} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
-import {headRightContent} from "@/layouts/CommonLayout";
+import {fixRouteAccess, headRightContent} from "@/layouts/CommonLayout";
 import {history, Link, Outlet, useModel, useSearchParams} from "@umijs/max";
 import {get} from "@/services/crud";
 import {useAccess} from "@@/plugin-access";
 import {CONSTANT} from "@/utils/constant";
 
 export type GroupLayoutProps = {};
+
 const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
   const {initialState, setInitialState} = useModel('@@initialState');
   const access = useAccess();
 
   const [pathname, setPathname] = useState('/project/home');
+
+
 
 
   const [searchParams] = useSearchParams();
@@ -33,11 +36,18 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
     }).then(r => {
       console.log(29, r);
       if (r?.code === 200) {
+        r?.data?.permission?.push('initialized');
         setInitialState((s: any) => ({...s, access: r.data}));
       }
     })
+  }, [access.initialized,defaultProps.route.routes])
 
-  }, [])
+  //权限初始化之后再过滤路由
+  console.log(106, 'access.initialized', access);
+  if (access.initialized) {
+    defaultProps.route.routes = fixRouteAccess(defaultProps, access);
+    console.log(54, defaultProps)
+  }
 
   const settings: ProSettings | undefined = {
     "layout": "mix",
@@ -47,25 +57,6 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
     "siderMenuType": "group",
     "fixedHeader": true
   };
-
-  const defaultPropsTmp = defaultProps.route.routes.map((m: any) => {
-    const pathAccess = access[m?.access];
-    console.log(48, pathAccess, m);
-    if (pathAccess !== 'false') {
-      return {
-        ...m,
-        routes: m?.routes?.map((m1: any) => {
-          const pathAccess1 = access[m1?.access];
-          if (pathAccess1 !== 'false') {
-            return m1;
-          }
-        })
-      };
-    }
-  });
-  defaultProps.route.routes = defaultPropsTmp;
-
-  console.log(54, defaultPropsTmp)
 
   return (
     <WaterMark content={['ERD Online', 'V4.0.3']}>
@@ -112,7 +103,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
                 onClick={() => {
                   console.log(153, item);
                   setPathname(item.path || '/project/home');
-                  console.log(85, searchParams)
+                  console.log(85, searchParams);
                 }}
               >
                 <Link to={item?.path + "?projectId=" + projectId || '/project/home'}>{dom}</Link>

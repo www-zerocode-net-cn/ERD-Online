@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import defaultProps from './_defaultProps';
 import {history, Link, Outlet} from "@@/exports";
-import {ProCard, WaterMark,PageContainer, ProLayout, ProSettings} from '@ant-design/pro-components';
+import {ProCard, WaterMark, PageContainer, ProLayout, ProSettings} from '@ant-design/pro-components';
 import {Me} from "@icon-park/react";
 import {headRightContent} from "@/layouts/CommonLayout";
 import {Button, Dropdown} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
+import {useModel} from "@umijs/max";
 
 
 export interface HomeLayoutLayoutProps {
@@ -15,6 +16,12 @@ export interface HomeLayoutLayoutProps {
 
 const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   const [pathname, setPathname] = useState('/project/home');
+  const {setInitialState} = useModel('@@initialState');
+
+  useEffect(() => {
+    console.log('回首页清空权限')
+    setInitialState((s: any) => ({...s, access: {}}));
+  })
 
   const settings: ProSettings | undefined = {
     "layout": "mix",

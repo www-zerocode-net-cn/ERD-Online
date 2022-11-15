@@ -36,6 +36,27 @@ export interface CommonLayoutLayoutProps {
   children: any;
 }
 
+export function fixRouteAccess(defaultPropsTmp: any, access: any) {
+  const routes = defaultPropsTmp.route.routes.map((m: any) => {
+    const pathAccess = access[m?.access];
+    console.log(48, pathAccess, m);
+    if (pathAccess !== false) {
+      return {
+        ...m,
+        routes: m?.routes?.map((m1: any) => {
+          const pathAccess1 = access[m1?.access];
+          if (pathAccess1 !== false) {
+            return m1;
+          }
+        })
+      };
+    }
+  });
+
+  return routes;
+
+}
+
 const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
   const access = useAccess();
 
@@ -76,30 +97,17 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     }).then(r => {
       console.log(29, r);
       if (r?.code === 200) {
+        r?.data?.permission?.push('initialized');
         setInitialState((s: any) => ({...s, access: r.data}));
       }
     })
-
-  }, [])
-
-  const defaultPropsTmp = defaultProps.route.routes.map((m: any) => {
-    const pathAccess = access[m?.access];
-    console.log(48, pathAccess, m);
-    if (pathAccess !== 'false') {
-      return {
-        ...m,
-        routes: m?.routes?.map((m1: any) => {
-          const pathAccess1 = access[m1?.access];
-          if (pathAccess1 !== 'false') {
-            return m1;
-          }
-        })
-      };
+    //权限初始化之后再过滤路由
+    console.log(106, 'access.initialized', access);
+    if (access.initialized) {
+      defaultProps.route.routes = fixRouteAccess(defaultProps, access);
+      console.log(54, defaultProps)
     }
-  });
-  defaultProps.route.routes = defaultPropsTmp;
-
-  console.log(54, defaultPropsTmp)
+  }, [access.initialized,defaultProps.route.routes])
 
 
   return (
