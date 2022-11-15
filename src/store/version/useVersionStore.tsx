@@ -709,6 +709,7 @@ const useVersionStore = create<VersionState>(
         get().fetch(null);
       },
       readDb: (status: any, version: any, lastVersion: any, changes = [], initVersion: any, updateVersion: any) => {
+        debugger
         if (!status) {
           const dbData = get().dispatch.getCurrentDBData();
           if (!dbData) {
@@ -767,12 +768,14 @@ const useVersionStore = create<VersionState>(
                       // todo 暂时取消数据表的中文名以及其他变化时所生成的更新数据
                       tempChanges = tempChanges.filter((c: any) => !(c.type === 'entity' && c.opt === 'update'));
                     }
+                    console.log(771, dbData,_.get(dbData, 'select', 'MYSQL'));
                     data = getCodeByChanges({
                         ..._.get(projectState.project, "projectJSON"),
                         modules: version.projectJSON.modules,
                       }, tempChanges,
-                      _.get(dbData, 'type', get().dbVersion), lastVersion.projectJSON);
+                      _.get(dbData, 'select', 'MYSQL'), lastVersion.projectJSON);
                   }
+                  console.log(776, data);
                   get().dispatch.generateSQL(dbData, version, data, updateVersion);
                   get().fetch(null);
                 }
