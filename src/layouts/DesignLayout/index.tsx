@@ -76,11 +76,11 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
       project: state.project
     }), shallow);
 
-
-  console.log(34, project);
-  if (_.isEmpty(project) || _.isEmpty(project.projectJSON)) {
+  useEffect(() => {
     fetch();
-  }
+  }, [projectId]);
+  console.log(34, project);
+
 
   const settings: Partial<ProSettings> | undefined = {
     fixSiderbar: true,
@@ -91,15 +91,15 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   const {setInitialState} = useModel('@@initialState');
 
   useEffect(() => {
-    console.log(69, access)
-    if (project && project.type === 2) {
+    console.log(69, access,project.type)
+    if (project && project.type === '2') {
       get("/ncnb/project/group/currentRolePermission", {
         projectId
       }).then(r => {
         console.log(29, r);
         if (r?.code === 200) {
           r?.data?.permission?.push('initialized');
-          setInitialState((s: any) => ({...s, access: r.data}));
+          setInitialState((s: any) => ({...s, access: {...r.data, person: false}}));
         }
       })
       //权限初始化之后再过滤路由
@@ -108,8 +108,10 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
         defaultProps.route.routes = fixRouteAccess(defaultProps, access);
         console.log(54, defaultProps)
       }
+    } else {
+      setInitialState((s: any) => ({...s, access: {person: true}}));
     }
-  }, [access.initialized, defaultProps.route.routes])
+  }, [project, access.initialized, defaultProps.route.routes])
 
 
   return (
@@ -178,6 +180,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
                 paddingBlockStart: 12,
               }}
             >
+              <div>{project.projectName}</div>
               <div>© 2022 Made with 零代</div>
               <div>ERD Online Pro</div>
             </div>
