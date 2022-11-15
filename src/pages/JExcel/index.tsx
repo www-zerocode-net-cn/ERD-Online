@@ -10,6 +10,7 @@ import "jsuites/dist/jsuites.css"
 import "./index.less"
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
+import {message} from "antd";
 
 export type JExcelProps = {
   data: any,
@@ -96,7 +97,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
           console.log('publish', selectedRows)
 
           if (!selectedRows || !selectedRows[0]?.dataset) {
-            alert('未选中行');
+            message.warn('未选中行');
             return;
           }
           jRef?.current?.jexcel.insertRow(1, parseInt(selectedRows[0].dataset.y), 1);
@@ -112,20 +113,11 @@ const JExcel: React.FC<JExcelProps> = (props) => {
           console.log('get_app', selectedRows)
 
           if (!selectedRows || !selectedRows[selectedRows.length - 1]?.dataset) {
-            alert('未选中行');
+            message.warn('未选中行');
             return;
           }
           // @ts-ignore
           jRef?.current?.jexcel.insertRow(1, parseInt(selectedRows[selectedRows.length - 1].dataset.y));
-        }
-      },
-
-      {
-        type: 'i',
-        content: 'help_outline',
-        tooltip: '使用说明',
-        onclick: function () {
-
         }
       },
     ],
