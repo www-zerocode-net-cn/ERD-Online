@@ -1,10 +1,16 @@
 // @ts-nocheck
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
+
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
+let projectState = useProjectStore.getState();
+
+
 export default function access(initialState: and) {
   let {permission} = initialState?.access || [];
-  console.log(6, 'permission', permission);
+  console.log(6, 'permission',projectState?.project?.type, permission);
   if (!permission) {
     permission = false;
   }

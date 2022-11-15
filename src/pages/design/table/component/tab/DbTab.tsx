@@ -1,7 +1,7 @@
 import React from 'react';
 import TableCodeShow from "@/pages/design/table/component/table/TableCodeShow";
 import {ModuleEntity} from "@/store/tab/useTabStore";
-import {Tabs} from "antd";
+import {Tabs, Tooltip} from "antd";
 
 const {TabPane} = Tabs;
 
@@ -23,7 +23,8 @@ const DbTab: React.FC<DbTabProps> = (props) => {
         <TabPane key="deleteTableTemplate" tab="删除表">
           <TableCodeShow dbCode={dbCode} templateCode="deleteTableTemplate" moduleEntity={moduleEntity}/>
         </TabPane>
-        <TabPane key="rebuildTableTemplate" tab="重建表">
+        <TabPane key="rebuildTableTemplate" tab={<Tooltip placement="top" title='根据最后一个已同步版本的元数据，重新建表;未同步版本时这里为空'>
+          重建表</Tooltip>}>
           <TableCodeShow dbCode={dbCode} templateCode="rebuildTableTemplate" moduleEntity={moduleEntity}/>
         </TabPane>
         <TabPane key="createFieldTemplate" tab="添加字段">

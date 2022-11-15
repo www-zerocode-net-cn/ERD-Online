@@ -496,6 +496,7 @@ export const getCodeByDataTable = (dataSource, module, dataTable, code, template
     message.error('数据库模板出错，请参考Dot.js配置模板信息');
     sqlString = JSON.stringify(e.message);
   }
+  console.log(499, sqlString);
   return sqlString;
 };
 

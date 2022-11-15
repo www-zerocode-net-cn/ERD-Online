@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import defaultProps from './_defaultProps';
 import {history, Link, Outlet} from "@@/exports";
-import {ProCard, WaterMark, PageContainer, ProLayout, ProSettings} from '@ant-design/pro-components';
+import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from '@ant-design/pro-components';
 import {Me} from "@icon-park/react";
-import {headRightContent} from "@/layouts/CommonLayout";
+import {headRightContent} from "@/layouts/DesignLayout";
 import {Button, Dropdown} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
@@ -43,7 +43,10 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
         }}
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
-          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom"
+          title: <Dropdown overlay={<Button onClick={() => {
+            setInitialState((s: any) => ({...s, access: {}}));
+            logout();
+          }}>退出登录</Button>} placement="bottom"
                            arrow={{pointAtCenter: true}}>
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
@@ -97,5 +100,5 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
       </ProLayout>
     </WaterMark>
   );
-};
+}
 export default React.memo(HomeLayout);

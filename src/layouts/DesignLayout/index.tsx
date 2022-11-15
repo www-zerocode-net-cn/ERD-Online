@@ -32,7 +32,7 @@ export const headRightContent = [
 
 ];
 
-export interface CommonLayoutLayoutProps {
+export interface DesignLayoutLayoutProps {
   children: any;
 }
 
@@ -57,7 +57,7 @@ export function fixRouteAccess(defaultPropsTmp: any, access: any) {
 
 }
 
-const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
+const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   const access = useAccess();
 
   console.log(17, props);
@@ -92,22 +92,24 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
 
   useEffect(() => {
     console.log(69, access)
-    get("/ncnb/project/group/currentRolePermission", {
-      projectId
-    }).then(r => {
-      console.log(29, r);
-      if (r?.code === 200) {
-        r?.data?.permission?.push('initialized');
-        setInitialState((s: any) => ({...s, access: r.data}));
+    if (project && project.type === 2) {
+      get("/ncnb/project/group/currentRolePermission", {
+        projectId
+      }).then(r => {
+        console.log(29, r);
+        if (r?.code === 200) {
+          r?.data?.permission?.push('initialized');
+          setInitialState((s: any) => ({...s, access: r.data}));
+        }
+      })
+      //权限初始化之后再过滤路由
+      console.log(106, 'access.initialized', access);
+      if (access.initialized) {
+        defaultProps.route.routes = fixRouteAccess(defaultProps, access);
+        console.log(54, defaultProps)
       }
-    })
-    //权限初始化之后再过滤路由
-    console.log(106, 'access.initialized', access);
-    if (access.initialized) {
-      defaultProps.route.routes = fixRouteAccess(defaultProps, access);
-      console.log(54, defaultProps)
     }
-  }, [access.initialized,defaultProps.route.routes])
+  }, [access.initialized, defaultProps.route.routes])
 
 
   return (
@@ -146,7 +148,10 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
           size: 'small',
-          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom"
+          title: <Dropdown overlay={<Button onClick={() => {
+            setInitialState((s: any) => ({...s, access: {}}));
+            logout();
+          }}>退出登录</Button>} placement="bottom"
                            arrow={{pointAtCenter: true}}>
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
@@ -225,4 +230,4 @@ const CommonLayout: React.FC<CommonLayoutLayoutProps> = props => {
     </WaterMark>
   );
 }
-export default React.memo(CommonLayout)
+export default React.memo(DesignLayout)

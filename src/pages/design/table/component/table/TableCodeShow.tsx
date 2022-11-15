@@ -5,6 +5,7 @@ import shallow from "zustand/shallow";
 import {ModuleEntity} from "@/store/tab/useTabStore";
 import {getCurrentVersionData} from "@/utils/dbversionutils";
 import {getCodeByDataTable} from "@/utils/json2code";
+import * as Save from "@/utils/save";
 
 
 export type TableCodeShowProps = {
@@ -16,9 +17,10 @@ export type TableCodeShowProps = {
 const TableCodeShow: React.FC<TableCodeShowProps> = (props) => {
   const {dbCode, templateCode} = props;
   console.log(16, 'templateCode', templateCode, dbCode);
-  const {dataSource, dataTable} = useProjectStore(state => ({
+  const {dataSource, dataTable, dbs} = useProjectStore(state => ({
     dataTable: state.project?.projectJSON?.modules[state.currentModuleIndex || 0].entities[state.currentEntityIndex || 0],
     dataSource: state.project?.projectJSON,
+    dbs: state.project?.projectJSON?.profile?.dbs,
     projectDispatch: state.dispatch,
   }), shallow);
   console.log('database', 19, dataSource)
@@ -31,11 +33,16 @@ const TableCodeShow: React.FC<TableCodeShowProps> = (props) => {
   const [oldDataSource, setOldDataSource] = useState({});
 
   const getChanges = () => {
-    // todo 获取服务端versions
-    getCurrentVersionData(dataSource, [], (c: any, o: any) => {
-      setChanges(c);
-      setOldDataSource(o);
-    });
+    const db = dbs?.filter((d: any) => d.defaultDB)[0];
+    console.log(37,dbs, db);
+    Save.hisProjectLoad(db).then(r => {
+      if (r && r.code === 200) {
+        getCurrentVersionData(dataSource, r.data, (c: any, o: any) => {
+          setChanges(c);
+          setOldDataSource(o);
+        });
+      }
+    })
   };
 
   const getTableCode = () => {
@@ -65,6 +72,7 @@ const TableCodeShow: React.FC<TableCodeShowProps> = (props) => {
           && c.type === 'field'
           && title === dataTable.title);
     });
+    debugger
     return getCodeByDataTable(dataSource, module, dataTable, dbCode, templateCode, tempChanges, oldDataSource);
   }
 

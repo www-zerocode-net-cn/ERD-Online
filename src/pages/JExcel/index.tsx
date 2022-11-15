@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, {useEffect, useRef} from "react";
-import jspreadsheet from "jspreadsheet-ce";
+import jspreadsheet, {CellValue} from "jspreadsheet-ce";
 
 import _ from 'lodash';
 import "jspreadsheet-ce/dist/jspreadsheet.css";
@@ -8,6 +8,8 @@ import "jspreadsheet-ce/dist/jspreadsheet.datatables.css";
 import "jsuites/dist/jsuites.css"
 
 import "./index.less"
+import useProjectStore from "@/store/project/useProjectStore";
+import shallow from "zustand/shallow";
 
 export type JExcelProps = {
   data: any,
@@ -17,6 +19,11 @@ export type JExcelProps = {
 };
 
 const JExcel: React.FC<JExcelProps> = (props) => {
+  const {datatype, database} = useProjectStore(state => ({
+    datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
+    database: state.project?.projectJSON?.dataTypeDomains?.database,
+  }), shallow);
+  console.log('datatype', 115, datatype)
   const {data, columns, saveData, notEmptyColumn} = props;
   const saveValidData = (excelData: any) => {
     if (!excelData || excelData.length === 0) {
@@ -39,7 +46,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
   const options = {
     data,
     columns,
-    allowExport: true,
+    allowExport: false,
     minDimensions: [1, 1],
     csvHeaders: true,
     columnResize: true,
@@ -156,8 +163,26 @@ const JExcel: React.FC<JExcelProps> = (props) => {
       "noCellsSelected": "未选定单元格"
     },
     about: false,
-    onchange: (el: any, records: any) => {
+    onchange: (instance: HTMLElement,
+               cell: HTMLTableCellElement,
+               /** (e.g.) "0", "1" ... */
+               columnIndex: string,
+               /** (e.g.) "0", "1" ... */
+               rowIndex: string,
+               value: CellValue,) => {
       console.log('onchange', jRef?.current?.jexcel.getJson())
+      console.log(161, columnIndex, rowIndex, value);
+      const rowData = jRef?.current?.jexcel.getRowData(rowIndex);
+      console.log(169, datatype, rowData);
+      const d = _.find(datatype, {'name': value});
+      const defaultDatabaseCode = _.find(database, {"defaultDatabase": true}).code || database[0].code;
+      const code = _.get(d, 'code');
+      const path = `apply.${defaultDatabaseCode}.type`;
+      const type = _.get(d, path);
+      if (d && defaultDatabaseCode && code && type) {
+        jRef?.current?.jexcel.setValueFromCoords(Number(columnIndex) + 1, rowIndex, code, true);
+        jRef?.current?.jexcel.setValueFromCoords(Number(columnIndex) + 2, rowIndex, type, true);
+      }
       saveValidData(jRef?.current?.jexcel.getJson());
     },
     oninsertrow: () => {

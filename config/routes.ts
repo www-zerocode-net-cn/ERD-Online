@@ -85,7 +85,7 @@
   },
   {
     path: '/design',
-    component: '../layouts/CommonLayout',
+    component: '../layouts/DesignLayout',
     routes: [
       {
         path: '/design/table/model',

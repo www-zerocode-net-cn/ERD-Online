@@ -5,7 +5,7 @@ import {Me} from "@icon-park/react";
 import {Button, Dropdown} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
-import {fixRouteAccess, headRightContent} from "@/layouts/CommonLayout";
+import {fixRouteAccess, headRightContent} from "@/layouts/DesignLayout";
 import {history, Link, Outlet, useModel, useSearchParams} from "@umijs/max";
 import {get} from "@/services/crud";
 import {useAccess} from "@@/plugin-access";
@@ -18,8 +18,6 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
   const access = useAccess();
 
   const [pathname, setPathname] = useState('/project/home');
-
-
 
 
   const [searchParams] = useSearchParams();
@@ -40,7 +38,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
         setInitialState((s: any) => ({...s, access: r.data}));
       }
     })
-  }, [access.initialized,defaultProps.route.routes])
+  }, [access.initialized, defaultProps.route.routes])
 
   //权限初始化之后再过滤路由
   console.log(106, 'access.initialized', access);
@@ -69,7 +67,10 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
         }}
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
-          title: <Dropdown overlay={<Button onClick={logout}>退出登录</Button>} placement="bottom"
+          title: <Dropdown overlay={<Button onClick={() => {
+            setInitialState((s: any) => ({...s, access: {}}));
+            logout();
+          }}>退出登录</Button>} placement="bottom"
                            arrow={{pointAtCenter: true}}>
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
