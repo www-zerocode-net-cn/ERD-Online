@@ -203,7 +203,7 @@ export default class G6Relation extends React.Component {
           color: 'yellow',
         });
       } else {
-        let color = '#353B47';
+        let color = '#001544';
         if (realName.includes(':')) {
           color = '#5D616A';
         }
@@ -1265,7 +1265,8 @@ export default class G6Relation extends React.Component {
       if (val && val.includes(':')) {
         return '#5D616A'
       }
-      return '#353B47';
+      //设置表颜色
+      return '#001544';
     });
 
     this.net.render();
