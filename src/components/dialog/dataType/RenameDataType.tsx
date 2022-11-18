@@ -20,6 +20,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
     currentDataTypeIndex: state.currentDataTypeIndex,
   }), shallow);
 
+  const [count, setCount] = useState(0);
   const [apply, setApply] = useState({});
   const [modalVisit, setModalVisit] = useState(false);
 
@@ -39,6 +40,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
       initValue = _.assign(initValue, {[`apply.${d.code}.type`]: type});
 
     });
+    setCount(count + 1);
     console.log('initValue', 37, initValue);
     return initValue;
   }
@@ -64,7 +66,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
   const formRef = useRef<ProFormInstance<any>>();
   useEffect(() => {
     formRef && formRef.current?.resetFields?.();
-  }, [currentDataTypeIndex]);
+  }, [currentDataTypeIndex,count]);
 
   return (<>
     <ModalForm

@@ -66,7 +66,7 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
   const dataFormRef = useRef<ProFormInstance>();
   useEffect(() => {
     dataFormRef && dataFormRef.current?.resetFields?.();
-  }, [currentDatabaseIndex]);
+  }, [currentDatabaseIndex,template]);
 
   return (<>
     <ModalForm
