@@ -661,9 +661,16 @@ const useVersionStore = create<VersionState>(
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           if (res.code === 200) {
             cb && cb(res);
-            message.success(`同步成功`);
+            Modal.success({
+              title: '同步成功',
+              content: res.data,
+            });
           } else {
-            message.error(`同步失败：${res.msg}`);
+            Modal.warn({
+              title: '同步失败',
+              content: res.msg,
+            });
+
           }
         }).catch((err: any) => {
           message.error(`同步失败:${err.message}`);
@@ -709,7 +716,6 @@ const useVersionStore = create<VersionState>(
         get().fetch(null);
       },
       readDb: (status: any, version: any, lastVersion: any, changes = [], initVersion: any, updateVersion: any) => {
-        debugger
         if (!status) {
           const dbData = get().dispatch.getCurrentDBData();
           if (!dbData) {

@@ -99,7 +99,6 @@ const JExcel: React.FC = () => {
           content: 'publish',
           tooltip:'在此前插入行',
           onclick: function() {
-            debugger
             const selectedRows = jRef?.current?.jexcel.getSelectedRows();
             console.log('publish',selectedRows)
 
