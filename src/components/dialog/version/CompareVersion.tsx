@@ -45,10 +45,12 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
   });
   const access = useAccess();
 
+  const [exed, setExed] = useState(1);
+
 
   useEffect(() => {
     versionDispatch.compare(state);
-  }, [state.initVersion, state.incrementVersion]);
+  }, [state.initVersion, state.incrementVersion,exed]);
 
 
   const versionSelect = versions.map((v: any) => {
@@ -78,6 +80,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
       });
       try {
         versionDispatch.execSQL(data, currentVersion, updateDBVersion, null, type === 'flagSynchronous');
+        setExed(exed + 1);
       } finally {
         setState({
           ...state,
