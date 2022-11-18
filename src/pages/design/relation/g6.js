@@ -203,7 +203,7 @@ export default class G6Relation extends React.Component {
           color: 'yellow',
         });
       } else {
-        let color = '#001544';
+        let color = '#431E90';
         if (realName.includes(':')) {
           color = '#5D616A';
         }
@@ -284,10 +284,10 @@ export default class G6Relation extends React.Component {
     });
   };
   undo = () => {
-    //this.net.undo();
+    this.net.undo();
   };
   redo = () => {
-    //this.net.redo();
+    this.net.redo();
   };
   del = (item) => {
     this.net.remove(item);
@@ -721,7 +721,8 @@ export default class G6Relation extends React.Component {
             x: 0,
             y: 0,
             text: model.moduleName ? `<<${model.moduleName}>> ${model.realName}` : model.realName,
-            fill: '#1D95E2',
+            //设置表标题颜色
+            fill: '#E3C266',
             textBaseline: 'top',
             textAlign: 'center',
           },
@@ -757,7 +758,7 @@ export default class G6Relation extends React.Component {
           } else if (currentFromEntities.some(entity => entity.from.field === field.name)) {
             return '#8F9C6D';
           }
-          return '#C5C6C5';
+          return '#E9E9ED';
         };
         titleBox = title.getBBox();
         const realLineHeight = (realHeight && ((realHeight - titleBox.height) / l)) || 20;
@@ -1266,7 +1267,7 @@ export default class G6Relation extends React.Component {
         return '#5D616A'
       }
       //设置表颜色
-      return '#001544';
+      return '#431E90';
     });
 
     this.net.render();
