@@ -12,6 +12,7 @@ export type DbTabProps = {
 
 const DbTab: React.FC<DbTabProps> = (props) => {
   const {dbCode, moduleEntity} = props;
+  console.log(15, dbCode, moduleEntity);
   return (
     <>
       <Tabs
@@ -23,8 +24,10 @@ const DbTab: React.FC<DbTabProps> = (props) => {
         <TabPane key="deleteTableTemplate" tab="删除表">
           <TableCodeShow dbCode={dbCode} templateCode="deleteTableTemplate" moduleEntity={moduleEntity}/>
         </TabPane>
-        <TabPane key="rebuildTableTemplate" tab={<Tooltip placement="top" title='根据最后一个已同步版本的元数据，重新建表;未同步版本时这里为空'>
-          重建表</Tooltip>}>
+        <TabPane key="createIndexTemplate" tab="创建索引" closable>
+          <TableCodeShow dbCode={dbCode} templateCode="createIndexTemplate" moduleEntity={moduleEntity}/>
+        </TabPane>
+        <TabPane key="rebuildTableTemplate" tab={"重建表"}>
           <TableCodeShow dbCode={dbCode} templateCode="rebuildTableTemplate" moduleEntity={moduleEntity}/>
         </TabPane>
         <TabPane key="createFieldTemplate" tab="添加字段">
@@ -35,9 +38,6 @@ const DbTab: React.FC<DbTabProps> = (props) => {
         </TabPane>
         <TabPane key="updateFieldTemplate" tab="删除字段">
           <TableCodeShow dbCode={dbCode} templateCode="updateFieldTemplate" moduleEntity={moduleEntity}/>
-        </TabPane>
-        <TabPane key="createIndexTemplate" tab="创建索引" closable>
-          <TableCodeShow dbCode={dbCode} templateCode="createIndexTemplate" moduleEntity={moduleEntity}/>
         </TabPane>
         <TabPane key="deleteIndexTemplate" tab="删除索引">
           <TableCodeShow dbCode={dbCode} templateCode="deleteIndexTemplate" moduleEntity={moduleEntity}/>
