@@ -161,7 +161,7 @@ const getTemplateString = (template, templateData) => {
 
 const generateIncreaseSql = (dataSource, module, dataTable, code, templateShow) => {
   const datatype = _.get(dataSource, 'dataTypeDomains.datatype', []);
-  const database = _.get(dataSource, 'dataTypeDomains.database', []).filter(db => db.defaultDatabase)[0];
+  const database = _.get(dataSource, 'dataTypeDomains.database', []).filter(db => db.code===code)[0];
   const template = templateShow ? ((database && database[templateShow]) || '') : ((database && database.template) || '');
   const separator = _.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/') + '\n';
   // 构造新的数据表传递给模板
