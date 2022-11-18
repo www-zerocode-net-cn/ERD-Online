@@ -7,10 +7,8 @@ import {uuid} from '../../../utils/uuid';
 import * as File from '../../../utils/file';
 import Context from "@/pages/design/relation/Contex";
 import {message, Space} from 'antd';
-import {Icon, MenuItem} from "@blueprintjs/core";
 import openModal from "@/pages/design/relation/ModalWrapper";
-import {RelationalGraph,CloseOne,ConnectAddressOne,Strikethrough,DeleteFive} from "@icon-park/react";
-
+import {CloseOne, ConnectAddressOne, DeleteFive, RelationalGraph, Strikethrough} from "@icon-park/react";
 
 
 /* eslint-disable */
@@ -1108,18 +1106,14 @@ export default class G6Relation extends React.Component {
         if (this.net._attrs.mode === 'edit') {
           // 切换到编辑模式时执行鼠标的松开事件，防止选中框残留
           this.net.events.mouseup.forEach(m => m());
-          const {modeChange} = this.props;
-          //this.net.changeMode('drag');
-          modeChange && modeChange('drag');
+          this.net.changeMode('drag');
         }
       }
     });
     this.net.on('keyup', (ev) => {
       if (ev.keyCode === 16) {
         if (this.net._attrs.mode === 'drag') {
-          const {modeChange} = this.props;
-          //this.net.changeMode('drag');
-          modeChange && modeChange('edit');
+          this.net.changeMode('edit');
         }
       }
     });
