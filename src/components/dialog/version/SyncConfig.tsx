@@ -17,7 +17,7 @@ const SyncConfig: React.FC<SyncConfigProps> = (props) => {
 
   return (<>
     <ModalForm
-      title={<span>同步配置<span style={{color: "red"}}>（配置成功后，后续的同步的操作都使用该配置）</span></span>}
+      title={<span>同步配置<span style={{color: "red"}}>（配置成功后，后续的同步的操作都使用该配置，仅建议项目初始化之后设置一次，以后不要变动，免得出现版本混乱）</span></span>}
       trigger={
         <Button
           key="refresh"
