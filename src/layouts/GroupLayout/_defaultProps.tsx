@@ -28,7 +28,7 @@ export default {
       {
         exact: true,
         path: 'https://www.zerocode.net.cn/',
-        name: 'ERD Online Pro 论坛',
+        name: 'ERD Online 论坛',
         icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
       },
     ],
@@ -39,7 +39,7 @@ export default {
   appList: [
     {
       icon: '/logo.svg',
-      title: 'ERD Online Pro',
+      title: 'ERD Online',
       desc: '国内第一个开源免费在线建模软件',
       url: 'https://portal.zerocode.net.cn/',
       target: '_blank',

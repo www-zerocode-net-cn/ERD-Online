@@ -13,7 +13,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = (props) => {
           <Navbar.Group align={Alignment.CENTER}>
             <img src={"/favicon.ico"}/>
             <NavbarDivider/>
-            <Navbar.Heading>ERD Online Pro</Navbar.Heading>
+            <Navbar.Heading>ERD Online</Navbar.Heading>
           </Navbar.Group>
         </Navbar>
       </Left>

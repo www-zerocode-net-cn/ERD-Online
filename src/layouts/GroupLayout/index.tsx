@@ -60,7 +60,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
     <WaterMark content={['ERD Online', 'V4.0.3']}>
       <ProLayout
         logo={"/logo.svg"}
-        title={"ERD Online Pro"}
+        title={"ERD Online"}
         {...defaultProps}
         location={{
           pathname,
@@ -89,7 +89,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
               }}
             >
               <div>© 2022 Made with 零代</div>
-              <div>ERD Online Pro</div>
+              <div>ERD Online</div>
             </div>
           );
         }}

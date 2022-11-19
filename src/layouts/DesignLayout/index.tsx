@@ -118,7 +118,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
     <WaterMark content={['ERD Online', 'V4.0.3']}>
       <ProLayout
         logo={"/logo.svg"}
-        title={'ERD Online Pro'}
+        title={'ERD Online'}
         bgLayoutImgList={[
           {
             src: '/ant-1.png',
@@ -182,7 +182,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
             >
               <div>{project.projectName}</div>
               <div>© 2022 Made with 零代</div>
-              <div>ERD Online Pro</div>
+              <div>ERD Online</div>
             </div>
           );
         }}
