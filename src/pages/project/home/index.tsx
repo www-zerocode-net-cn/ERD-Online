@@ -22,7 +22,7 @@ const Home: React.FC<HomeProps> = (props) => {
   const fetchStatistic = () => {
     get("/ncnb/project/statistic", {}).then(r => {
       console.log(24, r);
-      if (r.code === 200) {
+      if (r?.code === 200) {
         setStatisticInfo(r.data);
       }
     })

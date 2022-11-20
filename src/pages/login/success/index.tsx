@@ -1,12 +1,17 @@
 import {useEffect} from "react";
 import * as cache from "@/utils/cache";
-import {history} from 'umi';
+import {useSearchParams} from "@@/exports";
+import {history} from "@@/core/history";
 
-export default function LoginSuccess(props: any) {
+
+export default () => {
+
+  const [searchParams] = useSearchParams();
+  let access_token = searchParams.get("access_token") || '';
+  let username = searchParams.get("username") || '';
+  let loginType = searchParams.get("loginType") || '';
 
   useEffect(() => {
-    console.log(props);
-    const {location: {query: {access_token, username, loginType}}} = props;
     if (access_token) {
       console.log(access_token, username, loginType);
       cache.setItem('Authorization', access_token);
