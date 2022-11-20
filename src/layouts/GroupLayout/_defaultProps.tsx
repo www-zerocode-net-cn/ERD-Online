@@ -52,10 +52,10 @@ export default {
       target: '_blank',
     },
     {
-      icon: '/zerocode.svg',
+      icon: '/loco.svg',
       title: 'LOCO',
       desc: '类钉钉宜搭的低代码搭建平台',
-      url: 'https://www.zerocode.net.cn/',
+      url: 'https://loco.zerocode.net.cn/',
       target: '_blank',
     },
     {
