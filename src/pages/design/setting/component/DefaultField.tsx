@@ -66,10 +66,10 @@ export const column2 = [
     type: 'checkbox',
     width: '50',
   }, {
-    title: '关系图',
+    title: '在关系图中隐藏',
     name: 'relationNoShow',
     type: 'checkbox',
-    width: '50',
+    width: '120',
   }, {
     title: '默认值',
     name: 'defaultValue',
