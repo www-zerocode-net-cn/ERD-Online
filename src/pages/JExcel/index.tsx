@@ -27,6 +27,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
   console.log('datatype', 115, datatype)
   const {data, columns, saveData, notEmptyColumn} = props;
   const saveValidData = (excelData: any) => {
+    console.log(30, 'excel数据有变动', excelData);
     if (!excelData || excelData.length === 0) {
       return;
     }

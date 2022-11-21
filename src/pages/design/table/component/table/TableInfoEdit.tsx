@@ -58,7 +58,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
         afterRowMove={handsontableAfterRowMove(hotTableComponent, hotSettings, afterChange)}
       >
       </HotTable>*/}
-      <JExcel data={data} columns={columns} saveData={afterChange} notEmptyColumn={['chnname', 'name', 'typeName']}/>
+      <JExcel data={data} columns={columns} saveData={afterChange} notEmptyColumn={['name', 'typeName']}/>
     </>
   );
 }

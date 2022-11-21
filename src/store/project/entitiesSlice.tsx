@@ -67,6 +67,7 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
   })),
   updateEntityFields: (payload: any) => set(produce(state => {
+    console.log(70, '表发生变化', payload);
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
   })),
   updateEntityIndex: (payload: any) => set(produce(state => {
