@@ -27,7 +27,6 @@ export default defineConfig({
   analytics: {
     baidu: '46689e26837885690d97c7f5d08b9a0b',
   },
-  exportStatic:{},
   headScripts:[
     '/js/g6.min.js',
     '/js/g6-plugins.min.js',

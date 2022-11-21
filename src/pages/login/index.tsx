@@ -16,7 +16,7 @@ const iconStyles: CSSProperties = {
   cursor: 'pointer',
 };
 
-export async function login(username:string, password:string) {
+export async function login(username: string, password: string) {
   await request.get(
     '/auth/oauth/token?username=' + username + '&password=' + password + '&grant_type=password&scope=select'
   ).then(res => {
@@ -65,6 +65,9 @@ export default () => {
                 background: '#fff',
                 color: '#1677FF',
                 width: 120,
+              }}
+              onClick={() => {
+                window.location.href = "https://www.zerocode.net.cn/thread/111"
               }}
             >
               去看看
@@ -209,7 +212,7 @@ export default () => {
             marginBlockEnd: 24,
           }}
         >
-          <Button type={"link"} onClick={()=>{
+          <Button type={"link"} onClick={() => {
             history.push({
               pathname: '/register'
             });
@@ -220,7 +223,7 @@ export default () => {
             style={{
               float: 'right',
             }}
-            onClick={()=>{
+            onClick={() => {
               message.warn("请联系管理员修改密码");
             }}
           >
