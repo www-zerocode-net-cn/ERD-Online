@@ -2,7 +2,7 @@ import {
   Column,
   DatabaseConfig,
   DatabaseDownload,
-  DatabaseNetwork,
+  DatabaseNetwork, DatabaseSearch,
   DataDisplay,
   Export,
   FileJpg,
@@ -115,6 +115,18 @@ export default {
             access: 'canErdTableSettingDefault',
           },
         ],
+      },
+      {
+        path: '/design/table/query',
+        name: '查询',
+        icon: <DatabaseSearch theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+        routes: [
+          {
+            path: 'https://www.zerocode.net.cn/',
+            name: 'ERD Online 论坛',
+            icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
+          },
+        ]
       },
     ],
   },

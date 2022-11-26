@@ -163,6 +163,11 @@
           },
         ]
       },
+
+      {
+        path: '/design/table/query',
+        component: './design/query',
+      },
       {
         component: './404',
       },

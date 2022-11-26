@@ -14,7 +14,9 @@ import * as cache from "@/utils/cache";
 import {useAccess} from "@@/plugin-access";
 import {get} from "@/services/crud";
 import {CONSTANT} from "@/utils/constant";
+import QueryLeftContent from "@/components/LeftContent/QueryLeftContent";
 
+export const siderWidth = 333;
 
 export const headRightContent = [
 
@@ -91,7 +93,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   const {setInitialState} = useModel('@@initialState');
 
   useEffect(() => {
-    console.log(69, access,project.type)
+    console.log(69, access, project.type)
     if (project && project.type === '2') {
       get("/ncnb/project/group/currentRolePermission", {
         projectId
@@ -161,11 +163,14 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
         menuExtraRender={(props) => {
           console.log(118, props)
           return (
-            pathname === '/design/table/model' ? <DesignLeftContent collapsed={props.collapsed}/> : null
+            pathname === '/design/table/model'
+              ? <DesignLeftContent collapsed={props.collapsed}/>
+              : pathname === '/design/table/query'
+              ? <QueryLeftContent collapsed={props.collapsed}/> : null
 
           )
         }}
-        siderWidth={333}
+        siderWidth={siderWidth}
         actionsRender={(props) => {
           if (props.isMobile) return [];
 
