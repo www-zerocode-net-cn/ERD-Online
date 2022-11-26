@@ -334,6 +334,7 @@ const useVersionStore = create<VersionState>(
               });
             }
           });
+          console.log(337, 'changes', changes)
           return changes;
         }
         return [];
@@ -473,6 +474,17 @@ const useVersionStore = create<VersionState>(
         return optName;
       },
       constructorMessage: (changes: any) => {
+        console.log(477, changes);
+        if (changes) {
+          _.remove(changes, function (n: any) {
+            const flag =
+              n.type === "field"
+              && n.opt === 'update'
+              && (n.changeData && n.changeData.search('undefined=>') > -1);
+            console.log(496, flag, n);
+            return flag;
+          });
+        }
         return changes.map((c: any) => {
           let tempMsg = `${get().dispatch.getOptName(c.opt)}
       ${get().dispatch.getTypeName(c.type)}「${c.name}」`;
@@ -502,7 +514,21 @@ const useVersionStore = create<VersionState>(
         } else {
           tempChanges = [...changes];
         }
+        debugger
+        console.log(496, tempChanges);
+        if (tempChanges) {
+          _.remove(tempChanges, function (n: any) {
+            const flag =
+              n?.type === "field"
+              && n?.opt === 'update'
+              && (n?.changeData && n?.changeData?.search('undefined=>') > -1);
+            console.log(496, flag, n);
+            return flag;
+          });
+        }
         const configData = _.get(projectState.project, 'configJSON');
+        console.log(496, tempChanges);
+
         const tempValue = {
           ...(configData?.synchronous || {upgradeType: 'increment'}),
         };
