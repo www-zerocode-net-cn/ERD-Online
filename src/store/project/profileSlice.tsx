@@ -337,8 +337,9 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     };
     console.log(311, 'moudles', modules);
     console.log(312, 'dataTypes', dataTypes);
-    get().dispatch.updateAllModules(modules);
     get().dispatch.updateAllDataTypes(currentDataTypes.concat(dataTypes));
+    get().dispatch.updateAllModules(modules);
+
     console.log(313, tempData);
     message.success('操作成功！')
   },

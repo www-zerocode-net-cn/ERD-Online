@@ -9,10 +9,15 @@ import useGlobalStore from "@/store/global/globalStore";
 import {State} from "zustand/vanilla";
 import ExportSlice from "@/store/project/exportSlice";
 import * as CryptoJS from 'crypto-js';
+import _ from "lodash";
+import {uuid} from "@/utils/uuid";
 
 export type IProjectJsonSlice = {}
 
 export interface IProjectJsonDispatchSlice {
+  fixProject: (project: any) => void;
+  fixModules: (modules: any) => any;
+  getProject: () => void;
   setProjectJson: (value: any) => void;
   setModules: (value: any) => void;
   setDataTypeDomains: (value: any) => void;
@@ -25,6 +30,64 @@ export interface IProjectJsonDispatchSlice {
 const globalState = useGlobalStore.getState();
 
 const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
+  fixProject: (project: any) => set(produce(state => {
+    const database = get().project?.projectJSON?.dataTypeDomains?.database || [];
+    const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
+    console.log(45, defaultDatabaseCode);
+    const modules = project?.projectJSON?.modules;
+    console.log(38, 'fixProject', modules);
+    const tmpModules = get().dispatch.fixModules(modules);
+    console.log(73, 'modules', modules);
+    if (tmpModules) {
+      state.project.projectJSON.modules = tmpModules;
+    }
+
+
+    const dbs = project?.projectJSON?.profile?.dbs;
+    if (dbs) {
+      //解决导入dbs没有key的问题
+      const modify_dbs = dbs?.map((d: any) => {
+        if (d && !d.key) {
+          return {
+            ...d,
+            key: uuid()
+          }
+        } else {
+          return d;
+        }
+      });
+      state.project.projectJSON.profile.dbs = modify_dbs;
+    }
+  })),
+  getProject: () => set(produce(state => {
+    return state.project;
+  })),
+  fixModules: (data: any) => {
+    const datatype = get().project?.projectJSON?.dataTypeDomains?.datatype || [];
+    const database = get().project?.projectJSON?.dataTypeDomains?.database || [];
+    const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
+    return data?.map((m: any) => {
+      return {
+        ...m,
+        entities: m?.entities?.map((e: any) => {
+          return {
+            ...e,
+            fields: e?.fields?.map((f: any) => {
+              const d = _.find(datatype, {'code': f?.type});
+              const path = `apply.${defaultDatabaseCode}.type`;
+              const tmpField = {
+                ...f,
+                typeName: d?.name,
+                dataType: _.get(d, path)
+              };
+              console.log(78, 'tmpField', tmpField)
+              return tmpField;
+            })
+          };
+        })
+      }
+    });
+  },
   setProjectJson: (value: any) => set(produce(state => {
     state.project.projectJSON = value
   })),

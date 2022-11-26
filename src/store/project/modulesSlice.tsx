@@ -69,7 +69,11 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     state.currentModuleIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m?.name === payload);
   })),
   updateAllModules: (payload: any) => set(produce(state => {
-    state.project.projectJSON.modules = payload;
+    const modules = get().dispatch.fixModules(payload);
+    console.log(73, 'modules', modules);
+    if (modules) {
+      state.project.projectJSON.modules = modules;
+    }
   })),
   getModuleEntityTree: (searchKey: string) => {
     const tempExpandedKeys: any = [];
