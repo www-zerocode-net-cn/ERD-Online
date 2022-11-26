@@ -792,11 +792,8 @@ export const getAllDataSQL = (dataSource, code) => {
         separator
       })}`;
     }).join('');
-    return `${getTemplateString(getTemplate('deleteTableTemplate'), {
-      module: {name: e.name},
-      entity: e,
-      separator
-    })}\n${getTemplateString(getTemplate('createTableTemplate'), {
+    //全量脚本去除删除语句
+    return `${getTemplateString(getTemplate('createTableTemplate'), {
       module: {name: e.name},
       entity: e,
       separator

@@ -141,6 +141,7 @@ const useVersionStore = create<VersionState>(
             }
           }
         });
+
       }
     },
     dispatch: {
@@ -495,7 +496,7 @@ const useVersionStore = create<VersionState>(
         console.log(472, lastVersion);
         let tempChanges;
         if (type === SHOW_CHANGE_TYPE.CURRENT) {
-          tempChanges = [...currentVersion?.changes||[]];
+          tempChanges = [...currentVersion?.changes || []];
         } else if (type === SHOW_CHANGE_TYPE.MULTI) {
           tempChanges = [...change];
         } else {
@@ -505,7 +506,6 @@ const useVersionStore = create<VersionState>(
         const tempValue = {
           ...(configData?.synchronous || {upgradeType: 'increment'}),
         };
-        debugger
         if (tempValue.upgradeType === 'rebuild') {
           // 如果是重建数据表则不需要字段更新的脚本
           // 1.提取所有字段以及索引所在的数据表
@@ -553,7 +553,12 @@ const useVersionStore = create<VersionState>(
             modules: dataSource.modules || [],
           }, code);
         } else {
-          data = getCodeByChanges({
+          data = currentVersion.baseVersion ?
+            getAllDataSQL({
+              ...dataSource,
+              modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
+            }, code) :
+            getCodeByChanges({
               ...dataSource,
               modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
             }, tempChanges, code, {
@@ -729,7 +734,6 @@ const useVersionStore = create<VersionState>(
                 onOk: (m) => {
                   _.set(get().synchronous, `${version.version}`, true);
                   console.log(673, m);
-                  debugger
                   m && m();
                   const configData = _.get(projectState.project, "configJSON");
                   const tempValue = {
@@ -770,7 +774,7 @@ const useVersionStore = create<VersionState>(
                       // todo 暂时取消数据表的中文名以及其他变化时所生成的更新数据
                       tempChanges = tempChanges.filter((c: any) => !(c.type === 'entity' && c.opt === 'update'));
                     }
-                    console.log(771, dbData,_.get(dbData, 'select', 'MYSQL'));
+                    console.log(771, dbData, _.get(dbData, 'select', 'MYSQL'));
                     data = getCodeByChanges({
                         ..._.get(projectState.project, "projectJSON"),
                         modules: version.projectJSON.modules,
@@ -841,9 +845,10 @@ const useVersionStore = create<VersionState>(
         } else {
           const dbData = get().dispatch.getCurrentDBData();
           // 基线文件只需要存储modules信息
+          const modules = projectState?.project?.projectJSON?.modules;
           const version = {
             projectJSON: {
-              modules: projectState?.project?.projectJSON?.modules || [],
+              modules: modules || [],
             },
             dbKey: dbData.key,
             baseVersion: true,
