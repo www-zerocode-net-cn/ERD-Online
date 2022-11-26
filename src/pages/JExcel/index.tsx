@@ -173,8 +173,8 @@ const JExcel: React.FC<JExcelProps> = (props) => {
       const path = `apply.${defaultDatabaseCode}.type`;
       const type = _.get(d, path);
       if (d && defaultDatabaseCode && code && type) {
-        jRef?.current?.jexcel.setValueFromCoords(Number(columnIndex) + 1, rowIndex, code, true);
-        jRef?.current?.jexcel.setValueFromCoords(Number(columnIndex) + 2, rowIndex, type, true);
+        jRef?.current?.jexcel?.setValueFromCoords(Number(columnIndex) + 1, rowIndex, code, true);
+        jRef?.current?.jexcel?.setValueFromCoords(Number(columnIndex) + 2, rowIndex, type, true);
       }
       saveValidData(jRef?.current?.jexcel.getJson());
     },
