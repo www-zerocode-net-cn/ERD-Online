@@ -503,9 +503,9 @@ const useVersionStore = create<VersionState>(
         }
         const configData = _.get(projectState.project, 'configJSON');
         const tempValue = {
-          upgradeType: 'rebuild',
-          ...(configData?.synchronous || {}),
+          ...(configData?.synchronous || {upgradeType: 'increment'}),
         };
+        debugger
         if (tempValue.upgradeType === 'rebuild') {
           // 如果是重建数据表则不需要字段更新的脚本
           // 1.提取所有字段以及索引所在的数据表
@@ -545,7 +545,7 @@ const useVersionStore = create<VersionState>(
         );
         const dbData = get().dispatch.getCurrentDBData();
         console.log(514, 'dbData', dbData);
-        const code = _.get(dbData, 'select', defaultDB);
+        const code = _.get(dbData, 'select', 'MYSQL');
         let data = '';
         if (init) {
           data = getAllDataSQL({
@@ -553,12 +553,7 @@ const useVersionStore = create<VersionState>(
             modules: dataSource.modules || [],
           }, code);
         } else {
-          data = currentVersion.baseVersion ?
-            getAllDataSQL({
-              ...dataSource,
-              modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
-            }, code) :
-            getCodeByChanges({
+          data = getCodeByChanges({
               ...dataSource,
               modules: currentVersion.projectJSON ? currentVersion.projectJSON.modules : currentVersion.modules,
             }, tempChanges, code, {
@@ -734,10 +729,11 @@ const useVersionStore = create<VersionState>(
                 onOk: (m) => {
                   _.set(get().synchronous, `${version.version}`, true);
                   console.log(673, m);
+                  debugger
                   m && m();
                   const configData = _.get(projectState.project, "configJSON");
-                  let tempValue = {
-                    upgradeType: _.omit(configData?.synchronous || {}, ['readDBType']) || 'rebuild',
+                  const tempValue = {
+                    ...(configData?.synchronous || {upgradeType: 'increment'}),
                   };
                   let data = '';
                   // 判断是否为初始版本，如果为初始版本则需要生成全量脚本
@@ -745,7 +741,7 @@ const useVersionStore = create<VersionState>(
                     data = getAllDataSQL({
                       ..._.get(projectState.project, "projectJSON"),
                       modules: version.projectJSON.modules,
-                    }, _.get(dbData, 'type', get().dbVersion));
+                    }, _.get(dbData, 'select', 'MYSQL'));
                   } else {
                     let tempChanges: any[] = [...changes];
                     // @ts-ignore
@@ -853,7 +849,7 @@ const useVersionStore = create<VersionState>(
             baseVersion: true,
             version: tempValue.version,
             versionDesc: tempValue.versionDesc,
-            changes: [],
+            changes: get().dispatch.calcChanges(get().versions),
             versionDate: moment().format('YYYY/M/D H:m:s'),
           };
           if (msg) {
@@ -877,7 +873,7 @@ const useVersionStore = create<VersionState>(
             message.success(msg || '初始化基线成功');
             get().dispatch.getVersionMessage(res.data, true);
             set({
-              changes: [],
+              changes: get().dispatch.calcChanges(get().versions),
               init: false,
               versions: res.data,
             });
