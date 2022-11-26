@@ -3,31 +3,31 @@
   "profile": {
     "defaultFields": [
       {
-        "name": "REVISION",
+        "name": "revision",
         "type": "Integer",
         "remark": "",
         "chnname": "乐观锁"
       },
       {
-        "name": "CREATOR",
+        "name": "creator",
         "type": "IdOrKey",
         "remark": "",
         "chnname": "创建人"
       },
       {
-        "name": "CREATE_TIME",
+        "name": "create_time",
         "type": "DateTime",
         "remark": "",
         "chnname": "创建时间"
       },
       {
-        "name": "UPDATER",
+        "name": "updater",
         "type": "IdOrKey",
         "remark": "",
         "chnname": "更新人"
       },
       {
-        "name": "UPDATE_TIME",
+        "name": "update_time",
         "type": "DateTime",
         "remark": "",
         "chnname": "更新时间"
