@@ -66,7 +66,9 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
   const dataFormRef = useRef<ProFormInstance>();
   useEffect(() => {
     dataFormRef && dataFormRef.current?.resetFields?.();
-  }, [currentDatabaseIndex,template]);
+    console.log(68, '页面刷新');
+    //@ts-ignore
+  }, [currentDatabaseIndex,template?.defaultDatabase,template?.fileShow]);
 
   return (<>
     <ModalForm
@@ -83,6 +85,7 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
           fileShow: values.fileShow,
         });
         setRefreshCheckBox(!refreshCheckBox);
+        setTimeout(()=>{},1000);
         return true;
       }}
       params={{'currentDatabaseIndex': currentDatabaseIndex, refreshCheckBox}}
