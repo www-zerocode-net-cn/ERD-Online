@@ -43,7 +43,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
       name: 'typeName',
       type: 'dropdown',
       source: allDataTypeName,
-      width: '100',
+      width: '150',
     },
     ...column2
   ];

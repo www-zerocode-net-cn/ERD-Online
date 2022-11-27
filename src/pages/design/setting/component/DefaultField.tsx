@@ -112,7 +112,7 @@ const DefaultField: React.FC<DefaultFieldProps> = (props) => {
       name: 'typeName',
       type: 'dropdown',
       source: allDataTypeName,
-      width: '100',
+      width: '150',
     },
     ...column2
   ];
