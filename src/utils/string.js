@@ -19,3 +19,34 @@ export const compareStringVersion = (v1 = '', v2 = '') => {
   const maxLengthVersion = version1.length > version2.length ? version1 : version2;
   return checkVersion(version1, version2, 0, maxLengthVersion.length);
 };
+
+/**
+ * 根据模板渲染字符串
+ * @param template
+ * @param context
+ * @returns {*}
+ */
+function render(template, context) {
+  const tokenReg = /(\\)?\{([^\{\}\\]+)(\\)?\}/g;
+
+  return template.replace(tokenReg, function (word, slash1, token, slash2) {
+    if (slash1 || slash2) {
+      return word.replace('\\', '');
+    }
+
+    const variables = token.replace(/\s/g, '').split('.');
+    let currentObject = context;
+    let i, length, variable;
+
+    for (i = 0, length = variables.length, variable = variables[i]; i < length; ++i) {
+      currentObject = currentObject[variable];
+      if (currentObject === undefined || currentObject === null) return '';
+    }
+
+    return currentObject;
+  })
+}
+
+String.prototype.render = function (context) {
+  return render(this, context);
+};

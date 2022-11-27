@@ -83,6 +83,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         type: 'relation',
         module: module.name,
         title: '关系图',
+        formatName: '关系图',
         key: `${module.name}###relation`,
         isLeaf: true
       };
@@ -97,18 +98,24 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
           return true;
         }
       }).map((entity: any) => {
+        const tableNameFormat = get().project?.projectJSON?.profile?.tableNameFormat || '{title} {chnname}';
+        console.log(102,tableNameFormat.render(entity))
         return {
           type: 'entity',
           module: module.name,
           length: entity?.fields?.length,
           title: entity.title,
+          chnname:entity.chnname,
+          formatName: tableNameFormat.render(entity),
           key: `entity${entity.title}`,
           isLeaf: true
         }
       });
+      const moduleNameFormat = get().project?.projectJSON?.profile?.moduleNameFormat || '{name} {chnname}';
       return {
         type: 'module',
-        name:module.name,
+        formatName: moduleNameFormat.render(module),
+        name: module.name,
         chnname:module.chnname,
         module: module.name,
         length: module?.entities?.length,

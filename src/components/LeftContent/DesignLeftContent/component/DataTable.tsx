@@ -207,7 +207,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
                 }
               </div>
               <Typography variant="body2" className={classes.labelText}>
-                {node.title}
+                {node.formatName}
               </Typography>
               <Typography variant="caption" color="inherit">
                 {node.type !== 'relation' ? node.length : null}

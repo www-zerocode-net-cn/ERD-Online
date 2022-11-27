@@ -51,6 +51,36 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
           ],
         }}
       />
+      <ProFormText
+        width="lg"
+        name="moduleNameFormat"
+        label="元数据模块名显示格式"
+        extra='控制模型->元数据中，模块名称显示格式：{name}显示英文名，{chnname}显示中文名，{name} {chnname}为英文和中文的组合名'
+        placeholder="默认为 {name} {chnname}"
+        formItemProps={{
+          rules: [
+            {
+              max: 100,
+              message: '不能大于 100 个字符',
+            },
+          ],
+        }}
+      />
+      <ProFormText
+        width="lg"
+        name="tableNameFormat"
+        label="元数据表名显示格式"
+        extra='控制模型->元数据中，表名称显示格式：{title}显示英文名，{chnname}显示中文名，{title} {chnname}为英文和中文的组合名'
+        placeholder="默认为 {title} {chnname}"
+        formItemProps={{
+          rules: [
+            {
+              max: 100,
+              message: '不能大于 100 个字符',
+            },
+          ],
+        }}
+      />
       <ProFormFieldSet
         label="WORD模板配置"
         extra="默认为系统自带的模板，如需修改，请先下载，再重新上传模板文件"
@@ -91,6 +121,7 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
           <Button title='下载模板' onClick={() => projectDispatch.downloadWordTemplate()}>下载模板</Button>
         </Access>
       </ProFormFieldSet>
+
     </ProForm>
   </>);
 }
