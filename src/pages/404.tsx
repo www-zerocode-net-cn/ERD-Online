@@ -1,7 +1,7 @@
 import {Button, Result} from 'antd';
 import React from 'react';
 import {history} from 'umi';
-import 'antd/dist/antd.css';
+import 'antd/dist/reset.css';
 
 
 const NoFoundPage: React.FC = () => (

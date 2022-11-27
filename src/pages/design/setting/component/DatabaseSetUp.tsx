@@ -198,7 +198,6 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                         <ProFormText
                           name="name"
                           fieldProps={{
-                            size: "small",
                             disabled: !record.defaultDB,
                             onBlur: (e) => {
                               console.log(182, e.target.value);

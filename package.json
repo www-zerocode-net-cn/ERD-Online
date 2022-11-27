@@ -68,7 +68,7 @@
     "@reduxjs/toolkit": "^1.8.6",
     "@umijs/route-utils": "^1.0.36",
     "ace-builds": "^1.4.12",
-    "antd": "^4.23.6",
+    "antd": "^5.0.1",
     "classnames": "^2.2.6",
     "crypto-js": "^4.1.1",
     "dot": "^1.1.2",
