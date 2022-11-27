@@ -58,6 +58,9 @@ const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
             resultMsg.push("[" + module.name + "]已经在本系统中存在，已跳过导入");
           }
         });
+        if(resultModules){
+          resultModules = projectDispatch.fixModules(resultModules);
+        }
 
         projectDispatch.setProjectJson({
           modules: (dataSource.modules || []).concat(resultModules),
