@@ -55,7 +55,7 @@ export const useTreeItemStyles = makeStyles((theme: any) => ({
     marginLeft: '5px',
   },
   labelText: {
-    width: '80px',
+    width: '180px',
     fontWeight: 'inherit',
     flexGrow: 1,
     display: 'block',
