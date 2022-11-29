@@ -8,6 +8,7 @@ import {Button, Dropdown} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {useModel} from "@umijs/max";
+import useTabStore from "@/store/tab/useTabStore";
 
 
 export interface HomeLayoutLayoutProps {
@@ -17,9 +18,12 @@ export interface HomeLayoutLayoutProps {
 const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   const [pathname, setPathname] = useState('/project/home');
   const {setInitialState} = useModel('@@initialState');
+  const {tabDispatch} = useTabStore(state => ({tabDispatch: state.dispatch}));
+
 
   useEffect(() => {
-    console.log('回首页清空权限')
+    console.log('回首页清空权限');
+    tabDispatch.removeAllTab({});
     setInitialState((s: any) => ({...s, access: {}}));
   })
 
