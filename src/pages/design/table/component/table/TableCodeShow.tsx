@@ -92,7 +92,7 @@ const TableCodeShow: React.FC<TableCodeShowProps> = (props) => {
         templateCode === 'deleteTableTemplate' ||
         templateCode === 'createIndexTemplate') ? '该脚本为全量脚本' :
         <Tooltip placement="top" title='差异化脚本:
-        1、根据最后一个已同步版本的元数据，计算和当前模型的差异，然后按模板渲染；
+        1、根据最后一个版本的元数据，计算和当前模型的差异，然后按模板渲染；
         2、未同步版本时这里为空;
         3、当前项未产生变化，这里为空;
         '>
