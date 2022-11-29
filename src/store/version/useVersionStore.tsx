@@ -513,7 +513,6 @@ const useVersionStore = create<VersionState>(
         } else {
           tempChanges = [...changes];
         }
-        debugger
         console.log(496, tempChanges);
         if (tempChanges) {
           _.remove(tempChanges, function (n: any) {
@@ -692,7 +691,6 @@ const useVersionStore = create<VersionState>(
       connectJDBC: (param: any, opt: any, cb: any) => {
         Save[opt](param).then((res: any) => {
           if (res.code === 200) {
-            debugger
             cb && cb();
             Modal.success({
               title: '同步成功',
