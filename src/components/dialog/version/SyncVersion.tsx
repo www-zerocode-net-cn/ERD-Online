@@ -8,6 +8,8 @@ import {CloudServerOutlined, CloudUploadOutlined} from "@ant-design/icons";
 
 export type SyncVersionProps = {
   synced: boolean;
+  refresh: () => void;
+
 };
 
 const SyncVersion: React.FC<SyncVersionProps> = (props) => {
@@ -36,7 +38,7 @@ const SyncVersion: React.FC<SyncVersionProps> = (props) => {
                 props.synced,
                 currentVersion,
                 currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion, currentVersion.changes,
-                currentVersionIndex === (versions.length - 1), true)
+                currentVersionIndex === (versions.length - 1), true);
             }}>同步到数据源</Button>
 
   </>);

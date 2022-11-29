@@ -7,7 +7,6 @@ import * as Save from '@/utils/save';
 import {getAllDataSQL, getCodeByChanges} from "@/utils/json2code";
 import moment from "moment";
 import produce from "immer";
-import {Link} from "umi";
 
 export const SHOW_CHANGE_TYPE = {
   // 默认为最新版本变化
@@ -374,7 +373,7 @@ const useVersionStore = create<VersionState>(
         if (data.some((d: any) => d.baseVersion)) {
           state.init = false;
         } else {
-          message.warning('当前数据源不存在基线版本，请先初始化基线',2);
+          message.warning('当前数据源不存在基线版本，请先初始化基线', 2);
           state.init = true;
         }
       })),
@@ -499,7 +498,7 @@ const useVersionStore = create<VersionState>(
       },
       showChanges: (type: string, change: any, currentVersion: any, lastVersion: any) => {
         const dataSource = _.get(projectState.project, "projectJSON");
-        const {changes, init, dbVersion: defaultDB, currentVersionIndex, versions} = get();
+        const {changes, init, currentVersionIndex, versions} = get();
         if (!currentVersion || !lastVersion) {
           currentVersion = get().currentVersion;
           lastVersion = currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion;
@@ -623,8 +622,18 @@ const useVersionStore = create<VersionState>(
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           cb && cb();
         } else {
-          get().dispatch.generateSQL(dbData, version, data, updateDBVersion, cb, onlyUpdateDBVersion);
-          get().fetch(null);
+          Modal.confirm({
+            title: '同步确认',
+            content: '元数据即将同步到数据源，同步后不可撤销，确定同步吗？',
+            onOk: (m) => {
+              const cb1 = () => {
+                get().fetch(null);
+                m && m();
+              }
+              get().dispatch.generateSQL(dbData, version, data, updateDBVersion, cb1, onlyUpdateDBVersion);
+              cb && cb();
+            }
+          });
         }
       },
       generateSQL: (dbData: any, version: any, data: any, updateVersion: any, cb: any, onlyUpdateVersion: any) => {
@@ -654,9 +663,7 @@ const useVersionStore = create<VersionState>(
             ...sqlParam,
             dbKey: dbData.key,
             showModal: true,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           }, cmd, (result: any) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             cb && cb();
             set({
               synchronous: {
@@ -684,9 +691,9 @@ const useVersionStore = create<VersionState>(
       },
       connectJDBC: (param: any, opt: any, cb: any) => {
         Save[opt](param).then((res: any) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           if (res.code === 200) {
-            cb && cb(res);
+            debugger
+            cb && cb();
             Modal.success({
               title: '同步成功',
               content: res.data,
@@ -808,8 +815,7 @@ const useVersionStore = create<VersionState>(
                       _.get(dbData, 'select', 'MYSQL'), lastVersion.projectJSON);
                   }
                   console.log(776, data);
-                  get().dispatch.generateSQL(dbData, version, data, updateVersion);
-                  get().fetch(null);
+                  get().dispatch.generateSQL(dbData, version, data, updateVersion, () => get().fetch(null));
                 }
               });
             }

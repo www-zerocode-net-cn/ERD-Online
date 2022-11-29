@@ -43,6 +43,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
     preSynchronous: false,
     flagSynchronous: false,
   });
+
   const access = useAccess();
 
   const [exed, setExed] = useState(1);
