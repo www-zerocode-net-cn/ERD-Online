@@ -576,7 +576,7 @@ const useVersionStore = create<VersionState>(
         if (init) {
           data = getAllDataSQL({
             ...dataSource,
-            modules: dataSource.modules || [],
+            modules: dataSource?.modules || [],
           }, code);
         } else {
           data = currentVersion.baseVersion ?
