@@ -10,7 +10,7 @@ import "jsuites/dist/jsuites.css"
 import "./index.less"
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
-import {message} from "antd";
+import {List, message, Modal} from "antd";
 
 export type JExcelProps = {
   data: any,
@@ -45,6 +45,31 @@ const JExcel: React.FC<JExcelProps> = (props) => {
 
 
   const jRef = useRef(null);
+
+  const introduces = [
+    {
+      title: '复制',
+      description: 'Windows：Ctrl + C              |             Mac：command + C',
+    },
+    {
+      title: '粘贴',
+      description: 'Windows：Ctrl + V              |             Mac：command + V',
+    },
+    {
+      title: '剪切',
+      description: 'Windows：Ctrl + X              |             Mac：command + X',
+    },
+    {
+      title: '撤销',
+      description: 'Windows：Ctrl + Z              |            Mac：command + Z',
+    },
+    {
+      title: '重做',
+      description: 'Windows：Ctrl + Shit + Z              |            Mac：command + Shit + Z',
+    },
+
+  ];
+
   const options = {
     data,
     columns,
@@ -119,6 +144,32 @@ const JExcel: React.FC<JExcelProps> = (props) => {
           }
           // @ts-ignore
           jRef?.current?.jexcel.insertRow(1, parseInt(selectedRows[selectedRows.length - 1].dataset.y));
+        }
+      },
+
+      {
+        type: 'i',
+        content: 'help_outline',
+        tooltip: '快捷操作',
+        onclick: function () {
+          Modal.info({
+            title: "快捷操作",
+            width: 500,
+            content: <>
+              <List
+                itemLayout="horizontal"
+                dataSource={introduces}
+                renderItem={(item) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={<a href="https://ant.design">{item.title}</a>}
+                      description={item.description}
+                    />
+                  </List.Item>
+                )}
+              />
+            </>
+          });
         }
       },
     ],

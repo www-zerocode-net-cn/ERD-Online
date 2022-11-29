@@ -125,7 +125,6 @@ const JExcel: React.FC = () => {
             jRef?.current?.jexcel.insertRow(1, parseInt(selectedRows[selectedRows.length-1].dataset.y));
           }
       },
-
       {
         type: 'i',
         content: 'help_outline',
@@ -169,9 +168,7 @@ const JExcel: React.FC = () => {
       "noCellsSelected": "未选定单元格"
     },
     about:false,
-    onafterchanges: (el:any, records:any) =>{
-      console.log(156,el,records,jRef?.current?.jexcel.getJson())
-    }
+
   };
 
   useEffect(() => {
