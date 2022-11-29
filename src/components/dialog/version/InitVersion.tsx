@@ -37,7 +37,7 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
         // 基线文件只需要存储modules信息
         const currentDBData = versionDispatch.getCurrentDBData();
         if (!currentDBData) {
-          message.warn("未配置数据库源，请先配置数据源！");
+          message.warning("未配置数据库源，请先配置数据源！");
           return false;
         }
         const version = {

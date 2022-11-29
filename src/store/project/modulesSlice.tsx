@@ -99,7 +99,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         }
       }).map((entity: any) => {
         const tableNameFormat = get().project?.projectJSON?.profile?.tableNameFormat || '{title} {chnname}';
-        console.log(102,tableNameFormat.render(entity))
+        console.log(102,tableNameFormat?.render(entity))
         return {
           type: 'entity',
           module: module.name,

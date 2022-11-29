@@ -41,7 +41,7 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
         message.error('保存出错，不能保存null')
       }
     } else {
-      message.warn(`${payload.title}已经存在`);
+      message.warning(`${payload.title}已经存在`);
     }
   })),
   renameEntity: (payload: any) => set(produce(state => {

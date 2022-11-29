@@ -67,7 +67,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
           await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {
             console.log(45, res);
             const data = res?.data;
-            if (res.code === 200 && data) {
+            if (res?.code === 200 && data) {
               set({project: data});
               get().dispatch.fixProject(data);
             } else {

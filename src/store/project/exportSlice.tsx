@@ -281,7 +281,7 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
       File.save(data, `${moment().format('YYYY-MM-D-h-mm-ss')}.sql`);
       message.success('导出成功');
     }else {
-      message.warn('暂时无法导出');
+      message.warning('暂时无法导出');
     }
   }
 

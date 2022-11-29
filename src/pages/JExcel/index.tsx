@@ -98,7 +98,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
           console.log('publish', selectedRows)
 
           if (!selectedRows || !selectedRows[0]?.dataset) {
-            message.warn('未选中行');
+            message.warning('未选中行');
             return;
           }
           jRef?.current?.jexcel.insertRow(1, parseInt(selectedRows[0].dataset.y), 1);
@@ -114,7 +114,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
           console.log('get_app', selectedRows)
 
           if (!selectedRows || !selectedRows[selectedRows.length - 1]?.dataset) {
-            message.warn('未选中行');
+            message.warning('未选中行');
             return;
           }
           // @ts-ignore
@@ -173,6 +173,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
       const path = `apply.${defaultDatabaseCode}.type`;
       const type = _.get(d, path);
       if (d && defaultDatabaseCode && code && type) {
+        debugger
         jRef?.current?.jexcel?.setValueFromCoords(Number(columnIndex) + 1, rowIndex, code, true);
         jRef?.current?.jexcel?.setValueFromCoords(Number(columnIndex) + 2, rowIndex, type, true);
       }

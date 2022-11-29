@@ -9,7 +9,7 @@ export type ReverseERWinProps = {};
 const ReverseERWin: React.FC<ReverseERWinProps> = (props) => {
 
   const readPDMfile = () => {
-    message.warn('此功能正在玩命开发中，敬请期待...');
+    message.warning('此功能正在玩命开发中，敬请期待...');
   };
   return (<>
 

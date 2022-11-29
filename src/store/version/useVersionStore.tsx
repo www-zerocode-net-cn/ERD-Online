@@ -348,7 +348,7 @@ const useVersionStore = create<VersionState>(
           set({
             dbVersion: '',
           });
-          message.warn(<>获取数据源版本信息失败,无法获取到数据源信息,请<a href={'/design/table/setting/db'}>配置</a>或切换数据源！</>, 2);
+          message.warning(<>获取数据源版本信息失败,无法获取到数据源信息,请<a href={'/design/table/setting/db'}>配置</a>或切换数据源！</>, 2);
           state.hasDB = false;
 
         } else {
@@ -374,7 +374,7 @@ const useVersionStore = create<VersionState>(
         if (data.some((d: any) => d.baseVersion)) {
           state.init = false;
         } else {
-          message.warn('当前数据源不存在基线版本，请先初始化基线', 2);
+          message.warning('当前数据源不存在基线版本，请先初始化基线',2);
           state.init = true;
         }
       })),
@@ -942,10 +942,10 @@ const useVersionStore = create<VersionState>(
       })),
       compare: (state: any) => {
         if (get().versions.length > 1 && (!state.initVersion || !state.incrementVersion)) {
-          message.warn('请选择你要比较的两个版本');
+          message.warning('请选择你要比较的两个版本');
         }
         if (compareStringVersion(state.incrementVersion, state.initVersion) <= 0) {
-          message.warn('增量脚本的版本号不能小于或等于初始版本的版本号');
+          message.warning('增量脚本的版本号不能小于或等于初始版本的版本号');
         } else {
           // 读取两个版本下的数据信息
           let incrementVersionData = {};

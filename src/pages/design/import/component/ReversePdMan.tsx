@@ -42,7 +42,7 @@ const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
           return false;
         }
         if (pdmanJsonModules.length <= 0) {
-          message.warn('您尚未在PDMan新建模块，无需导入，可直接在本系统新建模块!');
+          message.warning('您尚未在PDMan新建模块，无需导入，可直接在本系统新建模块!');
           return false;
         }
         console.log(41, 'pdmanJsonModules', pdmanJsonModules);

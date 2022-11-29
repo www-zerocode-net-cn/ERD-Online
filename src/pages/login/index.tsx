@@ -224,7 +224,7 @@ export default () => {
               float: 'right',
             }}
             onClick={() => {
-              message.warn("请联系管理员修改密码");
+              message.warning("请联系管理员修改密码");
             }}
           >
             忘记密码

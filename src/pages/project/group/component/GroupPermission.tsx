@@ -287,7 +287,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
             }
           });
         }else {
-          message.warn('无权操作权限功能');
+          message.warning('无权操作权限功能');
         }
 
       }}
