@@ -28,7 +28,7 @@ const Version: React.FC<VersionProps> = (props) => {
   const {dbs, synchronous, dbVersion, changes, versions, fetch, versionDispatch} = useVersionStore(state => ({
     dbs: state.dbs,
     synchronous: state.synchronous,
-    dbVersion: state.dbVersion,
+    dbVersion: state.dbVersion || '0.0.0',
     changes: state.changes,
     versions: state.versions,
     fetch: state.fetch,
@@ -43,19 +43,13 @@ const Version: React.FC<VersionProps> = (props) => {
   console.log('changes', 48, changes);
 
 
-  const [count, setCount] = useState(1);
-  console.log(46, 'count',count,dbVersion);
+  console.log(46, 'count', dbVersion);
 
-  const refresh=()=>{
-    setCount(count + 1);
-  }
   // fetch();
   //获取全部历史版本
   useEffect(() => {
     fetch(null);
   }, [dbVersion]);
-
-
 
 
   const handleItemSelect = React.useCallback((db: IDatabase) => {
@@ -151,7 +145,7 @@ const Version: React.FC<VersionProps> = (props) => {
                 accessible={access.canErdConnectorDbsync}
                 fallback={<></>}
               >
-                <SyncVersion refresh={refresh}  synced={compareStringVersion(row.version, dbVersion) <= 0}/>
+                <SyncVersion synced={compareStringVersion(row.version, dbVersion) <= 0}/>
               </Access>
 
             ],

@@ -87,7 +87,7 @@ const useVersionStore = create<VersionState>(
     versions: [],
     messages: [],
     data: undefined,
-    dbVersion: undefined,
+    dbVersion: '0.0.0',
     changes: [],
     dbs: [],
     incrementVersionData: {},

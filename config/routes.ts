@@ -166,7 +166,7 @@
 
       {
         path: '/design/table/query',
-        component: './design/query',
+        component: './design/table',
       },
       {
         component: './404',

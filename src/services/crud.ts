@@ -75,4 +75,13 @@ export async function get(url: string, params: any) {
   });
 }
 
+export async function tree(url: string, params: any) {
+  return request<COMMON.R>(url, {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+  });
+}
+
 

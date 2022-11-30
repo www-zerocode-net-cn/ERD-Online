@@ -8,8 +8,6 @@ import {CloudServerOutlined, CloudUploadOutlined} from "@ant-design/icons";
 
 export type SyncVersionProps = {
   synced: boolean;
-  refresh: () => void;
-
 };
 
 const SyncVersion: React.FC<SyncVersionProps> = (props) => {

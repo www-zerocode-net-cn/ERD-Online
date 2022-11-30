@@ -3,9 +3,9 @@ import React from 'react';
 import "./index.less";
 import {Input} from "antd";
 import {SearchOutlined} from "@ant-design/icons";
-import useGlobalStore from "@/store/global/globalStore";
 import shallow from "zustand/shallow";
 import QueryTree from "@/components/LeftContent/QueryLeftContent/component/QueryTree";
+import useQueryStore from "@/store/query/useQueryStore";
 
 
 export type QueryLeftContentProps = {
@@ -13,8 +13,8 @@ export type QueryLeftContentProps = {
 };
 
 const QueryLeftContent: React.FC<QueryLeftContentProps> = (props) => {
-    const {globalDispatch} = useGlobalStore(state => ({
-      globalDispatch: state.dispatch
+    const {queryDispatch} = useQueryStore(state => ({
+      queryDispatch: state.dispatch
     }), shallow);
 
     return (
@@ -31,7 +31,7 @@ const QueryLeftContent: React.FC<QueryLeftContentProps> = (props) => {
             placeholder="搜索历史SQL"
             onPressEnter={(e) => {
               // @ts-ignore
-              globalDispatch.setSearchKey(e.target?.value)
+              queryDispatch.setQuerySearchKey(e.target?.value)
             }}
           />
           <QueryTree/>

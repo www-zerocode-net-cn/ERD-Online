@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
-import useTabStore from "@/store/tab/useTabStore";
+import useTabStore, {TabGroup} from "@/store/tab/useTabStore";
 import AddEntity from "@/components/dialog/entity/AddEntity";
 import RenameEntity from "@/components/dialog/entity/RenameEntity";
 import RemoveEntity from "@/components/dialog/entity/RemoveEntity";
@@ -160,11 +160,11 @@ const DataTable: React.FC<DataTableProps> = (props) => {
           if (node.type === "module") {
             projectDispatch.setCurrentModule(node.module)
           } else if (node.type === "entity") {
-            tabDispatch.addTab({module: node.module, entity: node.title});
+            tabDispatch.addTab({group:TabGroup.MODEL,module: node.module, entity: node.title});
             activeEntity(node.module, node.title)
           } else if (node.type === "relation") {
             shortcutDispatch.setShow(false);
-            tabDispatch.addTab({module: node.module, entity: `关系图-${node.module}`});
+            tabDispatch.addTab({group:TabGroup.MODEL,module: node.module, entity: `关系图-${node.module}`});
             activeEntity(node.module, node.title)
           }
         }}

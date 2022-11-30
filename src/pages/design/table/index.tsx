@@ -1,9 +1,11 @@
 import React, {useEffect} from "react";
 import "./index.scss";
 import TableTab from "@/pages/design/table/component/tab/TableTab";
-import useTabStore, {ModuleEntity} from "@/store/tab/useTabStore";
+import useTabStore, {ModuleEntity, TabGroup} from "@/store/tab/useTabStore";
 import Relation from "@/pages/design/relation";
 import {Dropdown, Empty, Menu, Tabs, TabsProps} from "antd";
+import Query from "@/pages/design/query";
+import {EllipsisMiddle} from "@/components/EllipsisMiddle";
 
 export type TableProps = {};
 const Table: React.FC<TableProps> = (props) => {
@@ -16,11 +18,29 @@ const Table: React.FC<TableProps> = (props) => {
   console.log('selectTabId', selectTabId)
 
   const getTab = (tab: ModuleEntity) => {
-    if (tab.entity?.startsWith('关系图')) {
-      return <Relation moduleEntity={tab}/>
-    } else {
-      return <TableTab moduleEntity={tab}/>;
+    if (tab.group === TabGroup.MODEL) {
+      if (tab.entity?.startsWith('关系图')) {
+        return <Relation moduleEntity={tab}/>
+      } else {
+        return <TableTab moduleEntity={tab}/>;
+      }
     }
+
+    if (tab.group === TabGroup.QUERY) {
+      return <Query/>;
+    }
+
+    return <Empty
+      image="/empty.svg"
+      imageStyle={{
+        height: 200,
+      }}
+      style={{
+        marginTop: '100px'
+      }}
+      description={
+        <span>这里空空如也!</span>
+      }/>
   }
 
   const closeCurrent = (tab: ModuleEntity) => {
@@ -50,7 +70,7 @@ const Table: React.FC<TableProps> = (props) => {
   const {TabPane} = Tabs;
 
   const getModuleEntity = (key: string) => {
-    return {module: key.split('###')[0], entity: key.split('###')[1]};
+    return {group: TabGroup.MODEL, module: key.split('###')[0], entity: key.split('###')[1]};
   }
 
   const onChange = (targetKey: string) => {
@@ -99,7 +119,15 @@ const Table: React.FC<TableProps> = (props) => {
               renderTabBar={renderTabBar}
         >
           {tableTabs?.map((tab: ModuleEntity, index: number) => {
-              return <TabPane tab={tab.entity} key={`${tab.module}###${tab.entity}`} closable={true}>
+              return <TabPane
+                tab={
+                  <EllipsisMiddle title={tab.entity}>
+                    {tab.entity}
+                  </EllipsisMiddle>
+                }
+                key={`${tab.module}###${tab.entity}`}
+                closable={true}
+              >
                 {getTab(tab)}
               </TabPane>
             }

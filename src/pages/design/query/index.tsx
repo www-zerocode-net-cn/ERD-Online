@@ -4,6 +4,13 @@ import {ProCard} from "@ant-design/pro-components";
 import {Data, HistoryQuery} from "@icon-park/react";
 import CodeEditor from "@/components/CodeEditor";
 import QueryResult from "@/pages/design/query/component/QueryResult";
+import {
+  BarsOutlined,
+  EyeOutlined,
+  InfoCircleOutlined,
+  PlayCircleOutlined,
+  UnorderedListOutlined
+} from "@ant-design/icons";
 
 const {Option} = Select;
 
@@ -18,19 +25,19 @@ const Query: React.FC<QueryProps> = (props) => {
   const actions = <Space direction="vertical">
     <Space wrap>
       <span style={{marginRight: 8}}>数据源</span>
-      <Select size="small" style={{width: 90, marginRight: 12}}>
+      <Select key={'db'} size="small" style={{width: 90, marginRight: 12}}>
         <Option key="mysql" value="mysql">MySQL</Option>
         <Option key="psql" value="psql">Postgres</Option>
       </Select>
       <span style={{marginRight: 8}}>模式</span>
-      <Select size="small" style={{width: 90, marginRight: 12}}>
+      <Select key={'model'} size="small" style={{width: 90, marginRight: 12}}>
         <Option key="mysql" value="mysql">MySQL</Option>
         <Option key="psql" value="psql">Postgres</Option>
       </Select>
       <span style={{marginRight: 8}}>主题 </span>
-      <Select size="small" style={{marginRight: 16, width: 170}}>
+      <Select key={'topic'} size="small" style={{marginRight: 16, width: 170}}>
         {
-          EDITOR_THEME.map(v => <Option value={v}>{v}</Option>)
+          EDITOR_THEME.map(v => <Option key={v} value={v}>{v}</Option>)
         }
       </Select>
     </Space>
@@ -49,7 +56,10 @@ const Query: React.FC<QueryProps> = (props) => {
 
       <Space direction="vertical">
         <Space wrap>
-          <Button type="primary">执行</Button>
+          <Button type="primary" icon={<PlayCircleOutlined />}>运行</Button>
+          <Button icon={<BarsOutlined />}>格式化</Button>
+          <Button icon={<EyeOutlined />}>查看执行计划</Button>
+          <Button icon={<InfoCircleOutlined />}>优化建议</Button>
         </Space>
       </Space>
     </ProCard>

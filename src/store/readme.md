@@ -40,6 +40,7 @@ export default useTestStore;
 
 ```
 
-
+- 初始默认值如果在页面被引用，且控制页面刷新，不能初始为 undefined，否则页面会无限刷新
+- 控制页面刷新的变量，需要在引用的页面赋值默认值，比如：dbVersion: state.dbVersion || '0.0.0'
 
 

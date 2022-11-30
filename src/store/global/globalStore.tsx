@@ -10,6 +10,7 @@ export type IGlobalSlice = {
 export type GlobalState = {
   expandedKeys?: any;
   searchKey?: string;
+  querySearchKey?: string;
   saved: boolean;
   dispatch: IGlobalSlice;
 }
@@ -19,6 +20,7 @@ const useGlobalStore = create<GlobalState>(
   (set) => ({
     expandedKeys: [],
     searchKey: '',
+    querySearchKey: '',
     saved: true,
     dispatch: {
       setSaved: (saved: boolean) => set(produce(state => {
