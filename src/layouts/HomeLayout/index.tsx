@@ -25,7 +25,7 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
     console.log('回首页清空权限');
     tabDispatch.removeAllTab({});
     setInitialState((s: any) => ({...s, access: {}}));
-  })
+  },[])
 
   const settings: ProSettings | undefined = {
     "layout": "mix",
