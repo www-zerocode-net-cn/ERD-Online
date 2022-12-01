@@ -3,9 +3,13 @@ import AceEditor from "react-ace";
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/mode-json';
 import "ace-builds/src-noconflict/mode-mysql";
+import 'ace-builds/src-noconflict/mode-pgsql';
+import 'ace-builds/src-noconflict/mode-sqlserver';
 import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
+
+import 'ace-builds/src-noconflict/theme-terminal';
+import 'ace-builds/src-noconflict/theme-xcode';
 import {Ace} from "ace-builds";
 import {IAceOptions, ICommand, IEditorProps, IMarker} from "react-ace/src/types";
 
@@ -61,14 +65,14 @@ export type CodeEditorProps = {
 };
 
 const CodeEditor: React.FC<CodeEditorProps> = (props) => {
-  const {mode, height, width, name, placeholder, value, onChange} = props;
+  const {mode, height, width, name, placeholder, value,theme, onChange} = props;
   console.log(63, mode || 'mysql');
   return (<>
     <AceEditor
       width={width || '100%'}
       height={height || '300px'}
-      mode={mode || 'mysql'}
-      theme='monokai'
+      mode={mode || 'sql'}
+      theme={theme || 'xcode'}
       placeholder={placeholder || ''}
       onChange={onChange}
       name={name || 'ace-editor'}
