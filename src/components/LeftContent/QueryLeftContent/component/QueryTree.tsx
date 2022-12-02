@@ -14,9 +14,9 @@ import AddQueryFolder from "@/components/dialog/query/AddQueryFolder";
 const {DirectoryTree} = Tree;
 
 
-export type DataTableProps = {};
+export type QueryTreeProps = {};
 
-const DataTable: React.FC<DataTableProps> = (props) => {
+const QueryTree: React.FC<QueryTreeProps> = (props) => {
 
   const {querySearchKey, treeData, queryDispatch} = useQueryStore(state => ({
     querySearchKey: state.querySearchKey,
@@ -99,4 +99,4 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   </>);
 }
 
-export default React.memo(DataTable);
+export default React.memo(QueryTree);

@@ -12,7 +12,8 @@ import {message} from "antd";
 // 总的来说，公共的用 interface 实现，不能用 interface 实现的再用 type 实现。主要是一个项目最好保持一致。
 
 type actions = {
-  renameQuery(id: any, query: { title: any; }): void;
+  updateSqlInfo(id: any, query: any): void;
+  renameQuery(id: any, query: any): void;
   removeQuery(id: string): void;
   addQuery(query: any): void;
   fetchQueryInfo: (id: string | number) => Promise<COMMON.R>;
@@ -34,6 +35,13 @@ const useQueryStore = create<QueryState>(
     querySearchKey: '',
     treeData: [],
     dispatch: {
+      updateSqlInfo: (id, query) => {
+        EDIT('/ncnb/queryInfo/' + id, query).then(r => {
+          if (r?.code === 200) {
+            console.log('41', '保存成功');
+          }
+        });
+      },
       renameQuery: (id, query) => {
         EDIT('/ncnb/queryInfo/' + id, query).then(r => {
           if (r?.code === 200) {

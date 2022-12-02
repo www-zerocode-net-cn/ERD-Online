@@ -99,10 +99,15 @@ const Query: React.FC<QueryProps> = (props) => {
           mode={sqlMode}
           theme={theme}
           value={queryInfo.sqlInfo}
-          onChange={(value) => setQueryInfo({
-            ...queryInfo,
-            sqlInfo: value
-          })}
+          onChange={(value) => {
+            setQueryInfo({
+              ...queryInfo,
+              sqlInfo: value
+            });
+            queryDispatch.updateSqlInfo(props.id, {
+              sqlInfo: value
+            });
+          }}
         />
       </ProCard>
     </ProCard>
