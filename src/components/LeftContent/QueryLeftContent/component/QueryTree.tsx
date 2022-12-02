@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Dropdown, Empty, Menu, Tree} from "antd";
 import {siderWidth} from "@/layouts/DesignLayout";
-import {Table} from "@icon-park/react";
+import {FolderCode, Table} from "@icon-park/react";
 
 import shallow from "zustand/shallow";
 import useQueryStore from "@/store/query/useQueryStore";
@@ -53,6 +53,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
     {treeData.length > 0 ?
       <div style={{display: 'flex', marginRight: '20px', marginTop: '10px'}}>
         <DirectoryTree
+          showIcon={false}
           blockNode={true}
           defaultExpandAll
           onSelect={(selectedKeys, info) => queryDispatch.onSelectNode(selectedKeys, info)}
@@ -69,8 +70,9 @@ const DataTable: React.FC<DataTableProps> = (props) => {
 
             >
               <div>
-                {node.isleaf ?
-                  <Table theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/> : ''}
+                {node.isLeaf ?
+                  <Table theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/> :
+                  <FolderCode theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>}
                 <EllipsisMiddle title={node.title} style={{marginLeft: '5px'}}>
                   {node.title}
                 </EllipsisMiddle>
