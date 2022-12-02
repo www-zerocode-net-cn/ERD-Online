@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {FooterToolbar, ProForm} from '@ant-design/pro-components';
 import {CheckboxValueType} from "antd/lib/checkbox/Group";
-import {get, post} from "@/services/crud";
+import {GET, POST} from "@/services/crud";
 import {Checkbox, Col, Divider, Empty, List, message, Row} from "antd";
 import _ from "lodash";
 import {CONSTANT} from "@/utils/constant";
@@ -45,7 +45,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
 
 
   const getOperationByCheckedMenus = async () => {
-    return await get('/ncnb/project/group/role/permission', {
+    return await GET('/ncnb/project/group/role/permission', {
       roleId: props.values?.id,
       projectId: searchParams.get(CONSTANT.PROJECT_ID),
     });
@@ -274,7 +274,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
           checkedKeys = checkedKeys.concat(value.checkedKeys);
         });
         if (access.canErdProjectRolePermissionEdit) {
-          await post('/ncnb/project/group/saveCheckedOperations',
+          await POST('/ncnb/project/group/saveCheckedOperations',
             {
               checkedKeys,
               roleId: props.values.id

@@ -2,7 +2,7 @@ import React from "react";
 import {PlusOutlined} from '@ant-design/icons';
 import {ModalForm, ProForm, ProFormSelect,} from '@ant-design/pro-components';
 import {Button, message} from 'antd';
-import {get, post} from "@/services/crud";
+import {GET, POST} from "@/services/crud";
 
 export type AddUserProps = {
   projectId: string;
@@ -32,7 +32,7 @@ const AddUser: React.FC<AddUserProps> = (props) => {
       submitTimeout={2000}
       onFinish={async (values: any) => {
         console.log(values.user);
-        await post('/ncnb/project/group/role/users', {
+        await POST('/ncnb/project/group/role/users', {
           projectId: props.projectId,
           roleId: props.roleId,
           userIds: values.user,
@@ -55,7 +55,7 @@ const AddUser: React.FC<AddUserProps> = (props) => {
           showSearch
           request={
             async (param) => {
-              const result = await get('/ncnb/project/group/users', {
+              const result = await GET('/ncnb/project/group/users', {
                 pageSize: 6,
                 current: 1,
                 username: param.keyWords,

@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 import {ActionType, ProList} from '@ant-design/pro-components';
 import {message, Popconfirm} from 'antd';
-import {del, get} from "@/services/crud";
+import {DEL, GET} from "@/services/crud";
 import {useSearchParams} from "@@/exports";
 import {CONSTANT} from "@/utils/constant";
 import AddUser from "@/pages/project/group/component/AddUser";
@@ -41,7 +41,7 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
       rowKey="id"
       request={
         async (params = {}) => {
-          const result = await get('/ncnb/project/group/role/users', {
+          const result = await GET('/ncnb/project/group/role/users', {
             ...params,
             projectId: projectId,
             roleId: props.roleId,
@@ -88,7 +88,7 @@ const GroupUser: React.FC<GroupUserProps> = (props) => {
               fallback={<></>}
             >
               <Popconfirm placement="right" title={"是否将『" + row.username + "』移除"}
-                          onConfirm={() => del("/ncnb/project/group/role/users", {
+                          onConfirm={() => DEL("/ncnb/project/group/role/users", {
                             projectId: projectId,
                             roleId: props.roleId,
                             userIds: [row.id],

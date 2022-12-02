@@ -2,7 +2,7 @@ import {ProCard, StatisticCard} from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import React, {useEffect, useState} from 'react';
 import {Col, Row} from "antd";
-import {get} from '@/services/crud';
+import {GET} from '@/services/crud';
 
 
 export type HomeProps = {};
@@ -20,7 +20,7 @@ const Home: React.FC<HomeProps> = (props) => {
   });
 
   const fetchStatistic = () => {
-    get("/ncnb/project/statistic", {}).then(r => {
+    GET("/ncnb/project/statistic", {}).then(r => {
       console.log(24, r);
       if (r?.code === 200) {
         setStatisticInfo(r.data);

@@ -1,7 +1,7 @@
 import {message, Tree} from 'antd';
 import React, {forwardRef, useEffect, useImperativeHandle, useState} from "react";
 
-import {get, post} from "@/services/crud";
+import {GET, POST} from "@/services/crud";
 import {RoleItem} from "@/pages/project/group/component/OperationPrivilege";
 
 
@@ -12,7 +12,7 @@ const MenuPrivilege = (props: { values: Partial<RoleItem>; }, ref: React.Ref<unk
     const [defaultExpandAll] = useState(true);
     useImperativeHandle(ref, () => ({
       saveCheckedMenus: async () => {
-        await post('/syst/role/saveCheckedMenus',
+        await POST('/syst/role/saveCheckedMenus',
           {checkedKeys: checkedKeys, roleId: props.values.id}
         ).then((result) => {
           console.log(result)
@@ -27,7 +27,7 @@ const MenuPrivilege = (props: { values: Partial<RoleItem>; }, ref: React.Ref<unk
 
 
     const fetchMenu = async () => {
-      const result = await get('/syst/role/getAllMenuByRole', {id: props.values.id});
+      const result = await GET('/syst/role/getAllMenuByRole', {id: props.values.id});
       return result?.data;
     }
     useEffect(() => {

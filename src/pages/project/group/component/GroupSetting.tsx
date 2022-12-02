@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Space, Tabs, Typography} from "antd";
 import GroupUser from "@/pages/project/group/component/GroupUser";
 import GroupPermission from "@/pages/project/group/component/GroupPermission";
-import {get} from "@/services/crud";
+import {GET} from "@/services/crud";
 import {CONSTANT} from "@/utils/constant";
 import {useSearchParams} from "@@/exports";
 import {useAccess} from "@@/plugin-access";
@@ -46,7 +46,7 @@ const GroupSetting: React.FC<GroupSettingProps> = (props) => {
   }
 
   useEffect(() => {
-    get('/ncnb/project/group/roles', {
+    GET('/ncnb/project/group/roles', {
       projectId: searchParams.get(CONSTANT.PROJECT_ID),
     }).then(resp => {
       const tmpItems = resp?.data?.map((d: {

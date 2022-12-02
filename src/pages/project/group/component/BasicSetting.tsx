@@ -1,7 +1,7 @@
 import React from "react";
 import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import {Divider, message, Space, Typography} from "antd";
-import {get} from "@/services/crud";
+import {GET} from "@/services/crud";
 import {useSearchParams} from "@@/exports";
 import _ from "lodash";
 import RemoveGroupProject from "@/pages/project/group/component/RemoveGroupProject";
@@ -48,7 +48,7 @@ const BasicSetting: React.FC<BasicSettingProps> = (props) => {
         return value.format('YYYY/MM/DD HH:mm:ss');
       }}
       request={async (param) => {
-        const result = await get('/ncnb/project/group/get/' + projectId, {});
+        const result = await GET('/ncnb/project/group/get/' + projectId, {});
         return result?.data
       }}
       autoFocusFirstInput

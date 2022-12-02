@@ -1,6 +1,6 @@
 import {Checkbox, Col, Divider, Empty, message, Row} from 'antd';
 import React, {forwardRef, useEffect, useImperativeHandle, useState} from "react";
-import {get, post} from "@/services/crud";
+import {GET, POST} from "@/services/crud";
 import type {CheckboxValueType} from "antd/lib/checkbox/Group";
 
 export type OperationCheckedGroup = {
@@ -32,7 +32,7 @@ const OperationPrivilege = (props: { values: Partial<RoleItem>; }, ref: React.Re
         operationCheckedGroup.forEach((value) => {
           checkedKeys = checkedKeys.concat(value.checkedKeys);
         });
-        await post('/syst/role/saveCheckedOperations',
+        await POST('/syst/role/saveCheckedOperations',
           {
             checkedKeys,
             roleId: props.values.id
@@ -48,7 +48,7 @@ const OperationPrivilege = (props: { values: Partial<RoleItem>; }, ref: React.Re
     }));
 
     const getOperationByCheckedMenus = async () => {
-      const result = await get('/syst/role/getOperationByCheckedMenus', {roleId: props.values.id});
+      const result = await GET('/syst/role/getOperationByCheckedMenus', {roleId: props.values.id});
       return result?.data;
     }
     useEffect(() => {
