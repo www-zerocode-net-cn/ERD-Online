@@ -2,7 +2,7 @@ import React, {CSSProperties} from 'react';
 
 
 export const EllipsisMiddle: React.FC<{ prefixCount?: number; suffixCount?: number; children: string; title?: string; style?: CSSProperties }> =
-  ({prefixCount = 12, suffixCount = 4, children, title, style}) => {
+  ({prefixCount = 10, suffixCount = 4, children, title, style}) => {
     console.log(8, 'children', children);
 
     const length = children.length;
