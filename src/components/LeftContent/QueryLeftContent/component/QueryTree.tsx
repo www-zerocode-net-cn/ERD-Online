@@ -10,6 +10,9 @@ import RenameQuery from "@/components/dialog/query/RenameQuery";
 import RemoveQuery from "@/components/dialog/query/RemoveQuery";
 import AddQuery from "@/components/dialog/query/AddQuery";
 import AddQueryFolder from "@/components/dialog/query/AddQueryFolder";
+import {useSearchParams} from "@@/exports";
+import * as cache from "@/utils/cache";
+import {CONSTANT} from "@/utils/constant";
 
 const {DirectoryTree} = Tree;
 
@@ -24,10 +27,16 @@ const QueryTree: React.FC<QueryTreeProps> = (props) => {
     queryDispatch: state.dispatch
   }), shallow);
 
+  const [searchParams] = useSearchParams();
+  let projectId = searchParams.get("projectId") || '';
+  if (!projectId || projectId === '') {
+    projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }
+
 
   console.log(46, querySearchKey)
   useEffect(() => {
-    queryDispatch.fetchTreeData();
+    queryDispatch.fetchTreeData({projectId});
   }, [querySearchKey])
 
   const renderQueryRightContext = (payload: any) => <Menu mode="inline">

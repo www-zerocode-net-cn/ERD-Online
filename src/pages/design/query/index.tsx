@@ -9,6 +9,9 @@ import useQueryStore from "@/store/query/useQueryStore";
 import shallow from "zustand/shallow";
 import useVersionStore from "@/store/version/useVersionStore";
 import _ from "lodash";
+import {useSearchParams} from "@@/exports";
+import * as cache from "@/utils/cache";
+import {CONSTANT} from "@/utils/constant";
 
 const {Option, OptGroup} = Select;
 export type QueryProps = {
@@ -20,6 +23,12 @@ const Query: React.FC<QueryProps> = (props) => {
     dbs: state.dbs,
     versionDispatch: state.dispatch,
   }), shallow);
+
+  const [searchParams] = useSearchParams();
+  let projectId = searchParams.get("projectId") || '';
+  if (!projectId || projectId === '') {
+    projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }
 
   const groupDb = _.groupBy(dbs, g => g.select);
   const currentDB = versionDispatch.getCurrentDB();
@@ -104,7 +113,8 @@ const Query: React.FC<QueryProps> = (props) => {
               ...queryInfo,
               sqlInfo: value
             });
-            queryDispatch.updateSqlInfo(props.id, {
+            queryDispatch.updateSqlInfo({
+              id: props.id,
               sqlInfo: value
             });
           }}

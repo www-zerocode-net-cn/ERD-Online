@@ -17,7 +17,7 @@ const RemoveQuery: React.FC<RemoveQueryProps> = (props) => {
 
   return (<>
     <Popconfirm placement="right" title={props.model.isLeaf ? "删除查询" : "删除目录"}
-                onConfirm={() => queryDispatch.removeQuery(props?.model?.id)} okText="是"
+                onConfirm={() => queryDispatch.removeQuery(props?.model)} okText="是"
                 cancelText="否">
       <Button icon={<MinusOutlined/>}
               type="text"

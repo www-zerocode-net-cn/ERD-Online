@@ -12,13 +12,13 @@ import {message} from "antd";
 // 总的来说，公共的用 interface 实现，不能用 interface 实现的再用 type 实现。主要是一个项目最好保持一致。
 
 type actions = {
-  updateSqlInfo(id: any, query: any): void;
-  renameQuery(id: any, query: any): void;
-  removeQuery(id: string): void;
-  addQuery(query: any): void;
+  updateSqlInfo(model: any): void;
+  renameQuery(model: any): void;
+  removeQuery(model: any): void;
+  addQuery(model: any): void;
   fetchQueryInfo: (id: string | number) => Promise<COMMON.R>;
   onSelectNode(selectedKeys: import("rc-tree/lib/interface").Key[], info: { event: "select"; selected: boolean; node: import("rc-tree/lib/interface").EventDataNode<DataNode>; selectedNodes: DataNode[]; nativeEvent: MouseEvent; }): void;
-  fetchTreeData: () => void,
+  fetchTreeData: (params: any) => void,
   setQuerySearchKey: (searchKey: string) => void
 
 }
@@ -35,43 +35,48 @@ const useQueryStore = create<QueryState>(
     querySearchKey: '',
     treeData: [],
     dispatch: {
-      updateSqlInfo: (id, query) => {
-        EDIT('/ncnb/queryInfo/' + id, query).then(r => {
+      updateSqlInfo: (model) => {
+        EDIT('/ncnb/queryInfo/' + model.id, model).then(r => {
           if (r?.code === 200) {
             console.log('41', '保存成功');
           }
         });
       },
-      renameQuery: (id, query) => {
-        EDIT('/ncnb/queryInfo/' + id, query).then(r => {
+      renameQuery: (model) => {
+        EDIT('/ncnb/queryInfo/' + model.id, model).then(r => {
           if (r?.code === 200) {
             message.success('修改成功');
-            get().dispatch.fetchTreeData();
+            get().dispatch.fetchTreeData({
+              projectId: model.projectId
+            });
           }
         });
       },
-      removeQuery: (id) => {
-        DEL('/ncnb/queryInfo/' + id, {}).then(r => {
+      removeQuery: (model) => {
+        DEL('/ncnb/queryInfo/' + model.id, {}).then(r => {
           if (r?.code === 200) {
             message.success('删除成功');
-            get().dispatch.fetchTreeData();
+            get().dispatch.fetchTreeData({
+              projectId: model.id
+            });
           }
         });
       },
-      addQuery: (query) => {
-        ADD('/ncnb/queryInfo', query).then(r => {
+      addQuery: (model) => {
+        ADD('/ncnb/queryInfo', model).then(r => {
           if (r?.code === 200) {
             message.success('新增成功');
-            get().dispatch.fetchTreeData();
+            get().dispatch.fetchTreeData({
+              projectId: model.projectId
+            });
           }
         });
       },
       fetchQueryInfo: (id) => {
         return GET('/ncnb/queryInfo/' + id, {});
       },
-      fetchTreeData: () => {
+      fetchTreeData: (params) => {
         const title = get().querySearchKey;
-        let params = {};
         if (title) {
           _.set(params, 'title', title);
         }

@@ -4,6 +4,9 @@ import shallow from "zustand/shallow";
 import {Button} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import useQueryStore from "@/store/query/useQueryStore";
+import * as cache from "@/utils/cache";
+import {CONSTANT} from "@/utils/constant";
+import {useSearchParams} from "@@/exports";
 
 export type AddQueryProps = {
   model: any;
@@ -13,6 +16,12 @@ const AddQuery: React.FC<AddQueryProps> = (props) => {
   const {queryDispatch} = useQueryStore(state => ({
     queryDispatch: state.dispatch,
   }), shallow);
+
+  const [searchParams] = useSearchParams();
+  let projectId = searchParams.get("projectId") || '';
+  if (!projectId || projectId === '') {
+    projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }
 
 
   return (<>
@@ -29,6 +38,7 @@ const AddQuery: React.FC<AddQueryProps> = (props) => {
         await queryDispatch.addQuery({
           title: values.title,
           isLeaf: true,
+          projectId,
           parentId: props.model.isLeaf ? props.model.parentId : props.model.id
         });
         return true;

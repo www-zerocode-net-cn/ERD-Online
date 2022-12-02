@@ -26,7 +26,8 @@ const RenameQuery: React.FC<RenameQueryProps> = (props) => {
       }
       onFinish={async (values: any) => {
         console.log(39, values);
-        await queryDispatch.renameQuery(props.model.id, {
+        await queryDispatch.renameQuery({
+          id:props.model.id,
           title: values.title,
         });
         return true;

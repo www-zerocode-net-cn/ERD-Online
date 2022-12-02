@@ -4,6 +4,9 @@ import shallow from "zustand/shallow";
 import {Button} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import useQueryStore from "@/store/query/useQueryStore";
+import {useSearchParams} from "@@/exports";
+import * as cache from "@/utils/cache";
+import {CONSTANT} from "@/utils/constant";
 
 export type AddQueryFolderProps = {
   isRightContext: boolean;
@@ -14,6 +17,11 @@ const AddQueryFolder: React.FC<AddQueryFolderProps> = (props) => {
     queryDispatch: state.dispatch,
   }), shallow);
 
+  const [searchParams] = useSearchParams();
+  let projectId = searchParams.get("projectId") || '';
+  if (!projectId || projectId === '') {
+    projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }
 
   return (<>
     <ModalForm
@@ -28,6 +36,7 @@ const AddQueryFolder: React.FC<AddQueryFolderProps> = (props) => {
         console.log(39, values);
         await queryDispatch.addQuery({
           title: values.title,
+          projectId,
           isLeaf: false
         });
         return true;
