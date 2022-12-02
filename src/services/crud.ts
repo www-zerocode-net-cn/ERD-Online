@@ -1,7 +1,7 @@
 import {SortOrder} from "antd/lib/table/interface";
 import request from "@/utils/request";
 
-export async function page(url: string, params: any, sorter: Record<string, SortOrder>) {
+export async function PAGE(url: string, params: any, sorter: Record<string, SortOrder>) {
   if (!sorter) {
     sorter = {}
   }
@@ -29,7 +29,7 @@ export async function page(url: string, params: any, sorter: Record<string, Sort
   });
 }
 
-export async function add(url: string, params: any) {
+export async function ADD(url: string, params: any) {
   return request<COMMON.R>(url, {
     method: 'POST',
     data: {
@@ -38,7 +38,7 @@ export async function add(url: string, params: any) {
   });
 }
 
-export async function del(url: string, params: any) {
+export async function DEL(url: string, params: any) {
   return request<COMMON.R>(url, {
     method: 'DELETE',
     data: {
@@ -47,7 +47,7 @@ export async function del(url: string, params: any) {
   });
 }
 
-export async function edit(url: string, params: any) {
+export async function EDIT(url: string, params: any) {
   return request<COMMON.R>(url, {
     method: 'PUT',
     data: {
@@ -56,7 +56,7 @@ export async function edit(url: string, params: any) {
   });
 }
 
-export async function post(url: string, params: any) {
+export async function POST(url: string, params: any) {
   return request<COMMON.R>(url, {
     method: 'POST',
     data: {
@@ -66,7 +66,7 @@ export async function post(url: string, params: any) {
 }
 
 
-export async function get(url: string, params: any) {
+export async function GET(url: string, params: any) {
   return request<COMMON.R>(url, {
     method: 'GET',
     params: {
@@ -75,7 +75,7 @@ export async function get(url: string, params: any) {
   });
 }
 
-export async function tree(url: string, params: any) {
+export async function TREE(url: string, params: any) {
   return request<COMMON.R>(url, {
     method: 'GET',
     params: {

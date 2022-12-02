@@ -1,9 +1,11 @@
 import {ProColumns, ProTable, TableDropdown} from "@ant-design/pro-components";
-import React from "react";
+import React, {useState} from "react";
 import {Button, Tooltip} from "antd";
 import {DownOutlined, QuestionCircleOutlined} from "@ant-design/icons";
 
-export type QueryResultProps = {};
+export type QueryResultProps = {
+  sqlInfo: string;
+};
 
 export type TableListItem = {
   key: number;
@@ -15,6 +17,19 @@ export type TableListItem = {
   memo: string;
 };
 const QueryResult: React.FC<QueryResultProps> = (props) => {
+
+  const [queryResult,setQueryResult]=useState({
+    sqlColumns: []
+  });
+
+  const getColumns = () => {
+    return queryResult.sqlColumns.map(k => ({
+      title: k,
+      key: k,
+      dataIndex: k,
+      render: (text:any) => text === null ? <span style={{fontWeight: '100'}}>{"<null>"}</span> : text
+    }))
+  }
 
   const valueEnum = {
     0: 'close',

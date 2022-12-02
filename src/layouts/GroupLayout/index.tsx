@@ -7,7 +7,7 @@ import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {fixRouteAccess, headRightContent} from "@/layouts/DesignLayout";
 import {history, Link, Outlet, useModel, useSearchParams} from "@umijs/max";
-import {get} from "@/services/crud";
+import {GET} from "@/services/crud";
 import {useAccess} from "@@/plugin-access";
 import {CONSTANT} from "@/utils/constant";
 
@@ -29,7 +29,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
   console.log(19, 'projectId', projectId);
   console.log(24, initialState);
   useEffect(() => {
-    get("/ncnb/project/group/currentRolePermission", {
+    GET("/ncnb/project/group/currentRolePermission", {
       projectId
     }).then(r => {
       console.log(29, r);

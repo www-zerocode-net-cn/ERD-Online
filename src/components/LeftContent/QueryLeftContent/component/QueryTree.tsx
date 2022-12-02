@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
-import {Dropdown, Empty, Tree} from "antd";
-import AddQuery from "@/components/LeftContent/QueryLeftContent/component/AddQuery";
+import {Dropdown, Empty, Menu, Tree} from "antd";
 import {siderWidth} from "@/layouts/DesignLayout";
 import {Table} from "@icon-park/react";
-import {
-  renderEntityRightContext,
-  renderModuleRightContext
-} from "@/components/LeftContent/DesignLeftContent/component/DataTable";
 
 import shallow from "zustand/shallow";
 import useQueryStore from "@/store/query/useQueryStore";
 import {EllipsisMiddle} from "@/components/EllipsisMiddle";
+import RenameQuery from "@/components/dialog/query/RenameQuery";
+import RemoveQuery from "@/components/dialog/query/RemoveQuery";
+import AddQuery from "@/components/dialog/query/AddQuery";
+import AddQueryFolder from "@/components/dialog/query/AddQueryFolder";
+
+const {DirectoryTree} = Tree;
 
 
 export type DataTableProps = {};
@@ -29,11 +30,29 @@ const DataTable: React.FC<DataTableProps> = (props) => {
     queryDispatch.fetchTreeData();
   }, [querySearchKey])
 
+  const renderQueryRightContext = (payload: any) => <Menu mode="inline">
+      {!payload.isLeaf ? <Menu.Item>
+        <AddQueryFolder isRightContext={true}/>
+      </Menu.Item> : <></>}
+      <Menu.Item>
+        <AddQuery model={payload}/>
+      </Menu.Item>
+      <Menu.Item>
+        <RenameQuery model={payload}/>
+      </Menu.Item>
+      <Menu.Item>
+        <RemoveQuery model={payload}/>
+      </Menu.Item>
+      {/*    <MenuItem icon="duplicate" text="复制查询"/>
+    <MenuItem icon="cut" text="剪切查询"/>
+    <MenuItem icon="clipboard" text="粘贴查询"/>*/}
+    </Menu>
+  ;
 
   return (<>
     {treeData.length > 0 ?
       <div style={{display: 'flex', marginRight: '20px', marginTop: '10px'}}>
-        <Tree
+        <DirectoryTree
           blockNode={true}
           defaultExpandAll
           onSelect={(selectedKeys, info) => queryDispatch.onSelectNode(selectedKeys, info)}
@@ -44,17 +63,14 @@ const DataTable: React.FC<DataTableProps> = (props) => {
             console.log(101, 'node', node);
 
             return <Dropdown trigger={['contextMenu']}
-                             overlay={node.type === "module"
-                               ? renderModuleRightContext({name: node.name, chnname: node.chnname})
-                               : renderEntityRightContext({
-                                 title: node.title,
-                                 chnname: node.chnname
-                               })
+                             overlay={
+                               renderQueryRightContext(node)
                              }
 
             >
               <div>
-                <Table theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>
+                {node.isleaf ?
+                  <Table theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/> : ''}
                 <EllipsisMiddle title={node.title} style={{marginLeft: '5px'}}>
                   {node.title}
                 </EllipsisMiddle>
@@ -74,7 +90,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
           <span>暂无数据</span>
         }
       >
-        <AddQuery moduleDisable={false} trigger="ant"/>
+        <AddQueryFolder isRightContext={false}/>
       </Empty>
     }
 

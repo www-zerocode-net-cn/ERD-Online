@@ -1,6 +1,6 @@
 import {LoginFormPage, ProFormText,} from '@ant-design/pro-components';
 import {Button, message} from 'antd';
-import {post} from "@/services/crud";
+import {POST} from "@/services/crud";
 import {login} from "@/pages/login";
 
 
@@ -23,7 +23,7 @@ export default () => {
             message.error("两次输入的密码不一致")
             return;
           }
-          await post(
+          await POST(
             '/syst/user/register',
             {
               username, pwd, email, phone

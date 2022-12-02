@@ -27,7 +27,7 @@ const Table: React.FC<TableProps> = (props) => {
     }
 
     if (tab.group === TabGroup.QUERY) {
-      return <Query/>;
+      return <Query id={tab.module + ''}/>;
     }
 
     return <Empty

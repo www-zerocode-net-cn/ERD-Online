@@ -12,7 +12,7 @@ import {Button, Dropdown, Image, Popover} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {useAccess} from "@@/plugin-access";
-import {get} from "@/services/crud";
+import {GET} from "@/services/crud";
 import {CONSTANT} from "@/utils/constant";
 import QueryLeftContent from "@/components/LeftContent/QueryLeftContent";
 
@@ -95,7 +95,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   useEffect(() => {
     console.log(69, access, project.type)
     if (project && project.type === '2') {
-      get("/ncnb/project/group/currentRolePermission", {
+      GET("/ncnb/project/group/currentRolePermission", {
         projectId
       }).then(r => {
         console.log(29, r);
