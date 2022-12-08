@@ -4,6 +4,7 @@ import {message, Modal, Upload} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import _ from "lodash";
+import {importModuleAndProfile} from "@/pages/design/import/component/ReverseERD";
 
 const { Dragger } = Upload;
 
@@ -56,26 +57,8 @@ const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
             resultMsg.push("[" + module.name + "]已经在本系统中存在，已跳过导入");
           }
         });
+        resultModules = importModuleAndProfile(dataSource, pdmanJson, resultModules, projectDispatch);
 
-
-        const dataTypeDomains = _.defaultsDeep(dataSource?.dataTypeDomains || {}, pdmanJson['dataTypeDomains']);
-        const profile = _.defaultsDeep(dataSource?.profile || {}, pdmanJson['profile'],);
-
-        console.log(74, pdmanJson['dataTypeDomains']);
-        console.log(74, pdmanJson['profile']);
-
-        console.log(74, dataTypeDomains);
-        console.log(74, profile);
-        if(resultModules){
-          // @ts-ignore
-          resultModules = projectDispatch.fixModules(resultModules,dataTypeDomains?.datatype,dataTypeDomains?.database);
-        }
-
-        projectDispatch.setProjectJson({
-          modules: (dataSource.modules || []).concat(resultModules),
-          dataTypeDomains: dataTypeDomains,
-          profile: profile,
-        });
         if (resultMsg != '') {
           Modal.warning({
             title: '重要提示',

@@ -9,6 +9,45 @@ import _ from "lodash";
 
 export type ReverseERDProps = {};
 
+
+export const importModuleAndProfile=(dataSource: any, erdJson:any, resultModules: any, projectDispatch:any)=> {
+  console.log(74, dataSource?.dataTypeDomains);
+  console.log(74, dataSource?.profile);
+
+
+  const datatype = _.unionBy(dataSource?.dataTypeDomains?.datatype || {}, erdJson['dataTypeDomains']?.datatype, 'code');
+  const database = _.unionBy(dataSource?.dataTypeDomains?.database || {}, erdJson['dataTypeDomains']?.database, 'code');
+  _.merge(dataSource?.dataTypeDomains, erdJson['dataTypeDomains']);
+  _.set(dataSource?.dataTypeDomains, 'datatype', datatype);
+  _.set(dataSource?.dataTypeDomains, 'database', database);
+
+  const defaultFields = _.unionBy(dataSource?.profile?.defaultFields || {}, erdJson['profile']?.defaultFields, 'name');
+  const dbs = _.unionBy(dataSource?.profile?.dbs || {}, erdJson['profile']?.dbs, 'name');
+  _.merge(dataSource?.profile, erdJson['profile']);
+  _.set(dataSource?.profile, 'defaultFields', defaultFields);
+  _.set(dataSource?.profile, 'dbs', dbs);
+
+
+  console.log(74, erdJson['dataTypeDomains']);
+  console.log(74, erdJson['profile']);
+
+
+  console.log(74, dataSource?.dataTypeDomains);
+  console.log(74, dataSource?.profile);
+
+  if (resultModules) {
+    // @ts-ignore
+    resultModules = projectDispatch.fixModules(resultModules, dataSource?.dataTypeDomains?.datatype, dataSource?.dataTypeDomains?.database);
+  }
+
+  projectDispatch.setProjectJson({
+    modules: (dataSource.modules || []).concat(resultModules),
+    dataTypeDomains: dataSource?.dataTypeDomains,
+    profile: dataSource?.profile,
+  });
+  return resultModules;
+}
+
 const ReverseERD: React.FC<ReverseERDProps> = (props) => {
   const {projectDispatch, projectJSON} = useProjectStore(state => ({
     projectDispatch: state.dispatch,
@@ -64,34 +103,7 @@ const ReverseERD: React.FC<ReverseERDProps> = (props) => {
             resultMsg.push("[" + module.name + "]已经在本系统中存在，已跳过导入");
           }
         });
-
-
-        console.log(74, dataSource?.dataTypeDomains);
-        console.log(74, dataSource?.profile);
-
-
-        const dataTypeDomains = _.merge(dataSource?.dataTypeDomains || {}, erdJson['dataTypeDomains']);
-        const profile = _.merge(dataSource?.profile || {}, erdJson['profile'],);
-
-        console.log(74, erdJson['dataTypeDomains']);
-        console.log(74, erdJson['profile']);
-
-        console.log(74, dataTypeDomains);
-        console.log(74, profile);
-
-        console.log(74, dataSource?.dataTypeDomains);
-        console.log(74, dataSource?.profile);
-
-        if (resultModules) {
-          // @ts-ignore
-          resultModules = projectDispatch.fixModules(resultModules, dataTypeDomains?.datatype, dataTypeDomains?.database);
-        }
-
-        projectDispatch.setProjectJson({
-          modules: (dataSource.modules || []).concat(resultModules),
-          dataTypeDomains: dataTypeDomains,
-          profile: profile,
-        });
+        resultModules = importModuleAndProfile(dataSource, erdJson, resultModules, projectDispatch);
         if (resultMsg != '') {
           Modal.warning({
             title: '重要提示',
