@@ -1,12 +1,12 @@
 import {ProTable} from "@ant-design/pro-components";
 import React from "react";
 
-export type QueryResultProps = {
+export type ExplainResultProps = {
   tableResult: { columns: any, dataSource: any, total: number };
 };
 
 
-const QueryResult: React.FC<QueryResultProps> = (props) => {
+const ExplainResult: React.FC<ExplainResultProps> = (props) => {
 
 
   const getColumns = () => {
@@ -38,4 +38,4 @@ const QueryResult: React.FC<QueryResultProps> = (props) => {
   </>);
 };
 
-export default React.memo(QueryResult)
+export default React.memo(ExplainResult)

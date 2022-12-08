@@ -21,7 +21,7 @@ const TableCodeShow: React.FC<TableCodeShowProps> = (props) => {
   const {dbCode, templateCode} = props;
   console.log(16, 'templateCode', templateCode, dbCode);
   const {dataSource, dataTable, dbs} = useProjectStore(state => ({
-    dataTable: state.project?.projectJSON?.modules[state.currentModuleIndex || 0].entities[state.currentEntityIndex || 0],
+    dataTable: state.project?.projectJSON?.modules[state.currentModuleIndex || 0]?.entities[state.currentEntityIndex || 0],
     dataSource: state.project?.projectJSON,
     dbs: state.project?.projectJSON?.profile?.dbs,
     projectDispatch: state.dispatch,

@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {Ref, useEffect, useImperativeHandle, useRef} from 'react';
 import AceEditor from "react-ace";
+
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/mode-json';
 import "ace-builds/src-noconflict/mode-mysql";
 import 'ace-builds/src-noconflict/mode-pgsql';
 import 'ace-builds/src-noconflict/mode-sqlserver';
 import "ace-builds/src-noconflict/mode-java";
+import 'ace-builds/src-noconflict/ext-searchbox';
 import "ace-builds/src-noconflict/ext-language_tools";
+import {addCompleter} from 'ace-builds/src-noconflict/ext-language_tools';
+
 
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/theme-xcode';
@@ -15,6 +19,8 @@ import {IAceOptions, ICommand, IEditorProps, IMarker} from "react-ace/src/types"
 
 
 export type CodeEditorProps = {
+  tables?: any[];
+  onRef?: Ref<any>;
   name?: string;
   style?: React.CSSProperties;
   /** For available modes see https://github.com/thlorenz/brace/tree/master/mode */
@@ -65,10 +71,40 @@ export type CodeEditorProps = {
 };
 
 const CodeEditor: React.FC<CodeEditorProps> = (props) => {
-  const {mode, height, width, name, placeholder, value,theme, onChange} = props;
+  const {mode, height, width, name, placeholder, value, theme, ref, onChange, tables} = props;
   console.log(63, mode || 'mysql');
+
+
+  const editorRef = useRef(null);
+
+
+  useImperativeHandle(props.onRef, () => ({
+    // changeVal 就是暴露给父组件的方法
+    getSelectValue: () => {
+      console.log(130, editorRef.current)
+      // @ts-ignore
+      return editorRef.current.editor.getSelectedText();
+    },
+    setSelectValue: (value: string) => {
+      console.log(130, editorRef.current)
+      // @ts-ignore
+      return editorRef.current.editor.insert(value);
+    },
+  }));
+
+  useEffect(() => {
+    addCompleter({
+      getCompletions: (editor: any, session: any, pos: any, prefix: any, callback: any) => {
+        callback(null, (tables || []).map(v => (
+          {name: v, value: v}
+        )));
+      }
+    });
+  }, [])
+
   return (<>
     <AceEditor
+      ref={editorRef}
       width={width || '100%'}
       height={height || '300px'}
       mode={mode || 'sql'}
@@ -83,12 +119,21 @@ const CodeEditor: React.FC<CodeEditorProps> = (props) => {
       highlightActiveLine={true}
       showPrintMargin={false}
       setOptions={{
+        // 基础的自动完成
         enableBasicAutocompletion: true,
+        // 实时自动完成
         enableLiveAutocompletion: true,
-        enableSnippets: false
+        // 代码块
+        enableSnippets: true,
+        // 显示行号
+        showLineNumbers: true,
+        // 用户输入的sql语句，自动换行
+        wrap: true
+
       }}
     />
   </>);
 }
 
 export default React.memo(CodeEditor);
+

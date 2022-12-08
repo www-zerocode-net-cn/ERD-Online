@@ -1,6 +1,6 @@
 import create from "zustand";
 import {DataNode} from "antd/lib/tree";
-import {ADD, DEL, EDIT, GET, TREE} from "@/services/crud";
+import {ADD, DEL, EDIT, GET, POST, TREE} from "@/services/crud";
 import produce from "immer";
 import _ from "lodash";
 import useTabStore, {TabGroup} from "@/store/tab/useTabStore";
@@ -12,6 +12,9 @@ import {message} from "antd";
 // 总的来说，公共的用 interface 实现，不能用 interface 实现的再用 type 实现。主要是一个项目最好保持一致。
 
 type actions = {
+  queryHistory(params: any): Promise<COMMON.R>;
+  explain(params: any): Promise<COMMON.R>;
+  exec(selectValue: any): Promise<COMMON.R>;
   updateSqlInfo(model: any): void;
   renameQuery(model: any): void;
   removeQuery(model: any): void;
@@ -35,6 +38,15 @@ const useQueryStore = create<QueryState>(
     querySearchKey: '',
     treeData: [],
     dispatch: {
+      queryHistory: (model) => {
+        return GET('/ncnb/queryHistory', model);
+      },
+      explain: (model) => {
+        return POST('/ncnb/queryInfo/explain', model);
+      },
+      exec: (model) => {
+        return POST('/ncnb/queryInfo/exec', model);
+      },
       updateSqlInfo: (model) => {
         EDIT('/ncnb/queryInfo/' + model.id, model).then(r => {
           if (r?.code === 200) {

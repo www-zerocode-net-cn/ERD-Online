@@ -31,6 +31,7 @@ import {CONSTANT} from "@/utils/constant";
 
 export type ProjectState =
   {
+    tables: any[],
     project: any,
     fetch: () => Promise<void>;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice
@@ -61,6 +62,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
   subscribeWithSelector(
     immer(
       (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
+        tables: [],
         project: {},
         fetch: async () => {
           const projectId = cache.getItem(CONSTANT.PROJECT_ID);
@@ -70,6 +72,14 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
             if (res?.code === 200 && data) {
               set({project: data});
               get().dispatch.fixProject(data);
+              //计算全部表名
+              const tables = _.flatMapDepth(data?.projectJSON?.modules, (m) => {
+                console.log(130, m);
+                return _.map(m.entities, 'title')
+              }, 2);
+              set({
+                tables
+              })
             } else {
               message.error('获取项目信息失败');
             }

@@ -16,7 +16,7 @@ export type IProjectJsonSlice = {}
 
 export interface IProjectJsonDispatchSlice {
   fixProject: (project: any) => void;
-  fixModules: (modules: any) => any;
+  fixModules: (modules: any, datatype: any, database: any) => any;
   getProject: () => void;
   setProjectJson: (value: any) => void;
   setModules: (value: any) => void;
@@ -36,7 +36,7 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     console.log(45, defaultDatabaseCode);
     const modules = project?.projectJSON?.modules;
     console.log(38, 'fixProject', modules);
-    const tmpModules = get().dispatch.fixModules(modules);
+    const tmpModules = get().dispatch.fixModules(modules, null, null);
     console.log(73, 'modules', modules);
     if (tmpModules) {
       state.project.projectJSON.modules = tmpModules;
@@ -62,9 +62,9 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
   getProject: () => set(produce(state => {
     return state.project;
   })),
-  fixModules: (data: any) => {
-    const datatype = get().project?.projectJSON?.dataTypeDomains?.datatype || [];
-    const database = get().project?.projectJSON?.dataTypeDomains?.database || [];
+  fixModules: (data: any, datatype: any, database: any) => {
+    datatype = datatype || get().project?.projectJSON?.dataTypeDomains?.datatype || [];
+    database = database || get().project?.projectJSON?.dataTypeDomains?.database || [];
     const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
     return data?.map((m: any) => {
       return {

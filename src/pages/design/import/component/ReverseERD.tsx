@@ -68,10 +68,32 @@ const ReverseERD: React.FC<ReverseERDProps> = (props) => {
           }
         });
 
+
+        console.log(74, dataSource?.dataTypeDomains);
+        console.log(74, dataSource?.profile);
+
+
+        const dataTypeDomains = _.merge(dataSource?.dataTypeDomains || {}, erdJson['dataTypeDomains']);
+        const profile = _.merge(dataSource?.profile || {}, erdJson['profile'],);
+
+        console.log(74, erdJson['dataTypeDomains']);
+        console.log(74, erdJson['profile']);
+
+        console.log(74, dataTypeDomains);
+        console.log(74, profile);
+
+        console.log(74, dataSource?.dataTypeDomains);
+        console.log(74, dataSource?.profile);
+
+        if (resultModules) {
+          // @ts-ignore
+          resultModules = projectDispatch.fixModules(resultModules, dataTypeDomains?.datatype, dataTypeDomains?.database);
+        }
+
         projectDispatch.setProjectJson({
           modules: (dataSource.modules || []).concat(resultModules),
-          dataTypeDomains: _.merge(dataSource.dataTypeDomains, erdJson['dataTypeDomains']),
-          profile: _.merge(dataSource.profile, erdJson['profile']),
+          dataTypeDomains: dataTypeDomains,
+          profile: profile,
         });
         if (resultMsg != '') {
           Modal.warning({
@@ -93,7 +115,7 @@ const ReverseERD: React.FC<ReverseERDProps> = (props) => {
 
 
   return (<>
-{/*    <ModalForm
+    {/*    <ModalForm
       title={<span>解析已有ERD文件</span>}
       trigger={
         <Button
@@ -108,17 +130,17 @@ const ReverseERD: React.FC<ReverseERDProps> = (props) => {
 
     >*/}
 
-      <Dragger {...prop}>
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined/>
-        </p>
-        <p className="ant-upload-text">点击或者拖拽ERD导出的json文件到此区域以上传</p>
-        <p className="ant-upload-hint">
-          上传完毕后，系统会自动开始解析；每次仅支持解析一个ERD文件。
-        </p>
-      </Dragger>
+    <Dragger {...prop}>
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined/>
+      </p>
+      <p className="ant-upload-text">点击或者拖拽ERD导出的json文件到此区域以上传</p>
+      <p className="ant-upload-hint">
+        上传完毕后，系统会自动开始解析；每次仅支持解析一个ERD文件。
+      </p>
+    </Dragger>
 
-   {/* </ModalForm>*/}
+    {/* </ModalForm>*/}
   </>);
 };
 

@@ -58,14 +58,25 @@ const ReversePdMan: React.FC<ReversePdManProps> = (props) => {
             resultMsg.push("[" + module.name + "]已经在本系统中存在，已跳过导入");
           }
         });
+
+
+        const dataTypeDomains = _.defaultsDeep(dataSource?.dataTypeDomains || {}, pdmanJson['dataTypeDomains']);
+        const profile = _.defaultsDeep(dataSource?.profile || {}, pdmanJson['profile'],);
+
+        console.log(74, pdmanJson['dataTypeDomains']);
+        console.log(74, pdmanJson['profile']);
+
+        console.log(74, dataTypeDomains);
+        console.log(74, profile);
         if(resultModules){
-          resultModules = projectDispatch.fixModules(resultModules);
+          // @ts-ignore
+          resultModules = projectDispatch.fixModules(resultModules,dataTypeDomains?.datatype,dataTypeDomains?.database);
         }
 
         projectDispatch.setProjectJson({
           modules: (dataSource.modules || []).concat(resultModules),
-          dataTypeDomains: _.merge(dataSource.dataTypeDomains, pdmanJson['dataTypeDomains']),
-          profile: _.merge(dataSource.profile, pdmanJson['profile']),
+          dataTypeDomains: dataTypeDomains,
+          profile: profile,
         });
         if (resultMsg != '') {
           Modal.warning({

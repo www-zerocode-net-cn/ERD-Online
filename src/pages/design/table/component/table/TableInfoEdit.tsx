@@ -25,7 +25,7 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
   }), shallow);
   console.log('datatype', 115, datatype)
 
-  const allDataTypeName = datatype.map((t: any) => {
+  const allDataTypeName = datatype?.map((t: any) => {
     return t.name;
   })
 
