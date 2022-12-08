@@ -115,16 +115,7 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
         ...tempDataSource,
         profile: {
           ...(tempDataSource.profile || {}),
-          dbs: _.get(tempDataSource, 'profile.dbs', []).map((d: any) => {
-            return {
-              ...d,
-              properties: {
-                url: '******',
-                username: '******',
-                password: '******',
-              },
-            }
-          }),
+          dbs: _.get(tempDataSource, 'profile.dbs', []),
         },
       };
       const originERDJson = JSON.stringify(tempDataSource, null, 2);
