@@ -1,8 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Alignment, Button} from "@blueprintjs/core";
-import {MyIcon} from "@/components/Menu";
 import {
-  ModalForm,
   ProFormCheckbox,
   ProFormDependency,
   ProFormInstance,
@@ -14,7 +11,6 @@ import {
 } from "@ant-design/pro-components";
 import CodeEditor from "@/components/CodeEditor";
 import {Button as AntButton} from "antd";
-import _ from 'lodash';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {RadioChangeEvent} from "antd/lib/radio/interface";

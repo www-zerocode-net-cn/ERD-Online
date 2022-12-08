@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Button, message, Select, Space} from "antd";
 import {ProCard} from "@ant-design/pro-components";
-import {Data, HistoryQuery, Info, Plan} from "@icon-park/react";
+import {Data, HistoryQuery, Plan} from "@icon-park/react";
 import CodeEditor from "@/components/CodeEditor";
 import QueryResult from "@/pages/design/query/component/QueryResult";
 import {BarsOutlined, EyeOutlined, PlayCircleOutlined, SaveOutlined} from "@ant-design/icons";
@@ -16,7 +16,6 @@ import {format} from "sql-formatter";
 import useProjectStore from "@/store/project/useProjectStore";
 import ExplainResult from "@/pages/design/query/component/ExplainResult";
 import QueryHistory from "@/pages/design/query/component/QueryHistory";
-import {keys} from "idb-keyval";
 
 const {Option, OptGroup} = Select;
 export type QueryProps = {

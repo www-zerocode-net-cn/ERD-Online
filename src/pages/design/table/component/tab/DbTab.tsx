@@ -1,7 +1,7 @@
 import React from 'react';
 import TableCodeShow from "@/pages/design/table/component/table/TableCodeShow";
 import {ModuleEntity} from "@/store/tab/useTabStore";
-import {Tabs, Tooltip} from "antd";
+import {Tabs} from "antd";
 
 const {TabPane} = Tabs;
 

@@ -1,11 +1,8 @@
-import {ProForm, ModalForm, ProFormInstance, ProFormSelect, StepsForm} from '@ant-design/pro-components';
+import {ProFormInstance, ProFormSelect, StepsForm} from '@ant-design/pro-components';
 import React, {useRef} from 'react';
 import {Button as AntButton, Spin} from 'antd';
-import {Alignment, Button} from "@blueprintjs/core";
-import {MyIcon} from "@/components/Menu";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
-import _ from 'lodash';
 import ReverseTable from "@/components/TableTransfer/ReverseTable";
 
 
