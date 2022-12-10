@@ -15,15 +15,15 @@ export const importModuleAndProfile=(dataSource: any, erdJson:any, resultModules
   console.log(74, dataSource?.profile);
 
 
-  const datatype = _.unionBy(dataSource?.dataTypeDomains?.datatype || {}, erdJson['dataTypeDomains']?.datatype, 'code');
-  const database = _.unionBy(dataSource?.dataTypeDomains?.database || {}, erdJson['dataTypeDomains']?.database, 'code');
-  _.merge(dataSource?.dataTypeDomains, erdJson['dataTypeDomains']);
+  const datatype = _.unionBy(dataSource?.dataTypeDomains?.datatype, erdJson?.dataTypeDomains?.datatype, 'code');
+  const database = _.unionBy(dataSource?.dataTypeDomains?.database, erdJson?.dataTypeDomains?.database, 'code');
+  _.merge(dataSource?.dataTypeDomains, erdJson?.dataTypeDomains);
   _.set(dataSource?.dataTypeDomains, 'datatype', datatype);
   _.set(dataSource?.dataTypeDomains, 'database', database);
 
-  const defaultFields = _.unionBy(dataSource?.profile?.defaultFields || {}, erdJson['profile']?.defaultFields, 'name');
-  const dbs = _.unionBy(dataSource?.profile?.dbs || {}, erdJson['profile']?.dbs, 'name');
-  _.merge(dataSource?.profile, erdJson['profile']);
+  const defaultFields = _.unionBy(dataSource?.profile?.defaultFields, erdJson?.profile?.defaultFields, 'name');
+  const dbs = _.unionBy(dataSource?.profile?.dbs, erdJson?.profile?.dbs, 'name');
+  _.merge(dataSource?.profile, erdJson?.profile);
   _.set(dataSource?.profile, 'defaultFields', defaultFields);
   _.set(dataSource?.profile, 'dbs', dbs);
 
