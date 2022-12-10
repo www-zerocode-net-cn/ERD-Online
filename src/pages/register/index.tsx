@@ -55,7 +55,7 @@ export default () => {
                 width: 120,
               }}
               onClick={() => {
-                window.location.href = "https://www.zerocode.net.cn/thread/111"
+                window.location.href = "https://www.zerocode.net.cn/thread/114"
               }}
             >
               去看看
