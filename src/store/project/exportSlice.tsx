@@ -109,15 +109,8 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
         message.error(`${type}导出失败!请重试！出错原因：${err.message}`);
       });
     } else if (type === 'JSON') {
-      let tempDataSource = {...dataSource};
-      // 去除数据库信息
-      tempDataSource = {
-        ...tempDataSource,
-        profile: {
-          ...(tempDataSource.profile || {}),
-          dbs: _.get(tempDataSource, 'profile.dbs', []),
-        },
-      };
+      let tempDataSource = {...dataSource}
+      console.log(113, tempDataSource);
       const originERDJson = JSON.stringify(tempDataSource, null, 2);
       const secret = get().dispatch.encrypt("AES", originERDJson);
       File.save(secret, `${project}.erd.json`);
