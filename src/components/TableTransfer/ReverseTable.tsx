@@ -1,6 +1,5 @@
 import {Card, Descriptions, Table} from 'antd';
-import type {ProColumns} from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import {ProColumns, ProTable} from '@ant-design/pro-components';
 import React from "react";
 import _ from "lodash";
 import useProjectStore from "@/store/project/useProjectStore";
@@ -35,7 +34,7 @@ const ReverseTable: React.FC<ReverseTableProps> = (props) => {
       ellipsis: true,
       copyable: true,
       render: (_,entity) => {
-        return <span style={{color: exists.includes(entity.title) ? 'red' : 'white'}}>{entity.title}</span>
+        return <span style={{color: exists.includes(entity.title) ? 'red' : ''}}>{entity.title}</span>
       }
     },
     {
@@ -75,14 +74,16 @@ const ReverseTable: React.FC<ReverseTableProps> = (props) => {
         <Card size="small">
           <Descriptions size="small" column={3}>
             <Descriptions.Item label="数据源">{projectDispatch.getCurrentDBName()}</Descriptions.Item>
-            <Descriptions.Item label="解析表">{module.entities.length}</Descriptions.Item>
+            <Descriptions.Item label="解析表">{module?.entities?.length}</Descriptions.Item>
             <Descriptions.Item label="存量表" labelStyle={{color: "red"}}
                                contentStyle={{color: "red"}}>{exists.length}</Descriptions.Item>
           </Descriptions>
         </Card>
       )}
+      pagination={{
+        pageSize: 10,
+      }}
       dataSource={tableListDataSource}
-      scroll={{y: 240}}
       options={false}
       search={false}
       rowKey="key"

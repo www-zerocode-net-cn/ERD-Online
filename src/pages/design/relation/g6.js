@@ -6,9 +6,9 @@ import './style/index.less';
 import {uuid} from '../../../utils/uuid';
 import * as File from '../../../utils/file';
 import Context from "@/pages/design/relation/Contex";
-import {message} from 'antd';
-import {Icon, MenuItem} from "@blueprintjs/core";
+import {message, Space} from 'antd';
 import openModal from "@/pages/design/relation/ModalWrapper";
+import {CloseOne, ConnectAddressOne, DeleteFive, RelationalGraph, Strikethrough} from "@icon-park/react";
 
 
 /* eslint-disable */
@@ -203,7 +203,7 @@ export default class G6Relation extends React.Component {
           color: 'yellow',
         });
       } else {
-        let color = '#353B47';
+        let color = '#431E90';
         if (realName.includes(':')) {
           color = '#5D616A';
         }
@@ -284,10 +284,10 @@ export default class G6Relation extends React.Component {
     });
   };
   undo = () => {
-    //this.net.undo();
+    this.net.undo();
   };
   redo = () => {
-    //this.net.redo();
+    this.net.redo();
   };
   del = (item) => {
     this.net.remove(item);
@@ -721,7 +721,8 @@ export default class G6Relation extends React.Component {
             x: 0,
             y: 0,
             text: model.moduleName ? `<<${model.moduleName}>> ${model.realName}` : model.realName,
-            fill: '#1D95E2',
+            //设置表标题颜色
+            fill: '#E3C266',
             textBaseline: 'top',
             textAlign: 'center',
           },
@@ -757,7 +758,7 @@ export default class G6Relation extends React.Component {
           } else if (currentFromEntities.some(entity => entity.from.field === field.name)) {
             return '#8F9C6D';
           }
-          return '#C5C6C5';
+          return '#E9E9ED';
         };
         titleBox = title.getBBox();
         const realLineHeight = (realHeight && ((realHeight - titleBox.height) / l)) || 20;
@@ -861,10 +862,10 @@ export default class G6Relation extends React.Component {
       plugins: [miniMap],
       grid: {
         forceAlign: true, // 是否支持网格对齐
-        cell: 5,         // 网格大小
+        cell: 10,         // 网格大小
         line: {         // 网格线样式
-          stroke: '#444c58',
-          opacity: 0.5
+          stroke: '#535c69',
+          opacity: 0.05
         },
       },
     });
@@ -1106,18 +1107,14 @@ export default class G6Relation extends React.Component {
         if (this.net._attrs.mode === 'edit') {
           // 切换到编辑模式时执行鼠标的松开事件，防止选中框残留
           this.net.events.mouseup.forEach(m => m());
-          const {modeChange} = this.props;
-          //this.net.changeMode('drag');
-          modeChange && modeChange('drag');
+          this.net.changeMode('drag');
         }
       }
     });
     this.net.on('keyup', (ev) => {
       if (ev.keyCode === 16) {
         if (this.net._attrs.mode === 'drag') {
-          const {modeChange} = this.props;
-          //this.net.changeMode('drag');
-          modeChange && modeChange('edit');
+          this.net.changeMode('edit');
         }
       }
     });
@@ -1210,17 +1207,17 @@ export default class G6Relation extends React.Component {
         if (item && item.get('type') === 'node' && item._attrs.actived) {
           contextMenus = [
             {
-              name: <span><Icon icon='trash' style={{color: '#FF0000', marginRight: 5}}/>删除数据表</span>,
+              name: <Space><DeleteFive theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>删除数据表</span></Space>,
               key: 'deleteTable',
             }];
         } else if (item && item.get('type') === 'edge' && item._attrs.actived) {
           contextMenus = [
             {
-              name: <span><Icon icon='edit' style={{color: '#008000', marginRight: 5}}/>对应关系</span>,
+              name: <Space><RelationalGraph theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>对应关系</span></Space>,
               key: 'relation'
             },
             {
-              name: <span><Icon icon='trash' style={{color: '#FF0000', marginRight: 5}}/>删除连接线</span>,
+              name: <Space><Strikethrough theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>删除连接线</span></Space>,
               key: 'deleteEdge'
             },
           ];
@@ -1239,12 +1236,12 @@ export default class G6Relation extends React.Component {
           if (clickPoint > -1) {
             contextMenus.push(
               {
-                name: <span><Icon icon='trash' style={{color: '#FF0000', marginRight: 5}}/>删除锚点</span>,
+                name: <Space><CloseOne theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>删除锚点</span></Space>,
                 key: 'deleteAnchor'
               })
           } else {
             contextMenus.push({
-              name: <span><Icon icon='add' style={{color: '#008000', marginRight: 5}}/>添加锚点</span>,
+              name: <Space><ConnectAddressOne theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/><span>添加锚点</span></Space>,
               key: 'addAnchor'
             })
           }
@@ -1269,7 +1266,8 @@ export default class G6Relation extends React.Component {
       if (val && val.includes(':')) {
         return '#5D616A'
       }
-      return '#353B47';
+      //设置表颜色
+      return '#431E90';
     });
 
     this.net.render();
@@ -1537,7 +1535,7 @@ export default class G6Relation extends React.Component {
         {}
       </div>
       <div
-        style={{position: 'fixed', bottom: '5%', right: '40%', color: '#CCCCCC'}}
+        style={{position: 'fixed', bottom: '5%', right: '40%', color: '#f50808'}}
       >
         按住shift可拖动关系图，滑动鼠标可放大缩小关系图，按下M可打开或者关闭缩略图
       </div>

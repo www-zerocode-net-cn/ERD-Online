@@ -11,6 +11,7 @@ import {generateHtml} from "@/utils/generatehtml";
 import {getAllDataSQLByFilter} from "@/utils/json2code";
 import produce from "immer";
 import moment from "moment";
+import {CONSTANT} from "@/utils/constant";
 
 export type IExportSlice = {
   exportSliceState?: any;
@@ -71,7 +72,7 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
           a[b] = images[b].replace('data:image/png;base64,', '');
           return a;
         }, {});
-        const projectId = cache.getItem('projectId');
+        const projectId = cache.getItem(CONSTANT.PROJECT_ID);
         const defaultDatabase = get().dispatch.getCurrentDBData();
         console.log(59, defaultDatabase);
         request.post('/ncnb/doc/gendocx', {
@@ -108,24 +109,8 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
         message.error(`${type}导出失败!请重试！出错原因：${err.message}`);
       });
     } else if (type === 'JSON') {
-      let tempDataSource = {...dataSource};
-      // 去除数据库信息
-      tempDataSource = {
-        ...tempDataSource,
-        profile: {
-          ...(tempDataSource.profile || {}),
-          dbs: _.get(tempDataSource, 'profile.dbs', []).map((d: any) => {
-            return {
-              ...d,
-              properties: {
-                url: '******',
-                username: '******',
-                password: '******',
-              },
-            }
-          }),
-        },
-      };
+      let tempDataSource = {...dataSource}
+      console.log(113, tempDataSource);
       const originERDJson = JSON.stringify(tempDataSource, null, 2);
       const secret = get().dispatch.encrypt("AES", originERDJson);
       File.save(secret, `${project}.erd.json`);
@@ -280,7 +265,7 @@ const ExportSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) =
       File.save(data, `${moment().format('YYYY-MM-D-h-mm-ss')}.sql`);
       message.success('导出成功');
     }else {
-      message.warn('暂时无法导出');
+      message.warning('暂时无法导出');
     }
   }
 

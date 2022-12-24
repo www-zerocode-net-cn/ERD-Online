@@ -1,72 +1,38 @@
 // https://umijs.org/config/
-import {defineConfig} from 'umi';
-
-import defaultSettings from './defaultSettings';
+import { defineConfig } from '@umijs/max';
 import proxy from './proxy';
 import routes from './routes';
-
 
 
 const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
   hash: true,
-  antd: {
-    dark: true, // 开启暗色主题
-  },
-  dva: {
-    hmr: true,
-  },
-  layout: {
-    // https://umijs.org/zh-CN/plugins/plugin-layout
-    locale: true,
-    siderWidth: 240,
-    ...defaultSettings,
-  },
-  // https://umijs.org/zh-CN/plugins/plugin-locale
-  locale: {
-    // default zh-CN
-    default: 'zh-CN',
-    antd: true,
-    // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
-  },
-  dynamicImport: {
-    loading: '@ant-design/pro-layout/es/PageLoading',
-  },
-  targets: {
-    ie: 11,
-  },
+  fastRefresh: true,
   // umi routes: https://umijs.org/docs/routing
   routes,
-  // Theme for antd: https://ant.design/docs/react/customize-theme-cn
-  theme: {
-    'primary-color': defaultSettings.primaryColor,
-    'border-radius-base': '6px',
-    'popover-background': '#1f2931',
-    'component-background': '#1f2931',
-  },
-  // esbuild is father build tools
-  // https://umijs.org/plugins/plugin-esbuild
-  esbuild: {},
-  title: false,
+  title:'ERD Online',
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
     basePath: '/',
   },
-  openAPI: [
-    {
-      requestLibPath: "import { request } from 'umi'",
-      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-      projectName: 'swagger',
-    },
+  layout:{},
+  model: {},
+  access: {},
+  // access 插件依赖 initial State 所以需要同时开启
+  initialState: {},
+  deadCode: {},
+  presets: ['umi-presets-pro'],
+  analytics: {
+    baidu: '46689e26837885690d97c7f5d08b9a0b',
+  },
+  headScripts:[
+    '/js/g6.min.js',
+    '/js/g6-plugins.min.js',
+    '/js/html2canvas.min.js',
+    '/env-config.js?date='+ new Date(),
   ],
-  nodeModulesTransform: {type: 'none'},
-  webpack5: {},
-  exportStatic: {},
-  sass: {},
-
 
 
 });

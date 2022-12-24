@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Alignment, Button} from "@blueprintjs/core";
-import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
+import {ProForm, ModalForm, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Divider} from '@mui/material';
 import _ from "lodash";
+import {PlusOutlined} from "@ant-design/icons";
+import {Button} from "antd";
 
 export type AddDataTypeProps = {
   moduleDisable: boolean;
@@ -46,13 +47,10 @@ const AddDataType: React.FC<AddDataTypeProps> = (props) => {
     <ModalForm
       title="新增字段类型"
       trigger={
-        <Button icon="add"
-                text={"新增字段类型"}
-                minimal={true}
-                small={true}
-                fill={true}
-                alignText={Alignment.LEFT}
-                disabled={props.moduleDisable}></Button>
+        <Button icon={<PlusOutlined />}
+                type="text"
+                size={"small"}
+                disabled={props.moduleDisable}>新增字段类型</Button>
       }
       onFinish={async (values: any) => {
 
@@ -64,6 +62,7 @@ const AddDataType: React.FC<AddDataTypeProps> = (props) => {
           code: values.code,
           apply
         });
+        return true;
       }}
     >
       <ProForm.Group>

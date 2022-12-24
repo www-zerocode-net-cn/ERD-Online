@@ -1,8 +1,8 @@
 import React from 'react';
-import {Alignment, Button} from "@blueprintjs/core";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
-import {Popconfirm} from "antd";
+import {Button, Popconfirm} from "antd";
+import {MinusOutlined} from "@ant-design/icons";
 
 export type RemoveModuleProps = {
   disable: boolean;
@@ -18,14 +18,11 @@ const RemoveModule: React.FC<RemoveModuleProps> = (props) => {
     <Popconfirm placement="right" title="删除模块"
                 onConfirm={() => projectDispatch.removeModule()} okText="是"
                 cancelText="否">
-      <Button icon="remove"
-              text={"删除模块"}
-              minimal={true}
-              small={true}
+      <Button icon={<MinusOutlined />}
+              type="text"
+              size={"small"}
               disabled={props.disable}
-              fill={true}
-              alignText={Alignment.LEFT}
-      ></Button>
+      >删除模块</Button>
     </Popconfirm>
   </>);
 }

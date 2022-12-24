@@ -1,18 +1,19 @@
 import React from 'react';
-import {MenuItem} from "@blueprintjs/core";
-import SyncIcon from "@mui/icons-material/Sync";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import {compareStringVersion} from "@/utils/string";
+import {Button} from "antd";
+import {CloudServerOutlined, CloudUploadOutlined} from "@ant-design/icons";
 
 
-export type SyncVersionProps = {};
+export type SyncVersionProps = {
+  synced: boolean;
+};
 
 const SyncVersion: React.FC<SyncVersionProps> = (props) => {
   const {
     currentVersionIndex,
     currentVersion,
-    synchronous,
     versions,
     dbVersion,
     versionDispatch
@@ -26,15 +27,17 @@ const SyncVersion: React.FC<SyncVersionProps> = (props) => {
   }), shallow);
 
   return (<>
-    <MenuItem key="sync" shouldDismissPopover={false} text="同步到数据源" icon={<SyncIcon/>}
-              disabled={compareStringVersion(currentVersion.version, dbVersion) <= 0 ? true : !!synchronous[currentVersion.version]}
-              onClick={() => {
-                versionDispatch.readDb(
-                  compareStringVersion(currentVersion.version, dbVersion) <= 0,
-                  currentVersion,
-                  currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion, currentVersion.changes,
-                  currentVersionIndex === (versions.length - 1), true)
-              }}/>
+    <Button key="sync" icon={props.synced ? <CloudServerOutlined/> : <CloudUploadOutlined/>}
+            type={"link"}
+            size={"small"}
+            disabled={props.synced}
+            onClick={() => {
+              versionDispatch.readDb(
+                props.synced,
+                currentVersion,
+                currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion, currentVersion.changes,
+                currentVersionIndex === (versions.length - 1), true);
+            }}>同步到数据源</Button>
 
   </>);
 }

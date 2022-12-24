@@ -2,7 +2,7 @@ import React from "react";
 import {Classes, Icon, Intent, Tree, TreeNodeInfo} from "@blueprintjs/core";
 import {Classes as Popover2Classes, ContextMenu2, Tooltip2} from "@blueprintjs/popover2";
 //@ts-ignore
-import { cloneDeep } from "lodash-es";
+import {cloneDeep} from "lodash-es";
 
 export type Test2Props = {};
 

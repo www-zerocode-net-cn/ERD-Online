@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
-import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
-import {Alignment, Button} from "@blueprintjs/core";
+import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
-import {Button as AntButton} from "antd";
 import {InfoCircleOutlined}  from '@ant-design/icons';
+import {Button} from "antd";
 
 export type AddVersionProps = {
   trigger: string;
@@ -41,21 +40,16 @@ const AddVersion: React.FC<AddVersionProps> = (props) => {
         props.trigger === "bp" ?
           <Button
             key="artifact"
-            icon="add-to-artifact"
-            text="新增版本"
-            minimal={true}
-            small={true}
-            fill={true}
-            alignText={Alignment.LEFT}
+            type="primary"
             disabled={init}
-          ></Button>
-          : <AntButton
+          >新增版本</Button>
+          : <Button
             type="primary"
             disabled={init}
             title={init ? "未配置数据源不能新增版本" : ""}
             icon={init ? <InfoCircleOutlined /> : ""}
 
-          >新增版本</AntButton>
+          >新增版本</Button>
 
       }
     >

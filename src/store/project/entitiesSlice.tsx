@@ -41,7 +41,7 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
         message.error('保存出错，不能保存null')
       }
     } else {
-      message.warn(`${payload.title}已经存在`);
+      message.warning(`${payload.title}已经存在`);
     }
   })),
   renameEntity: (payload: any) => set(produce(state => {
@@ -67,6 +67,7 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
   })),
   updateEntityFields: (payload: any) => set(produce(state => {
+    console.log(70, '表发生变化',state.currentModuleIndex,state.currentEntityIndex, payload);
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
   })),
   updateEntityIndex: (payload: any) => set(produce(state => {

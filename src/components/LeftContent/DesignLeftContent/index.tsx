@@ -1,35 +1,65 @@
 import React from 'react';
 
-import {Tab, Tabs} from "@blueprintjs/core";
-import {Fill, LeftResizable, Top} from "react-spaces";
-import './index.less'
+import "./index.less";
 import DataTable from "@/components/LeftContent/DesignLeftContent/component/DataTable";
 import DataDomain from "@/components/LeftContent/DesignLeftContent/component/DataDomain";
+import {Input, Tabs} from "antd";
+import {SearchOutlined} from "@ant-design/icons";
+import useGlobalStore from "@/store/global/globalStore";
+import shallow from "zustand/shallow";
+
+const {TabPane} = Tabs;
 
 
-export type DesignLeftContentProps = {};
+export type DesignLeftContentProps = {
+  collapsed: boolean | undefined;
+};
 
 const DesignLeftContent: React.FC<DesignLeftContentProps> = (props) => {
-
+    const {globalDispatch} = useGlobalStore(state => ({
+      globalDispatch: state.dispatch
+    }), shallow);
 
     return (
-      <LeftResizable size="15%">
-        <Fill>
-          <Top size="100%" scrollable={true}>
-
-            <Tabs
-              id="navbar"
-              animate={false}
-              large={true}
-              renderActiveTabPanelOnly={true}
-              className="left-table-tab"
+      props.collapsed ? <></> :
+        <>
+          <Input
+            style={{
+              borderRadius: 4,
+              marginInlineEnd: 12,
+            }}
+            allowClear
+            size={"small"}
+            prefix={<SearchOutlined/>}
+            placeholder="搜索元数据"
+            onPressEnter={(e) => {
+              // @ts-ignore
+              globalDispatch.setSearchKey(e.target?.value)
+            }}
+          />
+          <Tabs defaultActiveKey="1" centered={true}>
+            <TabPane
+              tab={
+                <div>
+                  元数据
+                </div>
+              }
+              key="1"
             >
-              <Tab id="table" title="数据表" panel={<DataTable/>}></Tab>
-              <Tab id="domain" title="数据域" panel={<DataDomain/>}/>
-            </Tabs>
-          </Top>
-        </Fill>
-      </LeftResizable>
+              <DataTable/>
+            </TabPane>
+            <TabPane
+              tab={
+                <div>
+                  数据域
+                </div>
+              }
+              key="2"
+            >
+              <DataDomain/>
+            </TabPane>
+          </Tabs>
+        </>
     )
   }
 ;

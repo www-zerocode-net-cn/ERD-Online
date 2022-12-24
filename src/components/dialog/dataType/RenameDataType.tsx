@@ -1,5 +1,5 @@
 import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from 'react';
-import ProForm, {ModalForm, ProFormInstance, ProFormText} from '@ant-design/pro-form';
+import {ProForm, ModalForm, ProFormInstance, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Divider} from "@mui/material";
@@ -20,6 +20,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
     currentDataTypeIndex: state.currentDataTypeIndex,
   }), shallow);
 
+  const [count, setCount] = useState(0);
   const [apply, setApply] = useState({});
   const [modalVisit, setModalVisit] = useState(false);
 
@@ -39,6 +40,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
       initValue = _.assign(initValue, {[`apply.${d.code}.type`]: type});
 
     });
+    setCount(count + 1);
     console.log('initValue', 37, initValue);
     return initValue;
   }
@@ -63,15 +65,13 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
   // Ant Form 有个臭毛病，form只会加载一次，state变化不会重新加载，用此解决
   const formRef = useRef<ProFormInstance<any>>();
   useEffect(() => {
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    formRef && formRef.current?.resetFields();
-  }, [currentDataTypeIndex]);
+    formRef && formRef.current?.resetFields?.();
+  }, [currentDataTypeIndex,count]);
 
   return (<>
     <ModalForm
       formRef={formRef}
-      title="字段类型"
+      title="数据字典"
       visible={modalVisit}
       onFinish={async (values: any) => {
         console.log(39, values);
@@ -85,6 +85,11 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
       params={{'currentDataTypeIndex': currentDataTypeIndex}}
       request={async (params) => {
         return getInitValue(params);
+      }}
+      modalProps={{
+        onCancel: () => {
+          setModalVisit(false);
+        }
       }}
       onVisibleChange={setModalVisit}
     >

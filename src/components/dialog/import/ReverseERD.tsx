@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alignment, Button} from "@blueprintjs/core";
 import {MyIcon} from "@/components/Menu";
-import {ModalForm} from '@ant-design/pro-form';
+import {ModalForm} from '@ant-design/pro-components';
 import {InboxOutlined} from '@mui/icons-material';
 import Dragger from "antd/es/upload/Dragger";
 import {message, Modal} from "antd";
@@ -51,7 +51,7 @@ const ReverseERD: React.FC<ReverseERDProps> = (props) => {
           return false;
         }
         if (erdJsonModules.length <= 0) {
-          message.warn('您尚未在ERD新建模块，无需导入，可直接在本系统新建模块!');
+          message.warning('您尚未在ERD新建模块，无需导入，可直接在本系统新建模块!');
           return false;
         }
         console.log(41, 'erdJsonModules', erdJsonModules);

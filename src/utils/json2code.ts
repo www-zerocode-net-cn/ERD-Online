@@ -161,7 +161,7 @@ const getTemplateString = (template, templateData) => {
 
 const generateIncreaseSql = (dataSource, module, dataTable, code, templateShow) => {
   const datatype = _.get(dataSource, 'dataTypeDomains.datatype', []);
-  const database = _.get(dataSource, 'dataTypeDomains.database', []).filter(db => db.defaultDatabase)[0];
+  const database = _.get(dataSource, 'dataTypeDomains.database', []).filter(db => db.code===code)[0];
   const template = templateShow ? ((database && database[templateShow]) || '') : ((database && database.template) || '');
   const separator = _.get(dataSource, 'profile.sqlConfig', '/*SQL@Run*/') + '\n';
   // 构造新的数据表传递给模板
@@ -496,6 +496,7 @@ export const getCodeByDataTable = (dataSource, module, dataTable, code, template
     message.error('数据库模板出错，请参考Dot.js配置模板信息');
     sqlString = JSON.stringify(e.message);
   }
+  console.log(499, sqlString);
   return sqlString;
 };
 
@@ -791,11 +792,8 @@ export const getAllDataSQL = (dataSource, code) => {
         separator
       })}`;
     }).join('');
-    return `${getTemplateString(getTemplate('deleteTableTemplate'), {
-      module: {name: e.name},
-      entity: e,
-      separator
-    })}\n${getTemplateString(getTemplate('createTableTemplate'), {
+    //全量脚本去除删除语句
+    return `${getTemplateString(getTemplate('createTableTemplate'), {
       module: {name: e.name},
       entity: e,
       separator

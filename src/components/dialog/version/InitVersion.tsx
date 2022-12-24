@@ -1,12 +1,11 @@
 import React from 'react';
-import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
-import {Alignment, Button} from "@blueprintjs/core";
+import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import moment from 'moment';
 import useProjectStore from "@/store/project/useProjectStore";
 import * as Save from '@/utils/save';
-import {message} from "antd";
+import {Button, message} from "antd";
 
 export type InitVersionProps = {};
 
@@ -28,21 +27,17 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
       title="初始化基线"
       trigger={
         <Button
+          type={"primary"}
           key="selection"
-          icon="selection"
-          text="初始化基线"
-          minimal={true}
-          small={true}
-          fill={true}
           disabled={!hasDB || !init}
-          alignText={Alignment.LEFT}></Button>
+          >初始化基线</Button>
       }
       onFinish={async (values: any) => {
         console.log(32, 'setUpgradeType', values);
         // 基线文件只需要存储modules信息
         const currentDBData = versionDispatch.getCurrentDBData();
         if (!currentDBData) {
-          message.warn("未配置数据库源，请先配置数据源！");
+          message.warning("未配置数据库源，请先配置数据源！");
           return false;
         }
         const version = {

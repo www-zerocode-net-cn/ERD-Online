@@ -1,8 +1,8 @@
 import React from 'react';
-import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
-import {Alignment, Button} from "@blueprintjs/core";
+import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
+import {Button} from "antd";
 
 
 export type RebuildVersionProps = {};
@@ -27,14 +27,9 @@ const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
       trigger={
         <Button
           key="undo"
-          icon="undo"
-          text="重建基线"
-          minimal={true}
-          small={true}
-          fill={true}
+          type={"primary"}
           disabled={init}
-          alignText={Alignment.LEFT}
-        ></Button>
+        >重建基线</Button>
       }
     >
       <ProFormText

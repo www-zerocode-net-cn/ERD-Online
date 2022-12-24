@@ -79,7 +79,7 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
           get().dispatch.updateAllDbs(dbs);
           message.success('删除成功');
         } else {
-          message.warn("当前数据源存在已同步版本，不允许删除！")
+          message.warning("当前数据源存在已同步版本，不允许删除！")
         }
       } else {
         message.error('删除失败');
@@ -235,7 +235,7 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     const keys = get().profileSliceState?.keys || [];
     console.log(221, keys);
     if (keys.length === 0) {
-      message.warn('未选中要导入数据表');
+      message.warning('未选中要导入数据表');
       return false;
     }
     let isClose = false;
@@ -337,8 +337,9 @@ const ProfileSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     };
     console.log(311, 'moudles', modules);
     console.log(312, 'dataTypes', dataTypes);
-    get().dispatch.updateAllModules(modules);
     get().dispatch.updateAllDataTypes(currentDataTypes.concat(dataTypes));
+    get().dispatch.updateAllModules(modules);
+
     console.log(313, tempData);
     message.success('操作成功！')
   },

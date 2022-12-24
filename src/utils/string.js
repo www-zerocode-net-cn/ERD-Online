@@ -19,3 +19,5 @@ export const compareStringVersion = (v1 = '', v2 = '') => {
   const maxLengthVersion = version1.length > version2.length ? version1 : version2;
   return checkVersion(version1, version2, 0, maxLengthVersion.length);
 };
+
+

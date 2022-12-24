@@ -1,8 +1,8 @@
 import React from 'react';
-import ProForm, {ModalForm, ProFormRadio} from "@ant-design/pro-form";
-import {Alignment, Button} from "@blueprintjs/core";
+import {ProForm, ModalForm, ProFormRadio} from "@ant-design/pro-components";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
+import {Button} from "antd";
 
 
 export type SyncConfigProps = {};
@@ -17,16 +17,11 @@ const SyncConfig: React.FC<SyncConfigProps> = (props) => {
 
   return (<>
     <ModalForm
-      title={<span>同步配置<span style={{color: "red"}}>（配置成功后，后续的同步的操作都使用该配置）</span></span>}
+      title={<span>同步配置<span style={{color: "red"}}>（配置成功后，后续的同步的操作都使用该配置，仅建议项目初始化之后设置一次，以后不要变动，免得出现版本混乱）</span></span>}
       trigger={
         <Button
           key="refresh"
-          icon="refresh"
-          text="同步配置"
-          minimal={true}
-          small={true}
-          fill={true}
-          alignText={Alignment.LEFT}></Button>
+          type={"primary"}>同步配置</Button>
       }
       onFinish={async (values: any) => {
         console.log(32, 'setUpgradeType', values);

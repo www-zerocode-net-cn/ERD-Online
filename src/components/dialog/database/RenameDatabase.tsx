@@ -1,5 +1,5 @@
 import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from 'react';
-import ProForm, {ModalForm, ProFormCheckbox, ProFormInstance, ProFormRadio, ProFormText} from '@ant-design/pro-form';
+import {ProForm, ModalForm, ProFormCheckbox, ProFormInstance, ProFormRadio, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Button, Divider} from "@mui/material";
@@ -63,16 +63,16 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
 
 
   // Ant Form 有个臭毛病，form只会加载一次，state变化不会重新加载，用此解决
-  const formRef = useRef<ProFormInstance<any>>();
+  const dataFormRef = useRef<ProFormInstance>();
   useEffect(() => {
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    formRef && formRef.current?.resetFields();
-  }, [currentDatabaseIndex]);
+    dataFormRef && dataFormRef.current?.resetFields?.();
+    console.log(68, '页面刷新');
+    //@ts-ignore
+  }, [currentDatabaseIndex,template?.defaultDatabase,template?.fileShow]);
 
   return (<>
     <ModalForm
-      formRef={formRef}
+      formRef={dataFormRef}
       title="数据源"
       layout="horizontal"
       visible={modalVisit}
@@ -85,11 +85,17 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
           fileShow: values.fileShow,
         });
         setRefreshCheckBox(!refreshCheckBox);
+        setTimeout(()=>{},1000);
         return true;
       }}
       params={{'currentDatabaseIndex': currentDatabaseIndex, refreshCheckBox}}
       request={async (params) => {
         return getInitValue(params);
+      }}
+      modalProps={{
+        onCancel: () => {
+          setModalVisit(false);
+        }
       }}
       onVisibleChange={setModalVisit}
       // 完全自定义整个区域

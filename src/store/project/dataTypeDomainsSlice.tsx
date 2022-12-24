@@ -1,7 +1,9 @@
-import {SetState} from "zustand";
+import {GetState, SetState} from "zustand";
 import {ProjectState} from "@/store/project/useProjectStore";
 import produce from "immer";
 import {message} from "antd";
+import _ from "lodash";
+import {Data, DatabasePoint, DataNull, DataUser} from "@icon-park/react";
 
 export type IDataTypeDomainsSlice = {
   currentDataType?: string;
@@ -16,9 +18,11 @@ export interface IDataTypeDomainsDispatchSlice {
   updateDatatype: (payload: any) => void;
   setCurrentDatatype: (payload: any) => void,
   updateAllDataTypes: (payload: any) => void,
+  getDataTypeTree: (searchKey: string) => any,
+
 }
 
-const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({
+const DataTypeDomainsSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
   addDatatype: (payload: any) => set(produce(state => {
     const datatypeName = payload.name;
     console.log('datatypeName', 29, datatypeName);
@@ -58,6 +62,49 @@ const DataTypeDomainsSlice = (set: SetState<ProjectState>) => ({
   updateAllDataTypes: (payload: any) => set(produce(state => {
     state.project.projectJSON.dataTypeDomains.datatype = payload;
   })),
+  getDataTypeTree: (searchKey: string) => {
+    console.log(70, get().project)
+
+    let dataTypes = get().project?.projectJSON?.dataTypeDomains?.datatype?.map((datatype: any) => {
+      return {
+        type: 'dataType',
+        code: datatype.code,
+        icon: <DataNull theme="filled" size="13" fill="#DE2910" strokeWidth={2}/>,
+        title: datatype.name,
+        isLeaf: true,
+        key: `datatype${datatype.name}`,
+      }
+    });
+    let databases = get().project?.projectJSON?.dataTypeDomains?.database?.map((database: any) => {
+      return {
+        type: 'database',
+        code: database.code,
+        icon: <DatabasePoint theme="filled" size="13" fill="#DE2910" strokeWidth={2}/>,
+        title: database.code,
+        isLeaf: true,
+        key: `database${database.code}`,
+      }
+    });
+    console.log(73, 'getDataTypeTree', dataTypes, databases);
+
+    return [{
+      type: 'dataType',
+      title: '数据字典',
+      icon: <DataUser theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+      code: '###menu###',
+      isLeaf: false,
+      key: `datatype###datatype`,
+      children: dataTypes
+    }, {
+      type: 'database',
+      code: '###menu###',
+      title: '数据模板',
+      icon: <Data theme="filled" size="13" fill="#DE2910" strokeWidth={2}/>,
+      isLeaf: false,
+      key: `database###database`,
+      children: databases
+    }];
+  },
 });
 
 

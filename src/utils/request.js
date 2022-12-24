@@ -1,13 +1,13 @@
-// @ts-nocheck
 /**
  * request 网络请求工具
  * 更详细的api文档: https://bigfish.alipay.com/doc/api#request
  */
 import {extend} from 'umi-request';
-import {notification} from 'antd';
+import {message} from 'antd';
 import * as cache from "./cache";
+import {CONSTANT} from "@/utils/constant";
+import {history} from '@@/exports';
 
-import {history} from 'umi';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -37,20 +37,14 @@ const errorHandler = error => {
     if (error) {
       return;
     }
-    notification.error({
-      message: '请求错误 ',
-      description: '请求未响应',
-    });
+    message.error('请求未响应');
     return;
   }
   const errorText = codeMessage[response.status] || response.statusText;
   const {status, url} = response;
 
   if (status === 400) {
-    notification.error({
-      message: `请求提示 ${status}:`,
-      description: errorText,
-    });
+    message.error(errorText);
     return;
   }
   if (status === 401) {
@@ -59,24 +53,16 @@ const errorHandler = error => {
   }
   // environment should not be used
   if (status === 403) {
-    notification.error({
-      message: `操作未授权 ${status}: `,
-      description: errorText,
-    });
+    message.error(errorText);
     return;
   }
-  if (status <= 504 && status >= 500) {
-    notification.error({
-      message: `请求提示 ${status}: `,
-      description: errorText,
-    });
+  if (status <= 504 && status > 500) {
+    console.log(70, 'message');
+    message.error(errorText);
     return;
   }
   if (status >= 404 && status < 422) {
-    notification.error({
-      message: `请求提示 ${status}:`,
-      description: errorText,
-    });
+    message.error(errorText);
   }
 
 };
@@ -93,11 +79,15 @@ const request = extend({
 
 
 request.interceptors.request.use((url, options) => {
+  // let params = (new URL(document.location)).searchParams;
+  // let projectId = params.get(CONSTANT.PROJECT_ID);
   if (url.indexOf('/oauth/token') < 0) {
     const authorization = cache.getItem('Authorization');
+    const projectId = cache.getItem(CONSTANT.PROJECT_ID);
     if (authorization) {
       options.headers = {
         ...options.headers,
+        projectId: projectId,
         'Authorization': `Bearer ${authorization}`
       }
       return (
@@ -142,16 +132,18 @@ request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
   if (data) {
     const {code, msg} = data;
-    if (code !== 200) {
+    if (code && code !== 200) {
       const errorText = msg || codeMessage[code];
-      notification.error({
-        message: `请求提示 ${code}:`,
-        description: errorText,
-      });
+      message.error(errorText);
     }
   }
   return response;
 });
 
+
+export const logout = () => {
+  cache.setItem(CONSTANT.PROJECT_ID, "");
+  history.push("/login");
+}
 
 export default request;

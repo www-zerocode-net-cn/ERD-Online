@@ -1,6 +1,6 @@
 {
-  "name": "ERD Online Pro",
-  "short_name": "ERD Online Pro",
+  "name": "ERD Online",
+  "short_name": "ERD Online",
   "display": "standalone",
   "start_url": "./?utm_source=homescreen",
   "theme_color": "#002140",

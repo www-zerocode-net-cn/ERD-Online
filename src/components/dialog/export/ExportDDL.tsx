@@ -11,7 +11,7 @@ import {
   ProFormText,
   ProFormTreeSelect,
   StepsForm
-} from "@ant-design/pro-form";
+} from "@ant-design/pro-components";
 import CodeEditor from "@/components/CodeEditor";
 import {Button as AntButton} from "antd";
 import _ from 'lodash';

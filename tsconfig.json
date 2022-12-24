@@ -5,6 +5,8 @@
     "target": "esnext",
     "lib": ["esnext", "dom"],
     "sourceMap": true,
+    "noEmit": true,
+    "noEmitOnError": true,
     "baseUrl": ".",
     "jsx": "react-jsx",
     "resolveJsonModule": true,

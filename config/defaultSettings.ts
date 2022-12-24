@@ -17,7 +17,7 @@ const Settings: LayoutSettings & {
   "menu": {
     "locale": false
   },
-  "headerHeight": 48,
+  "headerHeight": 50,
   "splitMenus": true
 };
 

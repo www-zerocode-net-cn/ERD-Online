@@ -1,8 +1,9 @@
 import React from 'react';
-import {Alignment, Button} from "@blueprintjs/core";
-import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
+import {ProForm, ModalForm, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
+import {Button} from "antd";
+import {PlusOutlined} from "@ant-design/icons";
 
 export type AddEntityProps = {
   moduleDisable: boolean;
@@ -30,13 +31,10 @@ const AddEntity: React.FC<AddEntityProps> = (props) => {
     <ModalForm
       title="新建表"
       trigger={
-        <Button icon="add"
-                text={"新建表"}
-                minimal={true}
-                small={true}
-                fill={true}
-                alignText={Alignment.LEFT}
-                disabled={props.moduleDisable}></Button>
+        <Button icon={<PlusOutlined />}
+                type="text"
+                size={"small"}
+                disabled={props.moduleDisable}>新建表</Button>
       }
       onFinish={async (values: any) => {
         console.log(39, values);
@@ -45,7 +43,7 @@ const AddEntity: React.FC<AddEntityProps> = (props) => {
           title: values.title,
           chnname: values.chnname,
         });
-        return true
+        return true;
       }}
     >
       <ProForm.Group>

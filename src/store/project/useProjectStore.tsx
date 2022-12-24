@@ -20,6 +20,7 @@ import useGlobalStore from "@/store/global/globalStore";
 import produce from "immer";
 import {IExportDispatchSlice, IExportSlice} from "@/store/project/exportSlice";
 import {message} from "antd";
+import {CONSTANT} from "@/utils/constant";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -30,6 +31,7 @@ import {message} from "antd";
 
 export type ProjectState =
   {
+    tables: any[],
     project: any,
     fetch: () => Promise<void>;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice
@@ -60,37 +62,25 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
   subscribeWithSelector(
     immer(
       (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
+        tables: [],
         project: {},
         fetch: async () => {
-          const projectId = cache.getItem('projectId');
+          const projectId = cache.getItem(CONSTANT.PROJECT_ID);
           await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {
             console.log(45, res);
             const data = res?.data;
-            if (data) {
-              const datatype = data?.projectJSON?.dataTypeDomains?.datatype || [];
-              const database = data?.projectJSON?.dataTypeDomains?.database || [];
-              const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
-              console.log(45, defaultDatabaseCode);
-              data?.projectJSON?.modules?.forEach((m: any) => {
-                m?.entities?.forEach((e: any) => {
-                  e?.fields?.forEach((f: any) => {
-                    const d = _.find(datatype, {'code': f?.type});
-                    _.assign(f, {"typeName": d?.name});
-                    const path = `apply.${defaultDatabaseCode}.type`;
-                    _.assign(f, {"dataType": _.get(d, path)});
-                  });
-                });
-              });
-
-              //解决导入dbs没有key的问题
-              data?.projectJSON?.profile?.dbs?.forEach((d: any) => {
-                if (d && !d.key) {
-                  _.assign(d, {"key": uuid()});
-
-                }
-              });
+            if (res?.code === 200 && data) {
               set({project: data});
-            }else {
+              get().dispatch.fixProject(data);
+              //计算全部表名
+              const tables = _.flatMapDepth(data?.projectJSON?.modules, (m) => {
+                console.log(130, m);
+                return _.map(m.entities, 'title')
+              }, 2);
+              set({
+                tables
+              })
+            } else {
               message.error('获取项目信息失败');
             }
           });

@@ -7,7 +7,7 @@ import {
   ProFormRadio,
   ProFormSelect,
   ProFormText
-} from "@ant-design/pro-form";
+} from "@ant-design/pro-components";
 import {Alignment, Button} from "@blueprintjs/core";
 import _ from "lodash";
 import {Button as MuiButton, Grid} from "@mui/material";
@@ -17,6 +17,7 @@ import {uuid} from '@/utils/uuid';
 import {DeleteOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button as AntButton, message, Popconfirm} from 'antd';
 import * as Save from '@/utils/save';
+
 
 export type DatabaseSetUpProps = {};
 

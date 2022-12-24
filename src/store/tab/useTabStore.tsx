@@ -18,7 +18,16 @@ type actions = {
   containTab: (payload: string) => boolean,
 }
 
+export enum TabGroup {
+  MODEL,
+  QUERY,
+}
+
+export const defaultSelectTabId = '';
+export const QUERY_MODULE = 'ERD-ONLINE-SQL-QUERY';
+
 export type ModuleEntity = {
+  group?: TabGroup;
   module?: string;
   entity?: string;
 }
@@ -29,7 +38,6 @@ export type TabState = {
   dispatch: actions
 };
 
-export const defaultSelectTabId = 'all###object';
 
 const useTabStore = create<TabState>(
   (set, get) => ({
@@ -46,9 +54,11 @@ const useTabStore = create<TabState>(
       })),
       activeTab: (payload: ModuleEntity) => set(produce(state => {
         state.selectTabId = `${payload.module}###${payload.entity}`;
-        const projectDispatch = useProjectStore.getState().dispatch;
-        projectDispatch.setCurrentModule(payload.module);
-        projectDispatch.setCurrentEntity(payload.entity);
+        if (payload.group === TabGroup.MODEL) {
+          const projectDispatch = useProjectStore.getState().dispatch;
+          projectDispatch.setCurrentModule(payload.module);
+          projectDispatch.setCurrentEntity(payload.entity);
+        }
         console.log('state.selectTabId', state.selectTabId)
       })),
       removeTab: (payload: ModuleEntity) => set(produce(state => {

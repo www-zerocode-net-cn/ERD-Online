@@ -1,5 +1,5 @@
 // https://umijs.org/config/
-import { defineConfig } from 'umi';
+import { defineConfig } from '@umijs/max';
 
 export default defineConfig({
   publicPath: '/',
@@ -7,16 +7,9 @@ export default defineConfig({
     API_URL: 'http://localhost:9502'
   },
   // Fast Refresh 热更新
-  fastRefresh: {},
-  plugins: [
-    // https://github.com/zthxxx/react-dev-inspector
-    'react-dev-inspector/plugins/umi/react-inspector',
-  ],
-  // https://github.com/zthxxx/react-dev-inspector#inspector-loader-props
-  inspectorConfig: {
-    exclude: [],
-    babelPlugins: [],
-    babelOptions: {},
+  fastRefresh: true,
+  title:'ERD Online',
+  mfsu: {
+    exclude :['@playwright/test']
   },
-  mfsu:{}
 });

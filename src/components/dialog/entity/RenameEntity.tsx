@@ -1,8 +1,9 @@
 import React from 'react';
-import {Alignment, Button} from "@blueprintjs/core";
-import ProForm, {ModalForm, ProFormText} from '@ant-design/pro-form';
+import {ProForm, ModalForm, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
+import {Button} from "antd";
+import {EditOutlined} from "@ant-design/icons";
 
 export type RenameEntityProps = {
   moduleDisable: boolean;
@@ -19,13 +20,10 @@ const RenameEntity: React.FC<RenameEntityProps> = (props) => {
     <ModalForm
       title="重命名表"
       trigger={
-        <Button icon="edit"
-                text={"重命名表"}
-                minimal={true}
-                small={true}
-                fill={true}
-                alignText={Alignment.LEFT}
-                disabled={props.moduleDisable}></Button>
+        <Button icon={<EditOutlined />}
+                type="text"
+                size={"small"}
+                disabled={props.moduleDisable}>重命名表</Button>
       }
       onFinish={async (values: any) => {
         console.log(39, values);
@@ -33,6 +31,7 @@ const RenameEntity: React.FC<RenameEntityProps> = (props) => {
           title: values.title,
           chnname: values.chnname,
         });
+        return true;
       }}
       initialValues={props.renameInfo}
     >

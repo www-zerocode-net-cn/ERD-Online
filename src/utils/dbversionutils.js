@@ -191,7 +191,7 @@ export const getCurrentVersionData = (dataSource, versions, cb) => {
   // 读取当前版本的内容
   const currentDataSource = {...dataSource};
   // 组装需要比较的版本内容
-  const changes = checkVersionData(currentDataSource, checkVersion || currentDataSource);
+  const changes = checkVersionData(currentDataSource, checkVersion?.projectJSON || currentDataSource);
   cb && cb(changes, checkVersion);
 };
 

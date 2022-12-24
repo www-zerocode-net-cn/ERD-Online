@@ -9,13 +9,15 @@ import useGlobalStore from "@/store/global/globalStore";
 import {State} from "zustand/vanilla";
 import ExportSlice from "@/store/project/exportSlice";
 import * as CryptoJS from 'crypto-js';
-import request from "@/utils/request";
-import {message} from "antd";
+import _ from "lodash";
+import {uuid} from "@/utils/uuid";
 
 export type IProjectJsonSlice = {}
 
 export interface IProjectJsonDispatchSlice {
-  addProject: (project: any) => Promise<any>;
+  fixProject: (project: any) => void;
+  fixModules: (modules: any, datatype: any, database: any) => any;
+  getProject: () => void;
   setProjectJson: (value: any) => void;
   setModules: (value: any) => void;
   setDataTypeDomains: (value: any) => void;
@@ -28,12 +30,61 @@ export interface IProjectJsonDispatchSlice {
 const globalState = useGlobalStore.getState();
 
 const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
-  addProject: (project: any) => {
-    return request.post('/ncnb/project/add', {
-      data: project
-    }).then(res => {
-      if (res && res.code === 200) {
-        message.info('新增成功');
+  fixProject: (project: any) => set(produce(state => {
+    const database = get().project?.projectJSON?.dataTypeDomains?.database || [];
+    const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
+    console.log(45, defaultDatabaseCode);
+    const modules = project?.projectJSON?.modules;
+    console.log(38, 'fixProject', modules);
+    const tmpModules = get().dispatch.fixModules(modules, null, null);
+    console.log(73, 'modules', modules);
+    if (tmpModules) {
+      state.project.projectJSON.modules = tmpModules;
+    }
+
+
+    const dbs = project?.projectJSON?.profile?.dbs;
+    if (dbs) {
+      //解决导入dbs没有key的问题
+      const modify_dbs = dbs?.map((d: any) => {
+        if (d && !d.key) {
+          return {
+            ...d,
+            key: uuid()
+          }
+        } else {
+          return d;
+        }
+      });
+      state.project.projectJSON.profile.dbs = modify_dbs;
+    }
+  })),
+  getProject: () => set(produce(state => {
+    return state.project;
+  })),
+  fixModules: (data: any, datatype: any, database: any) => {
+    datatype = datatype || get().project?.projectJSON?.dataTypeDomains?.datatype || [];
+    database = database || get().project?.projectJSON?.dataTypeDomains?.database || [];
+    const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
+    return data?.map((m: any) => {
+      return {
+        ...m,
+        entities: m?.entities?.map((e: any) => {
+          return {
+            ...e,
+            fields: e?.fields?.map((f: any) => {
+              const d = _.find(datatype, {'code': f?.type});
+              const path = `apply.${defaultDatabaseCode}.type`;
+              const tmpField = {
+                ...f,
+                typeName: d?.name,
+                dataType: _.get(d, path)
+              };
+              console.log(78, 'tmpField', tmpField)
+              return tmpField;
+            })
+          };
+        })
       }
     });
   },
@@ -81,8 +132,8 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     }
     return "";
   },
-  ...ModulesSlice(set,get),
-  ...DataTypeDomainsSlice(set),
+  ...ModulesSlice(set, get),
+  ...DataTypeDomainsSlice(set, get),
   ...DatabaseDomainsSlice(set, get),
   ...ProfileSlice(set, get),
   ...ExportSlice(set, get),

@@ -1,9 +1,10 @@
 import React from 'react';
-import {Popconfirm} from "antd";
+import {Button, Popconfirm} from "antd";
 import {MenuItem} from "@blueprintjs/core";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {MinusOutlined} from "@ant-design/icons";
 
 
 export type RemoveVersionProps = {};
@@ -21,7 +22,7 @@ const RemoveVersion: React.FC<RemoveVersionProps> = (props) => {
     <Popconfirm placement="right" title={`删除版本[${currentVersion.version}]`}
                 onConfirm={() => versionDispatch.updateVersionData(currentVersion, currentVersion, 'delete')} okText="是"
                 cancelText="否">
-      <MenuItem key="delete" shouldDismissPopover={false} text="删除版本" icon={<DeleteIcon/>}></MenuItem>
+      <Button key="delete" size={"small"} type={"link"} icon={<MinusOutlined/>}>删除版本</Button>
     </Popconfirm>
   </>);
 }
