@@ -42,10 +42,16 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     }
   })),
   renameModule: (payload: any) => set(produce(state => {
+    const moduleName = payload.name;
     const {currentModuleIndex} = state;
-    state.project.projectJSON.modules[currentModuleIndex].name = payload.name;
-    state.project.projectJSON.modules[currentModuleIndex].chnname = payload.chnname;
-    message.success('修改成功');
+    const findIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m.name === moduleName);
+    if (findIndex === -1) {
+      state.project.projectJSON.modules[currentModuleIndex].name = payload.name;
+      state.project.projectJSON.modules[currentModuleIndex].chnname = payload.chnname;
+      message.success('修改成功');
+    } else {
+      message.error(`${moduleName}已经存在`);
+    }
   })),
   removeModule: () => set(produce(state => {
     const {currentModuleIndex} = state;
@@ -69,7 +75,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     state.currentModuleIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m?.name === payload);
   })),
   updateAllModules: (payload: any) => set(produce(state => {
-    const modules = get().dispatch.fixModules(payload);
+    const modules = get().dispatch.fixModules(payload,null,null);
     console.log(73, 'modules', modules);
     if (modules) {
       state.project.projectJSON.modules = modules;
@@ -99,13 +105,13 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         }
       }).map((entity: any) => {
         const tableNameFormat = get().project?.projectJSON?.profile?.tableNameFormat || '{title} {chnname}';
-        console.log(102,tableNameFormat?.render(entity))
+        console.log(102, tableNameFormat?.render(entity))
         return {
           type: 'entity',
           module: module.name,
           length: entity?.fields?.length,
           title: entity.title,
-          chnname:entity.chnname,
+          chnname: entity.chnname,
           formatName: tableNameFormat.render(entity),
           key: `entity${entity.title}`,
           isLeaf: true
@@ -116,7 +122,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         type: 'module',
         formatName: moduleNameFormat.render(module),
         name: module.name,
-        chnname:module.chnname,
+        chnname: module.chnname,
         module: module.name,
         length: module?.entities?.length,
         title: module.name,
