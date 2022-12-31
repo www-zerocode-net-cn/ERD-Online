@@ -1,5 +1,5 @@
 import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from 'react';
-import {ProForm, ModalForm, ProFormInstance, ProFormText} from '@ant-design/pro-components';
+import {ModalForm, ProForm, ProFormInstance, ProFormText} from '@ant-design/pro-components';
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Divider} from "@mui/material";
@@ -21,7 +21,6 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
   }), shallow);
 
   const [count, setCount] = useState(0);
-  const [apply, setApply] = useState({});
   const [modalVisit, setModalVisit] = useState(false);
 
   console.log('currentDataTypeIndex', 26, currentDataTypeIndex);
@@ -53,20 +52,12 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
     }
   }));
 
-  const onChange = (e: any, value: any, db: any) => {
-    setApply({
-      ...apply,
-      [db]: {
-        type: e.target.value,
-      },
-    })
-  };
 
   // Ant Form 有个臭毛病，form只会加载一次，state变化不会重新加载，用此解决
   const formRef = useRef<ProFormInstance<any>>();
   useEffect(() => {
     formRef && formRef.current?.resetFields?.();
-  }, [currentDataTypeIndex,count]);
+  }, [currentDataTypeIndex, count]);
 
   return (<>
     <ModalForm
@@ -74,12 +65,19 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
       title="数据字典"
       visible={modalVisit}
       onFinish={async (values: any) => {
-        console.log(39, values);
-        await projectDispatch.updateDatatype({
+        console.log(39, values,);
+        const apply = _.omit(values, ['code', 'code']);
+        const datatype = {
           name: values.name,
           code: values.code,
-          apply
+        };
+        _.forIn(apply, function (value, key) {
+          console.log(key, value);
+          _.set(datatype, key, value);
         });
+        console.log(87, datatype,);
+
+        await projectDispatch.updateDatatype(datatype);
         return true;
       }}
       params={{'currentDataTypeIndex': currentDataTypeIndex}}
@@ -138,7 +136,7 @@ const RenameDataType: React.FC<RenameDataTypeProps> = (props) => {
             key={d.code}
             fieldProps={{
               onChange: e => {
-                onChange(e, null, d.code)
+                console.log(e.target.value, null, d.code)
               },
             }}
             width="md"
