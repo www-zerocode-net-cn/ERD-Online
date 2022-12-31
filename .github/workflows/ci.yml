@@ -15,7 +15,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14.20'
-        cache: 'yarn'
+
     - run: yarn install && yarn build:prod
     # 上传打包好的文件，所以下一步可以使用
     - name: upload files
