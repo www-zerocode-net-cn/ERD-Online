@@ -16,18 +16,6 @@ jobs:
       with:
         node-version: '14.20'
         cache: 'yarn'
-        cache-dependency-path: '**/yarn.lock'
-    # 缓存 有需要可以开启 同时 setu node 也可以进行缓存
-    # - name: yarn cache
-    #   id: yarn-cahce-dir-path
-    #   run: echo "::set-output name=dir::$(yarn cache dir)"
-    # - uses: actions/cache@v2
-    #   id: yarn-cache
-    #   with:
-    #     path: ${{ steps.yarn-cahce-dir-path.outputs.dir }}
-    #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-yarn-
     - run: yarn install && yarn build:prod
     # 上传打包好的文件，所以下一步可以使用
     - name: upload files
