@@ -22,6 +22,7 @@ export interface IProjectJsonDispatchSlice {
   setModules: (value: any) => void;
   setDataTypeDomains: (value: any) => void;
   setProfile: (value: any) => void;
+  addProjectTableTitle: (title: string) => void;
   getGlobalStore: () => State;
   encrypt: (type: string, origin: string) => string;
   decrypt: (type: string, secret: string) => string;
@@ -99,6 +100,9 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
   })),
   setProfile: (value: any) => set(produce(state => {
     state.project.projectJSON = value
+  })),
+  addProjectTableTitle: (title: string) => set(produce(state => {
+    state.tables.push(title);
   })),
   getGlobalStore: () => {
     return globalState;

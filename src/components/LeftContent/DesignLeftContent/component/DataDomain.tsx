@@ -8,6 +8,9 @@ import RemoveDatabase from "@/components/dialog/database/RemoveDatabase";
 import {Button, Dropdown, Menu, Tree} from "antd";
 import RenameDataType from "@/components/dialog/dataType/RenameDataType";
 import RenameDatabase from "@/components/dialog/database/RenameDatabase";
+import CopyDataType from "@/components/dialog/dataType/CopyDataType";
+import CutDataType from "@/components/dialog/dataType/CutDataType";
+import PastDataType from "@/components/dialog/dataType/PastDataType";
 
 
 export type DataDomainProps = {};
@@ -44,6 +47,9 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
   const renderDataTypeRightContext = () => <Menu mode="inline">
       <Menu.Item><AddDataType moduleDisable={false}/></Menu.Item>
       <Menu.Item><RemoveDataType disable={false}/></Menu.Item>
+      <Menu.Item><CopyDataType disable={false}/></Menu.Item>
+      <Menu.Item><CutDataType disable={false}/></Menu.Item>
+      <Menu.Item><PastDataType disable={false}/></Menu.Item>
       {/*  <MenuItem icon="duplicate" text="复制字段类型"/>
         <MenuItem icon="cut" text="剪切字段类型"/>
         <MenuItem icon="clipboard" text="粘贴字段类型"/>*/}
@@ -76,6 +82,13 @@ const DataDomain: React.FC<DataDomainProps> = (props) => {
         console.log(154, 'node', node);
         return <Dropdown trigger={['contextMenu']}
                          overlay={renderContext(node.code, node.type)}
+                         onOpenChange={(open: boolean) => {
+                           if (node.type === "dataType" && node.code != '###menu###') {
+                             activeDataTypeOrDatabase("dataType", node.code);
+                           } else if (node.type === "database" && node.code != '###menu###') {
+                             activeDataTypeOrDatabase("database", node.code);
+                           }
+                         }}
         >
           <Button
             type="text"

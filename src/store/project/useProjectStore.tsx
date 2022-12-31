@@ -14,7 +14,6 @@ import type {IDatabaseDomainsDispatchSlice, IDatabaseDomainsSlice} from "@/store
 import _ from "lodash";
 import * as cache from "@/utils/cache";
 import request from "@/utils/request";
-import {uuid} from '@/utils/uuid';
 import * as Save from '@/utils/save';
 import useGlobalStore from "@/store/global/globalStore";
 import produce from "immer";
@@ -57,7 +56,7 @@ export const immer = config => (set, get, api) => config((partial, replace) => {
     : partial;
   return set(nextState, replace);
 }, get, api)
-
+const globalState = useGlobalStore.getState();
 const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<ProjectState>, StoreApiWithSubscribeWithSelector<ProjectState>>(
   subscribeWithSelector(
     immer(
@@ -70,6 +69,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
             console.log(45, res);
             const data = res?.data;
             if (res?.code === 200 && data) {
+              globalState.dispatch.setNeedSave(false);
               set({project: data});
               get().dispatch.fixProject(data);
               //计算全部表名
@@ -79,7 +79,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
               }, 2);
               set({
                 tables
-              })
+              });
             } else {
               message.error('获取项目信息失败');
             }
@@ -98,14 +98,15 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
   )
 );
 
-const globalState = useGlobalStore.getState();
+
 // @ts-ignore
 useProjectStore.subscribe(state => state.project, (project, previousProject) => {
   console.log(109, project);
   console.log(110, previousProject);
-  globalState.dispatch.setSaved(false);
-  Save.saveProject(project);
-  globalState.dispatch.setSaved(true);
+  console.log(110, globalState.needSave);
+  if (globalState.needSave) {
+    Save.saveProject(project);
+  }
 });
 
 export default useProjectStore;

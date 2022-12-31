@@ -1,6 +1,6 @@
 {
   "name": "ERD-Online",
-  "version": "4.0.0",
+  "version": "4.0.6",
   "private": true,
   "description": "开箱即用的数据库建模,产品版本管理软件",
   "scripts": {
@@ -70,6 +70,7 @@
     "ace-builds": "^1.4.12",
     "antd": "^5.0.1",
     "classnames": "^2.2.6",
+    "copy-to-clipboard": "^3.3.3",
     "crypto-js": "^4.1.1",
     "dot": "^1.1.2",
     "dotenv": "8.2.0",
