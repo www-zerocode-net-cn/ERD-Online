@@ -4,6 +4,8 @@ import produce from "immer";
 import EntitiesSlice from "@/store/project/entitiesSlice";
 import {message} from "antd";
 import _ from 'lodash';
+import * as cache from '../../utils/cache';
+
 
 export type IModulesSlice = {
   expandedKeys?: string[];
@@ -11,11 +13,32 @@ export type IModulesSlice = {
   currentModuleIndex?: number;
 }
 
+const validateModule = (data: any) => {
+  let flag = false;
+  if (data.name && typeof data.name === 'string') {
+    if (data.entities && Array.isArray(data.entities)) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+    // if (data.graphCanvas && typeof data.graphCanvas === 'object') {
+    //   flag = true;
+    // } else {
+    //   flag = false;
+    // }
+  }
+  return flag;
+};
+
+
 export interface IModulesDispatchSlice {
   addModule: (payload: any) => void;
   renameModule: (payload: any) => void;
   removeModule: () => void;
   updateModule: (payload: any) => void;
+  copyModule: (payload: any) => void;
+  cutModule: (payload: any) => void;
+  pastModule: () => void;
   updateRelation: (payload: any) => void;
   setCurrentModule: (payload: any) => void,
   updateAllModules: (payload: any) => void,
@@ -26,6 +49,7 @@ export interface IModulesDispatchSlice {
   getExpandedKeys: (expandedKey: any) => any,
 };
 
+const ERD_MODULE_CLIPBOARD = 'erd_module_clipboard';
 
 const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
   expandedKeys: [],
@@ -36,7 +60,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     const findIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m.name === moduleName);
     if (findIndex === -1) {
       state.project.projectJSON.modules.push(payload);
-      message.success('提交成功');
+      message.success('操作成功');
     } else {
       message.error(`${moduleName}已经存在`);
     }
@@ -62,6 +86,71 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   updateModule: (payload: any) => set(produce(state => {
     state.project.projectJSON.modules[state.currentModuleIndex] = payload
   })),
+  copyModule: (payload: any) => set(produce(state => {
+    const moduleName = payload.name;
+    const currentModule = state.project.projectJSON?.modules?.find((m: any) => m.name === moduleName);
+    if (currentModule) {
+      cache.setItem(ERD_MODULE_CLIPBOARD, currentModule);
+      message.success("复制成功")
+    } else {
+      message.success("复制失败")
+    }
+  })),
+  cutModule: (payload: any) => set(produce(state => {
+    const moduleName = payload.name;
+    const currentModule = state.project.projectJSON?.modules?.find((m: any) => m.name === moduleName);
+    console.log(85, currentModule)
+    if (currentModule) {
+      cache.setItem(ERD_MODULE_CLIPBOARD, currentModule);
+      state.project.projectJSON.modules =
+        state.project.projectJSON.modules?.filter((m: any, index: number) => m.name !== moduleName) || [];
+      message.success("剪切成功")
+    } else {
+      message.success("剪切失败")
+    }
+  })),
+  pastModule: () => set(state => {
+    let data = {};
+    try {
+      data = cache.getItem2object(ERD_MODULE_CLIPBOARD) || {};
+      console.log(98, data);
+      // @ts-ignore
+      let moduleName = data.name;
+      debugger
+      // 判断粘贴板的数据是否符合模块的格式
+      if (validateModule(data)) {
+        let name = moduleName;
+        while (state.project?.projectJSON?.modules.some((m: any) => m.name === moduleName)) {
+          name = `${moduleName}-副本`;
+          moduleName = name;
+        }
+        console.log(125, name,);
+        state.project?.projectJSON?.modules.push({
+          ...data,
+          name,
+          // @ts-ignore
+          entities: (data.entities || []).map((entity: any) => {
+            let newTitle = entity.title;
+            while (state.tables.some((t: any) => t === newTitle)) {
+              const title = `${newTitle}-副本`;
+              newTitle = title;
+            }
+            state.dispatch.addProjectTableTitle(newTitle);
+            return {
+              ...entity,
+              title: newTitle,
+            };
+          }),
+        });
+        message.success('粘贴成功');
+      } else {
+        message.success('粘贴失败');
+      }
+    } catch (err) {
+      console.log('数据格式错误，无法粘贴', err);
+      message.error('数据格式错误，无法粘贴');
+    }
+  }),
   updateRelation: (payload: any) => set(produce(state => {
     if (payload.graphCanvas) {
       state.project.projectJSON.modules[state.currentModuleIndex].graphCanvas = payload.graphCanvas;
@@ -75,7 +164,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
     state.currentModuleIndex = state.project.projectJSON?.modules?.findIndex((m: any) => m?.name === payload);
   })),
   updateAllModules: (payload: any) => set(produce(state => {
-    const modules = get().dispatch.fixModules(payload,null,null);
+    const modules = get().dispatch.fixModules(payload, null, null);
     console.log(73, 'modules', modules);
     if (modules) {
       state.project.projectJSON.modules = modules;

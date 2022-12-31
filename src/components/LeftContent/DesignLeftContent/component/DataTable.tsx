@@ -13,7 +13,13 @@ import {makeStyles} from "@mui/styles";
 import {Dropdown, Empty, Menu, Tree} from "antd";
 import useShortcutStore from "@/store/shortcut/useShortcutStore";
 import useGlobalStore from "@/store/global/globalStore";
-import {ChartGraph, Data, RelationalGraph, TableFile} from "@icon-park/react";
+import {ChartGraph, Data, TableFile} from "@icon-park/react";
+import CopyModule from "@/components/dialog/module/CopyModule";
+import CutModule from "@/components/dialog/module/CutModule";
+import PastModule from "@/components/dialog/module/PastModule";
+import CopyEntity from "@/components/dialog/entity/CopyEntity";
+import CutEntity from "@/components/dialog/entity/CutEntity";
+import PastEntity from "@/components/dialog/entity/PastEntity";
 
 
 export const useTreeItemStyles = makeStyles((theme: any) => ({
@@ -77,6 +83,15 @@ export const renderEntityRightContext = (payload: { title: string, chnname: stri
     <Menu.Item>
       <RemoveEntity disable={false}/>
     </Menu.Item>
+    <Menu.Item>
+      <CopyEntity disable={false} entityInfo={payload}/>
+    </Menu.Item>
+    <Menu.Item>
+      <CutEntity disable={false} entityInfo={payload}/>
+    </Menu.Item>
+    <Menu.Item>
+      <PastEntity disable={false}/>
+    </Menu.Item>
     {/*    <MenuItem icon="duplicate" text="复制表"/>
     <MenuItem icon="cut" text="剪切表"/>
     <MenuItem icon="clipboard" text="粘贴表"/>*/}
@@ -91,6 +106,15 @@ export const renderModuleRightContext = (payload: { name: string, chnname: strin
     </Menu.Item>
     <Menu.Item>
       <RemoveModule disable={false}/>
+    </Menu.Item>
+    <Menu.Item>
+      <CopyModule disable={false} moduleInfo={payload}/>
+    </Menu.Item>
+    <Menu.Item>
+      <CutModule disable={false} moduleInfo={payload}/>
+    </Menu.Item>
+    <Menu.Item>
+      <PastModule disable={false}/>
     </Menu.Item>
     <Menu.Item>
       <AddEntity moduleDisable={false}/>
@@ -160,11 +184,11 @@ const DataTable: React.FC<DataTableProps> = (props) => {
           if (node.type === "module") {
             projectDispatch.setCurrentModule(node.module)
           } else if (node.type === "entity") {
-            tabDispatch.addTab({group:TabGroup.MODEL,module: node.module, entity: node.title});
+            tabDispatch.addTab({group: TabGroup.MODEL, module: node.module, entity: node.title});
             activeEntity(node.module, node.title)
           } else if (node.type === "relation") {
             shortcutDispatch.setShow(false);
-            tabDispatch.addTab({group:TabGroup.MODEL,module: node.module, entity: `关系图-${node.module}`});
+            tabDispatch.addTab({group: TabGroup.MODEL, module: node.module, entity: `关系图-${node.module}`});
             activeEntity(node.module, node.title)
           }
         }}
@@ -182,6 +206,17 @@ const DataTable: React.FC<DataTableProps> = (props) => {
                                chnname: node.chnname
                              }) : <></>
                            }
+                           onOpenChange={(open: boolean) => {
+                             if (node.type === "module") {
+                               projectDispatch.setCurrentModule(node.module)
+                             } else if (node.type === "entity") {
+                               projectDispatch.setCurrentModule(node.module)
+                               activeEntity(node.module, node.title)
+                             } else if (node.type === "relation") {
+                               projectDispatch.setCurrentModule(node.module)
+                               activeEntity(node.module, node.title)
+                             }
+                           }}
 
           >
             <div className={classes.labelRoot} onDragStart={(e) => {
@@ -202,7 +237,8 @@ const DataTable: React.FC<DataTableProps> = (props) => {
             }} draggable="true">
               <div style={{marginRight: "6px"}}>
                 {node.type === "module" ? <Data theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
-                  : node.type === "relation" ? <ChartGraph theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>
+                  : node.type === "relation" ?
+                    <ChartGraph theme="filled" size="12" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>
                     : <TableFile theme="filled" size="12" fill="#DE2910" strokeWidth={2}/>
                 }
               </div>
@@ -213,7 +249,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
                 {node.type !== 'relation' ? node.length : null}
               </Typography>
             </div>
-          </Dropdown>
+          </Dropdown>;
         }}
       />
       :
