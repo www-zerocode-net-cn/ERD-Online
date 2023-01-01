@@ -47,6 +47,7 @@ jobs:
       with:
         #需要部署的文件地址
         source: 'dist/*'
+        strip_components: 1
         # SSH address  服务器地址
         host: ${{ secrets.ERD_VM_HOST }}
         # Remote dir path  服务器下部署文件存放路径
