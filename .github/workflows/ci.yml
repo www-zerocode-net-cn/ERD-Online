@@ -52,7 +52,7 @@ jobs:
         # Remote dir path  服务器下部署文件存放路径
         target: ${{ secrets.ERD_VM_REMOTE_PATH }}
         # SSH Port  服务器端口
-        port: ${{ ERD_VM_PORT }}
+        port: ${{ secrets.ERD_VM_PORT }}
         # SSH User name   用户名
         username: ${{ secrets.ERD_VM_HOST_USERNAME }}
         # SSH User password  用户密码
