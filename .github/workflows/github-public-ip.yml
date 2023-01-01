@@ -8,6 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: checkout code
+      uses: actions/checkout@v3
     - name: copy file via ssh key
       uses: appleboy/scp-action@master
       with:
