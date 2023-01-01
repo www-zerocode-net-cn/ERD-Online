@@ -29,5 +29,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Image
         run: |
+          docker buildx create --name mybuilder --driver docker-container --use
           docker buildx build --platform linux/arm64,linux/amd64 -t erdonline/erd-ui:latest -f ci/Dockerfile . --push
           docker buildx build --platform linux/arm64,linux/amd64 -t erdonline/erd-ui:4.0.6 -f ci/Dockerfile . --push
