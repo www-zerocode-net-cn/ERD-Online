@@ -1,5 +1,5 @@
 rm -rf dist
-yarn && yarn build:prod
+yarn build:prod
 rm -rf erd.tar.gz
 cd dist
 tar -cvzf erd.tar.gz *
