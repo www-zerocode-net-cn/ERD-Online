@@ -17,6 +17,16 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14.20'
+    - name: Cache Node Modules
+      id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('yarn.lock') }}
+        restore-keys: node-modules-
+    - name: Install Dependencies
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      run: yarn
     - run: ./build.sh
     - name: Log in to Docker Hub
       uses: docker/login-action@v1  # 三方的action操作， 执行docker login
