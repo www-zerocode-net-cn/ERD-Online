@@ -11,9 +11,9 @@ ADD ./ci/conf/nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /usr/share/nginx/html
 
-COPY ./ci/env.sh .
+COPY ci/env.sh .
 
-COPY ./ci/env .
+COPY ci/.env .
 
 RUN chmod +x env.sh
 
