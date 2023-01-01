@@ -11,11 +11,13 @@ import {GET} from "@/services/crud";
 import {useAccess} from "@@/plugin-access";
 import {CONSTANT} from "@/utils/constant";
 
+
 export type GroupLayoutProps = {};
 
 const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
   const {initialState, setInitialState} = useModel('@@initialState');
   const access = useAccess();
+
 
   const [pathname, setPathname] = useState('/project/home');
 

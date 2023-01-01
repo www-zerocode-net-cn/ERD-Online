@@ -8,13 +8,18 @@ import _ from 'lodash';
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
 import {history, Outlet, useSearchParams} from "@@/exports";
 import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
-import {Button, Dropdown, Image, Popover} from "antd";
+import {Button, Dropdown, Image, message, Popover} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {useAccess} from "@@/plugin-access";
 import {GET} from "@/services/crud";
 import {CONSTANT} from "@/utils/constant";
 import QueryLeftContent from "@/components/LeftContent/QueryLeftContent";
+import {io} from "socket.io-client";
+import {
+  useMount,
+  useUnmount,
+} from '@umijs/hooks';
 
 export const siderWidth = 333;
 
@@ -59,6 +64,22 @@ export function fixRouteAccess(defaultPropsTmp: any, access: any) {
 
 }
 
+export function getNowTimeParse() {
+  const time = new Date();
+  const YYYY = time.getFullYear();
+  const MM =
+    time.getMonth() < 9 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1;
+  const DD = time.getDate() < 10 ? '0' + time.getDate() : time.getDate();
+  const hh = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
+  const mm =
+    time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+  const ss =
+    time.getSeconds() < 10 ? '0' + time.getSeconds() : time.getSeconds();
+  const ms = time.getMilliseconds();
+
+  return `${YYYY}-${MM}-${DD}T${hh}:${mm}:${ss}.${ms}`;
+}
+
 const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   const access = useAccess();
 
@@ -92,6 +113,54 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   };
   const {setInitialState} = useModel('@@initialState');
 
+  // socket容器
+  let socket: any;
+  // 随机初始化一个身份
+  let user: any;
+  // 虚拟几个用户
+  const users = [
+    { name: '张三', id: 3 },
+    { name: '李四', id: 4 },
+    { name: '王五', id: 5 },
+    { name: '赵六', id: 6 },
+  ];
+
+
+
+
+  // 初始化socket
+  const initSocket = () => {
+    if (socket) return;
+    // 连接socket服务 默认进入房间号 10010
+    socket = io(`http://localhost:3000?roomId=${projectId}`);
+    user = users[Math.floor(Math.random() * 4)];
+    // 发送加入消息
+    socket.emit('join', { ...user, time: getNowTimeParse() });
+    // 获取历史消息
+    socket.on('historyRecord', (value: any) => message.success(value));
+    // 监听消息
+    socket.on('msg', (value: any) => message.success(value));
+  };
+
+  // 初始化socket
+  const closeSocket = () => {
+    if (!socket) return;
+    socket.close();
+    socket = null;
+  };
+
+  // 页面初始化
+  useMount(() => {
+    initSocket();
+  });
+
+  // 页面卸载
+  useUnmount(() => {
+    if (!socket) return;
+    socket.close();
+    socket = null;
+  });
+
   useEffect(() => {
     console.log(69, access, project.type)
     if (project && project.type === '2') {
@@ -113,6 +182,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
     } else {
       setInitialState((s: any) => ({...s, access: {person: true}}));
     }
+    return closeSocket();
   }, [project, access.initialized, defaultProps.route.routes])
 
 
