@@ -93,10 +93,12 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
 
   console.log(19, 'projectId', projectId);
 
-  const {fetch, project} = useProjectStore(
+  const {fetch, project,initSocket,closeSocket} = useProjectStore(
     state => ({
       fetch: state.fetch,
-      project: state.project
+      project: state.project,
+      initSocket: state.initSocket,
+      closeSocket: state.closeSocket,
     }), shallow);
 
   useEffect(() => {
@@ -113,57 +115,13 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   };
   const {setInitialState} = useModel('@@initialState');
 
-  // socket容器
-  let socket: any;
-  // 随机初始化一个身份
-  let user: any;
-  // 虚拟几个用户
-  const users = [
-    { name: '张三', id: 3 },
-    { name: '李四', id: 4 },
-    { name: '王五', id: 5 },
-    { name: '赵六', id: 6 },
-  ];
 
 
-
-
-  // 初始化socket
-  const initSocket = () => {
-    if (socket) return;
-    // 连接socket服务 默认进入房间号 10010
-    socket = io(`http://localhost:3000?roomId=${projectId}`);
-    user = users[Math.floor(Math.random() * 4)];
-    // 发送加入消息
-    socket.emit('join', { ...user, time: getNowTimeParse() });
-    // 获取历史消息
-    socket.on('historyRecord', (value: any) => message.success(value));
-    // 监听消息
-    socket.on('msg', (value: any) => message.success(value));
-  };
-
-  // 初始化socket
-  const closeSocket = () => {
-    if (!socket) return;
-    socket.close();
-    socket = null;
-  };
 
   // 页面初始化
   useMount(() => {
-    initSocket();
-  });
-
-  // 页面卸载
-  useUnmount(() => {
-    if (!socket) return;
-    socket.close();
-    socket = null;
-  });
-
-  useEffect(() => {
-    console.log(69, access, project.type)
     if (project && project.type === '2') {
+      initSocket(projectId);
       GET("/ncnb/project/group/currentRolePermission", {
         projectId
       }).then(r => {
@@ -182,8 +140,13 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
     } else {
       setInitialState((s: any) => ({...s, access: {person: true}}));
     }
-    return closeSocket();
-  }, [project, access.initialized, defaultProps.route.routes])
+  });
+
+  // 页面卸载
+  useUnmount(() => {
+    console.log(165, 'useUnmount');
+    closeSocket(projectId);
+  });
 
 
   return (

@@ -20,6 +20,7 @@ import produce from "immer";
 import {IExportDispatchSlice, IExportSlice} from "@/store/project/exportSlice";
 import {message} from "antd";
 import {CONSTANT} from "@/utils/constant";
+import {io} from "socket.io-client";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -32,7 +33,10 @@ export type ProjectState =
   {
     tables: any[],
     project: any,
+    socket:any,
     fetch: () => Promise<void>;
+    initSocket: (projectId:string) => Promise<void>;
+    closeSocket: (projectId:string) => void;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice
       & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice
       & IEntitiesDispatchSlice & IExportDispatchSlice
@@ -84,6 +88,41 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
               message.error('获取项目信息失败');
             }
           });
+        },
+        initSocket: async (projectId:string) => {
+          let socket = get().socket;
+          if (socket) return;
+          socket = io(`http://localhost:3000?roomId=${projectId}`);
+          // client-side
+          socket.on("connect", () => {
+            console.log(socket?.id); // x8WIv7-mJelg7on_ALbx
+          });
+          const username = cache.getItem('username');
+          message.success(`当前您的身份为${username}`);
+          // socket.on('historyRecord', (value: any) => message.success(`init ${value}`));
+          // 发送加入消息
+          socket.emit('join', username);
+          // 监听消息
+          socket.on('msg', (r: any) => {
+            console.log(149, r);
+            if (username != r.username) {
+              message.success(`${r.msg}`);
+            }
+          });
+          set({
+            socket
+          })
+        },
+        closeSocket:  (projectId:string) => {
+          debugger
+          if (!get().socket) return;
+          const username = cache.getItem('username');
+          // 发送加入消息
+          get().socket.emit('leave', username);
+          get().socket.close();
+          set({
+            socket: null
+          })
         },
         dispatch: {
           updateProjectName: (payload: any) => set((state: any) => {
