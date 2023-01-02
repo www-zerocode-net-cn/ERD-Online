@@ -249,7 +249,7 @@ const GroupPermission: React.FC<GroupPermissionProps> = (props) => {
     let operations1: any[] = [];
     operations1 = operations.map((operation: any, index: number) =>
       <>
-        <Col span={6} key={operation.value}>
+        <Col key={operation.value}>
           <Checkbox key={operation.value} value={operation.value}
                     disabled={loginRole === 0 ? false : (!(loginRole <= props.defaultRole
                       && operationData[parentIndex]?.defaultValue.indexOf(operation.value) > -1))}>
