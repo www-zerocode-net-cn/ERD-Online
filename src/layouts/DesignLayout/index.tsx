@@ -116,10 +116,8 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   const {setInitialState} = useModel('@@initialState');
 
 
-
-
-  // 页面初始化
-  useMount(() => {
+  useEffect(() => {
+    console.log(69, access, project.type)
     if (project && project.type === '2') {
       initSocket(projectId);
       GET("/ncnb/project/group/currentRolePermission", {
@@ -140,7 +138,8 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
     } else {
       setInitialState((s: any) => ({...s, access: {person: true}}));
     }
-  });
+  }, [project, access.initialized, defaultProps.route.routes])
+
 
   // 页面卸载
   useUnmount(() => {

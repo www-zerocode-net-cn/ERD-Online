@@ -37,6 +37,7 @@ export type ProjectState =
     fetch: () => Promise<void>;
     initSocket: (projectId:string) => Promise<void>;
     closeSocket: (projectId:string) => void;
+    sync: (nextState:any, replace:any) => void;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice
       & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice
       & IEntitiesDispatchSlice & IExportDispatchSlice
@@ -58,6 +59,7 @@ export const immer = config => (set, get, api) => config((partial, replace) => {
   const nextState = typeof partial === 'function'
     ? produce(partial)
     : partial;
+  get().sync(nextState,replace);
   return set(nextState, replace);
 }, get, api)
 const globalState = useGlobalStore.getState();
@@ -73,7 +75,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
             console.log(45, res);
             const data = res?.data;
             if (res?.code === 200 && data) {
-              globalState.dispatch.setNeedSave(false);
+              debugger
               set({project: data});
               get().dispatch.fixProject(data);
               //计算全部表名
@@ -91,6 +93,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
         },
         initSocket: async (projectId:string) => {
           let socket = get().socket;
+          console.log(165, socket);
           if (socket) return;
           socket = io(`http://localhost:3000?roomId=${projectId}`);
           // client-side
@@ -114,7 +117,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
           })
         },
         closeSocket:  (projectId:string) => {
-          debugger
+          console.log(165,'leave',get().socket)
           if (!get().socket) return;
           const username = cache.getItem('username');
           // 发送加入消息
@@ -123,6 +126,12 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
           set({
             socket: null
           })
+        },
+        sync:  (nextState:any, replace:any) => {
+          console.log(62, 'ws',get().socket,nextState, replace);
+          if(get().socket){
+            console.log(62, 'ws 已激活',nextState, replace);
+          }
         },
         dispatch: {
           updateProjectName: (payload: any) => set((state: any) => {
