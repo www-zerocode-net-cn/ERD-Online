@@ -20,6 +20,7 @@ import produce from "immer";
 import {IExportDispatchSlice, IExportSlice} from "@/store/project/exportSlice";
 import {message} from "antd";
 import {CONSTANT} from "@/utils/constant";
+import {io} from "socket.io-client";
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -32,7 +33,11 @@ export type ProjectState =
   {
     tables: any[],
     project: any,
+    socket:any,
     fetch: () => Promise<void>;
+    initSocket: (projectId:string) => Promise<void>;
+    closeSocket: (projectId:string) => void;
+    sync: (nextState:any, replace:any) => void;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice
       & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice
       & IEntitiesDispatchSlice & IExportDispatchSlice
@@ -54,6 +59,7 @@ export const immer = config => (set, get, api) => config((partial, replace) => {
   const nextState = typeof partial === 'function'
     ? produce(partial)
     : partial;
+  get().sync(nextState,replace);
   return set(nextState, replace);
 }, get, api)
 const globalState = useGlobalStore.getState();
@@ -69,7 +75,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
             console.log(45, res);
             const data = res?.data;
             if (res?.code === 200 && data) {
-              globalState.dispatch.setNeedSave(false);
+              debugger
               set({project: data});
               get().dispatch.fixProject(data);
               //计算全部表名
@@ -84,6 +90,48 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
               message.error('获取项目信息失败');
             }
           });
+        },
+        initSocket: async (projectId:string) => {
+          let socket = get().socket;
+          console.log(165, socket);
+          if (socket) return;
+          socket = io(`http://localhost:3000?roomId=${projectId}`);
+          // client-side
+          socket.on("connect", () => {
+            console.log(socket?.id); // x8WIv7-mJelg7on_ALbx
+          });
+          const username = cache.getItem('username');
+          message.success(`当前您的身份为${username}`);
+          // socket.on('historyRecord', (value: any) => message.success(`init ${value}`));
+          // 发送加入消息
+          socket.emit('join', username);
+          // 监听消息
+          socket.on('msg', (r: any) => {
+            console.log(149, r);
+            if (username != r.username) {
+              message.success(`${r.msg}`);
+            }
+          });
+          set({
+            socket
+          })
+        },
+        closeSocket:  (projectId:string) => {
+          console.log(165,'leave',get().socket)
+          if (!get().socket) return;
+          const username = cache.getItem('username');
+          // 发送加入消息
+          get().socket.emit('leave', username);
+          get().socket.close();
+          set({
+            socket: null
+          })
+        },
+        sync:  (nextState:any, replace:any) => {
+          console.log(62, 'ws',get().socket,nextState, replace);
+          if(get().socket){
+            console.log(62, 'ws 已激活',nextState, replace);
+          }
         },
         dispatch: {
           updateProjectName: (payload: any) => set((state: any) => {

@@ -8,13 +8,18 @@ import _ from 'lodash';
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
 import {history, Outlet, useSearchParams} from "@@/exports";
 import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
-import {Button, Dropdown, Image, Popover} from "antd";
+import {Button, Dropdown, Image, message, Popover} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {useAccess} from "@@/plugin-access";
 import {GET} from "@/services/crud";
 import {CONSTANT} from "@/utils/constant";
 import QueryLeftContent from "@/components/LeftContent/QueryLeftContent";
+import {io} from "socket.io-client";
+import {
+  useMount,
+  useUnmount,
+} from '@umijs/hooks';
 
 export const siderWidth = 333;
 
@@ -59,6 +64,22 @@ export function fixRouteAccess(defaultPropsTmp: any, access: any) {
 
 }
 
+export function getNowTimeParse() {
+  const time = new Date();
+  const YYYY = time.getFullYear();
+  const MM =
+    time.getMonth() < 9 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1;
+  const DD = time.getDate() < 10 ? '0' + time.getDate() : time.getDate();
+  const hh = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
+  const mm =
+    time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+  const ss =
+    time.getSeconds() < 10 ? '0' + time.getSeconds() : time.getSeconds();
+  const ms = time.getMilliseconds();
+
+  return `${YYYY}-${MM}-${DD}T${hh}:${mm}:${ss}.${ms}`;
+}
+
 const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   const access = useAccess();
 
@@ -72,10 +93,12 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
 
   console.log(19, 'projectId', projectId);
 
-  const {fetch, project} = useProjectStore(
+  const {fetch, project,initSocket,closeSocket} = useProjectStore(
     state => ({
       fetch: state.fetch,
-      project: state.project
+      project: state.project,
+      initSocket: state.initSocket,
+      closeSocket: state.closeSocket,
     }), shallow);
 
   useEffect(() => {
@@ -92,9 +115,11 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   };
   const {setInitialState} = useModel('@@initialState');
 
+
   useEffect(() => {
     console.log(69, access, project.type)
     if (project && project.type === '2') {
+      initSocket(projectId);
       GET("/ncnb/project/group/currentRolePermission", {
         projectId
       }).then(r => {
@@ -114,6 +139,13 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
       setInitialState((s: any) => ({...s, access: {person: true}}));
     }
   }, [project, access.initialized, defaultProps.route.routes])
+
+
+  // 页面卸载
+  useUnmount(() => {
+    console.log(165, 'useUnmount');
+    closeSocket(projectId);
+  });
 
 
   return (

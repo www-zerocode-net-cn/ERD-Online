@@ -20,7 +20,6 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   const {setInitialState} = useModel('@@initialState');
   const {tabDispatch} = useTabStore(state => ({tabDispatch: state.dispatch}));
 
-
   useEffect(() => {
     console.log('回首页清空权限');
     tabDispatch.removeAllTab({});
