@@ -37,7 +37,7 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   };
 
   return (
-    <WaterMark content={['ERD Online', 'V4.0.6']}>
+    <WaterMark content={['ERD Online', 'V4.0.7']}>
 
       <ProLayout
         logo={"/logo.svg"}
