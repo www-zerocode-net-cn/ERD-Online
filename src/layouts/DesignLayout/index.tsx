@@ -20,6 +20,7 @@ import {
   useMount,
   useUnmount,
 } from '@umijs/hooks';
+import Theme from "@/components/Theme";
 
 export const siderWidth = 333;
 
@@ -149,7 +150,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
 
 
   return (
-    <WaterMark content={['ERD Online', 'V4.0.6']}>
+    <WaterMark content={['ERD Online', 'V4.0.7']}>
       <ProLayout
         logo={"/logo.svg"}
         title={'ERD Online'}
@@ -263,7 +264,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
               minHeight: '85vh',
             }}
           >
-            <Outlet/>
+            <Theme/>
           </ProCard>
         </PageContainer>
       </ProLayout>

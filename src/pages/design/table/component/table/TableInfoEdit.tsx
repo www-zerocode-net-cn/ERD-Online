@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'handsontable/dist/handsontable.full.css';
 import "handsontable/languages/zh-CN";
 import useProjectStore from "@/store/project/useProjectStore";
@@ -28,6 +28,11 @@ const TableInfoEdit: React.FC<TableInfoEditProps> = (props) => {
   const allDataTypeName = datatype?.map((t: any) => {
     return t.name;
   })
+
+
+  console.log('entity:useEffect', 148, entity)
+
+
 
   // 由于 zustand 冻结了所有属性，均不可直接编辑，所以需要做一次转换
   const s = JSON.stringify(entity?.fields || [{}]);

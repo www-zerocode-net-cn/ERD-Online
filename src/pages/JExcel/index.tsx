@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import jspreadsheet, {CellValue} from "jspreadsheet-ce";
 
 import _ from 'lodash';
@@ -20,14 +20,22 @@ export type JExcelProps = {
 };
 
 const JExcel: React.FC<JExcelProps> = (props) => {
-  const {datatype, database} = useProjectStore(state => ({
+  const {syncing, setSyncing, datatype, database} = useProjectStore(state => ({
+    syncing: state.syncing,
+    setSyncing: state.dispatch.setSyncing,
     datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
     database: state.project?.projectJSON?.dataTypeDomains?.database,
   }), shallow);
+
+
   console.log('datatype', 115, datatype)
   const {data, columns, saveData, notEmptyColumn} = props;
   const saveValidData = (excelData: any) => {
     console.log(30, 'excel数据有变动', excelData);
+    //正在同步远程数据
+    if (syncing) {
+      return;
+    }
     if (!excelData || excelData.length === 0) {
       return;
     }
@@ -228,10 +236,11 @@ const JExcel: React.FC<JExcelProps> = (props) => {
         jRef?.current?.jexcel?.setValueFromCoords(Number(columnIndex) + 2, rowIndex, type, true);
       }
       saveValidData(jRef?.current?.jexcel.getJson());
+
     },
     oninsertrow: () => {
       console.log('oninsertrow', jRef?.current?.jexcel.getJson())
-      saveValidData(jRef?.current?.jexcel.getJson())
+      // saveValidData(jRef?.current?.jexcel.getJson())
     },
     ondeleterow: () => {
       console.log('ondeleterow', jRef?.current?.jexcel.getJson())
@@ -260,6 +269,13 @@ const JExcel: React.FC<JExcelProps> = (props) => {
       jspreadsheet(jRef.current, options);
     }
   }, [options]);
+
+  useEffect(() => {
+    if (syncing) {
+
+    }
+  }, [props.data]);
+
 
   const addRow = () => {
     jRef?.current?.jexcel.insertRow();

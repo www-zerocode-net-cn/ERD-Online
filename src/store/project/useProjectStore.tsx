@@ -1,6 +1,6 @@
 import create, {GetState, SetState} from "zustand";
-import {StoreApiWithSubscribeWithSelector, subscribeWithSelector} from 'zustand/middleware';
 
+import {StoreApiWithSubscribeWithSelector, subscribeWithSelector} from 'zustand/middleware';
 
 import type {IProjectJsonDispatchSlice, IProjectJsonSlice} from "./projectJsonSlice";
 import ProjectJsonSlice from "./projectJsonSlice";
@@ -16,11 +16,15 @@ import * as cache from "@/utils/cache";
 import request from "@/utils/request";
 import * as Save from '@/utils/save';
 import useGlobalStore from "@/store/global/globalStore";
-import produce from "immer";
+import {enablePatches, produceWithPatches} from 'immer'
 import {IExportDispatchSlice, IExportSlice} from "@/store/project/exportSlice";
 import {message} from "antd";
 import {CONSTANT} from "@/utils/constant";
 import {io} from "socket.io-client";
+import {jsondiffpatch} from "./jsondiffpatch";
+
+
+enablePatches()
 
 
 // 类型：对象、函数两者都适用，但是 type 可以用于基础类型、联合类型、元祖。
@@ -33,11 +37,13 @@ export type ProjectState =
   {
     tables: any[],
     project: any,
-    socket:any,
+    socket: any,
+    syncing: boolean,
+    timestamp: number,
     fetch: () => Promise<void>;
-    initSocket: (projectId:string) => Promise<void>;
-    closeSocket: (projectId:string) => void;
-    sync: (nextState:any, replace:any) => void;
+    initSocket: (projectId: string) => Promise<void>;
+    closeSocket: (projectId: string) => void;
+    sync: (delta: any,) => void;
     dispatch: IProjectJsonDispatchSlice & IConfigJsonDispatchSlice & IModulesDispatchSlice
       & IDataTypeDomainsDispatchSlice & IDatabaseDomainsDispatchSlice & IProfileDispatchSlice
       & IEntitiesDispatchSlice & IExportDispatchSlice
@@ -51,16 +57,45 @@ export type ProjectState =
   & IExportSlice
   & IEntitiesSlice;
 
+const forwardPatches: any[] = []
+const backPatches: any[] = []
+
+export const wrapWithPatch = (fn: (store: ProjectState) => void) => {
+  return (store: ProjectState) => {
+    const [newStore, patches, invPatches] = produceWithPatches(fn)(store)
+    console.log(65, patches, 'patches')
+    console.log(65, invPatches, 'invPatches')
+    forwardPatches.push(...patches)
+    backPatches.push(...invPatches)
+    return newStore
+  }
+}
+
 // Turn the set method into an immer proxy
 // @ts-ignore
 export const immer = config => (set, get, api) => config((partial, replace) => {
+  console.log(50, "s",)
   console.log(51, "partial", partial)
-  console.log(52, "replace", replace)
+  console.log(51, "replace", replace)
   const nextState = typeof partial === 'function'
-    ? produce(partial)
+    ? wrapWithPatch(partial)
     : partial;
-  get().sync(nextState,replace);
+  console.log(51, "nextState", nextState)
   return set(nextState, replace);
+}, get, api)
+
+
+// Turn the set method into an immer proxy
+// @ts-ignore
+export const patch = config => (set, get, api) => config((fn: (store: ProjectState) => ProjectState) => {
+  return (store: ProjectState) => {
+    const [newStore, patches, invPatches] = produceWithPatches(fn)(store)
+    console.log(78, patches, 'patches')
+    console.log(79, invPatches, 'invPatches')
+    forwardPatches.push(...patches)
+    backPatches.push(...invPatches)
+    return newStore
+  }
 }, get, api)
 const globalState = useGlobalStore.getState();
 const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<ProjectState>, StoreApiWithSubscribeWithSelector<ProjectState>>(
@@ -69,6 +104,8 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
       (set: SetState<ProjectState>, get: GetState<ProjectState>) => ({
         tables: [],
         project: {},
+        syncing: false,
+        timestamp: Date.now(),
         fetch: async () => {
           const projectId = cache.getItem(CONSTANT.PROJECT_ID);
           await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {
@@ -76,7 +113,9 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
             const data = res?.data;
             if (res?.code === 200 && data) {
               debugger
-              set({project: data});
+              set({
+                project: data
+              });
               get().dispatch.fixProject(data);
               //计算全部表名
               const tables = _.flatMapDepth(data?.projectJSON?.modules, (m) => {
@@ -91,7 +130,7 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
             }
           });
         },
-        initSocket: async (projectId:string) => {
+        initSocket: async (projectId: string) => {
           let socket = get().socket;
           console.log(165, socket);
           if (socket) return;
@@ -112,25 +151,45 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
               message.success(`${r.msg}`);
             }
           });
+          // 监听消息
+          socket.on('sync', (r: any) => {
+            console.log(148, 'sync', r);
+            if (username != r.username && r.delta && r.timestamp != get().timestamp && JSON.stringify(r.delta) !== '{}') {
+              get().dispatch.patch(r);
+            }
+          });
           set({
             socket
           })
         },
-        closeSocket:  (projectId:string) => {
-          console.log(165,'leave',get().socket)
+        closeSocket: (projectId: string) => {
+          console.log(165, 'leave', get().socket)
           if (!get().socket) return;
           const username = cache.getItem('username');
           // 发送加入消息
           get().socket.emit('leave', username);
           get().socket.close();
+          if (get().project) {
+            Save.saveProject(get().project);
+          }
           set({
             socket: null
           })
         },
-        sync:  (nextState:any, replace:any) => {
-          console.log(62, 'ws',get().socket,nextState, replace);
-          if(get().socket){
-            console.log(62, 'ws 已激活',nextState, replace);
+        sync: (r: any,) => {
+          console.log(62, 'sync', get().socket, r.delta);
+          if (get().socket) {
+            if (get().project.type === '2') {
+              console.log(62, 'ws 已激活', r);
+              const username = cache.getItem('username');
+              const timestamp = Date.now();
+              set({timestamp});
+              get().socket.emit('sync', {
+                timestamp: r.timestamp,
+                username,
+                delta: r.delta
+              })
+            }
           }
         },
         dispatch: {
@@ -152,9 +211,21 @@ useProjectStore.subscribe(state => state.project, (project, previousProject) => 
   console.log(109, project);
   console.log(110, previousProject);
   console.log(110, globalState.needSave);
-  if (globalState.needSave) {
+  // const delta = jsondiffpatch.diff(previousProject, project);
+  //
+  // console.log(172, 'delta', delta);
+  // if (delta && delta.projectJSON
+  //   && ((!previousProject.timestamp && !project.timestamp) || previousProject.timestamp != project.timestamp)) {
+  //   console.log(172, '开启同步', delta);
+  //   useProjectStore.getState().sync({
+  //     delta: delta,
+  //     timestamp: project.timestamp
+  //   });
+  //   console.log(172, '开启保存', delta);
+
+  // }
     Save.saveProject(project);
-  }
 });
+
 
 export default useProjectStore;

@@ -1,5 +1,5 @@
 import {SetState} from "zustand";
-import {ProjectState} from "@/store/project/useProjectStore";
+import {ProjectState, wrapWithPatch} from "@/store/project/useProjectStore";
 import produce from "immer";
 import {message} from "antd";
 import useShortcutStore, {PANEL} from "@/store/shortcut/useShortcutStore";
@@ -133,7 +133,7 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
 
     }
   }),
-  updateEntityFields: (payload: any) => set(produce(state => {
+  updateEntityFields: (payload: any) => set(wrapWithPatch(state => {
     console.log(70, '表发生变化', state.currentModuleIndex, state.currentEntityIndex, payload);
     state.project.projectJSON.modules[state.currentModuleIndex].entities[state.currentEntityIndex].fields = payload;
   })),
