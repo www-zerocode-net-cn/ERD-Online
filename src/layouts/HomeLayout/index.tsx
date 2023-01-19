@@ -4,11 +4,12 @@ import {history, Link, Outlet} from "@@/exports";
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from '@ant-design/pro-components';
 import {Me} from "@icon-park/react";
 import {headRightContent} from "@/layouts/DesignLayout";
-import {Button, Dropdown} from "antd";
+import {Button, ConfigProvider, Dropdown, theme} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {useModel} from "@umijs/max";
 import useTabStore from "@/store/tab/useTabStore";
+import Theme from "@/components/Theme";
 
 
 export interface HomeLayoutLayoutProps {
@@ -24,7 +25,7 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
     console.log('回首页清空权限');
     tabDispatch.removeAllTab({});
     setInitialState((s: any) => ({...s, access: {}}));
-  },[])
+  }, [])
 
   const settings: ProSettings | undefined = {
     "layout": "mix",
@@ -37,6 +38,7 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
 
   return (
     <WaterMark content={['ERD Online', 'V4.0.6']}>
+
       <ProLayout
         logo={"/logo.svg"}
         title={"ERD Online"}
@@ -97,11 +99,11 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
               minHeight: '85vh',
             }}
           >
-            <Outlet/>
+            <Theme/>
           </ProCard>
         </PageContainer>
       </ProLayout>
     </WaterMark>
-  );
+);
 }
 export default React.memo(HomeLayout);

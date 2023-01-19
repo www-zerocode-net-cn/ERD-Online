@@ -43,6 +43,11 @@ server.on("connection", (socket) => {
       msg: `${username}离开`
     });
   });
+  // 同步
+  socket.on('sync',  payload=> {
+    console.log('sync', payload);
+    server.to(roomId).emit('sync', payload);
+  });
 
 
 });

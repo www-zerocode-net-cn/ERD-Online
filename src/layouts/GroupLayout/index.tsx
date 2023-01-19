@@ -10,6 +10,7 @@ import {history, Link, Outlet, useModel, useSearchParams} from "@umijs/max";
 import {GET} from "@/services/crud";
 import {useAccess} from "@@/plugin-access";
 import {CONSTANT} from "@/utils/constant";
+import Theme from "@/components/Theme";
 
 
 export type GroupLayoutProps = {};
@@ -125,7 +126,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
               minHeight: '85vh',
             }}
           >
-            <Outlet/>
+            <Theme/>
           </ProCard>
         </PageContainer>
       </ProLayout>

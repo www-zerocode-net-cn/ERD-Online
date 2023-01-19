@@ -11,6 +11,7 @@ import ExportSlice from "@/store/project/exportSlice";
 import * as CryptoJS from 'crypto-js';
 import _ from "lodash";
 import {uuid} from "@/utils/uuid";
+import {jsondiffpatch} from "@/store/project/jsondiffpatch";
 
 export type IProjectJsonSlice = {}
 
@@ -26,6 +27,10 @@ export interface IProjectJsonDispatchSlice {
   getGlobalStore: () => State;
   encrypt: (type: string, origin: string) => string;
   decrypt: (type: string, secret: string) => string;
+  diff: (previousProject: any, project: any) => any;
+  patch: (r: any) => void;
+  setSyncing: (sync: any) => void;
+  setTimestamp: () => void;
 };
 
 const globalState = useGlobalStore.getState();
@@ -136,6 +141,25 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     }
     return "";
   },
+  diff: (previousProject: any, project: any) => set(produce(state => {
+    const delta = jsondiffpatch.diff(previousProject, project);
+    return delta;
+  })),
+  patch: (r: any) => set(produce(state => {
+    console.log(148, JSON.parse(JSON.stringify(get().project)));
+    console.log(148, r.delta);
+    const patchedProject = jsondiffpatch.patch(JSON.parse(JSON.stringify(get().project)), r.delta);
+    patchedProject.timestamp = r.timestamp;
+    console.log(148, patchedProject);
+    state.project = patchedProject;
+    state.syncing = true;
+  })),
+  setSyncing: (syncing: any) => set(produce(state => {
+    state.syncing = syncing;
+  })),
+  setTimestamp: () => set(produce(state => {
+    state.project.timestamp = Date.now();
+  })),
   ...ModulesSlice(set, get),
   ...DataTypeDomainsSlice(set, get),
   ...DatabaseDomainsSlice(set, get),

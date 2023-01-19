@@ -20,6 +20,7 @@ import {
   useMount,
   useUnmount,
 } from '@umijs/hooks';
+import Theme from "@/components/Theme";
 
 export const siderWidth = 333;
 
@@ -263,7 +264,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
               minHeight: '85vh',
             }}
           >
-            <Outlet/>
+            <Theme/>
           </ProCard>
         </PageContainer>
       </ProLayout>
