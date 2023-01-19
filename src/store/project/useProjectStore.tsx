@@ -223,8 +223,8 @@ useProjectStore.subscribe(state => state.project, (project, previousProject) => 
   //   });
   //   console.log(172, '开启保存', delta);
 
+  // }
     Save.saveProject(project);
-  }
 });
 
 
