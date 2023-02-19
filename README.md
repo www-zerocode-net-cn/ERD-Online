@@ -49,11 +49,11 @@
 
 ## 关于我们
 
-ERD Online 体验：[https://erd.zerocode.net.cn](https://erd.zerocode.net.cn)
+元数据 ERD Online 体验：[https://erd.zerocode.net.cn](https://erd.zerocode.net.cn)
 
-ERD Online 文档：[https://portal.zerocode.net.cn](https://portal.zerocode.net.cn)
+元数据 ERD Online 文档：[https://portal.zerocode.net.cn](https://portal.zerocode.net.cn)
 
-ERD Online 论坛：[https://www.zerocode.net.cn](https://www.zerocode.net.cn)
+低代码 论坛：[https://github.com/www-zerocode-net-cn/ERD-Online/discussions](https://github.com/www-zerocode-net-cn/ERD-Online/discussions)
 
 低代码 LOCO 体验：[https://loco.zerocode.net.cn](https://loco.zerocode.net.cn)
 
