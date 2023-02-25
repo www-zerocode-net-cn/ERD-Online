@@ -518,7 +518,9 @@
         "deleteFieldTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP `{{=it.field.name}}`;{{=it.separator}}",
         "deleteIndexTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP INDEX `{{=it.index.name}}`;{{=it.separator}}",
         "createIndexTemplate": "ALTER TABLE `{{=it.entity.title}}` ADD {{? it.index.isUnique}}UNIQUE{{??}}INDEX{{?}} `{{=it.index.name}}`({{=it.func.join(...it.index.fields,',')}});{{=it.separator}}",
-        "updateTableComment": "ALTER TABLE `{{=it.entity.title}}` COMMENT '{{=it.entity.chnname}}';{{=it.separator}}"
+        "updateTableComment": "ALTER TABLE `{{=it.entity.title}}` COMMENT '{{=it.entity.chnname}}';{{=it.separator}}",
+        "createPkTemplate": "ALTER TABLE `{{=it.entity.title}}` ADD primary key(`{{=it.field.name}}`);{{=it.separator}}\r\n$blankline",
+        "deletePkTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP primary key;{{=it.separator}}\r\n$blankline"
       },
       {
         "code": "ORACLE",
@@ -531,11 +533,9 @@
         "deleteFieldTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP(`{{=it.field.name}}`);{{=it.separator}}\r\n$blankline",
         "deleteIndexTemplate": "DROP INDEX `{{=it.entity.title}}`.`{{=it.index.name}}`;{{=it.separator}}\r\n$blankline",
         "createIndexTemplate": "CREATE{{? it.index.isUnique}} UNIQUE{{?}} INDEX `{{=it.index.name}}` ON `{{=it.entity.title}}`({{=it.func.join(it.index.fields,',')}});{{=it.separator}}\r\n$blankline",
-        "updateTableComment": "{{? it.entity.chnname || it.entity.remark}}COMMENT ON TABLE `{{=it.entity.title}}` IS {{? it.entity.remark}}'{{=it.entity.remark}}'{{??}}'{{=it.entity.chnname}}'{{?}};{{=it.separator}}{{?}}\r\n$blankline"
-      },
-      {
-        "code": "SQLServer",
-        "createTableTemplate": "CREATE TABLE `{{=it.entity.title}}`(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.pk }}{{ pkList.push(field.name) }}{{?}}\n    `{{=field.name}}` {{=field.type}} {{= field.notNull ? 'NOT NULL' : '' }} {{= field.autoIncrement ? 'IDENTITY(1,1)' : '' }} {{= field.defaultValue ? it.func.join('DEFAULT',field.defaultValue,' ') : '' }}  {{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    CONSTRAINT PK_`{{=it.entity.title}}` PRIMARY KEY CLUSTERED ({{~pkList:pkName:i}}{{= pkName }} ASC {{= i<pkList.length-1 ? ',' : '' }}{{~}}) ON [PRIMARY] \n{{?}}\n) ;{{=it.separator}}\n\n$blankline\nEXECUTE sp_addextendedproperty N'MS_Description', '{{= it.entity.chnname || it.entity.remark}}', N'user', N'dbo', N'table', N'`{{=it.entity.title}}`', NULL, NULL;{{=it.separator}}\n{{~it.entity.fields:field:index}}\n{{? field.chnname || field.remark}}EXECUTE sp_addextendedproperty N'MS_Description', {{? field.remark}}'{{=field.remark}}'{{??}}'{{=field.chnname}}'{{?}}, N'user', N'dbo', N'table', N'`{{=it.entity.title}}`', N'column', N'`{{=field.name}}`';{{=it.separator}}{{?}}\n{{~}}\n"
+        "updateTableComment": "{{? it.entity.chnname || it.entity.remark}}COMMENT ON TABLE `{{=it.entity.title}}` IS {{? it.entity.remark}}'{{=it.entity.remark}}'{{??}}'{{=it.entity.chnname}}'{{?}};{{=it.separator}}{{?}}\r\n$blankline",
+        "createPkTemplate": "ALTER TABLE `{{=it.entity.title}}` ADD primary key(`{{=it.field.name}}`);{{=it.separator}}\r\n$blankline",
+        "deletePkTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP primary key;{{=it.separator}}\r\n$blankline"
       },
       {
         "code": "PostgreSQL",
@@ -548,7 +548,9 @@
         "deleteFieldTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP `{{=it.field.name}}`;{{=it.separator}}",
         "deleteIndexTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP INDEX `{{=it.index.name}}`;{{=it.separator}}",
         "createIndexTemplate": "ALTER TABLE `{{=it.entity.title}}` ADD {{? it.index.isUnique}}UNIQUE{{??}}INDEX{{?}} `{{=it.index.name}}`({{=it.func.join(...it.index.fields,',')}});{{=it.separator}}",
-        "updateTableComment": "ALTER TABLE `{{=it.entity.title}}` COMMENT '{{=it.entity.chnname}}';{{=it.separator}}"
+        "updateTableComment": "ALTER TABLE `{{=it.entity.title}}` COMMENT '{{=it.entity.chnname}}';{{=it.separator}}",
+        "createPkTemplate": "ALTER TABLE `{{=it.entity.title}}` ADD primary key(`{{=it.field.name}}`);{{=it.separator}}\r\n$blankline",
+        "deletePkTemplate": "ALTER TABLE `{{=it.entity.title}}` DROP primary key;{{=it.separator}}\r\n$blankline"
       },
       {
         "code": "JAVA",
