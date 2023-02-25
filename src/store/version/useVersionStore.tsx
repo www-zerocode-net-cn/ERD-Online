@@ -623,7 +623,7 @@ const useVersionStore = create<VersionState>(
         } else {
           Modal.confirm({
             title: '同步确认',
-            content: '元数据即将同步到数据源，同步后不可撤销，确定同步吗？',
+            content: onlyUpdateDBVersion === 'flagSynchronous'?'元数据即将标记为同步，标记为同步后不可撤销，确定标记吗？':'元数据即将同步到数据源，同步后不可撤销，确定同步吗？',
             onOk: (m) => {
               const cb1 = () => {
                 get().fetch(null);
