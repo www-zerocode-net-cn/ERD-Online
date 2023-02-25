@@ -21,6 +21,9 @@ const DbTab: React.FC<DbTabProps> = (props) => {
         <TabPane key="createTableTemplate" tab="创建表">
           <TableCodeShow dbCode={dbCode} templateCode="createTableTemplate" moduleEntity={moduleEntity}/>
         </TabPane>
+        <TabPane key="updateTableTemplate" tab="表注释">
+          <TableCodeShow dbCode={dbCode} templateCode="updateTableComment" moduleEntity={moduleEntity}/>
+        </TabPane>
         <TabPane key="deleteTableTemplate" tab="删除表">
           <TableCodeShow dbCode={dbCode} templateCode="deleteTableTemplate" moduleEntity={moduleEntity}/>
         </TabPane>

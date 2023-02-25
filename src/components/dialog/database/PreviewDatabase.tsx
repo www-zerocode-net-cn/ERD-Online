@@ -27,12 +27,12 @@ const PreviewDatabase: React.FC<PreviewDatabaseProps> = (props) => {
   const demoTemplateData = getDemoTemplateData(selectTab);
 
   useEffect(() => {
-    setResult(getDataByTemplate(JSON.parse(demoTemplateData), templateValue));
+    setResult(demoTemplateData?getDataByTemplate(JSON.parse(demoTemplateData), templateValue):'');
   }, [selectTab]);
 
 
   const reSetResult = () => {
-    setResult(getDataByTemplate(JSON.parse(demoTemplateData), templateValue)
+    setResult(demoTemplateData?getDataByTemplate(JSON.parse(demoTemplateData), templateValue):''
     );
   }
   useImperativeHandle(props.onRef, () => ({
@@ -85,6 +85,10 @@ const PreviewDatabase: React.FC<PreviewDatabaseProps> = (props) => {
               value: 'createTableTemplate',
             },
             {
+              label: '表注释',
+              value: 'updateTableComment',
+            },
+            {
               label: '删除表',
               value: 'deleteTableTemplate',
             },
@@ -119,10 +123,6 @@ const PreviewDatabase: React.FC<PreviewDatabaseProps> = (props) => {
             {
               label: '删除主键',
               value: 'deletePkTemplate',
-            },
-            {
-              label: '表注释',
-              value: 'updateTableComment',
             },
           ]}
         />

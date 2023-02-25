@@ -294,8 +294,9 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
               separator
             });
           }
+          return pkStr;
         }
-        return updateFieldStr + pkStr;
+        return updateFieldStr;
       } else if (c.opt === 'add') {
         const change = c.name.split('.');
         const dataTable = tempEntities.filter(t => t.title === change[0])[0] || {};
@@ -388,7 +389,7 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
           entity: dataTable,
           separator
         });
-      } else if (c.opt === 'update') {
+      } else if (c.opt === 'rebuild') {
         // 重建数据表
         const change = c.name;
         const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
@@ -399,6 +400,21 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
           newEntity: dataTable,
           separator
         });
+      } else if (c.opt === 'update') {
+        console.log(403,c.name)
+        const tmpChange = (c.name || '').split('.');
+        const changeData = (c.changeData || '').split('=>');
+
+        //表注释修改
+        if(tmpChange && tmpChange[1]==='chnname'){
+          return getTemplateString(getTemplate('updateTableComment'), {
+            entity: {
+              title: tmpChange[0],
+              chnname:changeData[1]
+            },
+            separator
+          });
+        }
       } else {
         const change = c.name;
         return getTemplateString(getTemplate('deleteTableTemplate'), {

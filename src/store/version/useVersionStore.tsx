@@ -553,7 +553,7 @@ const useVersionStore = create<VersionState>(
           }).concat(tempEntitiesUpdate);
         } else {
           // todo 暂时取消数据表的中文名以及其他变化时所生成的更新数据
-          tempChanges = tempChanges.filter(c => !(c.type === 'entity' && c.opt === 'update'));
+          // tempChanges = tempChanges.filter(c => !(c.type === 'entity' && c.opt === 'update'));
         }
         let messages;
         if (type === SHOW_CHANGE_TYPE.CURRENT) {

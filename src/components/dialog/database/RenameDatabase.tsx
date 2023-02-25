@@ -162,6 +162,9 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
             {
               label: '创建表',
               value: 'createTableTemplate',
+            },{
+              label: '表注释',
+              value: 'updateTableComment',
             },
             {
               label: '删除表',
@@ -198,10 +201,6 @@ const RenameDatabase: React.FC<RenameDatabaseProps> = (props) => {
             {
               label: '删除主键',
               value: 'deletePkTemplate',
-            },
-            {
-              label: '表注释',
-              value: 'updateTableComment',
             },
           ]}
         />
