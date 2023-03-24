@@ -108,19 +108,27 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 onClick={() => isDetail ?
                   versionDispatch.showChanges(SHOW_CHANGE_TYPE.CURRENT, null, null, null)
                   : versionDispatch.compare(state)
-                }>{isDetail ? "版本变更详情" : "任意版本比较"}</Button>
+                }>{isDetail ? "详情" : "差异"}</Button>
       }
       submitter={{
         // 完全自定义整个区域
         render: (props, doms) => {
           console.log(112, props, access);
           return [
-            <Button key="save" onClick={onSave}>导出到文件</Button>,
+            <Button
+              type="primary"
+              key="approval"
+              title='发起SQL审批'
+              onClick={() => execSQL(false, 'again')}
+            >
+              SQL审批</Button>,
+            <Button type="primary" key="save" onClick={onSave}>导出</Button>,
             <Access
               accessible={access.canErdConnectorDbsync}
               fallback={<></>}
             >
               <Button
+                type="primary"
                 loading={state.synchronous}
                 title='会更新数据源中的版本号'
                 style={{
@@ -128,7 +136,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 }}
                 onClick={() => execSQL(true, 'synchronous')}
               >
-                {state.synchronous ? '正在同步' : '同步到数据源'}
+                {state.synchronous ? '正在同步' : '同步'}
               </Button>
             </Access>,
             <Access
@@ -136,6 +144,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
               fallback={<></>}
             >
               <Button
+                type="primary"
                 loading={state.flagSynchronous}
                 title='更新数据源的版本号，不会执行差异化的SQL'
                 style={{
@@ -151,6 +160,9 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
               fallback={<></>}
             >
               <Button
+                type="primary"
+                danger
+                ghost
                 loading={state.again}
                 title='不会更新数据源中的版本号'
                 style={{

@@ -37,7 +37,7 @@ const SyncVersion: React.FC<SyncVersionProps> = (props) => {
                 currentVersion,
                 currentVersionIndex ? versions[currentVersionIndex + 1] || currentVersion : currentVersion, currentVersion.changes,
                 currentVersionIndex === (versions.length - 1), true);
-            }}>同步到数据源</Button>
+            }}>同步</Button>
 
   </>);
 }

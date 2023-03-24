@@ -47,7 +47,7 @@ const RenameVersion: React.FC<RenameVersionProps> = (props) => {
         return true;
       }}
       trigger={
-        <Button key="editor" size={"small"} type={"link"} icon={<EditOutlined />}>编辑版本</Button>
+        <Button key="editor" size={"small"} type={"link"} icon={<EditOutlined />}>编辑</Button>
       }
       request={async (params) => {
         return currentVersion;
