@@ -5,13 +5,15 @@ import {compareStringVersion} from '@/utils/string';
 import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import CodeEditor from "@/components/CodeEditor";
-import {Button, message} from "antd";
+import {Button, message, Typography} from "antd";
 import moment from "moment";
 import * as File from '@/utils/file';
 import _ from 'lodash';
 import {CloudSyncOutlined, DiffOutlined, ExportOutlined, FileTextOutlined, FlagOutlined} from "@ant-design/icons";
 import {Access, useAccess} from "@@/plugin-access";
 import SqlApproval from "@/components/dialog/version/SqlAproval";
+
+const {Paragraph} = Typography;
 
 export const CompareVersionType = {DETAIL: "detail", COMPARE: "compare"}
 
@@ -116,7 +118,12 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         render: (props, doms) => {
           console.log(112, props, access);
           return [
-            <SqlApproval/>,
+            <Access
+              accessible={access.enterprise}
+              fallback={<></>}
+            >
+              <SqlApproval/>
+            </Access>,
             <Button type="primary" key="save" onClick={onSave}>
               <ExportOutlined/>导出
             </Button>,
@@ -208,10 +215,12 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
           变化信息
         </Grid>
         <Grid item xs={8}>
-          {
-            currentVersion ? `变化脚本(${compareStringVersion(currentVersion.version, dbVersion) <= 0 ?
-              '已同步' : '未同步'})` : '变化脚本'
-          }
+          <Paragraph copyable={{text: data}}>
+            {
+              currentVersion ? `变化脚本(${compareStringVersion(currentVersion.version, dbVersion) <= 0 ?
+                '已同步' : '未同步'})` : '变化脚本'
+            }
+          </Paragraph>
         </Grid>
         <Grid item xs={4} style={{height: '450px', overflowY: "auto"}}>
           {
