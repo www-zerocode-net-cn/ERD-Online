@@ -143,7 +143,7 @@ const DataTable: React.FC<DataTableProps> = (props) => {
     shortcutDispatch: state.dispatch
   }));
 
-  const [autoExpandParent, setAutoExpandParent] = useState(true);
+  // const [autoExpandParent, setAutoExpandParent] = useState(true);
 
   // @ts-ignore
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
@@ -153,11 +153,11 @@ const DataTable: React.FC<DataTableProps> = (props) => {
     console.log(130, expandedKeys)
   }, [searchKey]);
 
-  const onExpand = (newExpandedKeys: any) => {
-    console.log(128, newExpandedKeys);
-    setExpandedKeys(newExpandedKeys);
-    setAutoExpandParent(false);
-  };
+  // const onExpand = (newExpandedKeys: any) => {
+  //   console.log(128, newExpandedKeys);
+  //   setExpandedKeys(newExpandedKeys);
+  //   setAutoExpandParent(true);
+  // };
 
   const classes = useTreeItemStyles();
 
@@ -172,9 +172,10 @@ const DataTable: React.FC<DataTableProps> = (props) => {
     {modules && modules.length > 0 ? <Tree
         showIcon={false}
         height={600}
-        onExpand={(newExpandedKeys) => onExpand(newExpandedKeys)}
-        expandedKeys={expandedKeys}
-        autoExpandParent={autoExpandParent}
+        defaultExpandAll={true}
+        // onExpand={(newExpandedKeys) => onExpand(newExpandedKeys)}
+        // expandedKeys={expandedKeys}
+        // autoExpandParent={autoExpandParent}
         treeData={projectDispatch.getModuleEntityTree(searchKey || '')}
         blockNode={true}
         className={classes.label}
@@ -269,4 +270,4 @@ const DataTable: React.FC<DataTableProps> = (props) => {
   </>);
 }
 
-export default React.memo(DataTable);
+export default React.memo(DataTable)
