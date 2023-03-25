@@ -10,7 +10,8 @@ import "jsuites/dist/jsuites.css"
 import "./index.less"
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
-import {List, message, Modal} from "antd";
+import {List, message, Modal, Tag} from "antd";
+import {ExclamationCircleOutlined} from "@ant-design/icons";
 
 export type JExcelProps = {
   data: any,
@@ -170,12 +171,17 @@ const JExcel: React.FC<JExcelProps> = (props) => {
                 renderItem={(item) => (
                   <List.Item>
                     <List.Item.Meta
-                      title={<a href="https://ant.design">{item.title}</a>}
+                      title={<a>{item.title}</a>}
                       description={item.description}
                     />
                   </List.Item>
                 )}
               />
+              <Tag icon={<ExclamationCircleOutlined />} color="warning">
+                小彩蛋： 您还不知道吧！<br/>
+                这个列表可以像excel一样操作；<br/>
+                还能从excel里面粘贴数据！<br/>
+              </Tag>
             </>
           });
         }
