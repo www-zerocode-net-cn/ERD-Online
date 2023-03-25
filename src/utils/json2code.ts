@@ -249,7 +249,101 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
   });
 
   // 将不同类型的模板组装到一起生成一个sql文件
-  // 1.生成属性的sql
+  // 1.生成实体的sql
+  templateResult += changes
+    .filter(c => c.type === 'entity')
+    .map((c) => {
+      if (c.opt === 'add') {
+        const change = c.name;
+        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
+        return getTemplateString(getTemplate('createTableTemplate'), {
+          module: {name: dataTable.name},
+          entity: dataTable,
+          separator
+        });
+      } else if (c.opt === 'rebuild') {
+        // 重建数据表
+        const change = c.name;
+        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
+        const oldDataTable = oldEntities.filter(t => t.title === change)[0] || {};
+        return getTemplateString(getTemplate('rebuildTableTemplate'), {
+          module: {name: dataTable.name},
+          oldEntity: oldDataTable,
+          newEntity: dataTable,
+          separator
+        });
+      } else if (c.opt === 'update') {
+        console.log(403,c.name)
+        const tmpChange = (c.name || '').split('.');
+        const changeData = (c.changeData || '').split('=>');
+
+        //表注释修改
+        if(tmpChange && tmpChange[1]==='chnname'){
+          return getTemplateString(getTemplate('updateTableComment'), {
+            entity: {
+              title: tmpChange[0],
+              chnname:changeData[1]
+            },
+            separator
+          });
+        }
+      } else {
+        const change = c.name;
+        return getTemplateString(getTemplate('deleteTableTemplate'), {
+          entity: {
+            title: change
+          },
+          separator
+        });
+      }
+    }).join('');
+
+  templateResult += '\r\n';
+
+  // 2.生成索引的sql
+  templateResult += changes
+    .filter(c => c.type === 'index')
+    .map((c) => {
+      const change = c.name.split('.');
+      const dataTable = tempEntities.filter(t => t.title === change[0])[0] || {};
+      const indexName = change[1];
+      const indexData = _.get(dataTable, 'indexs', []);
+      const index = indexData.filter(i => i.name === indexName)[0] || {name: indexName};
+      if (c.opt === 'add') {
+        // 根据数据表中的内容获取索引
+        return getTemplateString(getTemplate('createIndexTemplate'), {
+          module: {name: dataTable.name},
+          entity: dataTable,
+          index,
+          separator
+        });
+      } else if (c.opt === 'update') {
+        // 1.先删除再重建
+        let deleteString = getTemplateString(getTemplate('deleteIndexTemplate'), {
+          module: {name: dataTable.name},
+          entity: dataTable,
+          index,
+          separator
+        });
+        let createString = getTemplateString(getTemplate('createTableTemplate'), {
+          module: {name: dataTable.name},
+          entity: dataTable,
+          index,
+          separator
+        });
+        return `${deleteString}${separator}\n${createString}`;
+      }
+      return getTemplateString(getTemplate('deleteIndexTemplate'), {
+        module: {name: dataTable.name},
+        entity: dataTable,
+        index,
+        separator
+      });
+    }).join('');
+
+  templateResult += '\r\n';
+
+  // 3.生成属性的sql
   templateResult += changes
     .filter(c => c.type === 'field')
     .map((c) => {
@@ -331,102 +425,7 @@ const generateUpdateSql = (dataSource, changesData = [], code, oldDataSource) =>
     }).join('');
 
   templateResult += '\r\n';
-
   console.log(304, 'filed', templateResult);
-
-  // 2.生成索引的sql
-  templateResult += changes
-    .filter(c => c.type === 'index')
-    .map((c) => {
-      const change = c.name.split('.');
-      const dataTable = tempEntities.filter(t => t.title === change[0])[0] || {};
-      const indexName = change[1];
-      const indexData = _.get(dataTable, 'indexs', []);
-      const index = indexData.filter(i => i.name === indexName)[0] || {name: indexName};
-      if (c.opt === 'add') {
-        // 根据数据表中的内容获取索引
-        return getTemplateString(getTemplate('createIndexTemplate'), {
-          module: {name: dataTable.name},
-          entity: dataTable,
-          index,
-          separator
-        });
-      } else if (c.opt === 'update') {
-        // 1.先删除再重建
-        let deleteString = getTemplateString(getTemplate('deleteIndexTemplate'), {
-          module: {name: dataTable.name},
-          entity: dataTable,
-          index,
-          separator
-        });
-        let createString = getTemplateString(getTemplate('createTableTemplate'), {
-          module: {name: dataTable.name},
-          entity: dataTable,
-          index,
-          separator
-        });
-        return `${deleteString}${separator}\n${createString}`;
-      }
-      return getTemplateString(getTemplate('deleteIndexTemplate'), {
-        module: {name: dataTable.name},
-        entity: dataTable,
-        index,
-        separator
-      });
-    }).join('');
-
-  templateResult += '\r\n';
-
-  // 3.生成实体的sql
-  templateResult += changes
-    .filter(c => c.type === 'entity')
-    .map((c) => {
-      if (c.opt === 'add') {
-        const change = c.name;
-        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
-        return getTemplateString(getTemplate('createTableTemplate'), {
-          module: {name: dataTable.name},
-          entity: dataTable,
-          separator
-        });
-      } else if (c.opt === 'rebuild') {
-        // 重建数据表
-        const change = c.name;
-        const dataTable = tempEntities.filter(t => t.title === change)[0] || {};
-        const oldDataTable = oldEntities.filter(t => t.title === change)[0] || {};
-        return getTemplateString(getTemplate('rebuildTableTemplate'), {
-          module: {name: dataTable.name},
-          oldEntity: oldDataTable,
-          newEntity: dataTable,
-          separator
-        });
-      } else if (c.opt === 'update') {
-        console.log(403,c.name)
-        const tmpChange = (c.name || '').split('.');
-        const changeData = (c.changeData || '').split('=>');
-
-        //表注释修改
-        if(tmpChange && tmpChange[1]==='chnname'){
-          return getTemplateString(getTemplate('updateTableComment'), {
-            entity: {
-              title: tmpChange[0],
-              chnname:changeData[1]
-            },
-            separator
-          });
-        }
-      } else {
-        const change = c.name;
-        return getTemplateString(getTemplate('deleteTableTemplate'), {
-          entity: {
-            title: change
-          },
-          separator
-        });
-      }
-    }).join('');
-
-  console.log(383, templateResult);
 
   return templateResult;
 };
