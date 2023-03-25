@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ProForm, ModalForm, ProFormSelect} from "@ant-design/pro-components";
+import {ModalForm, ProForm, ProFormSelect} from "@ant-design/pro-components";
 import {Divider, Grid} from "@mui/material";
 import {compareStringVersion} from '@/utils/string';
 import useVersionStore, {SHOW_CHANGE_TYPE} from "@/store/version/useVersionStore";
@@ -9,8 +9,9 @@ import {Button, message} from "antd";
 import moment from "moment";
 import * as File from '@/utils/file';
 import _ from 'lodash';
-import {DiffOutlined, InfoOutlined} from "@ant-design/icons";
+import {CloudSyncOutlined, DiffOutlined, ExportOutlined, FileTextOutlined, FlagOutlined} from "@ant-design/icons";
 import {Access, useAccess} from "@@/plugin-access";
+import SqlApproval from "@/components/dialog/version/SqlAproval";
 
 export const CompareVersionType = {DETAIL: "detail", COMPARE: "compare"}
 
@@ -51,7 +52,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
 
   useEffect(() => {
     versionDispatch.compare(state);
-  }, [state.initVersion, state.incrementVersion,exed]);
+  }, [state.initVersion, state.incrementVersion, exed]);
 
 
   const versionSelect = versions.map((v: any) => {
@@ -104,7 +105,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         <Button key="compare"
                 size={"small"}
                 type={"link"}
-                icon={isDetail ? <InfoOutlined/> : <DiffOutlined/>}
+                icon={isDetail ? <FileTextOutlined/> : <DiffOutlined/>}
                 onClick={() => isDetail ?
                   versionDispatch.showChanges(SHOW_CHANGE_TYPE.CURRENT, null, null, null)
                   : versionDispatch.compare(state)
@@ -115,14 +116,10 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
         render: (props, doms) => {
           console.log(112, props, access);
           return [
-            <Button
-              type="primary"
-              key="approval"
-              title='发起SQL审批'
-              onClick={() => execSQL(false, 'again')}
-            >
-              SQL审批</Button>,
-            <Button type="primary" key="save" onClick={onSave}>导出</Button>,
+            <SqlApproval/>,
+            <Button type="primary" key="save" onClick={onSave}>
+              <ExportOutlined/>导出
+            </Button>,
             <Access
               accessible={access.canErdConnectorDbsync}
               fallback={<></>}
@@ -136,6 +133,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 }}
                 onClick={() => execSQL(true, 'synchronous')}
               >
+                <CloudSyncOutlined/>
                 {state.synchronous ? '正在同步' : '同步'}
               </Button>
             </Access>,
@@ -152,6 +150,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 }}
                 onClick={() => execSQL(true, 'flagSynchronous')}
               >
+                <FlagOutlined/>
                 {state.flagSynchronous ? '正在标记为同步' : '标记为同步'}
               </Button>
             </Access>,

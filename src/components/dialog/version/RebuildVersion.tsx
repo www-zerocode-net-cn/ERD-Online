@@ -3,6 +3,7 @@ import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-component
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
 import {Button} from "antd";
+import {AlertOutlined} from "@ant-design/icons";
 
 
 export type RebuildVersionProps = {};
@@ -29,7 +30,7 @@ const RebuildVersion: React.FC<RebuildVersionProps> = (props) => {
           key="undo"
           type={"primary"}
           disabled={init}
-        >重建基线</Button>
+        ><AlertOutlined/>重建基线</Button>
       }
     >
       <ProFormText

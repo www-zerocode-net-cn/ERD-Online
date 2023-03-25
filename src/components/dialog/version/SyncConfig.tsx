@@ -1,8 +1,9 @@
 import React from 'react';
-import {ProForm, ModalForm, ProFormRadio} from "@ant-design/pro-components";
+import {ModalForm, ProForm, ProFormRadio} from "@ant-design/pro-components";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {Button} from "antd";
+import {ControlOutlined} from "@ant-design/icons";
 
 
 export type SyncConfigProps = {};
@@ -21,7 +22,7 @@ const SyncConfig: React.FC<SyncConfigProps> = (props) => {
       trigger={
         <Button
           key="refresh"
-          type={"primary"}>同步配置</Button>
+          type={"primary"}><ControlOutlined/>同步配置</Button>
       }
       onFinish={async (values: any) => {
         console.log(32, 'setUpgradeType', values);

@@ -6,6 +6,7 @@ import moment from 'moment';
 import useProjectStore from "@/store/project/useProjectStore";
 import * as Save from '@/utils/save';
 import {Button, message} from "antd";
+import {AimOutlined} from "@ant-design/icons";
 
 export type InitVersionProps = {};
 
@@ -30,7 +31,7 @@ const InitVersion: React.FC<InitVersionProps> = (props) => {
           type={"primary"}
           key="selection"
           disabled={!hasDB || !init}
-          >初始化基线</Button>
+        ><AimOutlined/>初始化基线</Button>
       }
       onFinish={async (values: any) => {
         console.log(32, 'setUpgradeType', values);

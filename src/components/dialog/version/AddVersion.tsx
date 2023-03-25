@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {ModalForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import useVersionStore from "@/store/version/useVersionStore";
 import shallow from "zustand/shallow";
-import {InfoCircleOutlined}  from '@ant-design/icons';
+import {InfoCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button} from "antd";
 
 export type AddVersionProps = {
@@ -42,12 +42,12 @@ const AddVersion: React.FC<AddVersionProps> = (props) => {
             key="artifact"
             type="primary"
             disabled={init}
-          >新增版本</Button>
+          ><PlusOutlined/>新增版本</Button>
           : <Button
             type="primary"
             disabled={init}
             title={init ? "未配置数据源不能新增版本" : ""}
-            icon={init ? <InfoCircleOutlined /> : ""}
+            icon={init ? <InfoCircleOutlined/> : ""}
 
           >新增版本</Button>
 
