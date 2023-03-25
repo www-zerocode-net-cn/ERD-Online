@@ -237,7 +237,8 @@ const JExcel: React.FC<JExcelProps> = (props) => {
       const code = _.get(d, 'code');
       const path = `apply.${defaultDatabaseCode}.type`;
       const type = _.get(d, path);
-      if (d && defaultDatabaseCode && code && type) {
+      //只有类型一列变化时，才更新后两列
+      if (d && defaultDatabaseCode && code && type && Number(columnIndex) == 2) {
         jRef?.current?.jexcel?.setValueFromCoords(Number(columnIndex) + 1, rowIndex, code, true);
         jRef?.current?.jexcel?.setValueFromCoords(Number(columnIndex) + 2, rowIndex, type, true);
       }
