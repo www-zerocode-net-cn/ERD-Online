@@ -184,8 +184,8 @@ const useVersionStore = create<VersionState>(
       },
       compareIndexs: (currentTable: any, checkTable: any) => {
         const changes: any = [];
-        const currentIndexs = currentTable.indexs || [];
-        const checkIndexs = checkTable.indexs || [];
+        const currentIndexs = currentTable?.indexs || [];
+        const checkIndexs = checkTable?.indexs || [];
         const checkIndexNames = checkIndexs.map((index: any) => index.name);
         const currentIndexNames = currentIndexs.map((index: any) => index.name);
         currentIndexs.forEach((cIndex: any) => {
@@ -319,6 +319,9 @@ const useVersionStore = create<VersionState>(
                 name: table.title,
                 opt: 'add',
               });
+              // 1.3.2 对比索引
+              const result = get().dispatch.compareIndexs(table, {});
+              changes.push(...result);
             }
           });
           // 3.将比较的表循环，查找删除的表
@@ -612,7 +615,6 @@ const useVersionStore = create<VersionState>(
           .some((v: any) => compareStringVersion(v.version, version.version) <= 0);
       },
       execSQL: (data: any, version: any, updateDBVersion: any, cb: any, onlyUpdateDBVersion: any) => {
-        debugger
         const dbData = get().dispatch.getCurrentDBData();
         if (!dbData) {
           set({
