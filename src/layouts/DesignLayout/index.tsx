@@ -144,7 +144,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
 
 
   return (
-    <WaterMark content={['ERD Online', 'V4.0.9']}>
+    <WaterMark content={['ERD Online', 'V4.0.11']}>
       <ProLayout
         logo={"/logo.svg"}
         title={'ERD Online'}
