@@ -21,9 +21,10 @@ export type JExcelProps = {
 };
 
 const JExcel: React.FC<JExcelProps> = (props) => {
-  const {syncing, setSyncing, datatype, database} = useProjectStore(state => ({
+  const {syncing, setSyncing, datatype, database,projectName} = useProjectStore(state => ({
     syncing: state.syncing,
     setSyncing: state.dispatch.setSyncing,
+    projectName: state.project.projectName,
     datatype: state.project?.projectJSON?.dataTypeDomains?.datatype,
     database: state.project?.projectJSON?.dataTypeDomains?.database,
   }), shallow);
@@ -79,12 +80,17 @@ const JExcel: React.FC<JExcelProps> = (props) => {
 
   ];
 
+  const pagination = 10;
+
   const options = {
     data,
     columns,
+    csvFileName: projectName,
     allowExport: true,
+    loadingSpin: true,
     minDimensions: [1, 1],
     csvHeaders: true,
+    columnDrag: false,
     columnResize: true,
     search: true,
     toolbar: [
@@ -189,7 +195,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
     ],
     text: {
       "noRecordsFound": "未找到",
-      "showingPage": "显示 {1} 条中的第 {0} 条",
+      "showingPage": `第 {0} 页中的 ${pagination} 条`,
       "show": "显示 ",
       "search": "搜索",
       "entries": " 条目",
