@@ -82,7 +82,7 @@ const JExcel: React.FC<JExcelProps> = (props) => {
   const options = {
     data,
     columns,
-    allowExport: false,
+    allowExport: true,
     minDimensions: [1, 1],
     csvHeaders: true,
     columnResize: true,
