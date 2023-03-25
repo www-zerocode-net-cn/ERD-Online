@@ -116,7 +116,6 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       console.log(98, data);
       // @ts-ignore
       let moduleName = data.name;
-      debugger
       // 判断粘贴板的数据是否符合模块的格式
       if (validateModule(data)) {
         let name = moduleName;
@@ -172,7 +171,11 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   })),
   getModuleEntityTree: (searchKey: string) => {
     const tempExpandedKeys: any = [];
-    console.log(70, get().project)
+    const match_entities: any = [];
+    console.log(70, get().project);
+    const tableLimit = get().project?.projectJSON?.profile?.tableLimit || 30;
+    let tmp_table_count=0;
+
     let map = get().project.projectJSON?.modules?.map((module: any) => {
       let relation = {
         type: 'relation',
@@ -182,17 +185,24 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         key: `${module.name}###relation`,
         isLeaf: true
       };
-      let entities = module?.entities?.filter((f: any) => {
+      module?.entities?.some((f: any) => {
+        if(tmp_table_count>=tableLimit){
+          return true;
+        }
         if (searchKey && searchKey.length > 0) {
           const flag = f.title.search(_.escapeRegExp(searchKey)) >= 0;
           if (flag) {
+            match_entities.push(f);
             tempExpandedKeys.push(`module${module.name}`);
+            tmp_table_count = tmp_table_count + 1;
           }
-          return flag
         } else {
-          return true;
+          match_entities.push(f);
+          tmp_table_count = tmp_table_count + 1;
         }
-      }).map((entity: any) => {
+        return false;
+      });
+      let entities = match_entities.map((entity: any) => {
         const tableNameFormat = get().project?.projectJSON?.profile?.tableNameFormat || '{title} {chnname}';
         console.log(102, tableNameFormat?.render(entity))
         return {

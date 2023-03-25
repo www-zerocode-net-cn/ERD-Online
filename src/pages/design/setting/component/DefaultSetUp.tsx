@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProForm, ProFormFieldSet, ProFormText, ProFormUploadButton} from "@ant-design/pro-components";
+import {ProForm, ProFormDigit, ProFormFieldSet, ProFormText, ProFormUploadButton} from "@ant-design/pro-components";
 import * as cache from "@/utils/cache";
 import {Button, message} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
@@ -35,6 +35,15 @@ const DefaultSetUp: React.FC<DefaultSetUpProps> = (props) => {
         extra='仅用于ERD导入导出加密解密'
         name="erdPassword"
         placeholder="默认为ERDOnline"
+      />
+      <ProFormDigit
+        width="lg"
+        min={1}
+        max={100}
+        label="元数据表展示上限"
+        extra='控制元数据表展示上限，默认展示30个表。当可见范围看不到表时，请使用元数据搜索功能；当元数据表很多时，可以减小此参数，加快页面渲染速度，减少卡顿。'
+        name="tableLimit"
+        placeholder="默认30，最小1，最大100"
       />
       <ProFormText
         width="lg"
