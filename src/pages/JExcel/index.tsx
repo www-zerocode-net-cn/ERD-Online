@@ -186,7 +186,9 @@ const JExcel: React.FC<JExcelProps> = (props) => {
               <Tag icon={<ExclamationCircleOutlined />} color="warning">
                 小彩蛋： 您还不知道吧！<br/>
                 这个列表可以像excel一样操作；<br/>
-                还能从excel里面粘贴数据！<br/>
+                能从excel里面粘贴数据；<br/>
+                还能将元数据导出到excel；<br/>
+                像excel一样，在列表点击右键，开启不一样的体验！<br/>
               </Tag>
             </>
           });
