@@ -16,6 +16,8 @@ export default function access(initialState: and) {
   }
 
   return {
+    person: person,//是否是个人项目
+    enterprise: !person,//是否是企业项目
     initialized: person || (permission && permission.includes('initialized')),//标记是否初始化了权限
     canErdProjectGroupEdit: person || (permission && permission.includes('erd_project_group_edit')),//团队基础设置 -修改
     canErdProjectGroupDel: person || (permission && permission.includes('erd_project_group_del')),//团队基础设置 -删除

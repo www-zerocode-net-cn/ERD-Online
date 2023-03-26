@@ -112,7 +112,6 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
             console.log(45, res);
             const data = res?.data;
             if (res?.code === 200 && data) {
-              debugger
               set({
                 project: data
               });

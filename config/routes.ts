@@ -102,6 +102,14 @@
             path: '/design/table/version/all',
             component: './design/version',
           },
+          {
+            path: '/design/table/version/order',
+            component: './design/version/order',
+          },
+          {
+            path: '/design/table/version/approval',
+            component: './design/version/approval',
+          },
         ]
       },
       {

@@ -9,9 +9,19 @@ import {Button, message, Typography} from "antd";
 import moment from "moment";
 import * as File from '@/utils/file';
 import _ from 'lodash';
-import {CloudSyncOutlined, DiffOutlined, ExportOutlined, FileTextOutlined, FlagOutlined} from "@ant-design/icons";
+import {
+  CloudSyncOutlined,
+  CloudUploadOutlined,
+  DiffOutlined,
+  ExportOutlined,
+  FileTextOutlined,
+  FlagOutlined
+} from "@ant-design/icons";
 import {Access, useAccess} from "@@/plugin-access";
-import SqlApproval from "@/components/dialog/version/SqlAproval";
+import SqlApproval from "@/components/dialog/approval/SqlApproval";
+import {useSearchParams} from "@@/exports";
+import * as cache from "@/utils/cache";
+import {CONSTANT} from "@/utils/constant";
 
 const {Paragraph} = Typography;
 
@@ -99,6 +109,12 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
 
   const isDetail = props.type === CompareVersionType.DETAIL;
   const isCompare = props.type === CompareVersionType.COMPARE;
+
+  const [searchParams] = useSearchParams();
+  let projectId = searchParams.get("projectId") || '';
+  if (!projectId || projectId === '') {
+    projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }
   return (<>
     <ModalForm
       title={isDetail ? "版本变更详情" : "任意版本比较"}
@@ -122,7 +138,12 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
               accessible={access.enterprise}
               fallback={<></>}
             >
-              <SqlApproval/>
+              <SqlApproval
+                projectId={projectId}
+                approveSql={data}
+                versionId={currentVersion.id}
+                display={(isDetail && currentVersion.version && compareStringVersion(currentVersion.version, dbVersion) > 0) ? '' : 'none'}
+              />
             </Access>,
             <Button type="primary" key="save" onClick={onSave}>
               <ExportOutlined/>导出
@@ -140,7 +161,7 @@ const CompareVersion: React.FC<CompareVersionProps> = (props) => {
                 }}
                 onClick={() => execSQL(true, 'synchronous')}
               >
-                <CloudSyncOutlined/>
+                <CloudUploadOutlined/>
                 {state.synchronous ? '正在同步' : '同步'}
               </Button>
             </Access>,

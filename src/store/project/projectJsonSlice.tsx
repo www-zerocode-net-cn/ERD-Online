@@ -98,13 +98,13 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     state.project.projectJSON = value
   })),
   setModules: (value: any) => set(produce(state => {
-    state.project.projectJSON = value
+    state.project.projectJSON.modules = value
   })),
   setDataTypeDomains: (value: any) => set(produce(state => {
-    state.project.projectJSON = value
+    state.project.projectJSON.dataTypeDomains = value
   })),
   setProfile: (value: any) => set(produce(state => {
-    state.project.projectJSON = value
+    state.project.projectJSON.profile = value
   })),
   addProjectTableTitle: (title: string) => set(produce(state => {
     state.tables.push(title);

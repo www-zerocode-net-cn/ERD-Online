@@ -85,7 +85,6 @@ const EntitiesSlice = (set: SetState<ProjectState>) => ({
   copyEntity: (payload: any) => set(produce(state => {
     const entityTitle = payload.title;
     const currentEntity = state.project.projectJSON?.modules[state.currentModuleIndex]?.entities.find((m: any) => m.title === entityTitle);
-    debugger
     if (currentEntity) {
       cache.setItem(ERD_ENTITY_CLIPBOARD, currentEntity);
       message.success("复制成功")

@@ -1,4 +1,5 @@
 import {
+  Audit,
   Column,
   DatabaseConfig,
   DatabaseDownload,
@@ -11,7 +12,7 @@ import {
   Outbound,
   SettingConfig,
   SettingTwo,
-  Sphere,
+  Sphere, TransactionOrder,
   Warehousing
 } from "@icon-park/react";
 
@@ -41,6 +42,16 @@ export default {
             name: '版本管理',
             icon: <History theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
             access: 'canErdHisprojectAll',
+          },
+          {
+            path: '/design/table/version/order',
+            name: '我的工单',
+            icon: <TransactionOrder theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+          },
+          {
+            path: '/design/table/version/approval',
+            name: '我的审批',
+            icon: <Audit theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
           },
         ],
       },

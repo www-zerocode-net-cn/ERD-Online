@@ -44,6 +44,7 @@ export type IVersionSlice = {
   getCMD: (updateVersion: any, onlyUpdateVersion: any) => any;
   connectJDBC: (param: any, opt: any, cb: any) => void;
   updateVersionData: (newVersion: any, oldVersion: any, status: any) => void;
+  revertVersionData: () => void;
   readDb: (status: any, version: any, lastVersion: any, changes: any, initVersion: any, updateVersion: any) => void;
   saveNewVersion: (version: any) => void;
   rebuild: (tempValue: any) => void;
@@ -626,7 +627,7 @@ const useVersionStore = create<VersionState>(
         } else {
           Modal.confirm({
             title: '同步确认',
-            content: onlyUpdateDBVersion?'元数据即将标记为同步，标记为同步后不可撤销，确定标记吗？':'元数据即将同步到数据源，同步后不可撤销，确定同步吗？',
+            content: onlyUpdateDBVersion ? '元数据即将标记为同步，标记为同步后不可撤销，确定标记吗？' : '元数据即将同步到数据源，同步后不可撤销，确定同步吗？',
             onOk: (m) => {
               const cb1 = () => {
                 get().fetch(null);
@@ -748,6 +749,17 @@ const useVersionStore = create<VersionState>(
           });
         }
         get().fetch(null);
+      },
+      revertVersionData: () => {
+        console.log(754, get().currentVersion);
+        // get().dispatch.s
+        // useProjectStore.getState().dispatch.setProjectJson({});
+        const modules = get()?.currentVersion?.projectJSON?.modules;
+        if (modules instanceof Array && modules.length > 0) {
+          useProjectStore.getState().dispatch.setModules(modules);
+          message.success(`成功回滚至「${get()?.currentVersion?.version}」`);
+          get().fetch(null);
+        }
       },
       readDb: (status: any, version: any, lastVersion: any, changes = [], initVersion: any, updateVersion: any) => {
         if (!status) {

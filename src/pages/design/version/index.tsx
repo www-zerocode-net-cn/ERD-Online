@@ -16,6 +16,9 @@ import SyncVersion from "@/components/dialog/version/SyncVersion";
 import {CheckCircleFilled, WarningFilled} from "@ant-design/icons";
 import _ from "lodash";
 import {Access, useAccess} from "@@/plugin-access";
+import RevertVersion from "@/components/dialog/version/RevertVersion";
+import CopyVersion from "@/components/dialog/version/CopyVersion";
+import CopyProject from "@/components/dialog/project/CopyProject";
 
 const {Option, OptGroup} = Select;
 
@@ -141,6 +144,8 @@ const Version: React.FC<VersionProps> = (props) => {
               >
                 <RemoveVersion/>
               </Access>,
+              <CopyProject projectJSON={row.projectJSON}/>,
+              <RevertVersion synced={compareStringVersion(row.version, dbVersion) > 0}/>,
               <Access
                 accessible={access.canErdConnectorDbsync}
                 fallback={<></>}
