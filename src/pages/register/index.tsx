@@ -8,7 +8,7 @@ export default () => {
   return (
     <div style={{backgroundColor: 'white', height: 'calc(100vh - 48px)', margin: 24}}>
       <LoginFormPage
-        backgroundImageUrl="../login-bg.jpg"
+        backgroundImageUrl="../bg2.png"
         logo="../logo.svg"
         title="ERD Online"
         subTitle="全球第一个开源在线数据库建模平台"
@@ -41,9 +41,9 @@ export default () => {
             boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
             color: '#fff',
             borderRadius: 8,
-            backgroundColor: '#1677FF',
+            backgroundColor: '#f16824',
           },
-          title: 'ERD Online 4.0.9发布',
+          title: 'ERD Online 4.0.11发布',
           subTitle: '全新升级，团队协作，权限控制',
           action: (
             <Button
