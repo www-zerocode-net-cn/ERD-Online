@@ -1,0 +1,131 @@
+version: "3"
+services:
+  erd-redis:
+    image: erdonline/erd-redis:latest
+    restart: on-failure
+    container_name: erd-redis
+    ports:
+      - 6379:6379
+    networks:
+      - erd
+
+  erd-mysql:
+    container_name: erd-mysql
+    restart: always
+    image: erdonline/erd-mysql:latest
+    env_file:
+      - ./env/mysql.env
+    volumes:
+      - ./mysql:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
+    networks:
+      - erd
+
+  erd-nacos:
+    image: erdonline/erd-nacos:latest
+    container_name: erd-nacos
+    restart: always
+    env_file:
+      - ./env/nacos-standlone-mysql.env
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9555:9555"
+    depends_on:
+      - erd-mysql
+    networks:
+      - erd
+
+  erd-zerocode:
+    image: erdonline/erd-zerocode:latest
+    restart: on-failure
+    env_file:
+      - ./env/erd.env
+    container_name: erd-zerocode
+    environment:
+      NACOS-HOST: erd-nacos
+      JAVA_OPTS: " -Xms512m -Xmx512m "
+    depends_on:
+      - erd-nacos
+    networks:
+      - erd
+
+  erd-gateway:
+    image: erdonline/erd-gateway:latest
+    restart: on-failure
+    env_file:
+      - ./env/erd.env
+    container_name: erd-gateway
+    environment:
+      NACOS-HOST: erd-nacos
+      JAVA_OPTS: " -Xms512m -Xmx512m "
+    ports:
+      - 9502:9502
+    depends_on:
+      - erd-nacos
+    networks:
+      - erd
+
+
+  erd-auth:
+    image: erdonline/erd-auth:latest
+    restart: on-failure
+    env_file:
+      - ./env/erd.env
+    container_name: erd-auth
+    environment:
+      NACOS-HOST: erd-nacos
+      JAVA_OPTS: " -Xms512m -Xmx512m "
+    depends_on:
+      - erd-nacos
+    networks:
+      - erd
+
+
+  erd-system:
+    image: erdonline/erd-system:latest
+    restart: on-failure
+    env_file:
+      - ./env/erd.env
+    container_name: erd-system
+    environment:
+      NACOS-HOST: erd-nacos
+      JAVA_OPTS: " -Xms512m -Xmx512m "
+    depends_on:
+      - erd-nacos
+    networks:
+      - erd
+
+  erd-ui:
+    image: erdonline/erd-ui:latest
+    container_name: erd-ui
+    restart: on-failure
+    env_file:
+      - ./env/ui.env
+    ports:
+      - "9669:9669"
+    networks:
+      - erd
+
+  erd-minio:
+    image: erdonline/erd-minio:latest
+    container_name: minio
+    restart: always
+    command: server /data --console-address ":9001"
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    volumes:
+      - ./minio/data:/data
+    networks:
+      - erd
+
+
+networks:
+  erd:
+    external: true
+
