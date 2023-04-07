@@ -48,7 +48,7 @@
 ![milepost](/img/milepost.png)
 
 ## 产品图鉴
-![ERD Online功能树](https://user-images.githubusercontent.com/26294919/230535320-10f2139b-3c4f-4f25-ad8d-56db4cbeba16.png)
+![ERD Online功能树](https://user-images.githubusercontent.com/26294919/230535866-1936a1aa-099b-4b75-80ba-442c2c22cf55.png)
 
 ## 关于我们
 
