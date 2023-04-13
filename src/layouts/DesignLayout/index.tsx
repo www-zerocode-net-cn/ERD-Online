@@ -7,7 +7,7 @@ import shallow from "zustand/shallow";
 import _ from 'lodash';
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from "@ant-design/pro-components";
 import {history, Outlet, useSearchParams} from "@@/exports";
-import {Me, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
+import {Me, RedEnvelope, TwoDimensionalCodeOne, TwoDimensionalCodeTwo, WeixinMiniApp} from "@icon-park/react";
 import {Button, Dropdown, Image, message, Popover} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
@@ -26,6 +26,9 @@ export const siderWidth = 333;
 
 export const headRightContent = [
 
+  <Popover placement="bottom" title="赏口饭吃" content={<Image src="/zanshang.jpg"/>} trigger="hover">
+    <RedEnvelope theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
+  </Popover>,
   <Popover placement="bottom" title="公众号" content={<Image src="/mp.jpg"/>} trigger="hover">
     <TwoDimensionalCodeOne theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
   </Popover>,
