@@ -25,7 +25,7 @@ export default {
         icon: <DatabaseNetwork theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         routes: [
           {
-            path: 'https://www.zerocode.net.cn/',
+            path: 'https://github.com/orgs/www-zerocode-net-cn/discussions',
             name: 'ERD Online 论坛',
             icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
           },
@@ -133,7 +133,19 @@ export default {
         icon: <DatabaseSearch theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         routes: [
           {
-            path: 'https://www.zerocode.net.cn/',
+            path: 'https://github.com/orgs/www-zerocode-net-cn/discussions',
+            name: 'ERD Online 论坛',
+            icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
+          },
+        ]
+      },
+      {
+        path: '/design/table/query',
+        name: 'Chat SQL',
+        icon: <DatabaseSearch theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
+        routes: [
+          {
+            path: 'https://github.com/orgs/www-zerocode-net-cn/discussions',
             name: 'ERD Online 论坛',
             icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
           },

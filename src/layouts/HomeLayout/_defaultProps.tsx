@@ -26,7 +26,7 @@ export default {
       },
       {
         exact: true,
-        path: 'https://www.zerocode.net.cn/',
+        path: 'https://github.com/orgs/www-zerocode-net-cn/discussions',
         name: 'ERD Online 论坛',
         icon: <Sphere theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
       },

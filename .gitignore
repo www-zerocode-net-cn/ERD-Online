@@ -38,3 +38,5 @@ screenshot
 build
 /erd.tar.gz
 /ci/erd.tar.gz
+/docker/minio/data/.minio.sys/
+/docker/mysql/
