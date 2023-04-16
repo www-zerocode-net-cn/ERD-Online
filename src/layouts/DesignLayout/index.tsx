@@ -26,7 +26,7 @@ export const siderWidth = 333;
 
 export const headRightContent = [
 
-  <Popover placement="bottom" title="赏口饭吃" content={<Image src="/zanshang.jpg"/>} trigger="hover">
+  <Popover placement="bottom" title="赞助" content={<Image src="/zanshang.jpg"/>} trigger="hover">
     <RedEnvelope theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
   </Popover>,
   <Popover placement="bottom" title="公众号" content={<Image src="/mp.jpg"/>} trigger="hover">
@@ -91,7 +91,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
 
   console.log(19, 'projectId', projectId);
 
-  const {fetch, project,initSocket,closeSocket} = useProjectStore(
+  const {fetch, project, initSocket, closeSocket} = useProjectStore(
     state => ({
       fetch: state.fetch,
       project: state.project,
@@ -193,7 +193,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
         menuExtraRender={(props) => {
           console.log(118, props)
           return (
-            pathname === '/design/table/model'
+            pathname === '/design/table/model' || pathname === '/design/table/chatsql'
               ? <DesignLeftContent collapsed={props.collapsed}/>
               : pathname === '/design/table/query'
               ? <QueryLeftContent collapsed={props.collapsed}/> : null

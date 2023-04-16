@@ -177,6 +177,10 @@
         component: './design/table',
       },
       {
+        path: '/design/table/chatsql',
+        component: './design/chatsql',
+      },
+      {
         component: './404',
       },
     ],

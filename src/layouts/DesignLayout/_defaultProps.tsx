@@ -140,7 +140,7 @@ export default {
         ]
       },
       {
-        path: '/design/table/query',
+        path: '/design/table/chatsql',
         name: 'Chat SQL',
         icon: <DatabaseSearch theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>,
         routes: [

@@ -29,6 +29,7 @@ export default defineConfig({
   },
   headScripts:[
     '/js/g6.min.js',
+    '/js/chatui-icons.js',
     '/js/g6-plugins.min.js',
     '/js/html2canvas.min.js',
     '/env-config.js?date='+ new Date(),
