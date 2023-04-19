@@ -60,7 +60,7 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
   };
 
   return (
-    <WaterMark content={['ERD Online', 'V4.0.11']}>
+    <WaterMark content={['ERD Online', 'V4.1.0']}>
       <ProLayout
         logo={"/logo.svg"}
         title={"ERD Online"}
