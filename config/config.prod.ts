@@ -8,5 +8,5 @@ export default defineConfig({
   },
   // 打包时移除 console
   extraBabelPlugins: ['transform-remove-console'],
-
+  esbuildMinifyIIFE: true
 });
