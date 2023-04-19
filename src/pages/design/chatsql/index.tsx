@@ -6,7 +6,7 @@ import {ProCard} from "@ant-design/pro-components";
 import _ from "lodash";
 import {POST} from "@/services/crud";
 import copy from 'copy-to-clipboard';
-import {FloatButton, List, message, Typography} from "antd";
+import {FloatButton, List, Typography} from "antd";
 import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {uuid} from "@/utils/uuid";
@@ -272,6 +272,7 @@ const ChatSQL: React.FC<ChatSQLProps> = (props) => {
         toast.fail('最多只能同时分析5张表！');
         return;
       }
+      // @ts-ignore
       setSelectedTable([...selectedTable, aiKey]);
       toast.success('加入成功');
     } else {
@@ -351,4 +352,4 @@ const ChatSQL: React.FC<ChatSQLProps> = (props) => {
   );
 };
 
-export default React.memo(ChatSQL)
+export default ChatSQL

@@ -187,7 +187,7 @@
   },
   {
     path: '/',
-    redirect: '/project/home',
+    redirect: '/login',
   },
   {path: '/*', component: './404',},
   {
