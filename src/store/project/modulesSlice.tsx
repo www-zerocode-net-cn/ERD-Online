@@ -172,21 +172,21 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   getModuleEntityTree: (searchKey: string) => {
     const tempExpandedKeys: any = [];
     console.log(70, get().project);
-    const tableLimit = get().project?.projectJSON?.profile?.tableLimit || 15;
+    const tableLimit = get().project?.projectJSON?.profile?.tableLimit || 30;
     let tmp_table_count=0;
-    debugger
 
-    let map = get().project.projectJSON?.modules?.map((tmpModule: any) => {
+    let map = get().project.projectJSON?.modules?.map((module: any) => {
       const match_entities: any = [];
+
       let relation = {
         type: 'relation',
-        module: tmpModule.name,
+        module: module.name,
         title: '关系图',
         formatName: '关系图',
-        key: `${tmpModule.name}###relation`,
+        key: `${module.name}###relation`,
         isLeaf: true
       };
-      tmpModule?.entities?.some((f: any) => {
+      module?.entities?.some((f: any) => {
         if(tmp_table_count>=tableLimit){
           return true;
         }
@@ -194,7 +194,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
           const flag = f.title.search(_.escapeRegExp(searchKey)) >= 0;
           if (flag) {
             match_entities.push(f);
-            tempExpandedKeys.push(`module${tmpModule.name}`);
+            tempExpandedKeys.push(`module${module.name}`);
             tmp_table_count = tmp_table_count + 1;
           }
         } else {
@@ -208,7 +208,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         console.log(102, tableNameFormat?.render(entity))
         return {
           type: 'entity',
-          module: tmpModule.name,
+          module: module.name,
           length: entity?.fields?.length,
           title: entity.title,
           chnname: entity.chnname,
@@ -219,14 +219,14 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       });
       const moduleNameFormat = get().project?.projectJSON?.profile?.moduleNameFormat || '{name} {chnname}';
       return {
-        type: 'tmpModule',
-        formatName: moduleNameFormat.render(tmpModule),
-        name: tmpModule.name,
-        chnname: tmpModule.chnname,
-        module: tmpModule.name,
-        length: tmpModule?.entities?.length,
-        title: tmpModule.name,
-        key: `module${tmpModule.name}`,
+        type: 'module',
+        formatName: moduleNameFormat.render(module),
+        name: module.name,
+        chnname: module.chnname,
+        module: module.name,
+        length: module?.entities?.length,
+        title: module.name,
+        key: `module${module.name}`,
         children: _.concat(relation, entities)
       }
     });
