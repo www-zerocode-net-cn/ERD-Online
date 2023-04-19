@@ -171,21 +171,22 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   })),
   getModuleEntityTree: (searchKey: string) => {
     const tempExpandedKeys: any = [];
-    const match_entities: any = [];
     console.log(70, get().project);
-    const tableLimit = get().project?.projectJSON?.profile?.tableLimit || 30;
+    const tableLimit = get().project?.projectJSON?.profile?.tableLimit || 15;
     let tmp_table_count=0;
+    debugger
 
-    let map = get().project.projectJSON?.modules?.map((module: any) => {
+    let map = get().project.projectJSON?.modules?.map((tmpModule: any) => {
+      const match_entities: any = [];
       let relation = {
         type: 'relation',
-        module: module.name,
+        module: tmpModule.name,
         title: '关系图',
         formatName: '关系图',
-        key: `${module.name}###relation`,
+        key: `${tmpModule.name}###relation`,
         isLeaf: true
       };
-      module?.entities?.some((f: any) => {
+      tmpModule?.entities?.some((f: any) => {
         if(tmp_table_count>=tableLimit){
           return true;
         }
@@ -193,7 +194,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
           const flag = f.title.search(_.escapeRegExp(searchKey)) >= 0;
           if (flag) {
             match_entities.push(f);
-            tempExpandedKeys.push(`module${module.name}`);
+            tempExpandedKeys.push(`module${tmpModule.name}`);
             tmp_table_count = tmp_table_count + 1;
           }
         } else {
@@ -207,7 +208,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
         console.log(102, tableNameFormat?.render(entity))
         return {
           type: 'entity',
-          module: module.name,
+          module: tmpModule.name,
           length: entity?.fields?.length,
           title: entity.title,
           chnname: entity.chnname,
@@ -218,14 +219,14 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
       });
       const moduleNameFormat = get().project?.projectJSON?.profile?.moduleNameFormat || '{name} {chnname}';
       return {
-        type: 'module',
-        formatName: moduleNameFormat.render(module),
-        name: module.name,
-        chnname: module.chnname,
-        module: module.name,
-        length: module?.entities?.length,
-        title: module.name,
-        key: `module${module.name}`,
+        type: 'tmpModule',
+        formatName: moduleNameFormat.render(tmpModule),
+        name: tmpModule.name,
+        chnname: tmpModule.chnname,
+        module: tmpModule.name,
+        length: tmpModule?.entities?.length,
+        title: tmpModule.name,
+        key: `module${tmpModule.name}`,
         children: _.concat(relation, entities)
       }
     });
