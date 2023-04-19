@@ -172,7 +172,7 @@ const ModulesSlice = (set: SetState<ProjectState>, get: GetState<ProjectState>) 
   getModuleEntityTree: (searchKey: string) => {
     const tempExpandedKeys: any = [];
     console.log(70, get().project);
-    const tableLimit = get().project?.projectJSON?.profile?.tableLimit || 30;
+    const tableLimit = get().project?.projectJSON?.profile?.tableLimit || 20;
     let tmp_table_count=0;
 
     let map = get().project.projectJSON?.modules?.map((module: any) => {
