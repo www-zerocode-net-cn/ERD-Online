@@ -1,3 +1,3 @@
 window._env_ = {
-  API_URL: "https://erd.zerocode.net.cn",
+  API_URL: "http://localhost:9502",
 }

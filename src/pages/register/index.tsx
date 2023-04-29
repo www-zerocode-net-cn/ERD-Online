@@ -43,7 +43,7 @@ export default () => {
             borderRadius: 8,
             backgroundColor: '#f16824',
           },
-          title: 'ERD Online 4.1.0发布',
+          title: 'ERD Online 4.1.1发布',
           subTitle: '全新升级，团队协作，权限控制，接入ChatGPT，智能SQL',
           action: (
             <Button
