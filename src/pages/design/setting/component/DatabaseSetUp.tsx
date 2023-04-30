@@ -264,7 +264,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                   onBlur: (e) => {
                     console.log(254, e.target.value);
                     projectDispatch.updateDbs('properties', {
-                      ...defaultDbs.properties,
+                      ...defaultDbs?.properties,
                       url: e.target.value
                     });
                   }
@@ -318,7 +318,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
                   onBlur: (e) => {
                     console.log(308, e.target.value);
                     projectDispatch.updateDbs('properties', {
-                      ...defaultDbs.properties,
+                      ...defaultDbs?.properties,
                       password: e.target.value
                     });
                   }
