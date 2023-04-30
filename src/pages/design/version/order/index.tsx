@@ -1,8 +1,7 @@
 import React, {useRef} from "react";
-import {ConsoleSqlOutlined} from '@ant-design/icons';
 import type {ActionType, ProColumns} from '@ant-design/pro-components';
 import {ProTable} from '@ant-design/pro-components';
-import {Button, Modal} from 'antd';
+import {Modal} from 'antd';
 import {GET} from "@/services/crud";
 import CancelApproval from "@/components/dialog/approval/CancelApproval";
 import RepeatApproval from "@/components/dialog/approval/RepeatApproval";

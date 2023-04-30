@@ -1,5 +1,5 @@
 import React, {useRef} from "react";
-import {ActionType, ProColumns, ProDescriptions, ProTable} from '@ant-design/pro-components';
+import {ActionType, ProColumns, ProTable} from '@ant-design/pro-components';
 import {GET} from "@/services/crud";
 import PassApproval from "@/components/dialog/approval/PassApproval";
 import RefuseApproval from "@/components/dialog/approval/RefuseApproval";
