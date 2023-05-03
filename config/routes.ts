@@ -189,6 +189,24 @@
     path: '/',
     redirect: '/project/home',
   },
+
+  {
+    name: 'account',
+    icon: 'user',
+    path: '/account',
+    routes: [
+      {
+        path: '/account',
+        redirect: '/account/settings',
+      },
+      {
+        name: 'settings',
+        icon: 'smile',
+        path: '/account/settings',
+        component: './account/settings',
+      },
+    ],
+  },
   {path: '/*', component: './404',},
   {
     component: './404',

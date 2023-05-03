@@ -182,11 +182,21 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
           size: 'small',
-          title: <Dropdown overlay={<Button onClick={() => {
-            setInitialState((s: any) => ({...s, access: {}}));
-            logout();
-          }}>退出登录</Button>} placement="bottom"
-                           arrow={{pointAtCenter: true}}>
+          title: <Dropdown
+            placement="bottom"
+            arrow={{pointAtCenter: true}}
+            overlay={
+              <>
+                <Button onClick={() => {
+                  setInitialState((s: any) => ({...s, access: {}}));
+                  logout();
+                }}>个人信息</Button>
+                <Button onClick={() => {
+                  setInitialState((s: any) => ({...s, access: {}}));
+                  logout();
+                }}>退出登录</Button>
+              </>
+            }>
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
         }}

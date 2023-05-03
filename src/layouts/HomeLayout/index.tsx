@@ -4,12 +4,13 @@ import {history, Link, Outlet} from "@@/exports";
 import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from '@ant-design/pro-components';
 import {Me} from "@icon-park/react";
 import {headRightContent} from "@/layouts/DesignLayout";
-import {Button, ConfigProvider, Dropdown, theme} from "antd";
+import {Button, ConfigProvider, Dropdown, Menu, theme} from "antd";
 import {logout} from "@/utils/request";
 import * as cache from "@/utils/cache";
 import {useModel} from "@umijs/max";
 import useTabStore from "@/store/tab/useTabStore";
 import Theme from "@/components/Theme";
+import {LogoutOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 
 
 export interface HomeLayoutLayoutProps {
@@ -36,6 +37,26 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
     "fixedHeader": true
   };
 
+  const menuHeaderDropdown = (
+    <Menu selectedKeys={[]}>
+      <Menu.Item key="center" onClick={()=>{
+        history.push("/account/settings")
+      }}>
+        <UserOutlined/>
+        个人中心
+      </Menu.Item>
+      <Menu.Divider/>
+
+      <Menu.Item key="logout" onClick={() => {
+        setInitialState((s: any) => ({...s, access: {}}));
+        logout();
+      }}>
+        <LogoutOutlined/>
+        退出登录
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <WaterMark content={['ERD Online', 'V4.1.1']}>
 
@@ -48,11 +69,10 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
         }}
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
-          title: <Dropdown overlay={<Button onClick={() => {
-            setInitialState((s: any) => ({...s, access: {}}));
-            logout();
-          }}>退出登录</Button>} placement="bottom"
-                           arrow={{pointAtCenter: true}}>
+          title: <Dropdown
+            placement="bottom"
+            arrow={{pointAtCenter: true}}
+            overlay={menuHeaderDropdown}>
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
         }}
@@ -104,6 +124,6 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
         </PageContainer>
       </ProLayout>
     </WaterMark>
-);
+  );
 }
 export default React.memo(HomeLayout);
