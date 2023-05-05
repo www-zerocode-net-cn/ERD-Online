@@ -5,7 +5,8 @@ import ProForm, {ProFormText,} from '@ant-design/pro-form';
 
 import styles from './BaseView.less';
 import {useRequest} from "@umijs/hooks";
-import {GET} from "@/services/crud";
+import {GET, POST} from "@/services/crud";
+import {values} from "idb-keyval";
 
 // 头像组件 方便以后独立，增加裁剪之类的功能
 const AvatarView = ({avatar}: { avatar: string }) => (
@@ -43,8 +44,13 @@ const BaseView: React.FC = () => {
     return '/logo.svg';
   };
 
-  const handleFinish = async () => {
-    message.success('更新基本信息成功');
+  const handleFinish = async (values: any) => {
+    console.log(48, values);
+    POST('/syst/user/settings/update', values).then(r => {
+      if (r && r.code === 200) {
+        message.success('更新基本信息成功');
+      }
+    });
   };
   return (
     <div className={styles.baseView}>
@@ -53,7 +59,7 @@ const BaseView: React.FC = () => {
           <div className={styles.left}>
             <ProForm
               layout="vertical"
-              onFinish={handleFinish}
+              onFinish={(values) => handleFinish(values)}
               submitter={{
                 searchConfig: {
                   submitText: '更新基本信息',

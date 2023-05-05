@@ -1,5 +1,6 @@
 import React from 'react';
 import {List} from 'antd';
+import ResetPassword from "@/components/dialog/account/ResetPassword";
 
 type Unpacked<T> = T extends (infer U)[] ? U : T;
 
@@ -19,7 +20,7 @@ const SecurityView: React.FC = () => {
           {passwordStrength.strong}
         </>
       ),
-      actions: [<a key="Modify">修改</a>],
+      actions: [<ResetPassword/>],
     },
 
   ];

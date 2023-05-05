@@ -17,6 +17,25 @@ export interface HomeLayoutLayoutProps {
   children: any;
 }
 
+export const menuHeaderDropdown = (
+  <Menu selectedKeys={[]}>
+    <Menu.Item key="center" onClick={()=>{
+      history.push("/account/settings")
+    }}>
+      <UserOutlined/>
+      个人中心
+    </Menu.Item>
+    <Menu.Divider/>
+
+    <Menu.Item key="logout" onClick={() => {
+      logout();
+    }}>
+      <LogoutOutlined/>
+      退出登录
+    </Menu.Item>
+  </Menu>
+);
+
 const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   const [pathname, setPathname] = useState('/project/home');
   const {setInitialState} = useModel('@@initialState');
@@ -37,25 +56,7 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
     "fixedHeader": true
   };
 
-  const menuHeaderDropdown = (
-    <Menu selectedKeys={[]}>
-      <Menu.Item key="center" onClick={()=>{
-        history.push("/account/settings")
-      }}>
-        <UserOutlined/>
-        个人中心
-      </Menu.Item>
-      <Menu.Divider/>
 
-      <Menu.Item key="logout" onClick={() => {
-        setInitialState((s: any) => ({...s, access: {}}));
-        logout();
-      }}>
-        <LogoutOutlined/>
-        退出登录
-      </Menu.Item>
-    </Menu>
-  );
 
   return (
     <WaterMark content={['ERD Online', 'V4.1.1']}>

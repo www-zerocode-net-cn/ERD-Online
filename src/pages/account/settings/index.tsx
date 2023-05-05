@@ -1,12 +1,16 @@
 import React, {useLayoutEffect, useRef, useState} from 'react';
 import {GridContent} from '@ant-design/pro-layout';
-import {Menu} from 'antd';
+import {Dropdown, Menu} from 'antd';
 import BaseView from './components/base';
 import BindingView from './components/binding';
-import NotificationView from './components/notification';
 import SecurityView from './components/security';
 import styles from './style.less';
 import Identification from "@/pages/account/settings/components/identification";
+import {PageContainer, ProCard, ProLayout, ProSettings, WaterMark} from '@ant-design/pro-components';
+import {headRightContent} from "@/layouts/DesignLayout";
+import {Me} from "@icon-park/react";
+import * as cache from "@/utils/cache";
+import {menuHeaderDropdown} from "@/layouts/HomeLayout";
 
 const {Item} = Menu;
 
@@ -21,7 +25,7 @@ const Settings: React.FC = () => {
     base: '基本设置',
     security: '安全设置',
     binding: '账号绑定',
-    identification: '认证类型',
+    // identification: '认证类型',
   };
 
   const [initConfig, setInitConfig] = useState<SettingsState>({
@@ -76,37 +80,113 @@ const Settings: React.FC = () => {
         return null;
     }
   };
+  const settings: ProSettings | undefined = {
+    fixSiderbar: true,
+    layout: 'top',
+    splitMenus: true,
+  };
+  const [pathname, setPathname] = useState('/project/home');
+
 
   return (
-    <GridContent>
-      <div
-        className={styles.main}
-        ref={(ref) => {
-          if (ref) {
-            dom.current = ref;
-          }
+    <WaterMark content={['ERD Online', 'V4.1.1']}>
+
+      <ProLayout
+        logo={"/logo.svg"}
+        title={"ERD Online"}
+        bgLayoutImgList={[
+          {
+            src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
+            left: 85,
+            bottom: 100,
+            height: '303px',
+          },
+          {
+            src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
+            bottom: -68,
+            right: -45,
+            height: '303px',
+          },
+          {
+            src: 'https://img.alicdn.com/imgextra/i3/O1CN018NxReL1shX85Yz6Cx_!!6000000005798-2-tps-884-496.png',
+            bottom: 0,
+            left: 0,
+            width: '331px',
+          },
+        ]}
+        location={{
+          pathname,
         }}
+        avatarProps={{
+          src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
+          title: <Dropdown
+            placement="bottom"
+            arrow={{pointAtCenter: true}}
+            overlay={menuHeaderDropdown}>
+            <div>{cache.getItem('username')}</div>
+          </Dropdown>,
+        }}
+        actionsRender={(props) => {
+          if (props.isMobile) return [];
+          return headRightContent;
+        }}
+        menuFooterRender={(props) => {
+          if (props?.collapsed) return undefined;
+          return (
+            <div
+              style={{
+                textAlign: 'center',
+                paddingBlockStart: 12,
+              }}
+            >
+              <div>© 2023 Made with 零代科技</div>
+              <div>ERD Online</div>
+            </div>
+          );
+        }}
+        {...settings}
       >
-        <div className={styles.leftMenu}>
-          <Menu
-            mode={initConfig.mode}
-            selectedKeys={[initConfig.selectKey]}
-            onClick={({key}) => {
-              setInitConfig({
-                ...initConfig,
-                selectKey: key as SettingsStateKeys,
-              });
+        <PageContainer title={false}>
+          <ProCard
+            style={{
+              height: '80vh',
+              minHeight: 800,
             }}
           >
-            {getMenu()}
-          </Menu>
-        </div>
-        <div className={styles.right}>
-          <div className={styles.title}>{menuMap[initConfig.selectKey]}</div>
-          {renderChildren()}
-        </div>
-      </div>
-    </GridContent>
+            <GridContent>
+              <div
+                className={styles.main}
+                ref={(ref) => {
+                  if (ref) {
+                    dom.current = ref;
+                  }
+                }}
+              >
+                <div className={styles.leftMenu}>
+                  <Menu
+                    mode={initConfig.mode}
+                    selectedKeys={[initConfig.selectKey]}
+                    onClick={({key}) => {
+                      setInitConfig({
+                        ...initConfig,
+                        selectKey: key as SettingsStateKeys,
+                      });
+                    }}
+                  >
+                    {getMenu()}
+                  </Menu>
+                </div>
+                <div className={styles.right}>
+                  <div className={styles.title}>{menuMap[initConfig.selectKey]}</div>
+                  {renderChildren()}
+                </div>
+              </div>
+            </GridContent>
+          </ProCard>
+        </PageContainer>
+      </ProLayout>
+    </WaterMark>
+
   );
 };
 export default Settings;
