@@ -1,20 +1,18 @@
-import {PageContainer} from '@ant-design/pro-components';
+import type {FC} from 'react';
+import {Avatar, Card, Col, List, Skeleton, Row, Statistic} from 'antd';
+import {Radar} from '@ant-design/charts';
 
-import React, {FC, useEffect, useState} from 'react';
-import {Avatar, Card, Col, List, Row, Skeleton, Statistic} from "antd";
-import {GET} from '@/services/crud';
-import {Link} from "@@/exports";
+import moment from 'moment';
+import EditableLinkGroup from './components/EditableLinkGroup';
+import styles from './style.less';
+import type {ActivitiesType, CurrentUser} from './data.d';
+import {queryProjectNotice, queryActivities, fakeChartData} from './service';
 import {useRequest} from "@umijs/hooks";
-import {CurrentUser} from "@/pages/account/settings/data";
-import styles from './index.less';
-import {ActivitiesType} from "@/pages/project/home/data";
-import {fakeChartData, queryActivities} from './service';
-import EditableLinkGroup from "@/pages/project/home/components/EditableLinkGroup";
-import moment from "moment";
-import {ProjectOutlined} from "@ant-design/icons";
+import {Link} from "@@/exports";
+import {GET} from "@/services/crud";
+import React, {useEffect, useState} from "react";
+import {PageContainer} from "@ant-design/pro-components";
 
-
-export type HomeProps = {};
 const links = [
   {
     title: '操作一',
@@ -28,7 +26,18 @@ const links = [
     title: '操作三',
     href: '',
   },
-
+  {
+    title: '操作四',
+    href: '',
+  },
+  {
+    title: '操作五',
+    href: '',
+  },
+  {
+    title: '操作六',
+    href: '',
+  },
 ];
 
 const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({currentUser}) => {
@@ -44,7 +53,7 @@ const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({currentUs
       <div className={styles.content}>
         <div className={styles.contentTitle}>
           您好，
-          {currentUser?.username}
+          {currentUser.username}
           ，祝你开心每一天！
         </div>
         <div>
@@ -55,7 +64,7 @@ const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({currentUs
   );
 };
 
-
+export type HomeProps = {};
 const Home: React.FC<HomeProps> = (props) => {
 
   const [statisticInfo, setStatisticInfo] = useState({
@@ -145,8 +154,11 @@ const Home: React.FC<HomeProps> = (props) => {
     return GET('/syst/user/settings/basic', {});
   });
 
+  console.log(157, recentProject?.data?.records);
+
   return (
     <PageContainer
+      title={false}
       content={
         <PageHeaderContent
           currentUser={r?.data}
@@ -167,21 +179,26 @@ const Home: React.FC<HomeProps> = (props) => {
           >
             {recentProject?.data?.records?.map((item: any) => (
               <Card.Grid key={item.id}>
-                <Card key={item.id} bordered={false}>
-                  <Card.Meta
-                    avatar={<Avatar size="small" icon={<ProjectOutlined/>} />}
-                    title={<Link to={'/design/table/model?projectId=' + item.id}>{item.projectName}</Link>}
-                    description={<>
-                      <Row gutter={[8, 32]} justify={'start'}>
-                        <Col span={24} justify={'start'}>{item.description}</Col>
-                      </Row>
-                      <Row gutter={[8, 32]} justify={'space-between'}>
-                        <Col span={12} justify={'start'}>{item.updater}</Col>
-                        <Col span={12} >{item.updateTime&&moment(item.updateTime).fromNow()}</Col>
-                      </Row>
-                    </>}
-                  />
-                </Card>
+                <Link to={'/design/table/model?projectId=' + item.id}>
+                  <Card key={item.id} bordered={false} style={{boxShadow: 'none'}}>
+                    <Card.Meta
+                      title={
+                        <div className={styles.cardTitle}>
+                          <Avatar size="small" src={"/logo.svg"}/>
+                          <Link to={'/design/table/model?projectId=' + item.id}>{item.projectName}</Link>
+                        </div>
+                      }
+                      description={item.description || '全球第一个开源在线数据库建模平台'}
+                    />
+                    <div className={styles.projectItemContent}>
+                      {item.updateTime && (
+                        <span className={styles.datetime} title={item.updateTime}>
+                        {moment(item.updateTime).fromNow()}
+                      </span>
+                      )}
+                    </div>
+                  </Card>
+                </Link>
               </Card.Grid>
             ))}
           </Card>
@@ -217,7 +234,24 @@ const Home: React.FC<HomeProps> = (props) => {
             title="模型走势"
             loading={data?.radarData?.length === 0}
           >
-
+            <div className={styles.chart}>
+              <Radar
+                height={343}
+                data={data?.radarData || []}
+                angleField="label"
+                seriesField="name"
+                radiusField="value"
+                area={{
+                  visible: false,
+                }}
+                point={{
+                  visible: true,
+                }}
+                legend={{
+                  position: 'bottom-center',
+                }}
+              />
+            </div>
           </Card>
           <Card
             bodyStyle={{paddingTop: 12, paddingBottom: 12}}
@@ -226,22 +260,14 @@ const Home: React.FC<HomeProps> = (props) => {
             loading={projectLoading}
           >
             <div className={styles.members}>
-              <Row gutter={48}>
-                {recentProject?.data?.records?.map((item) => (
-                  <Col span={12} key={`members-item-${item.id}`}>
-                    <Link to={item.href}>
-                      <Avatar src={item.logo} size="small"/>
-                      <span className={styles.member}>{item.member}</span>
-                    </Link>
-                  </Col>
-                ))}
-              </Row>
+
             </div>
           </Card>
         </Col>
       </Row>
     </PageContainer>
   );
-
 }
+
+
 export default React.memo(Home)

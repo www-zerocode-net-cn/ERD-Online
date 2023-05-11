@@ -4,6 +4,8 @@ services:
     image: erdonline/erd-redis:4.1.1
     restart: on-failure
     container_name: erd-redis
+    volumes:
+      - ./redis/data:/data:rw
     ports:
       - 6379:6379
     networks:

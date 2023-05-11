@@ -50,6 +50,7 @@
     "not ie <= 10"
   ],
   "dependencies": {
+    "@ant-design/charts": "^1.4.2",
     "@ant-design/compatible": "^5.1.1",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.4.3",
