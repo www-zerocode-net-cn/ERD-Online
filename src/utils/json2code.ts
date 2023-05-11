@@ -818,6 +818,7 @@ export const getAllDataSQL = (dataSource, code) => {
 };
 
 export const getAllDataSQLByFilter = (dataSource, code, filter = []) => {
+  debugger
   // 获取全量脚本（删表，建表，建索引，表注释）
   const datatype = _.get(dataSource, 'dataTypeDomains.datatype', []);
   const database = _.get(dataSource, 'dataTypeDomains.database', [])

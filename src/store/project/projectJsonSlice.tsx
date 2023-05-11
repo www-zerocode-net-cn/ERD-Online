@@ -79,15 +79,20 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
           return {
             ...e,
             fields: e?.fields?.map((f: any) => {
-              const d = _.find(datatype, {'code': f?.type});
-              const path = `apply.${defaultDatabaseCode}.type`;
-              const tmpField = {
-                ...f,
-                typeName: d?.name,
-                dataType: _.get(d, path)
-              };
-              console.log(78, 'tmpField', tmpField)
-              return tmpField;
+              if (!f.type||!f.datatype||!f.typeName) {
+                const d = _.find(datatype, {'code': f?.type});
+                const path = `apply.${defaultDatabaseCode}.type`;
+                const tmpField = {
+                  ...f,
+                  typeName: d?.name,
+                  dataType: _.get(d, path),
+                  type: _.get(d, path)
+                };
+                console.log(78, 'tmpField', tmpField)
+                return tmpField;
+              } else {
+                return f;
+              }
             })
           };
         })
