@@ -72,6 +72,11 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
     datatype = datatype || get().project?.projectJSON?.dataTypeDomains?.datatype || [];
     database = database || get().project?.projectJSON?.dataTypeDomains?.database || [];
     const defaultDatabaseCode = _.find(database, {"defaultDatabase": true})?.code || database[0]?.code;
+    console.log(75,'defaultDatabaseCode', defaultDatabaseCode);
+    if(!defaultDatabaseCode){
+      console.log(75,'defaultDatabaseCode不存在', defaultDatabaseCode);
+      return data;
+    }
     return data?.map((m: any) => {
       return {
         ...m,
@@ -79,20 +84,30 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
           return {
             ...e,
             fields: e?.fields?.map((f: any) => {
-              if (!f.type||!f.datatype||!f.typeName) {
-                const d = _.find(datatype, {'code': f?.type});
-                const path = `apply.${defaultDatabaseCode}.type`;
-                const tmpField = {
-                  ...f,
-                  typeName: d?.name,
-                  dataType: _.get(d, path),
-                  type: _.get(d, path)
+              let tmpField = f;
+              const d = _.find(datatype, {'code': f?.type});
+              const path = `apply.${defaultDatabaseCode}.type`;
+              const type = _.get(d, path);
+
+              if (!f.typeName && d?.name) {
+                tmpField = {
+                  ...tmpField,
+                  typeName: d?.name
                 };
-                console.log(78, 'tmpField', tmpField)
-                return tmpField;
-              } else {
-                return f;
               }
+              if (!f.datatype && type) {
+                tmpField = {
+                  ...tmpField,
+                  datatype: type
+                };
+              }
+              if (!f.type && type) {
+                tmpField = {
+                  ...tmpField,
+                  type: type
+                };
+              }
+              return tmpField;
             })
           };
         })

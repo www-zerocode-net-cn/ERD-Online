@@ -8,6 +8,9 @@ import shallow from "zustand/shallow";
 import {CellChange, ChangeSource} from "handsontable";
 import JExcel from "@/pages/JExcel";
 import {column1, column2} from "@/pages/design/setting/component/DefaultField";
+import {FloatButton} from "antd";
+import {TableOutlined} from "@ant-design/icons";
+import StandardFieldLibrary from "@/pages/design/table/component/table/StandardFieldLibrary";
 
 
 export type TableInfoEditProps = {
