@@ -36,12 +36,8 @@ export const pageProject = (params) => {
 
 // 保存项目
 export const saveProject = (data) => {
-  const id = cache.getItem(CONSTANT.PROJECT_ID);
   return request.post('/ncnb/project/save', {
-    data: {
-      ...data,
-      id
-    }
+    data
   });
 };
 

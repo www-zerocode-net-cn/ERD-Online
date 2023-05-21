@@ -40,7 +40,7 @@ export type ProjectState =
     socket: any,
     syncing: boolean,
     timestamp: number,
-    fetch: () => Promise<void>;
+    fetch: (projectId?: string) => Promise<void>;
     initSocket: (projectId: string) => Promise<void>;
     closeSocket: (projectId: string) => void;
     sync: (delta: any,) => void;
@@ -106,8 +106,10 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
         project: {},
         syncing: false,
         timestamp: Date.now(),
-        fetch: async () => {
-          const projectId = cache.getItem(CONSTANT.PROJECT_ID);
+        fetch: async (projectId?: string|null) => {
+          if (!projectId) {
+            projectId = cache.getItem(CONSTANT.PROJECT_ID);
+          }
           await request.get(`/ncnb/project/info/${projectId}`).then((res: any) => {
             console.log(45, res);
             const data = res?.data;

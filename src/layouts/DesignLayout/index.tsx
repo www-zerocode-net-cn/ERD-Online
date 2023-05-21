@@ -87,6 +87,8 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   let projectId = searchParams.get("projectId") || '';
   if (!projectId || projectId === '') {
     projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+  }else {
+    cache.setCache(CONSTANT.PROJECT_ID, projectId);
   }
 
   console.log(19, 'projectId', projectId);
@@ -100,7 +102,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
     }), shallow);
 
   useEffect(() => {
-    fetch();
+    fetch(projectId);
   }, [projectId]);
   console.log(34, project);
 

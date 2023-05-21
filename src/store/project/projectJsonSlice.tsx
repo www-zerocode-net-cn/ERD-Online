@@ -95,10 +95,10 @@ const ProjectJsonSlice = (set: SetState<ProjectState>, get: GetState<ProjectStat
                   typeName: d?.name
                 };
               }
-              if (!f.datatype && type) {
+              if (!f.dataType && type) {
                 tmpField = {
                   ...tmpField,
-                  datatype: type
+                  dataType: type
                 };
               }
               return tmpField;

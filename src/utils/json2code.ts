@@ -526,7 +526,7 @@ export const getDemoTemplateData = (templateShow) => {
       "fields": [
         {
           "name": "ID",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "用户ID",
           "pk": true,
@@ -536,7 +536,7 @@ export const getDemoTemplateData = (templateShow) => {
         },
         {
           "name": "CODE",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "用户代码",
           "pk": false,
@@ -546,83 +546,83 @@ export const getDemoTemplateData = (templateShow) => {
         },
         {
           "name": "NAME",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "用户名"
         },
         {
           "name": "PASSWORD",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "密码"
         },
         {
           "name": "SALT",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "密码盐值"
         },
         {
           "name": "AVATAR",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "头像"
         },
         {
           "name": "ORG_ID",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "机构"
         },
         {
           "name": "EMAIL",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "邮件"
         },
         {
           "name": "PHONE",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "手机号"
         },
         {
           "name": "STATUS",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "状态"
         },
         {
           "name": "REVISION",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "乐观锁",
           "relationNoShow": false
         },
         {
           "name": "CREATED_BY",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "创建人",
           "relationNoShow": false
         },
         {
           "name": "CREATED_TIME",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "创建时间",
           "relationNoShow": false
         },
         {
           "name": "UPDATED_BY",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "更新人",
           "relationNoShow": false
         },
         {
           "name": "UPDATED_TIME",
-          "type": "VARCHAR(32)",
+          "dataType": "VARCHAR(32)",
           "remark": "",
           "chnname": "更新时间",
           "relationNoShow": false
@@ -651,7 +651,7 @@ export const getDemoTemplateData = (templateShow) => {
   };
   const demoField = {
     "name": "ID",
-    "type": "VARCHAR(32)",
+    "dataType": "VARCHAR(32)",
     "remark": "",
     "chnname": "用户ID",
     "pk": true,
