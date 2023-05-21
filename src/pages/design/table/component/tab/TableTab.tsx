@@ -25,13 +25,13 @@ const TableTab: React.FC<TableTabProps> = (props) => {
         <TabPane key="field" tab="字段"><TableInfoEdit moduleEntity={props.moduleEntity}/></TabPane>
         <TabPane key="index" tab="索引"><TableIndexEdit moduleEntity={props.moduleEntity}/></TabPane>
         <TabPane key="code" tab="元数据应用"><CodeTab moduleEntity={props.moduleEntity}/></TabPane>
-      </Tabs>
+      </Tabs>{/*
       <FloatButton
         icon={<TableOutlined/>}
         type="primary"
         style={{left: '55vw', bottom: 100}}
         tooltip={<StandardFieldLibrary/>}
-      />
+      />*/}
 
 
     </>
