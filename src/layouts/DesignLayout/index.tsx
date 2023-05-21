@@ -85,13 +85,16 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   const [pathname, setPathname] = useState('/design/table/model');
   const [searchParams] = useSearchParams();
   let projectId = searchParams.get("projectId") || '';
+  console.log(19, 'searchParams:projectId', projectId);
+
   if (!projectId || projectId === '') {
     projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
+    console.log(19, 'cache:projectId', projectId);
   }else {
-    cache.setCache(CONSTANT.PROJECT_ID, projectId);
+    cache.setItem(CONSTANT.PROJECT_ID, projectId);
   }
 
-  console.log(19, 'projectId', projectId);
+  console.log(19, 'final:projectId', projectId);
 
   const {fetch, project, initSocket, closeSocket} = useProjectStore(
     state => ({
