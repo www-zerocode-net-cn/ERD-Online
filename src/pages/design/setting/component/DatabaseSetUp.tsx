@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
   ProCard,
+  ProDescriptions,
   ProForm,
   ProFormGroup,
   ProFormInstance,
@@ -14,7 +15,7 @@ import useProjectStore from "@/store/project/useProjectStore";
 import shallow from "zustand/shallow";
 import {uuid} from '@/utils/uuid';
 import {DeleteOutlined} from '@ant-design/icons';
-import {Button, message, Popconfirm} from 'antd';
+import {Button, Divider, message, Popconfirm} from 'antd';
 import * as Save from '@/utils/save';
 
 export type DatabaseSetUpProps = {};
@@ -340,6 +341,59 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
           </ProCard>
         </ProCard>
       </ProForm>
+      <Divider dashed />
+      <ProCard direction="column"  gutter={[0, 16]} bordered>
+        <ProDescriptions
+          title="免费在线MYSQL数据源"
+          column={1}
+          dataSource={{
+            driver_class_name: 'com.mysql.jdbc.Driver',
+            url: 'jdbc:mysql://mysql.sqlpub.com:3306/erdonline?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC',
+            username: 'erdonline',
+            password: '274623019c590e8f',
+          }}
+          columns={[
+            {
+              title: 'driver_class_name',
+              key: 'driver_class_name',
+              dataIndex: 'driver_class_name',
+              ellipsis: true,
+              copyable: true,
+            },
+            {
+              title: 'url',
+              key: 'url',
+              dataIndex: 'url',
+              ellipsis: true,
+              copyable: true,
+            },
+            {
+              title: 'username',
+              key: 'username',
+              dataIndex: 'username',
+              ellipsis: true,
+              copyable: true,
+            },
+            {
+              title: 'password',
+              key: 'password',
+              dataIndex: 'password',
+              ellipsis: true,
+              copyable: true,
+            },
+            {
+              title: '操作',
+              valueType: 'option',
+              render: () => [
+                <a target="_blank" href="https://www.sqlpub.com/" key="link">
+                  申请免费数据源
+                </a>,
+              ],
+            },
+          ]}
+        >
+        </ProDescriptions>
+      </ProCard>
     </>
   );
 };
