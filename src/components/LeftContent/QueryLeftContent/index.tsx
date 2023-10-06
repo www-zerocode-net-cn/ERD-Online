@@ -28,7 +28,7 @@ const QueryLeftContent: React.FC<QueryLeftContentProps> = (props) => {
             allowClear
             size={"small"}
             prefix={<SearchOutlined/>}
-            placeholder="搜索历史SQL"
+            placeholder="历史查询"
             onPressEnter={(e) => {
               // @ts-ignore
               queryDispatch.setQuerySearchKey(e.target?.value)

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, message, Select, Space} from "antd";
+import {Button, message, Select, Space, Input, FloatButton, List, Badge, Typography, Spin} from "antd";
 import {ProCard} from "@ant-design/pro-components";
 import {Data, HistoryQuery, Plan} from "@icon-park/react";
 import CodeEditor from "@/components/CodeEditor";
@@ -16,6 +16,13 @@ import {format} from "sql-formatter";
 import useProjectStore from "@/store/project/useProjectStore";
 import ExplainResult from "@/pages/design/query/component/ExplainResult";
 import QueryHistory from "@/pages/design/query/component/QueryHistory";
+import {POST} from "@/services/crud";
+import {uuid} from "@/utils/uuid";
+import {Modal, toast} from "@chatui/core";
+import moment from "moment";
+
+const {Text} = Typography;
+const {Search} = Input;
 
 const {Option, OptGroup} = Select;
 export type QueryProps = {
@@ -28,8 +35,11 @@ const Query: React.FC<QueryProps> = (props) => {
     versionDispatch: state.dispatch,
   }), shallow);
 
-  const {tables,} = useProjectStore(state => ({
+
+  const {tables, modules} = useProjectStore(state => ({
     tables: state.tables,
+    modules: state.project?.projectJSON?.modules || [],
+
   }), shallow);
 
   console.log(130, tables);
@@ -85,8 +95,28 @@ const Query: React.FC<QueryProps> = (props) => {
 
   const EDITOR_THEME = ['xcode', 'terminal',];
 
+  const [selectedTable, setSelectedTable] = useState([]);
+  const [chatId, setChatId] = useState(uuid());
+  const [open, setOpen] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+
+  function handleOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function handleClear() {
+    setSelectedTable([]);
+    setOpen(false);
+  }
+
   const actions = <Space direction="vertical">
     <Space wrap>
+      <a onClick={handleOpen}><span style={{marginRight: 8}}>已选表</span><Badge count={selectedTable?.length}/></a>
+
       <span style={{marginRight: 8}}>数据源</span>
       <Select
         key={'db'}
@@ -127,24 +157,128 @@ const Query: React.FC<QueryProps> = (props) => {
     </Space>
 
   </Space>
+  const [prefix, setPrefix] = useState('select'); // 初始选择第一个前缀
+
+
+  const aiSearch = (command: string) => {
+    const sqlInfo = (queryInfo?.sqlInfo || '') + '\n' + '-- ' + cache.getItem('username') + ':' + command + moment().format('YYYY-MM-DD HH:mm:ss');
+    setQueryInfo({
+      ...queryInfo,
+      sqlInfo: sqlInfo
+    });
+    setAiLoading(true);
+    POST('/ncnb/ai/sql', {
+        chatId,
+        command: prefix + ":" + command,
+        "tables": selectedTable,
+        "schema": "Mysql",
+      }
+    ).then((result) => {
+      console.log(151, result)
+      console.log(152, queryInfo?.sqlInfo)
+      if (result && result.code === 200) {
+        setQueryInfo({
+          ...queryInfo,
+          sqlInfo: sqlInfo + '\n' + result.data
+        });
+      } else {
+        if (result && result?.msg) {
+          message.error(result?.msg);
+        }
+      }
+      setAiLoading(false);
+    });
+
+  }
+
+  const onDrop = (e: any) => {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('Text');
+    console.log(283, data)
+    if (data.startsWith('entity&')) {
+      let moduleName = data.split('&')[1];
+      let tableName = data.split('&')[2];
+      const tmpModule = _.filter(modules, {'name': moduleName});
+      console.log(283, tmpModule);
+      const table = _.filter(tmpModule[0]?.entities, {'title': tableName});
+      console.log(283, table);
+      const map = _.map(table[0]?.fields, 'name');
+      console.log(283, map);
+      const fields = map?.join(",");
+      console.log(283, fields);
+      const template = '{tableName}({fields})';
+      // @ts-ignore
+      const aiKey = template.render({
+        tableName,
+        fields
+      });
+      console.log(283, aiKey);
+      if (_.includes(selectedTable, aiKey)) {
+        toast.fail(`表「${tableName}」已经添加！`);
+        return;
+      }
+      if (selectedTable.length >= 10) {
+        toast.fail('最多只能同时分析10张表！');
+        return;
+      }
+      // @ts-ignore
+      setSelectedTable([...selectedTable, aiKey]);
+      toast.success('加入成功');
+    } else {
+      toast.fail('移动无效,该内容不是数据表，无法参与AI分析！')
+    }
+  };
+
+  const onDragOver = (e: any) => {
+    e.preventDefault();
+  };
+
+
+  const selectBefore = (
+    <Select defaultValue="select" onChange={(value => setPrefix(value))}>
+      <Option value="select">查询</Option>
+      <Option value="delete">删除</Option>
+      <Option value="insert">插入</Option>
+      <Option value="update">修改</Option>
+      <Option value="alter">改表</Option>
+      <Option value="create">建表</Option>
+      <Option value="drop">删表</Option>
+      <Option value="truncate">快删</Option>
+    </Select>
+  );
+
+
   return (<>
-    <ProCard size={'small'}>
-      <ProCard layout="center" bordered extra={actions} size={'small'}>
-        <CodeEditor
-          tables={tables}
-          onRef={editorRef}
-          mode={sqlMode}
-          theme={theme}
-          value={queryInfo.sqlInfo}
-          onChange={(value) => {
-            setQueryInfo({
-              ...queryInfo,
-              sqlInfo: value
-            });
-          }}
-        />
+    <Search
+      placeholder="AI助手，chatGPT辅助生成SQL：查询(select)|删除(delete)|插入(insert)|修改(update)|改表(alter)|建表(create)|删表(drop)|快删(truncate)"
+      enterButton
+      addonBefore={selectBefore}
+      onSearch={(value) => {
+        aiSearch(value)
+      }}/>
+    <Spin spinning={aiLoading}>
+      <ProCard
+        size={'small'}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+      >
+        <ProCard layout="center" bordered extra={actions} size={'small'}>
+          <CodeEditor
+            tables={tables}
+            onRef={editorRef}
+            mode={sqlMode}
+            theme={theme}
+            value={queryInfo.sqlInfo}
+            onChange={(value) => {
+              setQueryInfo({
+                ...queryInfo,
+                sqlInfo: value
+              });
+            }}
+          />
+        </ProCard>
       </ProCard>
-    </ProCard>
+    </Spin>
     <ProCard size={'small'}>
 
       <Space direction="vertical">
@@ -267,7 +401,45 @@ const Query: React.FC<QueryProps> = (props) => {
       >
         Auto
       </ProCard>
-
+      <Modal
+        active={open}
+        title="已选中元数据"
+        onClose={handleClose}
+        actions={[
+          {
+            label: '清空',
+            color: 'primary',
+            onClick: handleClear,
+          },
+          {
+            label: '返回',
+            onClick: handleClose,
+          },
+        ]}
+      >
+        <List
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={selectedTable}
+          renderItem={(item, index) => (
+            <List.Item
+              actions={[<a key={"delete" + index} onClick={() => {
+                let tmp = [...selectedTable];
+                _.pull(tmp, item);
+                console.log(283, tmp);
+                setSelectedTable(tmp);
+              }}>删除</a>]}
+            >
+              <Text
+                style={{width: 200}}
+                ellipsis
+              >
+                {item}
+              </Text>
+            </List.Item>
+          )}
+        />
+      </Modal>
     </ProCard>
 
 

@@ -81,6 +81,7 @@ const Version: React.FC<VersionProps> = (props) => {
 
   const currentDB = versionDispatch.getCurrentDB();
 
+  console.log(84, 'versions', versions)
   console.log(98, 'currentDB', currentDB)
   console.log(98, 'dbs  groupDb', _.groupBy(dbs, g => g.select))
 
@@ -102,6 +103,7 @@ const Version: React.FC<VersionProps> = (props) => {
             render: (_, row) => {
               return (
                 <Space>
+                  <span>{row.creator}</span>
                   <span>{row.versionDate}</span>
                   <span>{row.versionDesc}</span>
                 </Space>

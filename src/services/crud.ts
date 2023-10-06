@@ -1,5 +1,5 @@
 import {SortOrder} from "antd/lib/table/interface";
-import request from "@/utils/request";
+import request,{request_erd} from "@/utils/request";
 
 export async function PAGE(url: string, params: any, sorter: Record<string, SortOrder>) {
   if (!sorter) {
@@ -65,8 +65,26 @@ export async function POST(url: string, params: any) {
   });
 }
 
+export async function POST_ERD(url: string, params: any) {
+  return request_erd<COMMON.R>(url, {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+
 
 export async function GET(url: string, params: any) {
+  return request<COMMON.R>(url, {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+  });
+}
+
+export async function GET_ERD(url: string, params: any) {
   return request<COMMON.R>(url, {
     method: 'GET',
     params: {
@@ -81,6 +99,13 @@ export async function TREE(url: string, params: any) {
     params: {
       ...params,
     },
+  });
+}
+
+export async function UPLOAD(url: string, params: any) {
+  return request<COMMON.R>(url, {
+    method: 'POST',
+    body: params,
   });
 }
 

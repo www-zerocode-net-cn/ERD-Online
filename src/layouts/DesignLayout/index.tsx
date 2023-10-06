@@ -21,11 +21,14 @@ import {
   useUnmount,
 } from '@umijs/hooks';
 import Theme from "@/components/Theme";
+import {menuHeaderDropdown} from "@/layouts/HomeLayout";
+import Upgrade from "@/components/dialog/upgrade";
 
 export const siderWidth = 333;
+const licence = cache.getItem2object('licence');
 
 export const headRightContent = [
-
+  licence?.licensedStartTime ? '' : <Upgrade/>,
   <Popover placement="bottom" title="赞助" content={<Image src="/zanshang.jpg"/>} trigger="hover">
     <RedEnvelope theme="filled" size="18" fill="#DE2910" strokeWidth={2}/>
   </Popover>,
@@ -90,7 +93,7 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
   if (!projectId || projectId === '') {
     projectId = cache.getItem(CONSTANT.PROJECT_ID) || '';
     console.log(19, 'cache:projectId', projectId);
-  }else {
+  } else {
     cache.setItem(CONSTANT.PROJECT_ID, projectId);
   }
 
@@ -150,9 +153,12 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
     closeSocket(projectId);
   });
 
+  const licence = cache.getItem2object('licence');
+  console.log(154, licence, licence?.licensedTo, licence.licensedStartTime);
+
 
   return (
-    <WaterMark content={['ERD Online', 'V4.1.1']}>
+    <WaterMark content={[licence?.licensedTo ? licence?.licensedTo : 'ERD Online', 'V5.0.0']}>
       <ProLayout
         logo={"/logo.svg"}
         title={'ERD Online'}
@@ -190,18 +196,8 @@ const DesignLayout: React.FC<DesignLayoutLayoutProps> = props => {
           title: <Dropdown
             placement="bottom"
             arrow={{pointAtCenter: true}}
-            overlay={
-              <>
-                <Button onClick={() => {
-                  setInitialState((s: any) => ({...s, access: {}}));
-                  logout();
-                }}>个人信息</Button>
-                <Button onClick={() => {
-                  setInitialState((s: any) => ({...s, access: {}}));
-                  logout();
-                }}>退出登录</Button>
-              </>
-            }>
+            overlay={menuHeaderDropdown}
+          >
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
         }}

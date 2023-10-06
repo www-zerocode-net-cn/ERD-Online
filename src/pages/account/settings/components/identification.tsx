@@ -4,6 +4,8 @@ import {useRequest} from "@umijs/hooks";
 import {GET} from "@/services/crud";
 
 import {LightMember, PeopleTopCard, VipOne} from "@icon-park/react";
+import * as cache from "@/utils/cache";
+import Upgrade from "@/components/dialog/upgrade";
 
 
 export type IdentificationProps = {};
@@ -32,18 +34,27 @@ const Identification: React.FC<IdentificationProps> = (props) => {
     icon: IdentificationType.free
   });
 
+  const licence = cache.getItem2object('licence');
+  console.log(37, licence, licence?.licensedTo, licence.licensedStartTime);
+  let title = '';
+  let subTitle = '';
+  let extra: any[] = [];
+  if (!licence.licensedStartTime) {
+    title = '未取得授权：';
+    subTitle = '未获取授权，您可以免费使用ERD Online全部功能，只能新建有限数量的模型';
+    extra.push(<Upgrade/>);
+  } else {
+    title = '已取得授权：';
+    subTitle = '授权给: ' + licence?.licensedTo + ', 有效期：' + licence.licensedStartTime + ' ~ ' + licence.licensedEndTime;
+  }
+
 
   return (loading ? <Spin></Spin> : <>
     <Result
       icon={initConfig.icon}
-      title="Successfully Purchased Cloud Server ECS!"
-      subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
-      extra={[
-        <Button type="primary" key="pro">
-          订阅专业版
-        </Button>,
-        <Button type="primary" key="enterprise">升级至尊版</Button>,
-      ]}
+      title={title}
+      subTitle={subTitle}
+      extra={extra}
     />
   </>);
 };

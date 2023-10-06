@@ -1,6 +1,6 @@
 import type {FC} from 'react';
-import {Avatar, Card, Col, List, Skeleton, Row, Statistic} from 'antd';
-import {Radar} from '@ant-design/charts';
+import {Avatar, Card, Col, List, Skeleton, Row, Statistic, Tag, Space} from 'antd';
+import {Radar, Pie} from '@ant-design/charts';
 
 import moment from 'moment';
 import EditableLinkGroup from './components/EditableLinkGroup';
@@ -9,42 +9,30 @@ import type {ActivitiesType, CurrentUser} from './data.d';
 import {queryProjectNotice, queryActivities, fakeChartData} from './service';
 import {useRequest} from "@umijs/hooks";
 import {Link} from "@@/exports";
-import {GET} from "@/services/crud";
+import {GET, GET_ERD, POST_ERD} from "@/services/crud";
 import React, {useEffect, useState} from "react";
 import {PageContainer} from "@ant-design/pro-components";
+import {VipOne} from "@icon-park/react";
+import * as cache from "@/utils/cache";
+import Line from "antd/es/progress/Line";
+import {TeamOutlined, UserOutlined} from "@ant-design/icons";
 
-const links = [
-  {
-    title: '操作一',
-    href: '',
-  },
-  {
-    title: '操作二',
-    href: '',
-  },
-  {
-    title: '操作三',
-    href: '',
-  },
-  {
-    title: '操作四',
-    href: '',
-  },
-  {
-    title: '操作五',
-    href: '',
-  },
-  {
-    title: '操作六',
-    href: '',
-  },
-];
 
 const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({currentUser}) => {
   const loading = currentUser && Object.keys(currentUser).length;
   if (!loading) {
     return <Skeleton avatar paragraph={{rows: 1}} active/>;
   }
+  const licence = cache.getItem2object('licence');
+
+  let vip;
+  if (!licence.licensedStartTime) {
+    vip = <VipOne theme="outline" size="20" fill="#333" strokeWidth={2} strokeLinejoin="miter" strokeLinecap="butt"/>
+  } else {
+    vip = <VipOne theme="filled" size="18" fill="#DE2910" strokeWidth={2} strokeLinejoin="miter"/>
+  }
+
+
   return (
     <div className={styles.pageHeaderContent}>
       <div className={styles.avatar}>
@@ -54,10 +42,12 @@ const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({currentUs
         <div className={styles.contentTitle}>
           您好，
           {currentUser.username}
-          ，祝你开心每一天！
+          ，祝你开心每一天
+          <a href={"/account/settings?selectKey=identification"}
+             title={licence.licensedStartTime ? '已授权' : '未授权'}> {vip}</a>
         </div>
         <div>
-          {currentUser?.title || '全球第一个开源在线数据库建模平台'} |{currentUser.email}
+          {currentUser?.title || '全球第一个开源在线数据库建模平台'} {currentUser.email}
         </div>
       </div>
     </div>
@@ -65,6 +55,29 @@ const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({currentUs
 };
 
 export type HomeProps = {};
+
+export const renderActivities = (item: ActivitiesType) => {
+
+  return (
+    <List.Item key={item.id}>
+      <List.Item.Meta
+        title={
+          <Row>
+            <Col span={20}>
+              <a className={styles.username} href={item?.url} target={"_blank"}>{item?.title}</a>
+            </Col>
+            <Col span={4}>
+              <span className={styles.datetime} title={item.createTime}>
+                {moment(item.createTime).fromNow()}
+              </span>
+            </Col>
+          </Row>
+        }
+      />
+    </List.Item>
+  );
+};
+
 const Home: React.FC<HomeProps> = (props) => {
 
   const [statisticInfo, setStatisticInfo] = useState({
@@ -73,6 +86,8 @@ const Home: React.FC<HomeProps> = (props) => {
     month: 0,
     total: 0,
     userCount: 0,
+    personTotal: 0,
+    groupTotal: 0,
   });
 
   const fetchStatistic = () => {
@@ -115,46 +130,57 @@ const Home: React.FC<HomeProps> = (props) => {
       limit: 6
     })
   });
-  const {loading: activitiesLoading, data: activities = []} = useRequest(queryActivities);
-  const {data} = useRequest(fakeChartData);
-
-  const renderActivities = (item: ActivitiesType) => {
-    const events = item.template.split(/@\{([^{}]*)\}/gi).map((key) => {
-      if (item[key]) {
-        return (
-          <a href={item[key].link} key={item[key].name}>
-            {item[key].name}
-          </a>
-        );
-      }
-      return key;
-    });
-    return (
-      <List.Item key={item.id}>
-        <List.Item.Meta
-          avatar={<Avatar src={item.user.avatar}/>}
-          title={
-            <span>
-              <a className={styles.username}>{item.user.name}</a>
-              &nbsp;
-              <span className={styles.event}>{events}</span>
-            </span>
-          }
-          description={
-            <span className={styles.datetime} title={item.updatedAt}>
-              {moment(item.updatedAt).fromNow()}
-            </span>
-          }
-        />
-      </List.Item>
-    );
-  };
+  const {loading: activitiesLoading, data: activities = []} = useRequest(() => {
+    return POST_ERD('/syst/sysAnnouncement', {
+      "current": 1,
+      "size": 4,
+      "orders": [
+        {
+          "column": "createTime",
+          "asc": false
+        }
+      ]
+    })
+  });
 
   const {data: r, userInfoLoading} = useRequest(() => {
     return GET('/syst/user/settings/basic', {});
   });
 
   console.log(157, recentProject?.data?.records);
+  const data = [
+    {
+      type: '个人',
+      value: statisticInfo.personTotal,
+    },
+    {
+      type: '团队',
+      value: statisticInfo.groupTotal,
+    },
+
+  ];
+  const config = {
+    appendPadding: 10,
+    data,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.9,
+    label: {
+      type: 'inner',
+      offset: '-30%',
+      content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+      style: {
+        fontSize: 16,
+        textAlign: 'center',
+      },
+    },
+    interactions: [
+      {
+        type: 'element-active',
+      },
+    ],
+  };
+
 
   return (
     <PageContainer
@@ -184,7 +210,9 @@ const Home: React.FC<HomeProps> = (props) => {
                     <Card.Meta
                       title={
                         <div className={styles.cardTitle}>
-                          <Avatar size="small" src={"/logo.svg"}/>
+                          <Tag color={'blue'} key={item.id}>
+                            {item.type === '1' ? <UserOutlined/> : <TeamOutlined/>}
+                          </Tag>
                           <Link to={'/design/table/model?projectId=' + item.id}>{item.projectName}</Link>
                         </div>
                       }
@@ -206,15 +234,16 @@ const Home: React.FC<HomeProps> = (props) => {
             bodyStyle={{padding: 0}}
             bordered={false}
             className={styles.activeCard}
-            title="动态"
+            title="公告"
             loading={activitiesLoading}
+            extra={<a href="/project/notice">更多</a>}
           >
             <List<ActivitiesType>
+              size="small"
               loading={activitiesLoading}
               renderItem={(item) => renderActivities(item)}
-              dataSource={activities}
+              dataSource={activities?.data?.records}
               className={styles.activitiesList}
-              size="large"
             />
           </Card>
         </Col>
@@ -225,44 +254,25 @@ const Home: React.FC<HomeProps> = (props) => {
             bordered={false}
             bodyStyle={{padding: 0}}
           >
-            <EditableLinkGroup onAdd={() => {
-            }} links={links} linkElement={Link}/>
+            <EditableLinkGroup/>
           </Card>
           <Card
-            style={{marginBottom: 24}}
             bordered={false}
-            title="模型走势"
-            loading={data?.radarData?.length === 0}
+            title="模型分布"
+            bodyStyle={{padding: 0}}
           >
-            <div className={styles.chart}>
-              <Radar
-                height={343}
-                data={data?.radarData || []}
-                angleField="label"
-                seriesField="name"
-                radiusField="value"
-                area={{
-                  visible: false,
-                }}
-                point={{
-                  visible: true,
-                }}
-                legend={{
-                  position: 'bottom-center',
-                }}
-              />
-            </div>
+            <Pie {...config}/>
           </Card>
-          <Card
-            bodyStyle={{paddingTop: 12, paddingBottom: 12}}
-            bordered={false}
-            title="团队"
-            loading={projectLoading}
-          >
-            <div className={styles.members}>
+          {/*<Card*/}
+          {/*  bodyStyle={{paddingTop: 12, paddingBottom: 12}}*/}
+          {/*  bordered={false}*/}
+          {/*  title="团队"*/}
+          {/*  loading={projectLoading}*/}
+          {/*>*/}
+          {/*  <div className={styles.members}>*/}
 
-            </div>
-          </Card>
+          {/*  </div>*/}
+          {/*</Card>*/}
         </Col>
       </Row>
     </PageContainer>

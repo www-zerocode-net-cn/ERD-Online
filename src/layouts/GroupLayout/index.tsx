@@ -11,6 +11,7 @@ import {GET} from "@/services/crud";
 import {useAccess} from "@@/plugin-access";
 import {CONSTANT} from "@/utils/constant";
 import Theme from "@/components/Theme";
+import {menuHeaderDropdown} from "@/layouts/HomeLayout";
 
 
 export type GroupLayoutProps = {};
@@ -59,8 +60,12 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
     "fixedHeader": true
   };
 
+  const licence = cache.getItem2object('licence');
+  console.log(154, licence, licence?.licensedTo, licence.licensedStartTime);
+
+
   return (
-    <WaterMark content={['ERD Online', 'V4.1.1']}>
+    <WaterMark content={[licence?.licensedTo?licence?.licensedTo:'ERD Online', 'V5.0.0']}>
       <ProLayout
         logo={"/logo.svg"}
         title={"ERD Online"}
@@ -70,11 +75,12 @@ const GroupLayout: React.FC<GroupLayoutProps> = (props) => {
         }}
         avatarProps={{
           src: <Me theme="filled" size="28" fill="#DE2910" strokeWidth={2}/>,
-          title: <Dropdown overlay={<Button onClick={() => {
-            setInitialState((s: any) => ({...s, access: {}}));
-            logout();
-          }}>退出登录</Button>} placement="bottom"
-                           arrow={{pointAtCenter: true}}>
+          size: 'small',
+          title: <Dropdown
+            placement="bottom"
+            arrow={{pointAtCenter: true}}
+            overlay={menuHeaderDropdown}
+          >
             <div>{cache.getItem('username')}</div>
           </Dropdown>,
         }}

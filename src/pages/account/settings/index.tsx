@@ -11,6 +11,7 @@ import {headRightContent} from "@/layouts/DesignLayout";
 import {Me} from "@icon-park/react";
 import * as cache from "@/utils/cache";
 import {menuHeaderDropdown} from "@/layouts/HomeLayout";
+import {useSearchParams} from "@@/exports";
 
 const {Item} = Menu;
 
@@ -24,13 +25,18 @@ const Settings: React.FC = () => {
   const menuMap: Record<string, React.ReactNode> = {
     base: '基本设置',
     security: '安全设置',
-    binding: '账号绑定',
-    // identification: '认证类型',
+    // binding: '账号绑定',
+    identification: '授权类型',
   };
+
+  const [searchParams] = useSearchParams();
+  let selectKey = searchParams.get("selectKey") || 'base';
+  console.log(34, selectKey);
 
   const [initConfig, setInitConfig] = useState<SettingsState>({
     mode: 'inline',
-    selectKey: 'base',
+    // @ts-ignore
+    selectKey,
   });
   const dom = useRef<HTMLDivElement>();
 
@@ -88,8 +94,11 @@ const Settings: React.FC = () => {
   const [pathname, setPathname] = useState('/project/home');
 
 
+  const licence = cache.getItem2object('licence');
+  console.log(154, licence, licence?.licensedTo, licence.licensedStartTime);
+
   return (
-    <WaterMark content={['ERD Online', 'V4.1.1']}>
+    <WaterMark content={[licence?.licensedTo?licence?.licensedTo:'ERD Online', 'V5.0.0']}>
 
       <ProLayout
         logo={"/logo.svg"}

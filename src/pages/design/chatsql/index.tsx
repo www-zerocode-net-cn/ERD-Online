@@ -268,8 +268,8 @@ const ChatSQL: React.FC<ChatSQLProps> = (props) => {
         toast.fail(`表「${tableName}」已经添加！`);
         return;
       }
-      if (selectedTable.length >= 5) {
-        toast.fail('最多只能同时分析5张表！');
+      if (selectedTable.length >= 10) {
+        toast.fail('最多只能同时分析10张表！');
         return;
       }
       // @ts-ignore

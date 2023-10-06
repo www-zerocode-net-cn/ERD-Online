@@ -170,11 +170,13 @@ const useProjectStore = create<ProjectState, SetState<ProjectState>, GetState<Pr
           // 发送加入消息
           get().socket.emit('leave', username);
           get().socket.close();
-          if (get().project) {
-            Save.saveProject(get().project);
+          const project = get().project;
+          if (project) {
+            Save.saveProject(project);
           }
           set({
-            socket: null
+            socket: null,
+            project: {}
           })
         },
         sync: (r: any,) => {
@@ -225,7 +227,9 @@ useProjectStore.subscribe(state => state.project, (project, previousProject) => 
   //   console.log(172, '开启保存', delta);
 
   // }
+  if (project&&JSON.stringify(project) != "{}") {
     Save.saveProject(project);
+  }
 });
 
 

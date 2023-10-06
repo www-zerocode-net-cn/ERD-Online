@@ -1,7 +1,7 @@
 version: "3"
 services:
   erd-redis:
-    image: erdonline/erd-redis:4.1.1
+    image: erdonline/erd-redis:5.0.0
     restart: on-failure
     container_name: erd-redis
     volumes:
@@ -14,7 +14,7 @@ services:
   erd-mysql:
     container_name: erd-mysql
     restart: always
-    image: erdonline/erd-mysql:4.1.1
+    image: erdonline/erd-mysql:5.0.0
     env_file:
       - ./env/mysql.env
     volumes:
@@ -25,7 +25,7 @@ services:
       - erd
 
   erd-nacos:
-    image: erdonline/erd-nacos:4.1.1
+    image: erdonline/erd-nacos:5.0.0
     container_name: erd-nacos
     restart: always
     env_file:
@@ -40,7 +40,7 @@ services:
       - erd
 
   erd-zerocode:
-    image: erdonline/erd-zerocode:4.1.1
+    image: erdonline/erd-zerocode:5.0.0
     restart: on-failure
     env_file:
       - ./env/erd.env
@@ -54,7 +54,7 @@ services:
       - erd
 
   erd-gateway:
-    image: erdonline/erd-gateway:4.1.1
+    image: erdonline/erd-gateway:5.0.0
     restart: on-failure
     env_file:
       - ./env/erd.env
@@ -71,7 +71,7 @@ services:
 
 
   erd-auth:
-    image: erdonline/erd-auth:4.1.1
+    image: erdonline/erd-auth:5.0.0
     restart: on-failure
     env_file:
       - ./env/erd.env
@@ -86,7 +86,7 @@ services:
 
 
   erd-system:
-    image: erdonline/erd-system:4.1.1
+    image: erdonline/erd-system:5.0.0
     restart: on-failure
     env_file:
       - ./env/erd.env
@@ -100,7 +100,7 @@ services:
       - erd
 
   erd-ui:
-    image: erdonline/erd-ui:4.1.1
+    image: erdonline/erd-ui:5.0.0
     container_name: erd-ui
     restart: on-failure
     env_file:
@@ -111,7 +111,7 @@ services:
       - erd
 
   erd-minio:
-    image: erdonline/erd-minio:4.1.1
+    image: erdonline/erd-minio:5.0.0
     container_name: minio
     restart: always
     command: server /data --console-address ":9001"

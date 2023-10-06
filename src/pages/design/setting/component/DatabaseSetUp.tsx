@@ -345,6 +345,7 @@ const DatabaseSetUp: React.FC<DatabaseSetUpProps> = (props) => {
       <ProCard direction="column"  gutter={[0, 16]} bordered>
         <ProDescriptions
           title="免费在线MYSQL数据源"
+          tooltip={"下面提供的数据源仅供体验功能，请不要将私密元数据往里面同步，注意保护自己的元数据隐私！"}
           column={1}
           dataSource={{
             driver_class_name: 'com.mysql.jdbc.Driver',

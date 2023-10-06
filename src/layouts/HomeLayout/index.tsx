@@ -20,10 +20,17 @@ export interface HomeLayoutLayoutProps {
 export const menuHeaderDropdown = (
   <Menu selectedKeys={[]}>
     <Menu.Item key="center" onClick={()=>{
-      history.push("/account/settings")
+      history.push("/account/settings?selectKey=base")
     }}>
       <UserOutlined/>
       个人中心
+    </Menu.Item>
+    <Menu.Divider/>
+    <Menu.Item key="vip" onClick={()=>{
+      history.push("/account/settings?selectKey=identification")
+    }}>
+      <UserOutlined/>
+      授权信息
     </Menu.Item>
     <Menu.Divider/>
 
@@ -57,9 +64,11 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
   };
 
 
+  const licence = cache.getItem2object('licence');
+  console.log(154, licence, licence?.licensedTo, licence.licensedStartTime);
 
   return (
-    <WaterMark content={['ERD Online', 'V4.1.1']}>
+    <WaterMark content={[licence?.licensedTo?licence?.licensedTo:'ERD Online', 'V5.0.0']}>
 
       <ProLayout
         logo={"/logo.svg"}
@@ -90,6 +99,8 @@ const HomeLayout: React.FC<HomeLayoutLayoutProps> = props => {
                 paddingBlockStart: 12,
               }}
             >
+              <div>奋斗就是生活，人生只有前进</div>
+              <br/>
               <div>© 2023 Made with 零代科技</div>
               <div>ERD Online</div>
             </div>

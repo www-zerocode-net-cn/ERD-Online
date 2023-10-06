@@ -76,6 +76,13 @@ const request = extend({
   prefix: BASE_URL,
   errorHandler, // 默认错误处理
 });
+/**
+ * 配置request请求时的默认参数
+ */
+const request_erd = extend({
+  prefix: BASE_URL,
+  errorHandler, // 默认错误处理
+});
 
 
 request.interceptors.request.use((url, options) => {
@@ -142,8 +149,13 @@ request.interceptors.response.use(async (response, options) => {
 
 
 export const logout = () => {
+  request("/auth/exit", {
+    method: 'POST',
+  });
   cache.setItem(CONSTANT.PROJECT_ID, "");
+  cache.setItem('licence', "");
   history.push("/login");
 }
 
+export {request_erd};
 export default request;

@@ -391,7 +391,7 @@ const useVersionStore = create<VersionState>(
         }
         set({
           versions: tempVersions.map((data: any) => _.pick(data,
-            ['id', 'version', 'versionDesc', 'changes', 'versionDate', 'projectJSON', 'baseVersion']))
+            ['id', 'version', 'versionDesc', 'changes', 'versionDate', 'projectJSON', 'baseVersion','creator']))
             .sort((a: any, b: any) => compareStringVersion(b.version, a.version)),
         });
       },

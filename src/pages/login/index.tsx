@@ -24,6 +24,13 @@ export async function login(username: string, password: string) {
       if (res.access_token) {
         cache.setItem('Authorization', res.access_token);
         cache.setItem('username', username);
+        if (res.licensedStartTime&&res.licensedEndTime) {
+          cache.setItem('licence', {
+            licensedTo: res.licensedTo,
+            licensedStartTime: res.licensedStartTime,
+            licensedEndTime: res.licensedEndTime
+          });
+        }
         history.push({
           pathname: "/project/home"
         });
@@ -55,7 +62,7 @@ export default () => {
             borderRadius: 8,
             backgroundColor: '#f16824',
           },
-          title: 'ERD Online 4.1.1发布',
+          title: 'ERD Online 5.0.0发布',
           subTitle: '全新升级，团队协作，权限控制，接入ChatGPT，智能SQL',
           action: (
             <Button

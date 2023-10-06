@@ -40,6 +40,10 @@
         component: './project/home',
       },
       {
+        path: '/project/notice',
+        component: './project/notice',
+      },
+      {
         path: '/project/recent',
         component: './project/recent',
       },

@@ -29,16 +29,22 @@ export const pageProject = (params) => {
       limit: params.limit,
       projectName: params.projectName,
       order: params.order,
-      type:params.type
+      type: params.type
     }
   });
 };
 
 // 保存项目
 export const saveProject = (data) => {
-  return request.post('/ncnb/project/save', {
-    data
-  });
+  if (data.type == 1) {
+    return request.post('/ncnb/project/save', {
+      data
+    });
+  } else {
+    return request.post('/ncnb/project/group/save', {
+      data
+    });
+  }
 };
 
 // 连接数据库

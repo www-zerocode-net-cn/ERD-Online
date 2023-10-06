@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TAG: 4.1.1
+      TAG: 5.0.0
     steps:
     # 步骤名称
     - name: checkout code
