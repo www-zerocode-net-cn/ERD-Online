@@ -68,6 +68,7 @@ const errorHandler = error => {
 };
 
 export const BASE_URL = window._env_.API_URL || API_URL;
+export const ERD_BASE_URL = window._env_.ERD_API_URL || API_URL;
 
 /**
  * 配置request请求时的默认参数
@@ -80,7 +81,7 @@ const request = extend({
  * 配置request请求时的默认参数
  */
 const request_erd = extend({
-  prefix: BASE_URL,
+  prefix: ERD_BASE_URL,
   errorHandler, // 默认错误处理
 });
 

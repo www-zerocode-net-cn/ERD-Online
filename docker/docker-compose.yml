@@ -1,7 +1,7 @@
 version: "3"
 services:
   erd-redis:
-    image: erdonline/erd-redis:5.0.0
+    image: redis:4.0.10
     restart: on-failure
     container_name: erd-redis
     volumes:
@@ -42,6 +42,8 @@ services:
   erd-zerocode:
     image: erdonline/erd-zerocode:5.0.0
     restart: on-failure
+    volumes:
+      - ./licence:/opt/erd
     env_file:
       - ./env/erd.env
     container_name: erd-zerocode
@@ -56,6 +58,8 @@ services:
   erd-gateway:
     image: erdonline/erd-gateway:5.0.0
     restart: on-failure
+    volumes:
+      - ./licence:/opt/erd
     env_file:
       - ./env/erd.env
     container_name: erd-gateway
@@ -73,6 +77,8 @@ services:
   erd-auth:
     image: erdonline/erd-auth:5.0.0
     restart: on-failure
+    volumes:
+      - ./licence:/opt/erd
     env_file:
       - ./env/erd.env
     container_name: erd-auth
@@ -88,6 +94,8 @@ services:
   erd-system:
     image: erdonline/erd-system:5.0.0
     restart: on-failure
+    volumes:
+      - ./licence:/opt/erd
     env_file:
       - ./env/erd.env
     container_name: erd-system
@@ -105,6 +113,9 @@ services:
     restart: on-failure
     env_file:
       - ./env/ui.env
+    volumes:
+      - ./ui/nginx:/etc/nginx
+      - ./ui/html:/usr/share/nginx/html
     ports:
       - "9669:9669"
     networks:

@@ -1,3 +1,4 @@
 window._env_ = {
-  API_URL: "http://localhost:9502",
+  API_URL: "https://app.erdonline.com",
+  ERD_API_URL: "https://app.erdonline.com",
 }

@@ -25,4 +25,5 @@ declare const REACT_APP_ENV: 'test' | 'dev' | 'prod' | 'pre' | false;
 
 // 以下变量声明对应config.[env].ts文件内define的变量
 declare const API_URL: string;
+declare const ERD_API_URL: string;
 
