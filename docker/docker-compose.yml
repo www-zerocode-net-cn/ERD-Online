@@ -113,9 +113,6 @@ services:
     restart: on-failure
     env_file:
       - ./env/ui.env
-    volumes:
-      - ./ui/nginx:/etc/nginx
-      - ./ui/html:/usr/share/nginx/html
     ports:
       - "9669:9669"
     networks:
