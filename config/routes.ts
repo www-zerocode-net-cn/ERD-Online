@@ -211,6 +211,19 @@
       },
     ],
   },
+  {
+    name: 'buy',
+    icon: 'user',
+    path: '/buy',
+    routes: [
+      {
+        name: '后端源码',
+        icon: 'smile',
+        path: '/buy/backendCode',
+        component: './buy/BackendCode',
+      },
+    ],
+  },
   {path: '/*', component: './404',},
   {
     component: './404',
