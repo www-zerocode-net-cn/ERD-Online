@@ -58,6 +58,9 @@
 
 论坛：[https://github.com/www-zerocode-net-cn/ERD-Online/discussions](https://github.com/www-zerocode-net-cn/ERD-Online/discussions)
 
+后端源码：
+- [集群版](https://github.com/www-zerocode-net-cn/martin-framework)
+- [单机版](https://gitee.com/MARTIN-88/erd-apis)
 
 ## 功能图鉴
 
