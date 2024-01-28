@@ -52,6 +52,8 @@
 
 ## 关于我们
 
+元数据 ERD Online 官网：[https://www.erdonline.com/](https://www.erdonline.com/)
+
 元数据 ERD Online 体验：[https://app.erdonline.com/](https://app.erdonline.com/)
 
 元数据 ERD Online 文档：[https://doc.erdonline.com/](https://doc.erdonline.com/)

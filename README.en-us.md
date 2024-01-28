@@ -3,8 +3,8 @@
 [简体中文](/README.md) | English
 
 
-<p align="center"><strong>ERD Online is the world's first open source, free online data modeling and metadata management platform</strong></p>
-<p align="center"><strong>It provides simple and easy to use metadata design, diagram design, SQL query and other functions, supplemented by version, import, export, data source, SQL parsing, audit, team collaboration and other functions to facilitate our fast and safe management of metadata in the database</strong></p>
+<p align="center"><strong>🌍 ERD Online: The World's First Open Source, Free Online Data Modeling and Metadata Management Platform 🚀</strong></p>
+<p align="center"><strong>Featuring user-friendly metadata design, relationship diagram creation, SQL querying, and more. Enhanced with versioning, import/export, data sources, SQL parsing, auditing, and team collaboration tools for fast and secure metadata management in databases 🛠️</strong></p>
 
 <p align="center">
 <a href="https://github.com/www-zerocode-net-cn/ERD-Online"><img alt="ERD%20Online" src="https://img.shields.io/badge/zerocode-ERD%20Online-brightgreen"></a>
@@ -16,46 +16,53 @@
 <a href="https://github.com/www-zerocode-net-cn/ERD-Online/blob/master/LICENSE"><img src="https://img.shields.io/github/license/www-zerocode-net-cn/ERD-Online?style=flat-square" alt="AGPL-V3 License"></a>
 <a href="https://www.typescriptlang.org"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=flat-square"></a>
 <a href="https://github.com/www-zerocode-net-cn/ERD-Online/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square"></a>
-<a href="https://www.zerocode.net.cn"><img alt="website" src="https://img.shields.io/static/v1?label=&labelColor=505050&message=website&color=0076D6&style=flat-square&logo=google-chrome&logoColor=0076D6"></a>
+<a href="https://www.erdonline.com"><img alt="website" src="https://img.shields.io/static/v1?label=&labelColor=505050&message=website&color=0076D6&style=flat-square&logo=google-chrome&logoColor=0076D6"></a>
 </p>
 
-## Features
+## Features 🌟
 
-📦 Out of the box: focus on data structure design
+📦 **Ready to Use**: Focus on data structure design right out of the box.
 
-🌱 Team collaboration: three-level permission (owner, administrator, and common role) management, element level permission control
+🌱 **Team Collaboration**: Three-tier permissions (Owner, Admin, Regular Role) with element-level access control.
 
-📋 Metadata design: quickly copy the existing table structure, JSON generated table, table default field, default case and other controls
+📋 **Metadata Design**: Quick replication of existing table structures, table defaults, and case settings via JSON.
 
-🏷 Metadata management: online management of table structure, supporting forward database execution
+🏷 **Metadata Management**: Online management of table structures, with support for executing directly to the database.
 
-🎨 Metadata parsing: resolve the existing database structure to the software for management
+🎨 **Metadata Parsing**: Manage existing database structures within the software.
 
-📱 Most sources support: support online management of multiple database connections (MySQL, Oracle, DB2, SqlServer, PostGreSql), and metadata structure synchronization between data sources
+📱 **Multiple Data Sources**: Supports various database connections for online management (MySQL, Oracle, DB2, SQL Server, PostgreSQL), and synchronizes metadata structures across different sources.
 
-📡 Version Management: versions can be generated for each requirement and change; Differences can be compared between each version
+📡 **Version Control**: Generate versions for each requirement and change; compare differences between versions.
 
-🎉 All table structures can be automatically generated into word, html and md documents to facilitate offline flow
+🎉 **Documentation Generation**: Auto-generate Word, HTML, and MD documents of all table structures for offline use.
 
-💯 Online SQL: online SQL queries, SQL execution plans, and historical queries
+💯 **Online SQL**: Online SQL querying, execution plans, and historical query tracking.
 
-🧲 Never lose: the metadata historical operation version has been left a trace (the last 9 times), and can be restored to any historical version
+🧲 **Never Lose Data**: Keep track of the last 9 metadata operation versions, with the ability to restore to any historical version.
 
-🌏 Data dictionary: global data dictionary design, control metadata design specification
+🌏 **Data Dictionary**: Global data dictionary design to standardize metadata design.
 
-## Development Milestones
+## Development Milestones 🛤️
 
 ![milepost](/img/milepost.png)
 
-## About Us
+## Product Atlas 🗺️
+![ERD Online Function Tree](https://user-images.githubusercontent.com/26294919/230535866-1936a1aa-099b-4b75-80ba-442c2c22cf55.png)
 
-ERD Online Experience：[https://erd.zerocode.net.cn](https://erd.zerocode.net.cn)
+## About Us 🤝
 
-ERD Online Documentation：[https://portal.zerocode.net.cn](https://portal.zerocode.net.cn)
+ERD Online Official website: [https://www.erdonline.com/](https://www.erdonline.com/)
 
-ERD Online Forum：[https://www.zerocode.net.cn](https://www.zerocode.net.cn)
+ERD Online Experience: [https://app.erdonline.com/](https://app.erdonline.com/)
 
-Low code LOCO experience：[https://loco.zerocode.net.cn](https://loco.zerocode.net.cn)
+ERD Online Documentation: [https://doc.erdonline.com/](https://doc.erdonline.com/)
+
+Forum: [https://github.com/www-zerocode-net-cn/ERD-Online/discussions](https://github.com/www-zerocode-net-cn/ERD-Online/discussions)
+
+Backend Source Code:
+- [Cluster Version](https://github.com/www-zerocode-net-cn/martin-framework)
+- [Single Node Version](https://gitee.com/MARTIN-88/erd-apis)
 
 ## Function Atlas
 
